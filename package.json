@@ -1,27 +1,54 @@
 {
   "name": "react-calendar-datetime",
   "version": "1.0.0",
-  "description": "", 
-  "main": "dist/bundle.js",
-  "repository": "https://github.com/kirilinsky/react-calendar-datetime",
+  "description": "React date and time calendar component",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirilinsky/react-calendar-datetime"
+  },
   "homepage": "https://github.com/kirilinsky/react-calendar-datetime/",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "webpack --env.NODE_ENV=production",
-    "dev": "webpack-dev-server"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "build-lib": "rollup -c"
   },
   "peerDependencies": {
-    "react": ">= 17.0",
-    "moment":"2.29.1",
-    "classnames":"2.3.1"
+    "classnames": "2.3.1",
+    "moment": "2.29.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
-  "keywords": ["react datepicker",
-  "react calendar date time"],
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-react": "^7.14.5",
+    "@rollup/plugin-node-resolve": "^11.1.1",
+    "@storybook/addon-actions": "^6.1.16",
+    "@storybook/addon-essentials": "^6.1.16",
+    "@storybook/addon-links": "^6.1.16",
+    "@storybook/react": "^6.1.16",
+    "babel-loader": "^8.2.2",
+    "classnames": "^2.3.1",
+    "moment": "^2.29.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rollup": "^2.38.4",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "keywords": [
+    "react datepicker",
+    "react calendar date time"
+  ],
   "engines": {
     "node": ">=12"
   },
   "author": "kirilinsky",
-  "license": "MIT" 
+  "license": "MIT",
+  "dependencies": {}
 }
