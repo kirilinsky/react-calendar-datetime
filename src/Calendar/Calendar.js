@@ -1,7 +1,10 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import "./calendar.css";
-import { Years, Days, Time, Months, Presets } from "/modules";
+import { Years, Days, Time, Months, Presets } from "../modules";
+
+
+
 export default Calendar = ({
   presets = false,
   date = new Date(),
