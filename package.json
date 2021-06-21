@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "React date and time calendar component",
   "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kirilinsky/react-calendar-datetime"
