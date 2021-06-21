@@ -1,0 +1,27 @@
+{
+  "name": "react-calendar-datetime",
+  "version": "1.0.0",
+  "description": "", 
+  "main": "dist/bundle.js",
+  "repository": "https://github.com/kirilinsky/react-calendar-datetime",
+  "homepage": "https://github.com/kirilinsky/react-calendar-datetime/",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "webpack --env.NODE_ENV=production",
+    "dev": "webpack-dev-server"
+  },
+  "peerDependencies": {
+    "react": ">= 17.0",
+    "moment":"2.29.1",
+    "classnames":"2.3.1"
+  },
+  "keywords": ["react datepicker",
+  "react calendar date time"],
+  "engines": {
+    "node": ">=12"
+  },
+  "author": "kirilinsky",
+  "license": "MIT" 
+}
