@@ -1,17 +1,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-
+import Calendar from '../Calendar'
 
 const stories = storiesOf('Calendar react', module)
 
 
-
-stories.add('Basae', () => {
-    return <h1>2</h1>
-})
-stories.add('Base', () => {
-    return <Calendar />
-})
 
 stories.add('With time picker', () => {
     return <Calendar time />
