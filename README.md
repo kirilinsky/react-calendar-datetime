@@ -29,7 +29,7 @@
  import {Calendar} from 'react-calendar-datetime'
 
  const App = () => {
-     const [date, setDate] = useState(new Date()
+     const [date, setDate] = useState(new Date())
      return <Calendar date={date} onChangeDate={setDate} />
  }
 
