@@ -67,8 +67,8 @@
           position: relative;
           @extend .calendar_active;
         }
-        img {
-          max-width: 20%;
+        svg {
+          max-width: 25%;
         }
       }
     }
@@ -90,7 +90,7 @@
       @extend .calendar-button;
       width: 50px;
       height: 100%;
-      img {
+      svg {
         max-height: 50%;
       }
     }

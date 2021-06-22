@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import moment from "moment";
+import React from "react";
 
 const Months = ({ date, changeAction }) => {
   const setMonth = (num) => {

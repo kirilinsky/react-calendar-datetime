@@ -63,8 +63,8 @@
 .calendar-time-half-cell:nth-child(4) {
   position: relative;
 }
-.calendar-time-half-cell img {
-  max-width: 20%;
+.calendar-time-half-cell svg {
+  max-width: 25%;
 }
 .calendar-years {
   grid-area: YY;
@@ -82,8 +82,8 @@
   width: 50px;
   height: 100%;
 }
-.calendar-years-arrow img {
-  max-height: 50%;
+.calendar-years-arrow svg {
+  max-height: 55%;
 }
 .calendar-months {
   grid-area: MM;

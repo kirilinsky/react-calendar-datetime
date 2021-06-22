@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
-import Calendar from '../Calendar'
+import { Calendar } from '../Calendar/Calendar'
 import { Time } from '../modules'
 import moment from 'moment'
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import up from "./assets/up-arrow.svg";
-import down from "./assets/down-chevron.svg";
 import moment from "moment";
+import { Down, Up } from "../../Icons";
 const Time = ({ date, changeAction }) => {
   const [hour, setHour] = useState(+moment(date).format("HH"));
   const [minute, setMinute] = useState(+moment(date).format("mm"));
@@ -44,7 +43,7 @@ const Time = ({ date, changeAction }) => {
           className="calendar-time-half-cell"
           onClick={() => subtractDiff(1, "H")}
         >
-          <img src={up} alt="arrow up" />
+          {Up()}
         </div>
         <div
           onClick={() => subtractDiff(2, "H")}
@@ -75,7 +74,7 @@ const Time = ({ date, changeAction }) => {
           className="calendar-time-half-cell"
           onClick={() => addDiff(1, "H")}
         >
-          <img src={down} alt="arrow up" />
+          {Down()}
         </div>
       </div>
       <div className="calendar-time-half" onWheel={(e) => scrollHandle(e, "m")}>
@@ -83,7 +82,7 @@ const Time = ({ date, changeAction }) => {
           className="calendar-time-half-cell"
           onClick={() => subtractDiff(1, "m")}
         >
-          <img src={up} alt="arrow up" />
+          {Up()}
         </div>
         <div
           onClick={() => subtractDiff(2, "m")}
@@ -114,7 +113,7 @@ const Time = ({ date, changeAction }) => {
           onClick={() => addDiff(1, "m")}
           className="calendar-time-half-cell"
         >
-          <img src={down} alt="arrow up" />
+          {Down()}
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import moment from "moment";
 import React from "react";
-import left from "./assets/left-arrow.svg";
-import right from "./assets/right-arrow.svg";
+import { Left, Right } from "../../Icons";
 const Years = ({ date, changeAction }) => {
   const prevYear = () => {
     changeAction(moment(date).subtract(1, "Y"));
@@ -18,7 +17,7 @@ const Years = ({ date, changeAction }) => {
         className="calendar-years-arrow"
         onClick={prevYear}
       >
-        <img src={left} alt="left arrow" />
+        {Left()}
       </div>
       <div className="calendar-years-current">
         {moment(date).format("YYYY")}
@@ -29,7 +28,7 @@ const Years = ({ date, changeAction }) => {
         tabIndex="0"
         className="calendar-years-arrow"
       >
-        <img src={right} alt="right arrow" />
+        {Right()}
       </div>
     </div>
   );
