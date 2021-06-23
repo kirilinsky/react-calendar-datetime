@@ -32,6 +32,7 @@ const Time = ({ date, changeAction }) => {
     return () => {
       document.removeEventListener("scroll", scrollHandle);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="calendar-time">

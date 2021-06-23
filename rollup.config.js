@@ -4,6 +4,7 @@ import external from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
 import reactSvg from "rollup-plugin-react-svg";
+
 export default [
     {
         input: './src/index.js',
@@ -20,25 +21,18 @@ export default [
         ],
         plugins: [
             reactSvg({
-                // svgo options
                 svgo: {
-                    plugins: [], // passed to svgo
+                    plugins: [],
                     multipass: true
                 },
-
-                // whether to output jsx
                 jsx: false,
-
-                // include: string
                 include: null,
-
-                // exclude: string
                 exclude: null
-            }),
+            }), 
             postcss({
                 plugins: [],
                 minimize: true,
-              
+
             }),
             babel({
                 exclude: 'node_modules/**',

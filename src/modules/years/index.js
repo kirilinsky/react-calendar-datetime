@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { Left, Right } from "../../Icons";
-const Years = ({ date, changeAction }) => {
+const Years = ({ date, toggleYearsPicker, changeAction }) => {
   const prevYear = () => {
     changeAction(moment(date).subtract(1, "Y"));
   };
@@ -19,7 +19,7 @@ const Years = ({ date, changeAction }) => {
       >
         {Left()}
       </div>
-      <div className="calendar-years-current">
+      <div onClick={toggleYearsPicker} className="calendar-years-current">
         {moment(date).format("YYYY")}
       </div>
       <div

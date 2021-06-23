@@ -1,4 +1,4 @@
-export default {
+const data = {
     ru: {
         't': 'сегодня',
         'y': 'вчера',
@@ -27,5 +27,20 @@ export default {
         'wa': 'vor 1 woche',
         'ma': 'vor 1 Monat',
         'ya': 'мor 1 Jahr'
-    }
+    }, 'zh-cn': {
+        't': '今天',
+        'y': '昨天',
+        'wa': '一周前',
+        'ma': '一个月前',
+        'ya': '一年前'
+    },
+    fr: {
+        't': 'jour',
+        'y': 'hier',
+        'wa': 'il y a une semaine',
+        'ma': 'il y a un mois',
+        'ya': 'il y a un an'
+    },
 }
+
+export default data

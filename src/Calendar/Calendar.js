@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import "./calendar.css";
-import { Years, Days, Time, Months, Presets } from "../modules";
+import { Years, YearsPicker, Days, Time, Months, Presets } from "../modules";
 
 export const Calendar = ({
   presets = false,
@@ -11,8 +11,15 @@ export const Calendar = ({
   onChangeDate,
   width = null,
   height = null,
+  dark: dark_calendar = false
 }) => {
   const [shouldRender, setShouldRender] = useState(!locale);
+  const [showYearsPicker, setShowYearsPicker] = useState(false)
+
+  const toggleYearsPicker = () => {
+    setShowYearsPicker(!showYearsPicker)
+  }
+
   const handleChange = (date) => {
     if (onChangeDate) {
       onChangeDate(date.toDate());
@@ -27,6 +34,7 @@ export const Calendar = ({
       import(`moment/locale/${locale}`).then(() => {
         setShouldRender(true);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -35,15 +43,19 @@ export const Calendar = ({
       className={classNames("calendar", {
         with_time: time,
         with_presets: presets,
+        years_picker: showYearsPicker,
+        dark_calendar
       })}
     >
-      <Years date={date} changeAction={handleChange} />
-      {shouldRender && <Months date={date} changeAction={handleChange} />}
-      <Days date={date} changeAction={handleChange} />
-      {time && <Time date={date} changeAction={handleChange} />}
-      {presets && (
-        <Presets locale={locale} date={date} changeAction={handleChange} />
-      )}
+
+      {showYearsPicker ? <YearsPicker date={date} changeAction={handleChange} toggleYearsPicker={toggleYearsPicker} /> : <>
+        <Years date={date} toggleYearsPicker={toggleYearsPicker} changeAction={handleChange} />
+        {shouldRender && <Months date={date} changeAction={handleChange} />}
+        < Days date={date} changeAction={handleChange} />
+        {time && <Time date={date} changeAction={handleChange} />}
+        {presets && <Presets locale={locale} date={date} changeAction={handleChange} />}
+      </>}
+
     </div>
   );
 };

@@ -4,7 +4,7 @@ import React from "react";
 
 const Months = ({ date, changeAction }) => {
   const setMonth = (num) => {
-    if (num + 1 == moment(date).format("M")) {
+    if (num + 1 === +moment(date).format("M")) {
       return;
     }
     changeAction(moment(date).month(num));
