@@ -1,9 +1,10 @@
 # Calendar component for React
 
 ---
+[![npm version](https://badge.fury.io/js/react-calendar-datetime.svg)](https://badge.fury.io/js/react-calendar-datetime) ![npm](https://img.shields.io/npm/dw/react-calendar-datetime)
 
-### Here - [Demo](https://alex-webstart.xyz/calendar/). 
-[![N|Solid](https://s6.gifyu.com/images/QOg983dxWR.gif)](https://nodesource.com/products/nsolid)
+###  [Demo](https://alex-webstart.xyz/calendar/)
+[![N|Solid](https://s6.gifyu.com/images/QOg983dxWR.gif)](https://alex-webstart.xyz/calendar/)
 
 
 📅 date and **time** picker, include presets
