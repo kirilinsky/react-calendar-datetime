@@ -1,6 +1,6 @@
 {
   "name": "react-calendar-datetime",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "React date and time calendar component",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -47,6 +47,7 @@
   "keywords": [
     "react datepicker",
     "calendar date time",
+    "react calendar date time",
     "datetime"
   ],
   "engines": {
