@@ -61,7 +61,7 @@ Easy and simple :+1:
 
 ---
 
-v 1.2.2
+v 1.3.1
 
 - add year picker
 - add dark theme 🌙

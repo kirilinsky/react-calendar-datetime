@@ -4,8 +4,8 @@
   --highlight: #b1aa48;
   --tone: #9c9999;
   --color-text: #333333;
-  min-width: 60vh;
-  min-height: 60vh;
+  min-width: 10vh;
+  min-height: 10vh;
   max-height: 100vh;
   background: var(--accent);
   color: var(--color-text);
@@ -110,6 +110,8 @@
 .calendar-time-half-cell svg {
   fill: var(--color-text);
   max-width: 20%;
+  min-height: 10px;
+  min-width: 10px;
 }
 .calendar-years {
   grid-area: YY;
@@ -201,6 +203,8 @@
 .calendar-days-day svg {
   fill: var(--color-text);
   max-height: 50%;
+  min-height: 10px;
+  min-width: 10px;
 }
 .calendar-fcc,
 .calendar-yearspicker-arrow,

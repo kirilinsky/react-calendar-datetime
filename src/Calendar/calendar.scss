@@ -11,8 +11,8 @@
     --tone: #21282e;
     --color-text: #e9e6e6;
   }
-  min-width: 60vh;
-  min-height: 60vh;
+  min-width: 10vh;
+  min-height: 10vh;
   max-height: 100vh;
   background: var(--accent);
   color: var(--color-text);
@@ -119,6 +119,8 @@
         svg {
           fill: var(--color-text);
           max-width: 20%;
+          min-height: 10px;
+          min-width: 10px;
         }
       }
     }
@@ -189,6 +191,8 @@
   svg {
     fill: var(--color-text);
     max-height: 50%;
+    min-height: 10px;
+    min-width: 10px;
   }
 }
 
