@@ -3,8 +3,8 @@
 ---
 [![npm version](https://badge.fury.io/js/react-calendar-datetime.svg)](https://badge.fury.io/js/react-calendar-datetime) ![npm](https://img.shields.io/npm/dw/react-calendar-datetime)
 
-###  [Demo](https://lovecsssite/calendar/)
-[![N|Solid](https://s6.gifyu.com/images/QOg983dxWR.gif)](https://alex-webstart.xyz/calendar/)
+###  [Demo](https://lovecss.site/calendar/)
+[![N|Solid](https://s6.gifyu.com/images/QOg983dxWR.gif)](https://lovecss.site/calendar/)
 
 
 📅 date and **time** picker, include presets
@@ -65,7 +65,7 @@ v 1.3.1
 
 - add year picker
 - add dark theme 🌙
-[![N|Solids](https://s6.gifyu.com/images/dtfEBi6mpI.gif)](https://alex-webstart.xyz/calendar/?path=/story/calendar-react--dark-theme)
+[![N|Solids](https://s6.gifyu.com/images/dtfEBi6mpI.gif)](https://lovecss.site/calendar/?path=/story/calendar-react--dark-theme)
 - add locales:
   - `zh-cn`
   - `fr`
