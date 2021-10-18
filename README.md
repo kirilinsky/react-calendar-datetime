@@ -3,7 +3,7 @@
 ---
 [![npm version](https://badge.fury.io/js/react-calendar-datetime.svg)](https://badge.fury.io/js/react-calendar-datetime) ![npm](https://img.shields.io/npm/dw/react-calendar-datetime)
 
-###  [Demo](https://alex-webstart.xyz/calendar/)
+###  [Demo](https://lovecsssite/calendar/)
 [![N|Solid](https://s6.gifyu.com/images/QOg983dxWR.gif)](https://alex-webstart.xyz/calendar/)
 
 
