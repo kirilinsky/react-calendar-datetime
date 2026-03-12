@@ -4,13 +4,13 @@ import { Left, Right } from "../../Icons";
 
 interface YearsProps {
   date: Date | string | number | Dayjs;
-  toggleYearsPicker: () => void;
+  toggleYearPicker: () => void;
   changeAction: (date: Dayjs) => void;
 }
 
 const Years: React.FC<YearsProps> = ({
   date,
-  toggleYearsPicker,
+  toggleYearPicker,
   changeAction,
 }) => {
   const prevYear = () => {
@@ -35,7 +35,7 @@ const Years: React.FC<YearsProps> = ({
         <Left />
       </div>
       <div
-        onClick={toggleYearsPicker}
+        onClick={toggleYearPicker}
         className="calendar-years-current"
         role="button"
         tabIndex={0}

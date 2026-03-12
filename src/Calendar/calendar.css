@@ -34,6 +34,15 @@
   --cal-border-color: #3d372e;
 }
 
+[data-theme="mint_blue"] {
+  --cal-accent: #ffffff;
+  --cal-backdrop: #f8f9fc;
+  --cal-highlight: #60d276;
+  --cal-tone: #eaedf4;
+  --cal-color-text: #171827;
+  --cal-border-color: #eef0f5;
+}
+
 .calendar {
   min-width: 450px;
   min-height: 10vh;
@@ -123,20 +132,26 @@
   background: var(--cal-accent);
   border-bottom: 1px solid var(--cal-border-color);
   justify-content: space-between;
-  padding: 0 15px;
 
   & .calendar-years-current {
-    flex: 1;
-    font: bold 22px system-ui;
+    flex: 4;
+    font: bold 21px system-ui;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border-radius: 8px;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+
     &:hover {
       cursor: pointer;
+      background: var(--cal-tone);
     }
   }
   & .calendar-years-arrow {
-    width: 44px;
+    flex-grow: 1;
   }
 }
 

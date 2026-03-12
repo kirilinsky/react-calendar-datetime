@@ -2,7 +2,8 @@ import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import "./calendar.css";
 import dayjs, { Dayjs } from "dayjs";
-import { Years, YearsPicker, Days, Time, Months, Presets } from "../modules";
+import { Years, YearPicker, Days, Time, Months, Presets } from "../modules";
+import { CalendarTheme } from "@/types/themes";
 
 export interface CalendarProps {
   presets?: boolean;
@@ -12,7 +13,7 @@ export interface CalendarProps {
   onChangeDate?: (date: Date) => void;
   width?: string | number | null;
   height?: string | number | null;
-  dark?: boolean;
+  theme?: CalendarTheme;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -23,15 +24,15 @@ export const Calendar: React.FC<CalendarProps> = ({
   onChangeDate,
   width = null,
   height = null,
-  dark: dark_calendar = false,
+  theme = "light",
 }) => {
   const [shouldRender, setShouldRender] = useState(false);
-  const [showYearsPicker, setShowYearsPicker] = useState(false);
+  const [showYearPicker, setShowYearPicker] = useState(false);
 
   const dateObj = dayjs(date);
 
-  const toggleYearsPicker = () => {
-    setShowYearsPicker(!showYearsPicker);
+  const toggleYearPicker = () => {
+    setShowYearPicker(!showYearPicker);
   };
 
   const handleChange = (newDate: Dayjs) => {
@@ -64,21 +65,21 @@ export const Calendar: React.FC<CalendarProps> = ({
       className={classNames("calendar", {
         with_time: time,
         with_presets: presets,
-        years_picker: showYearsPicker,
-        dark_calendar,
+        years_picker: showYearPicker,
       })}
+      data-theme={theme !== "light" ? theme : undefined}
     >
-      {showYearsPicker ? (
-        <YearsPicker
+      {showYearPicker ? (
+        <YearPicker
           date={dateObj}
           changeAction={handleChange}
-          toggleYearsPicker={toggleYearsPicker}
+          toggleYearPicker={toggleYearPicker}
         />
       ) : (
         <>
           <Years
             date={dateObj}
-            toggleYearsPicker={toggleYearsPicker}
+            toggleYearPicker={toggleYearPicker}
             changeAction={handleChange}
           />
           {shouldRender && (
