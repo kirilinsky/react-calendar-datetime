@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import classNames from "classnames";
+import clsx from "clsx";
 import dayjs, { Dayjs } from "dayjs";
 import { Left, Right } from "../../Icons";
 
@@ -57,7 +57,7 @@ const YearPicker: React.FC<YearsPickerProps> = ({
           key={x}
           disabled={x > 2100 || x < 1900}
           onClick={() => setYear(x)}
-          className={classNames("calendar-yearPicker-year", {
+          className={clsx("calendar-yearPicker-year", {
             year_anim,
             calendar_active: currentYear === x,
           })}

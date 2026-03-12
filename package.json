@@ -32,7 +32,6 @@
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
-    "classnames": "^2.3.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
@@ -40,7 +39,6 @@
     "@ladle/react": "^5.1.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "classnames": "^2.3.1",
     "react": "^19",
     "react-dom": "^19",
     "tsup": "^8.5.1",
@@ -59,7 +57,7 @@
   "author": "Kirilinsky (https://github.com/kirilinsky)",
   "license": "MIT",
   "dependencies": {
-    "classnames": "^2.3.1",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.20"
   }
 }

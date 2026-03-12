@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import dayjs, { Dayjs } from "dayjs";
 import React, { useEffect, useState } from "react";
 
@@ -34,7 +34,7 @@ const Days: React.FC<DaysProps> = ({ date, changeAction }) => {
           }}
           tabIndex={0}
           role="button"
-          className={classNames("calendar-days-day", {
+          className={clsx("calendar-days-day", {
             calendar_active: dayjs(date).date() === x,
           })}
         >

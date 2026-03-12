@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import "./calendar.css";
 import dayjs, { Dayjs } from "dayjs";
@@ -62,7 +62,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   return (
     <div
       style={{ width: width ?? undefined, height: height ?? undefined }}
-      className={classNames("calendar", {
+      className={clsx("calendar", {
         with_time: time,
         with_presets: presets,
         years_picker: showYearPicker,

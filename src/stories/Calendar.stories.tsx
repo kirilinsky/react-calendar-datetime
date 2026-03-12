@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
 import dayjs from "dayjs";
-import classNames from "classnames";
 
 export default {
   title: "Calendar React",

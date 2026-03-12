@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import dayjs, { Dayjs } from "dayjs";
 import React from "react";
 
@@ -27,7 +27,7 @@ const Months: React.FC<MonthsProps> = ({ date, changeAction }) => {
           key={x}
           tabIndex={0}
           role="button"
-          className={classNames("calendar-months-month", {
+          className={clsx("calendar-months-month", {
             calendar_active: x === currentMonth,
           })}
           onClick={() => setMonth(x)}
