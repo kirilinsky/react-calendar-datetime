@@ -1,9 +1,8 @@
 .calendar {
-  /* Освеженная палитра (базируется на твоей) */
-  --accent: #e5e5e5; /* Чуть светлее */
-  --backdrop: #f1f0ee; /* Чище */
-  --highlight: #c1b856; /* Насыщеннее */
-  --tone: #a8a5a5; /* Контрастнее */
+  --accent: #e5e5e5;
+  --backdrop: #f1f0ee;
+  --highlight: #c1b856;
+  --tone: #a8a5a5;
   --color-text: #2d2d2d;
 
   min-width: 10vh;
@@ -24,12 +23,11 @@
   &.dark_calendar {
     --accent: #4a453f;
     --backdrop: #5a5c58;
-    --highlight: #d4cc6a; /* Ярче для темной темы */
+    --highlight: #d4cc6a;
     --tone: #333a3f;
     --color-text: #f0f0f0;
   }
 
-  /* Раскладки */
   &.with_presets:not(.with_time) {
     min-height: 60vh;
     grid-template-rows: 50px auto 50px;
@@ -54,7 +52,6 @@
     grid-template-rows: 1fr !important;
   }
 
-  /* Группировка интерактивных элементов */
   &
     :is(
       .calendar-button,
@@ -92,7 +89,6 @@
   }
 }
 
-/* Элементы */
 .calendar-yearspicker {
   background: var(--backdrop);
   display: grid;
