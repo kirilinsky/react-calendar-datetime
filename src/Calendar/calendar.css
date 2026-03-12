@@ -1,18 +1,48 @@
-.calendar {
-  --accent: #e5e5e5;
-  --backdrop: #f1f0ee;
-  --highlight: #c1b856;
-  --tone: #a8a5a5;
-  --color-text: #2d2d2d;
+:root {
+  --cal-accent: #ffffff;
+  --cal-backdrop: #ffffff;
+  --cal-highlight: #1a1a1c;
+  --cal-tone: #f4f4f4;
+  --cal-color-text: #1a1a1c;
+  --cal-border-color: #f0f0f0;
+}
 
-  min-width: 10vh;
+[data-theme="dark"] {
+  --cal-accent: #1a1a1c;
+  --cal-backdrop: #1a1a1c;
+  --cal-highlight: #ffffff;
+  --cal-tone: #2d2d2d;
+  --cal-color-text: #f0f0f0;
+  --cal-border-color: #333333;
+}
+
+[data-theme="midnight"] {
+  --cal-accent: #141721;
+  --cal-backdrop: #1e2333;
+  --cal-highlight: #3559e0;
+  --cal-tone: #252a3d;
+  --cal-color-text: #ffffff;
+  --cal-border-color: #2d3246;
+}
+
+[data-theme="sandstone"] {
+  --cal-accent: #1c1a17;
+  --cal-backdrop: #24211c;
+  --cal-highlight: #e3ae5c;
+  --cal-tone: #332f28;
+  --cal-color-text: #fdfbf7;
+  --cal-border-color: #3d372e;
+}
+
+.calendar {
+  min-width: 450px;
   min-height: 10vh;
   max-height: 100vh;
-  background: var(--accent);
-  color: var(--color-text);
+  background: var(--cal-accent);
+  color: var(--cal-color-text);
   display: grid;
   grid-template-columns: 2fr 5fr;
-  grid-template-rows: 50px auto;
+  grid-template-rows: 60px auto;
   grid-template-areas: "YY YY" "MM DD";
   user-select: none;
   font-family:
@@ -20,30 +50,24 @@
     -apple-system,
     sans-serif;
 
-  &.dark_calendar {
-    --accent: #4a453f;
-    --backdrop: #5a5c58;
-    --highlight: #d4cc6a;
-    --tone: #333a3f;
-    --color-text: #f0f0f0;
-  }
+  border-radius: 16px;
+  border: 1px solid var(--cal-border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
 
   &.with_presets:not(.with_time) {
-    min-height: 60vh;
-    grid-template-rows: 50px auto 50px;
+    grid-template-rows: 60px auto 50px;
     grid-template-areas: "YY YY" "MM DD" "PRESETS PRESETS";
   }
 
   &.with_time:not(.with_presets) {
-    min-width: 75vh;
     grid-template-columns: 2fr 5fr 2fr;
     grid-template-areas: "YY YY YY" "MM DD TIME";
-    column-gap: 2px;
   }
 
   &.with_time.with_presets {
     grid-template-columns: 2fr 5fr 2fr;
-    grid-template-rows: 50px auto 50px;
+    grid-template-rows: 60px auto 50px;
     grid-template-areas: "YY YY YY" "MM DD TIME" "PRESETS PRESETS PRESETS";
   }
 
@@ -64,14 +88,15 @@
       .calendar-days-day
     ) {
     border: none;
-    color: var(--color-text);
+    color: var(--cal-color-text);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease;
+    border-radius: 8px;
+    transition: all 0.2s ease;
 
     &:not([disabled]):is(:hover, :active) {
-      background: var(--highlight);
+      background: var(--cal-tone);
       cursor: pointer;
     }
 
@@ -81,23 +106,116 @@
     }
 
     & svg {
-      fill: var(--color-text);
-      max-height: 50%;
-      min-height: 10px;
-      min-width: 10px;
+      width: 23px;
+      height: 23px;
+      fill: currentColor;
+      stroke-width: 1.4;
+      flex-shrink: 0;
+      display: block;
+      margin: auto;
     }
   }
 }
 
+.calendar-years {
+  grid-area: YY;
+  display: flex;
+  background: var(--cal-accent);
+  border-bottom: 1px solid var(--cal-border-color);
+  justify-content: space-between;
+  padding: 0 15px;
+
+  & .calendar-years-current {
+    flex: 1;
+    font: bold 22px system-ui;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  & .calendar-years-arrow {
+    width: 44px;
+  }
+}
+
+.calendar-months {
+  grid-area: MM;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  padding: 15px 10px;
+  gap: 4px;
+  border-right: 1px solid var(--cal-border-color);
+  background: var(--cal-backdrop);
+
+  & .calendar-months-month {
+    font-size: 13px;
+    padding: 10px 5px;
+    justify-content: center;
+  }
+}
+
+.calendar-days {
+  grid-area: DD;
+  background: var(--cal-backdrop);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 15px;
+  gap: 5px;
+}
+
+.calendar-time {
+  grid-area: TIME;
+  display: flex;
+  padding-left: 1px;
+  border-left: 1px solid var(--cal-border-color);
+
+  & .calendar-time-half {
+    flex: 1;
+    width: 50%;
+    display: grid;
+    grid-template-rows: repeat(7, 1fr);
+    background: var(--cal-backdrop);
+
+    & .calendar-time-half-cell:is(:first-child, :last-child) {
+      background: var(--cal-accent);
+    }
+    & .calendar-time-half-cell:nth-child(4) {
+      position: relative;
+      background: var(--cal-highlight);
+      color: var(--cal-accent);
+    }
+  }
+}
+
+.calendar-presets {
+  grid-area: PRESETS;
+  display: flex;
+  width: 100%;
+  border-top: 1px solid var(--cal-border-color);
+  padding: 5px;
+  gap: 5px;
+
+  & .calendar-presets-preset {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    padding: 3px;
+    background: var(--cal-tone);
+  }
+}
+
 .calendar-yearspicker {
-  background: var(--backdrop);
+  background: var(--cal-backdrop);
   display: grid;
   grid-template-columns: 50px repeat(5, 1fr) 50px;
   grid-template-rows: repeat(5, 1fr);
   animation: fadeIn 0.2s linear forwards;
 
   & .calendar-yearspicker-arrow {
-    background: var(--accent);
+    background: var(--cal-accent);
     &:first-child {
       grid-area: 1/1/6/2;
     }
@@ -107,7 +225,7 @@
   }
 
   & .calendar-yearspicker-year {
-    background: var(--backdrop);
+    background: var(--cal-backdrop);
     opacity: 0;
     &.year_anim {
       animation: fadeIn 0.3s forwards;
@@ -115,77 +233,9 @@
   }
 }
 
-.calendar-presets {
-  grid-area: PRESETS;
-  display: flex;
-  width: 100%;
-  & .calendar-presets-preset {
-    width: 20%;
-    font-size: 13px;
-    padding: 3px;
-    background: var(--tone);
-    border-right: 1px solid var(--backdrop);
-    &:last-child {
-      border: none;
-    }
-  }
-}
-
-.calendar-time {
-  grid-area: TIME;
-  display: flex;
-  padding-left: 1px;
-  & .calendar-time-half {
-    width: 50%;
-    display: grid;
-    grid-template-rows: repeat(7, 1fr);
-    background: var(--backdrop);
-    & .calendar-time-half-cell:is(:first-child, :last-child) {
-      background: var(--accent);
-    }
-    & .calendar-time-half-cell:nth-child(4) {
-      position: relative;
-      background: var(--highlight);
-    }
-  }
-}
-
-.calendar-years {
-  grid-area: YY;
-  display: flex;
-  background: var(--tone);
-  justify-content: space-between;
-  & .calendar-years-current {
-    width: 60%;
-    font: bold 21px sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  & .calendar-years-arrow {
-    width: 50px;
-  }
-}
-
-.calendar-months {
-  grid-area: MM;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-}
-
-.calendar-days {
-  grid-area: DD;
-  background: var(--backdrop);
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
 .calendar_active {
-  background: var(--highlight) !important;
+  background: var(--cal-highlight) !important;
+  color: var(--cal-accent) !important;
 }
 
 .dividerhour::after {
