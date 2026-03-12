@@ -54,6 +54,7 @@
   grid-template-rows: 60px auto;
   grid-template-areas: "YY YY" "MM DD";
   user-select: none;
+  box-sizing: border-box;
   font-family:
     system-ui,
     -apple-system,
@@ -88,8 +89,8 @@
   &
     :is(
       .calendar-button,
-      .calendar-yearspicker-arrow,
-      .calendar-yearspicker-year,
+      .calendar-yearPicker-arrow,
+      .calendar-yearPicker-year,
       .calendar-presets-preset,
       .calendar-time-half-cell,
       .calendar-years-arrow,
@@ -208,9 +209,9 @@
 .calendar-presets {
   grid-area: PRESETS;
   display: flex;
-  width: 100%;
+
   border-top: 1px solid var(--cal-border-color);
-  padding: 5px;
+  padding: 5px 7px;
   gap: 5px;
 
   & .calendar-presets-preset {
@@ -222,14 +223,14 @@
   }
 }
 
-.calendar-yearspicker {
+.calendar-yearPicker {
   background: var(--cal-backdrop);
   display: grid;
   grid-template-columns: 50px repeat(5, 1fr) 50px;
   grid-template-rows: repeat(5, 1fr);
   animation: fadeIn 0.2s linear forwards;
 
-  & .calendar-yearspicker-arrow {
+  & .calendar-yearPicker-arrow {
     background: var(--cal-accent);
     &:first-child {
       grid-area: 1/1/6/2;
@@ -239,7 +240,7 @@
     }
   }
 
-  & .calendar-yearspicker-year {
+  & .calendar-yearPicker-year {
     background: var(--cal-backdrop);
     opacity: 0;
     &.year_anim {
