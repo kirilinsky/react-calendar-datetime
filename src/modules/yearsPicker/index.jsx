@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { Left, Right } from "../../Icons";
 
@@ -11,30 +11,30 @@ const YearsPicker = ({ toggleYearsPicker, date, changeAction }) => {
   const goBack = (e = null) => {
     e && e.preventDefault();
 
-    changeAction(moment(localDate));
+    changeAction(dayjs(localDate));
     toggleYearsPicker();
   };
 
   const setYear = (year) => {
-    changeAction(moment(localDate).year(year));
+    changeAction(dayjs(localDate).year(year));
     toggleYearsPicker();
   };
 
   const getDelay = (year) => {
     return `
-    ${((Math.abs(+moment(localDate).format("YYYY") - year) * 0.1) / 2).toFixed(
+    ${((Math.abs(+dayjs(localDate).format("YYYY") - year) * 0.1) / 2).toFixed(
       2
     )}s`;
   };
 
   useEffect(() => {
-    setLocalDate(moment(date));
+    setLocalDate(dayjs(date));
   }, [date]);
 
   useEffect(() => {
     setYearsArray(
       new Array(25)
-        .fill(+moment(localDate).format("YYYY") - 12)
+        .fill(+dayjs(localDate).format("YYYY") - 12)
         .map((x, i) => x + i)
     );
     setAnim(false);
@@ -46,8 +46,8 @@ const YearsPicker = ({ toggleYearsPicker, date, changeAction }) => {
   return (
     <div className="calendar-yearspicker" onContextMenu={goBack}>
       <button
-        disabled={+moment(localDate).format("YYYY") < 1925}
-        onClick={() => setLocalDate(moment(localDate).subtract(25, "y"))}
+        disabled={+dayjs(localDate).format("YYYY") < 1925}
+        onClick={() => setLocalDate(dayjs(localDate).subtract(25, "y"))}
         className="calendar-yearspicker-arrow"
       >
         {Left()}
@@ -60,7 +60,7 @@ const YearsPicker = ({ toggleYearsPicker, date, changeAction }) => {
             onClick={() => setYear(x)}
             className={classNames("calendar-yearspicker-year", {
               year_anim,
-              calendar_active: +moment(localDate).format("YYYY") === x,
+              calendar_active: +dayjs(localDate).format("YYYY") === x,
             })}
             style={{ animationDelay: getDelay(x), animationIterationCount: 1 }}
           >
@@ -69,8 +69,8 @@ const YearsPicker = ({ toggleYearsPicker, date, changeAction }) => {
         ))}
       <button
         className="calendar-yearspicker-arrow"
-        disabled={+moment(localDate).format("YYYY") > 2075}
-        onClick={() => setLocalDate(moment(localDate).add(25, "y"))}
+        disabled={+dayjs(localDate).format("YYYY") > 2075}
+        onClick={() => setLocalDate(dayjs(localDate).add(25, "y"))}
       >
         {Right()}
       </button>

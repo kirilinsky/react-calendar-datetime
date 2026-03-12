@@ -1,120 +1,124 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
+import dayjs, { Dayjs, ManipulateType } from "dayjs";
 import { Down, Up } from "../../Icons";
-const Time = ({ date, changeAction }) => {
-  const [hour, setHour] = useState(+moment(date).format("HH"));
-  const [minute, setMinute] = useState(+moment(date).format("mm"));
 
-  const addDiff = (value, type) => {
-    changeAction(moment(date).add(value, type));
+interface TimeProps {
+  date: Date | string | number | Dayjs;
+  changeAction: (date: Dayjs) => void;
+}
+
+const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
+  const [hour, setHour] = useState<string>(dayjs(date).format("HH"));
+  const [minute, setMinute] = useState<string>(dayjs(date).format("mm"));
+
+  const addDiff = (value: number, type: ManipulateType) => {
+    changeAction(dayjs(date).add(value, type));
   };
 
-  const subtractDiff = (value, type) => {
-    changeAction(moment(date).subtract(value, type));
+  const subtractDiff = (value: number, type: ManipulateType) => {
+    changeAction(dayjs(date).subtract(value, type));
   };
 
-  const scrollHandle = ({ deltaY }, type) => {
-    /* up */
-    if (deltaY < 0) {
-      changeAction(moment(date).subtract(1, type));
-    } else {
-      changeAction(moment(date).add(1, type));
+  const scrollHandle = (
+    e: React.WheelEvent | WheelEvent,
+    type: ManipulateType,
+  ) => {
+    const delta = "deltaY" in e ? e.deltaY : 0;
+    if (delta < 0) {
+      changeAction(dayjs(date).subtract(1, type));
+    } else if (delta > 0) {
+      changeAction(dayjs(date).add(1, type));
     }
   };
+
   useEffect(() => {
-    setHour(moment(date).format("HH"));
-    setMinute(moment(date).format("mm"));
+    const d = dayjs(date);
+    setHour(d.format("HH"));
+    setMinute(d.format("mm"));
   }, [date]);
 
-  useEffect(() => {
-    document.addEventListener("scroll", scrollHandle);
-
-    return () => {
-      document.removeEventListener("scroll", scrollHandle);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <div className="calendar-time">
       <div
         className="calendar-time-half hours"
-        onWheel={(e) => scrollHandle(e, "H")}
+        onWheel={(e) => scrollHandle(e, "h")}
       >
         <div
           className="calendar-time-half-cell"
-          onClick={() => subtractDiff(1, "H")}
+          onClick={() => subtractDiff(1, "h")}
         >
-          {Up()}
+          <Up />
         </div>
         <div
-          onClick={() => subtractDiff(2, "H")}
+          onClick={() => subtractDiff(2, "h")}
           className="calendar-time-half-cell"
         >
-          {moment(date).subtract(2, "H").format("HH")}
+          {dayjs(date).subtract(2, "h").format("HH")}
         </div>
         <div
-          onClick={() => subtractDiff(1, "H")}
+          onClick={() => subtractDiff(1, "h")}
           className="calendar-time-half-cell"
         >
-          {moment(date).subtract(1, "H").format("HH")}
+          {dayjs(date).subtract(1, "h").format("HH")}
         </div>
         <div className="calendar-time-half-cell dividerhour">{hour}</div>
         <div
-          onClick={() => addDiff(1, "H")}
+          onClick={() => addDiff(1, "h")}
           className="calendar-time-half-cell"
         >
-          {moment(date).add(1, "H").format("HH")}
+          {dayjs(date).add(1, "h").format("HH")}
         </div>
         <div
-          onClick={() => addDiff(2, "H")}
+          onClick={() => addDiff(2, "h")}
           className="calendar-time-half-cell"
         >
-          {moment(date).add(2, "H").format("HH")}
+          {dayjs(date).add(2, "h").format("HH")}
         </div>
         <div
           className="calendar-time-half-cell"
-          onClick={() => addDiff(1, "H")}
+          onClick={() => addDiff(1, "h")}
         >
-          {Down()}
+          <Down />
         </div>
       </div>
+
       <div className="calendar-time-half" onWheel={(e) => scrollHandle(e, "m")}>
         <div
           className="calendar-time-half-cell"
           onClick={() => subtractDiff(1, "m")}
         >
-          {Up()}
+          <Up />
         </div>
         <div
           onClick={() => subtractDiff(2, "m")}
           className="calendar-time-half-cell"
         >
-          {moment(date).subtract(2, "m").format("mm")}
+          {dayjs(date).subtract(2, "m").format("mm")}
         </div>
         <div
           onClick={() => subtractDiff(1, "m")}
           className="calendar-time-half-cell"
         >
-          {moment(date).subtract(1, "m").format("mm")}
+          {dayjs(date).subtract(1, "m").format("mm")}
         </div>
         <div className="calendar-time-half-cell">{minute}</div>
         <div
           onClick={() => addDiff(1, "m")}
           className="calendar-time-half-cell"
         >
-          {moment(date).add(1, "m").format("mm")}
+          {dayjs(date).add(1, "m").format("mm")}
         </div>
         <div
           onClick={() => addDiff(2, "m")}
           className="calendar-time-half-cell"
         >
-          {moment(date).add(2, "m").format("mm")}
+          {dayjs(date).add(2, "m").format("mm")}
         </div>
         <div
           onClick={() => addDiff(1, "m")}
           className="calendar-time-half-cell"
         >
-          {Down()}
+          <Down />
         </div>
       </div>
     </div>
