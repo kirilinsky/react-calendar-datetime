@@ -72,6 +72,10 @@ Basic commands for development and building:
 
 ## ✅ Patch notes:
 
+### v 2.1.0 — New Theme 🟢 'Phosphor' added  
+
+ <img src="https://iili.io/qcQT4CG.md.png"   alt="Phosphor" border="0">
+
 ### v 2.0.0 — The "Performance & Style" Update 🚀
 
 **Optimization & Refactoring:**

@@ -17,7 +17,7 @@ export const calendarStyles = `
   --cal-border-color: #333333;
 }
 
-[data-theme="cyber_imperial"] { 
+[data-theme="cyber"] { 
 --cal-accent: #0d0d15; 
 --cal-backdrop: #07070b; 
 --cal-highlight: #00f3ff; 
@@ -25,6 +25,15 @@ export const calendarStyles = `
 --cal-color-text: #ffffff; 
 --cal-border-color: #2a2a4a;
 } 
+
+[data-theme="phosphor"] {
+  --cal-accent: #020602;
+  --cal-backdrop: #010401;
+  --cal-highlight: #76ff03;
+  --cal-tone: #1a1f1a;
+  --cal-color-text: #00e676;
+  --cal-border-color: #00e676;
+}
 
 [data-theme="midnight"] {
   --cal-accent: #141721;

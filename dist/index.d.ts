@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dayjs } from 'dayjs';
 
-type CalendarTheme = "light" | "dark" | "midnight" | "sandstone" | "mint_blue";
+type CalendarTheme = "light" | "dark" | "midnight" | "sandstone" | "mint_blue" | "cyber" | "phosphor";
 
 type LocaleKey = "ru" | "en" | "ua" | "de" | "zh-cn" | "fr" | "es" | "sr";
 
