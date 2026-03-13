@@ -1,17 +1,23 @@
-[![npm version](https://badge.fury.io/js/react-calendar-datetime.svg)](https://badge.fury.io/js/react-calendar-datetime) ![npm](https://img.shields.io/npm/dw/react-calendar-datetime)
+[![npm version](https://img.shields.io/npm/v/react-calendar-datetime.svg?style=flat-square)](https://www.npmjs.com/package/react-calendar-datetime)
+[![react version](https://img.shields.io/badge/react-%5E18.0.0%20%7C%7C%20%5E19.0.0-61dafb?style=flat-square&logo=react)](https://react.dev/)
+[![npm downloads](https://img.shields.io/npm/dm/react-calendar-datetime.svg?style=flat-square)](https://www.npmjs.com/package/react-calendar-datetime)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/react-calendar-datetime?style=flat-square)](https://bundlephobia.com/package/react-calendar-datetime)
+[![license](https://img.shields.io/npm/l/react-calendar-datetime.svg?style=flat-square)](https://github.com/kirilinsky/react-calendar-datetime/blob/main/LICENSE)
 
-# Calendar component for React
+# Calendar component for React (i18n)
 
 ---
 
-📅 Date and **time** picker, include presets
- [Demo](https://lovecss.site/calendar/)
+📅 Modern **Date** and **Time** picker with built-in presets and customizable themes.
+
+[**Live Demo**](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
+
 [![N|Solid](https://i.ibb.co/d0G4xXF7/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
-<div style="display:flex;width:80vw">
-<img src="https://i.ibb.co/rGGX6sSj/image.png" alt="time" width="45%"/>
-<img src="https://i.ibb.co/DPZWq2Tn/image.png" width="45%" alt="dark" > 
-</div>
+  <img src="https://i.ibb.co/rGGX6sSj/image.png" alt="Time Picker" width="45%"/>
+# Time picker
+  <img src="https://i.ibb.co/DPZWq2Tn/image.png" alt="Dark Theme" width="45%" >
+# Themes
 
 ---
 
@@ -79,7 +85,7 @@ Basic commands for development and building:
 
 - **Weekday Headers:** Added localized day-of-week labels (Mon, Tue, etc.) above the date grid.
 - **Built-in Themes:** Introduced 5 color palettes using CSS variables.
-- **Flexible Layout:** New `showMonths` prop allows the date grid to adapt and fill the container width.
+- **Flexible Layout:** New `months` prop allows the date grid to adapt and fill the container width.
 - **Expanded Locales:** Added `es` (Spanish) and `sr` (Serbian) support.
 - **Smart Presets:** Labels like "yesterday" or "month ago" are now fully localized via a dedicated i18n engine.
 

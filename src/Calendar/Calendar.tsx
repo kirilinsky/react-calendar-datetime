@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
-import "./calendar.css";
+import React, { useEffect, useInsertionEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import "dayjs/locale/en";
@@ -13,6 +12,7 @@ import "dayjs/locale/fr";
 import { Years, YearPicker, Days, Time, Months, Presets } from "../modules";
 import { CalendarTheme } from "@/types/themes";
 import { LocaleKey } from "@/i18n";
+import { calendarStyles } from "@/styles";
 
 dayjs.extend(localeData);
 
@@ -45,6 +45,16 @@ export const Calendar: React.FC<CalendarProps> = ({
   const dateObj = dayjs(date).locale(currentLocale);
 
   const toggleYearPicker = () => setShowYearPicker(!showYearPicker);
+
+  useInsertionEffect(() => {
+    const styleId = "react-calendar-datetime-styles";
+    if (typeof document !== "undefined" && !document.getElementById(styleId)) {
+      const style = document.createElement("style");
+      style.id = styleId;
+      style.innerHTML = calendarStyles;
+      document.head.appendChild(style);
+    }
+  }, []);
 
   const handleChange = (newDate: Dayjs) => {
     if (onChangeDate) {

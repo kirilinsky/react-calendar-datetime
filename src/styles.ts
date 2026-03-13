@@ -1,3 +1,4 @@
+export const calendarStyles = `
 :root {
   --cal-accent: #ffffff;
   --cal-backdrop: #ffffff;
@@ -300,3 +301,4 @@
     opacity: 1;
   }
 }
+`;
