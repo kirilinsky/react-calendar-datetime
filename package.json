@@ -28,6 +28,7 @@
     "start": "ladle serve",
     "dev": "tsup --watch",
     "build": "tsup",
+    "build:demo": "ladle build",
     "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
