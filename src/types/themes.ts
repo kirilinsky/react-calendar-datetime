@@ -18,3 +18,14 @@ export const THEME_OPTIONS: { value: CalendarTheme; label: string }[] = [
   { value: "dracula", label: "Dracula" },
   { value: "cyber", label: "Cyber" },
 ];
+
+export interface CustomTheme {
+  accent: string;
+  backdrop: string;
+  highlight: string;
+  tone: string;
+  colorText: string;
+  borderColor: string;
+}
+
+export type CustomThemePreset = Partial<CustomTheme>;

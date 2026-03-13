@@ -1,3 +1,5 @@
+import { CustomThemePreset } from "@/types/themes";
+
 export const CALENDAR_THEMES = {
   light: {
     accent: "#ffffff",
@@ -63,6 +65,21 @@ export const CALENDAR_THEMES = {
     colorText: "#ffffff",
     borderColor: "#3d2626",
   },
+};
+
+export const mapThemeToCSS = (
+  theme?: CustomThemePreset,
+): Record<string, string> => {
+  if (!theme) return {};
+
+  return {
+    "--cal-accent": theme.accent ?? "",
+    "--cal-backdrop": theme.backdrop ?? "",
+    "--cal-highlight": theme.highlight ?? "",
+    "--cal-tone": theme.tone ?? "",
+    "--cal-color-text": theme.colorText ?? "",
+    "--cal-border-color": theme.borderColor ?? "",
+  };
 };
 
 export const getThemeVars = (theme: keyof typeof CALENDAR_THEMES) => {
