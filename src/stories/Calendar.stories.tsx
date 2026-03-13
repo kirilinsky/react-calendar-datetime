@@ -21,34 +21,10 @@ const LOCALE_OPTIONS: { value: LocaleKey; label: string }[] = [
 ];
 
 const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
-  <div
-    data-theme={theme}
-    style={{
-      minHeight: "90vh",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "flex-start",
-      backgroundColor:
-        theme === "light" || theme === "mintblue" ? "#f3f4f6" : "#0f111a",
-      fontFamily: "system-ui, sans-serif",
-      padding: "20px",
-      transition: "background 0.3s ease",
-    }}
-  >
-    <div style={{ textAlign: "center", marginBottom: "32px" }}>
-      <h2
-        style={{
-          margin: 0,
-          fontSize: "24px",
-          color: theme === "light" || theme === "mintblue" ? "#111827" : "#fff",
-        }}
-      >
-        {title}
-      </h2>
-      <p style={{ margin: "8px 0 0", color: "#6b7280", fontSize: "15px" }}>
-        {subtitle}
-      </p>
+  <div className="story-wrapper" data-theme={theme}>
+    <div className="story-header">
+      <h2 className="story-title">{title}</h2>
+      <p className="story-subtitle">{subtitle}</p>
     </div>
     {children}
   </div>
@@ -56,7 +32,6 @@ const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
 
 export const Base = () => {
   const [date, setDate] = useState<Date>(new Date());
-
   return (
     <StoryWrapper
       title="Standard Calendar"
@@ -69,7 +44,6 @@ export const Base = () => {
 
 export const WithTimePicker = () => {
   const [date, setDate] = useState<Date>(new Date());
-
   return (
     <StoryWrapper
       title="Time & Date Picker"
@@ -82,7 +56,6 @@ export const WithTimePicker = () => {
 
 export const WithPresets = () => {
   const [date, setDate] = useState<Date>(new Date());
-
   return (
     <StoryWrapper
       title="Quick Presets"
@@ -95,7 +68,6 @@ export const WithPresets = () => {
 
 export const WithoutMonths = () => {
   const [date, setDate] = useState<Date>(new Date());
-
   return (
     <StoryWrapper title="No Months" subtitle="Just days">
       <Calendar date={date} onChangeDate={setDate} months={false} />
@@ -113,24 +85,12 @@ export const ThemePlayground = () => {
       title="Theme Playground"
       subtitle="Switch between all our custom tokens"
     >
-      <div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
+      <div className="story-controls">
         {THEME_OPTIONS.map((theme) => (
           <button
             key={theme.value}
             onClick={() => setActiveTheme(theme.value)}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "8px",
-              border:
-                activeTheme === theme.value
-                  ? "2px solid #3b82f6"
-                  : "2px solid #d1d5db",
-              background: activeTheme === theme.value ? "#eff6ff" : "#fff",
-              color: activeTheme === theme.value ? "#1d4ed8" : "#374151",
-              cursor: "pointer",
-              fontWeight: 500,
-              transition: "all 0.2s",
-            }}
+            className={`story-button ${activeTheme === theme.value ? "active-blue" : ""}`}
           >
             {theme.label}
           </button>
@@ -157,38 +117,12 @@ export const LocalePlayground = () => {
       title="Interactive Playground"
       subtitle="Switch between locales"
     >
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-          marginBottom: "24px",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
+      <div className="story-controls">
         {LOCALE_OPTIONS.map((loc) => (
           <button
             key={loc.value}
             onClick={() => setActiveLocale(loc.value)}
-            style={{
-              padding: "6px 12px",
-              borderRadius: "6px",
-              fontSize: "13px",
-              border:
-                activeLocale === loc.value
-                  ? "2px solid #10b981"
-                  : "2px solid var(--cal-border-color, #d1d5db)",
-              background:
-                activeLocale === loc.value
-                  ? "#ecfdf5"
-                  : "var(--cal-accent, #fff)",
-              color:
-                activeLocale === loc.value
-                  ? "#047857"
-                  : "var(--cal-color-text, #374151)",
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
+            className={`story-button ${activeLocale === loc.value ? "active-green" : ""}`}
           >
             {loc.label}
           </button>

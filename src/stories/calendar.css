@@ -1,3 +1,83 @@
+.story-wrapper {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  padding: 20px;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.story-wrapper[data-theme="light"],
+.story-wrapper[data-theme="mint_blue"] {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.story-wrapper:not([data-theme="light"]):not([data-theme="mint_blue"]) {
+  background-color: #0f111a;
+  color: #ffffff;
+}
+
+.story-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.story-title {
+  margin: 0;
+  fontsize: 24px;
+  color: inherit;
+}
+
+.story-subtitle {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.story-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.story-button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-size: 13px;
+}
+
+.story-button:hover {
+  border-color: #9ca3af;
+}
+
+.story-button.active-blue {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.story-button.active-green {
+  border-color: #10b981;
+  background: #ecfdf5;
+  color: #047857;
+}
+
 .control {
   width: 70%;
   height: 77px;
@@ -21,8 +101,8 @@
   background: #000;
   color: #fff;
 }
-.dark .control{
-    background: #fff;
+.dark .control {
+  background: #fff;
 }
 input[type="checkbox"] {
   height: 0;
