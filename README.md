@@ -10,26 +10,21 @@
 
 📅 Modern **Date** and **Time** picker with built-in presets and customizable themes.
 
-[**Live Demo**](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
+[![N|Solid](https://i.ibb.co/TBshMfhH/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
-[![N|Solid](https://i.ibb.co/WvZsPvWJ/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
-
-  <img src="https://i.ibb.co/B5pxjJf9/image.png" alt="Time Picker" width="45%"/>
-# Time picker
-  <img src="https://i.ibb.co/99RdvGNM/image.png" alt="Dark Theme" width="50%" >
-# Themes
-
+  <a href="https://react-calendar-datetime.vercel.app/?story=components--calendar--base" target="_blank">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Try%20it%20Out-60d276?style=for-the-badge&logo=rocket&logoColor=white" alt="Live Demo" />
+  </td>
+ 
 ---
 
 ## 🔨 How to install:
 
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=20&pause=1000&color=60D276&background=0F111A&vCenter=true&width=400&lines=%3E+npm+i+react-calendar-datetime)](https://git.io/typing-svg)
+
 ```javascript
 
-  npm install react-calendar-datetime
-
-  or
-
-  yarn add react-calendar-datetime
+  npm i react-calendar-datetime
 
 ```
 
@@ -37,28 +32,43 @@
 
 ```javascript
 import React from "react";
-
 import { Calendar } from "react-calendar-datetime";
 
 const App = () => {
   const [date, setDate] = useState < Date > new Date();
+
   return <Calendar date={date} onChangeDate={setDate} />;
 };
 ```
 
 ## Props:
 
-| Property         | Type            | Default      | Description                                                                    |
-| :--------------- | :-------------- | :----------- | :----------------------------------------------------------------------------- |
-| **date**         | `Date \| Dayjs` | `new Date()` | Accepts native Date, string, number or Dayjs instance                          |
-| **onChangeDate** | `function`      | -----        | Callback returns new native Date object on change                              |
-| **locale**       | `string`        | `'en'`       | Supported: `en`, `ru`, `ua`, `de`, `fr`, `zh-cn`, `es`, `sr`                   |
-| **theme**        | `string`        | `'light'`    | Styles: `light`, `dark`, `midnight`, `sandstone`, `mintblue,dracula, phosphor` |
-| **presets**      | `boolean`       | `false`      | Enables quick date selection (today, yesterday, etc.)                          |
-| **time**         | `boolean`       | `false`      | Enables time picker mode                                                       |
-| **months**       | `boolean`       | `true`       | Toggle side month-selector. If `false`, day-grid fills full width              |
-| **width**        | `string`        | `null`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                             |
-| **height**       | `string`        | `null`       | Any CSS height measure                                                         |
+| Property         | Type            | Default      | Description                                                       |
+| :--------------- | :-------------- | :----------- | :---------------------------------------------------------------- |
+| **date**         | `Date \| Dayjs` | `new Date()` | Accepts native Date, string, number or Dayjs instance             |
+| **onChangeDate** | `function`      | -----        | Callback returns new native Date object on change                 |
+| **locale**       | `string`        | `'en'`       | Supported: `en`, `ru`, `ua`, `de`, `fr`, `zh-cn`, `es`, `sr`      |
+| **theme**        | `string`        | `'light'`    | Theme (style) name                                                |
+| **presets**      | `boolean`       | `false`      | Enables quick date selection (today, yesterday, etc.)             |
+| **time**         | `boolean`       | `false`      | Enables time picker mode                                          |
+| **months**       | `boolean`       | `true`       | Toggle side month-selector. If `false`, day-grid fills full width |
+| **width**        | `string`        | `null`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                |
+| **height**       | `string`        | `null`       | Any CSS height measure                                            |
+
+### 🎨 Theming
+
+The calendar comes with 8 built-in themes. Just pass the theme name as a prop: `<Calendar theme="dracula" />`.
+
+| Theme Name      | Background (`accent`)                                                    | Highlight (`highlight`)                                                  |
+| :-------------- | :----------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| **`light`**     | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) | ![](https://img.shields.io/badge/-%231a1a1c-%231a1a1c?style=flat-square) |
+| **`dark`**      | ![](https://img.shields.io/badge/-%231a1a1c-%231a1a1c?style=flat-square) | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) |
+| **`cyber`**     | ![](https://img.shields.io/badge/-%230d0d15-%230d0d15?style=flat-square) | ![](https://img.shields.io/badge/-%2300f3ff-%2300f3ff?style=flat-square) |
+| **`phosphor`**  | ![](https://img.shields.io/badge/-%23020602-%23020602?style=flat-square) | ![](https://img.shields.io/badge/-%2376ff03-%2376ff03?style=flat-square) |
+| **`midnight`**  | ![](https://img.shields.io/badge/-%23141721-%23141721?style=flat-square) | ![](https://img.shields.io/badge/-%233559e0-%233559e0?style=flat-square) |
+| **`sandstone`** | ![](https://img.shields.io/badge/-%231c1a17-%231c1a17?style=flat-square) | ![](https://img.shields.io/badge/-%23e3ae5c-%23e3ae5c?style=flat-square) |
+| **`mintblue`**  | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) | ![](https://img.shields.io/badge/-%2360d276-%2360d276?style=flat-square) |
+| **`dracula`**   | ![](https://img.shields.io/badge/-%231a0f0f-%231a0f0f?style=flat-square) | ![](https://img.shields.io/badge/-%23ff5e5e-%23ff5e5e?style=flat-square) |
 
 ## 🛠 Scripts
 
@@ -72,47 +82,16 @@ Basic commands for development and building:
 
 ## ✅ Patch notes:
 
-### 📦 v2.2.0 — The Runtime Evolution
+### 📦 v2.2.0
 
-**Core Engine:**
+- **Goober Integration:** Auto-injected runtime styles (~1KB). Dropped manual `.css` imports and `clsx`.
+- **New Theme:** Added `Dracula` 🔴 dark-red palette.
 
-- **Goober Integration:** Migrated to runtime CSS-in-JS (~1KB). Dropped `clsx`
-- **Import:** Styles are now auto-injected; manual `.css` imports removed.
+<details>
+<summary>📜 Older versions</summary>
 
-**Themes:**
-
-- **Dracula Theme:** Added a new `Dracula` 🔴 dark-red color palette.
-
-### v 2.1.0 — New Theme 🟢 'Phosphor' added
-
-<img src="https://iili.io/qcQT4CG.md.png" alt="Phosphor" border="0">
-
-### v 2.0.0 — The "Performance & Style" Update 🚀
-
-**Refactoring & Optimization:**
-
-- **clsx:** Switched for better performance and lower weight.
-- **Logic:** Pre-generated labels to cut `dayjs` overhead.
-- **Stability:** Fixed dynamic locales and added strict type safety via `typescript`.
-
-**New Features:**
-
-- **Visuals:** Added weekday headers and 5 built-in color themes.
-- **Layout:** New flexible `months` prop for responsive grids.
-- **i18n:** Added `es`, `sr` support and localized smart presets.
-
----
-
-### v 1.3.1
-
-- Added year picker
-- Added dark theme 🌙
-- Added locales: `zh-cn`, `fr`
-
----
-
-### v 1.0.0
-
-- Base version of the calendar
-- Date and time selection
-- Basic presets
+- **v2.1.0:** Added `Phosphor` neon-green theme.
+- **v2.0.0:** TS migration, strict types, React 19, pre-generated labels, flexible `months` layout, `es`/`sr` locales.
+- **v1.3.1:** Added year picker, dark theme, and `zh-cn`, `fr` locales.
+- **v1.0.0:** Initial release.
+</details>
