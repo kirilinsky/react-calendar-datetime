@@ -30,7 +30,7 @@ const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
       alignItems: "center",
       justifyContent: "flex-start",
       backgroundColor:
-        theme === "light" || theme === "mint_blue" ? "#f3f4f6" : "#0f111a",
+        theme === "light" || theme === "mintblue" ? "#f3f4f6" : "#0f111a",
       fontFamily: "system-ui, sans-serif",
       padding: "20px",
       transition: "background 0.3s ease",
@@ -41,8 +41,7 @@ const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
         style={{
           margin: 0,
           fontSize: "24px",
-          color:
-            theme === "light" || theme === "mint_blue" ? "#111827" : "#fff",
+          color: theme === "light" || theme === "mintblue" ? "#111827" : "#fff",
         }}
       >
         {title}
@@ -106,7 +105,7 @@ export const WithoutMonths = () => {
 
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
-  const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint_blue");
+  const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
 
   return (
     <StoryWrapper
@@ -125,7 +124,7 @@ export const ThemePlayground = () => {
               border:
                 activeTheme === theme.value
                   ? "2px solid #3b82f6"
-                  : "1px solid #d1d5db",
+                  : "2px solid #d1d5db",
               background: activeTheme === theme.value ? "#eff6ff" : "#fff",
               color: activeTheme === theme.value ? "#1d4ed8" : "#374151",
               cursor: "pointer",
@@ -178,7 +177,7 @@ export const LocalePlayground = () => {
               border:
                 activeLocale === loc.value
                   ? "2px solid #10b981"
-                  : "1px solid var(--cal-border-color, #d1d5db)",
+                  : "2px solid var(--cal-border-color, #d1d5db)",
               background:
                 activeLocale === loc.value
                   ? "#ecfdf5"
