@@ -9,7 +9,7 @@ export default defineConfig({
   splitting: true,
   sourcemap: false,
   bundle: true,
-  external: ["react", "react-dom", "dayjs"],
+  external: ["react", "react-dom"],
   platform: "browser",
   treeshake: true,
   onSuccess: async () => {

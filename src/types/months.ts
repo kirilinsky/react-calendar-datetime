@@ -1,7 +1,5 @@
-import { Dayjs } from "dayjs";
-
 export interface MonthsProps {
-  date: Dayjs;
-  changeAction: (date: Dayjs) => void;
+  date: Date;
+  changeAction: (date: Date) => void;
   monthsNames: string[];
 }

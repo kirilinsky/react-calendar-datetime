@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import localeData from "dayjs/plugin/localeData";
+import React, { useState, useEffect } from "react";
 import { setup } from "goober";
 import { Years, YearPicker, Days, Time, Months, Presets } from "../modules";
 import * as s from "./calendar.styles";
 import { getThemeVars } from "@/themes/themes";
 import { CalendarProps } from "@/types/calendar";
+import { getMonthNames, getWeekdaysNames } from "@/utils/date-utils";
 
 setup(React.createElement);
-dayjs.extend(localeData);
 
 export const Calendar: React.FC<CalendarProps> = ({
   presets = false,
   months = true,
-  date = new Date(),
+  date: initialDate = new Date(),
   time = false,
   locale = "en",
   onChangeDate,
@@ -21,46 +19,24 @@ export const Calendar: React.FC<CalendarProps> = ({
   height = null,
   theme = "light",
 }) => {
-  const [shouldRender, setShouldRender] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const currentLocale = shouldRender ? locale : "en";
-  const dateObj = dayjs(date).locale(currentLocale);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const dateObj =
+    initialDate instanceof Date ? initialDate : new Date(initialDate);
 
   const toggleYearPicker = () => setShowYearPicker(!showYearPicker);
 
-  const handleChange = (newDate: Dayjs) => {
-    onChangeDate?.(newDate.toDate());
+  const handleChange = (newDate: Date) => {
+    onChangeDate?.(newDate);
   };
 
-  useEffect(() => {
-    let isMounted = true;
-    const loadLocale = async () => {
-      try {
-        if (locale !== "en") await import(`dayjs/locale/${locale}.js`);
-        if (isMounted) {
-          dayjs.locale(locale);
-          setShouldRender(true);
-        }
-      } catch (err) {
-        console.warn(`Could not load locale: ${locale}`, err);
-        if (isMounted) setShouldRender(true);
-      }
-    };
-    loadLocale();
-    return () => {
-      isMounted = false;
-    };
-  }, [locale]);
-
-  const monthsNames = shouldRender
-    ? Array.from({ length: 12 }, (_, i) =>
-        dayjs().locale(locale).month(i).format("MMMM"),
-      )
-    : [];
-  const weekdays = shouldRender
-    ? dayjs().locale(locale).localeData().weekdaysMin()
-    : [];
+  const monthsNames = isMounted ? getMonthNames(locale) : [];
+  const weekdays = isMounted ? getWeekdaysNames(locale) : [];
 
   return (
     <div
@@ -96,7 +72,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               changeAction={handleChange}
             />
           )}
-          {shouldRender && (
+          {isMounted && (
             <Days
               date={dateObj}
               changeAction={handleChange}

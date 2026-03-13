@@ -1,24 +1,25 @@
 import { useState } from "react";
 import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
-import dayjs from "dayjs";
 import { THEME_OPTIONS, CalendarTheme } from "../types/themes";
-import { LocaleKey } from "../i18n";
+import { LocaleKey, LOCALE_OPTIONS } from "../i18n";
 
 export default {
-  title: "Components/Calendar",
+  title: "Calendar",
 };
 
-const LOCALE_OPTIONS: { value: LocaleKey; label: string }[] = [
-  { value: "en", label: "English" },
-  { value: "ru", label: "Русский" },
-  { value: "ua", label: "Українська" },
-  { value: "de", label: "Deutsch" },
-  { value: "fr", label: "Français" },
-  { value: "es", label: "Español" },
-  { value: "sr", label: "Srpski" },
-  { value: "zh-cn", label: "中文" },
-];
+const formatSubtitle = (
+  date: Date,
+  locale: string = "en",
+  showTime: boolean = false,
+) => {
+  return new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    ...(showTime ? { hour: "2-digit", minute: "2-digit", hour12: false } : {}),
+  }).format(date);
+};
 
 const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
   <div className="story-wrapper" data-theme={theme}>
@@ -35,7 +36,7 @@ export const Base = () => {
   return (
     <StoryWrapper
       title="Standard Calendar"
-      subtitle={`Selected: ${dayjs(date).format("DD MMMM YYYY")}`}
+      subtitle={`Selected: ${formatSubtitle(date)}`}
     >
       <Calendar date={date} onChangeDate={setDate} />
     </StoryWrapper>
@@ -47,7 +48,7 @@ export const WithTimePicker = () => {
   return (
     <StoryWrapper
       title="Time & Date Picker"
-      subtitle={`Time: ${dayjs(date).format("DD.MM.YYYY HH:mm")}`}
+      subtitle={`Time: ${formatSubtitle(date, "en", true)}`}
     >
       <Calendar date={date} onChangeDate={setDate} time />
     </StoryWrapper>
@@ -115,7 +116,7 @@ export const LocalePlayground = () => {
   return (
     <StoryWrapper
       title="Interactive Playground"
-      subtitle="Switch between locales"
+      subtitle={`Selected in ${activeLocale}: ${formatSubtitle(date, activeLocale)}`}
     >
       <div className="story-controls">
         {LOCALE_OPTIONS.map((loc) => (
@@ -134,6 +135,7 @@ export const LocalePlayground = () => {
         date={date}
         onChangeDate={setDate}
         presets
+        width="80vh"
       />
     </StoryWrapper>
   );

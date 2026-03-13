@@ -1,18 +1,18 @@
 import React from "react";
-import dayjs from "dayjs";
 import { Left, Right } from "../../Icons";
 import * as s from "./years.styles";
 import { YearsProps } from "@/types/years";
+import { addYears } from "@/utils/date-utils";
 
 const Years: React.FC<YearsProps> = ({
   date,
   toggleYearPicker,
   changeAction,
 }) => {
-  const d = dayjs(date);
+  const currentYear = date.getFullYear();
 
   const handleYearChange = (offset: number) => {
-    changeAction(d.add(offset, "year"));
+    changeAction(addYears(date, offset));
   };
 
   const onKey = (e: React.KeyboardEvent, action: () => void) => {
@@ -27,6 +27,7 @@ const Years: React.FC<YearsProps> = ({
       <div
         tabIndex={0}
         role="button"
+        aria-label="Previous year"
         className={s.arrow}
         onClick={() => handleYearChange(-1)}
         onKeyDown={(e) => onKey(e, () => handleYearChange(-1))}
@@ -39,15 +40,17 @@ const Years: React.FC<YearsProps> = ({
         className={s.currentYear}
         role="button"
         tabIndex={0}
+        aria-label="Open year selection"
         onKeyDown={(e) => onKey(e, toggleYearPicker)}
       >
-        {d.format("YYYY")}
+        {currentYear}
       </div>
 
       <div
         onClick={() => handleYearChange(1)}
         role="button"
         tabIndex={0}
+        aria-label="Next year"
         className={s.arrow}
         onKeyDown={(e) => onKey(e, () => handleYearChange(1))}
       >

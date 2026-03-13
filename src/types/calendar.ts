@@ -1,11 +1,10 @@
-import { LocaleKey } from "@/i18n";
-import { Dayjs } from "dayjs";
+import { LocaleKey } from "@/i18n"; 
 import { CalendarTheme } from "./themes";
 
 export interface CalendarProps {
   presets?: boolean;
   months?: boolean;
-  date?: Date | string | number | Dayjs;
+  date?: Date | string | number;
   time?: boolean;
   locale?: LocaleKey;
   onChangeDate?: (date: Date) => void;

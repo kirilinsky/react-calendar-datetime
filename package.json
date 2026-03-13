@@ -1,6 +1,6 @@
 {
   "name": "react-calendar-datetime",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "React date and time calendar component (with presets and locale)",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -52,8 +52,7 @@
     "datetime-picker",
     "time-picker",
     "react-calendar",
-    "react-datepicker",
-    "dayjs",
+    "react-datepicker", 
     "localization",
     "multi-language",
     "themes",
@@ -68,7 +67,7 @@
   "author": "Kirilinsky (https://github.com/kirilinsky)",
   "license": "MIT",
   "dependencies": { 
-    "dayjs": "^1.11.20",
+     
     "goober": "^2.1.18"
   }
 }

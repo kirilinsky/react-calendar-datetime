@@ -1,13 +1,11 @@
-import { Dayjs } from "dayjs";
-
 export interface YearsProps {
-  date: Date | string | number | Dayjs;
+  date: Date;
   toggleYearPicker: () => void;
-  changeAction: (date: Dayjs) => void;
+  changeAction: (date: Date) => void;
 }
 
 export interface YearsPickerProps {
   toggleYearPicker: () => void;
-  date: Dayjs;
-  changeAction: (date: Dayjs) => void;
+  date: Date;
+  changeAction: (date: Date) => void;
 }

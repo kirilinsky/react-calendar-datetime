@@ -1,57 +1,98 @@
 import React from "react";
-import dayjs, { Dayjs, ManipulateType } from "dayjs";
 import { Down, Up } from "../../Icons";
 import * as s from "./time.styles";
+import {
+  addTime,
+  padTime,
+  getDrumValue,
+  getDrumStyles,
+} from "@/utils/date-utils";
+import { useThrottle } from "@/hooks/use-throttle";
 
 interface TimeProps {
-  date: Date | string | number | Dayjs;
-  changeAction: (date: Dayjs) => void;
+  date: Date;
+  changeAction: (date: Date) => void;
 }
 
 const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
-  const d = dayjs(date);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const throttledChange = useThrottle(changeAction, 60);
 
-  const handleDiff = (val: number, type: ManipulateType) => {
-    changeAction(d.add(val, type));
+  const handleDiff = (val: number, type: "h" | "m") => {
+    const nextDate = addTime(date, val, type);
+    throttledChange(nextDate);
   };
 
-  const onWheel = (e: React.WheelEvent, type: ManipulateType) => {
-    const val = e.deltaY < 0 ? -1 : 1;
-    handleDiff(val, type);
+  const createWheelHandler = (type: "h" | "m") => (e: React.WheelEvent) => {
+    const direction = e.deltaY < 0 ? -1 : 1;
+    handleDiff(direction, type);
   };
 
   const renderColumn = (type: "h" | "m") => {
-    const format = type === "h" ? "HH" : "mm";
+    const currentVal = type === "h" ? hours : minutes;
+    const max = type === "h" ? 24 : 60;
     const offsets = [-2, -1, 0, 1, 2];
+    const label = type === "h" ? "Select hours" : "Select minutes";
+
+    const onKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        handleDiff(-1, type);
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        handleDiff(1, type);
+      }
+    };
 
     return (
-      <div className={s.column} onWheel={(e) => onWheel(e, type)}>
-        <div className={s.cell} onClick={() => handleDiff(-1, type)}>
+      <div
+        className={s.column}
+        tabIndex={0}
+        role="spinbutton"
+        aria-label={label}
+        aria-valuenow={currentVal}
+        onWheel={createWheelHandler(type)}
+        onKeyDown={onKeyDown}
+      >
+        <div
+          className={s.cell}
+          onClick={() => handleDiff(-1, type)}
+          role="presentation"
+        >
           <Up />
         </div>
 
         {offsets.map((offset) => {
+          const value = getDrumValue(currentVal, offset, max);
           const isCurrent = offset === 0;
+
           return (
             <div
               key={offset}
-              className={s.cell}
+              className={`${s.cell} ${isCurrent ? s.activeCell : ""}`}
+              style={getDrumStyles(offset)}
               onClick={!isCurrent ? () => handleDiff(offset, type) : undefined}
             >
-              {d.add(offset, type).format(format)}
+              {padTime(value)}
             </div>
           );
         })}
-        <div className={s.cell} onClick={() => handleDiff(1, type)}>
+
+        <div
+          className={s.cell}
+          onClick={() => handleDiff(1, type)}
+          role="presentation"
+        >
           <Down />
         </div>
       </div>
     );
   };
-
   return (
     <div className={s.container}>
-      {renderColumn("h")}
+      <div className={s.timeSelectionIndicator} /> {renderColumn("h")}
+      <div className={s.separator}>:</div>
       {renderColumn("m")}
     </div>
   );

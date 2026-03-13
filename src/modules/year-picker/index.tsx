@@ -1,25 +1,25 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Dayjs } from "dayjs";
 import { Left, Right } from "../../Icons";
 import * as s from "./year-picker.styles";
 import { YearsPickerProps } from "@/types/years";
+import { setYear, addYears, getYearsRange } from "@/utils/date-utils";
 
 const YearPicker: React.FC<YearsPickerProps> = ({
   toggleYearPicker,
   date,
   changeAction,
 }) => {
-  const [localDate, setLocalDate] = useState<Dayjs>(date);
+  const [localDate, setLocalDate] = useState<Date>(date);
   const [isAnimating, setIsAnimating] = useState(true);
 
-  const currentYear = localDate.year();
+  const currentYear = date.getFullYear();
 
   const yearsArray = useMemo(() => {
-    return Array.from({ length: 25 }, (_, i) => currentYear - 12 + i);
+    return getYearsRange(currentYear, 25);
   }, [currentYear]);
 
   const handleSetYear = (year: number) => {
-    changeAction(localDate.year(year));
+    changeAction(setYear(localDate, year));
     toggleYearPicker();
   };
 
@@ -38,14 +38,14 @@ const YearPicker: React.FC<YearsPickerProps> = ({
     <div className={s.container} onContextMenu={handleGoBack}>
       <button
         disabled={currentYear < 1925}
-        onClick={() => setLocalDate(localDate.subtract(25, "y"))}
+        onClick={() => setLocalDate(addYears(localDate, -25))}
         className={s.arrow}
       >
         <Left />
       </button>
 
       {yearsArray.map((year) => {
-        const isActive = year === currentYear;
+        const isActive = year === date.getFullYear();
         const delay = `${((Math.abs(currentYear - year) * 0.1) / 2).toFixed(2)}s`;
 
         return (
@@ -63,8 +63,8 @@ const YearPicker: React.FC<YearsPickerProps> = ({
 
       <button
         className={s.arrow}
-        disabled={currentYear > 2075}
-        onClick={() => setLocalDate(localDate.add(25, "y"))}
+        disabled={currentYear > 2050}
+        onClick={() => setLocalDate(addYears(localDate, 25))}
       >
         <Right />
       </button>

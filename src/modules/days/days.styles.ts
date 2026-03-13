@@ -1,5 +1,16 @@
-import { css } from "goober";
+import { css, keyframes } from "goober";
 import { interactiveBase } from "@/styles/shared.styles";
+
+const fadeIn = keyframes`
+  from { 
+    opacity: 0; 
+    transform: translateY(2px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+`;
 
 export const container = css`
   grid-area: DD;
@@ -8,6 +19,9 @@ export const container = css`
   grid-template-columns: repeat(7, 1fr);
   padding: 15px;
   gap: 5px;
+  &.animating {
+    animation: ${fadeIn} 0.2s ease-out forwards;
+  }
 `;
 
 export const header = css`

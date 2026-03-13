@@ -1,35 +1,54 @@
 import { css } from "goober";
-import { interactiveBase } from "@/styles/shared.styles";
 
 export const container = css`
-  grid-area: TIME;
   display: flex;
-  padding-left: 1px;
-  border-left: 1px solid var(--cal-border-color);
-`;
-
-export const column = css`
-  flex: 1;
-  width: 50%;
-  display: grid;
-  grid-template-rows: repeat(7, 1fr);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 10px;
+  gap: 3px;
   background: var(--cal-backdrop);
 `;
 
+export const timeSelectionIndicator = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 40px;
+  //background: var(--cal-highlight);
+  border-radius: 8px;
+  z-index: 0;
+  pointer-events: none;
+`;
+
+export const column = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+`;
+
+export const separator = css`
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cal-color-text);
+  margin-top: -4px;
+  z-index: 1;
+`;
+
 export const cell = css`
-  ${interactiveBase}
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  color: var(--cal-color-text);
+`;
 
-  &:is(:first-child, :last-child) {
-    background: var(--cal-accent);
-  }
-
-  &:nth-child(4) {
-    position: relative;
-    background: var(--cal-highlight);
-    color: var(--cal-accent);
-    cursor: default;
-    &:hover {
-      background: var(--cal-highlight);
-    }
-  }
+export const activeCell = css`
+  color: var(--cal-accent);
 `;

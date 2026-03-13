@@ -1,32 +1,11 @@
-export interface Translation {
-  t: string;
-  y: string;
-  wa: string;
-  ma: string;
-  ya: string;
-}
-
-export type LocaleKey =
-  | "ru"
-  | "en"
-  | "ua"
-  | "de"
-  | "zh-cn"
-  | "fr"
-  | "es"
-  | "sr";
-
-export type I18nData = Record<LocaleKey, Translation> & {
-  [key: string]: Translation;
-};
-
-const data: I18nData = {
+export const i18nData = {
   ru: {
     t: "сегодня",
     y: "вчера",
     wa: "неделю назад",
     ma: "месяц назад",
     ya: "год назад",
+    label: "Русский",
   },
   en: {
     t: "today",
@@ -34,6 +13,7 @@ const data: I18nData = {
     wa: "week ago",
     ma: "month ago",
     ya: "year ago",
+    label: "English",
   },
   ua: {
     t: "сьогодні",
@@ -41,6 +21,7 @@ const data: I18nData = {
     wa: "тиждень тому",
     ma: "місяць тому",
     ya: "рік тому",
+    label: "Українська",
   },
   de: {
     t: "heute",
@@ -48,6 +29,7 @@ const data: I18nData = {
     wa: "vor 1 Woche",
     ma: "vor 1 Monat",
     ya: "vor 1 Jahr",
+    label: "Deutsch",
   },
   "zh-cn": {
     t: "今天",
@@ -55,6 +37,7 @@ const data: I18nData = {
     wa: "一周前",
     ma: "一个月前",
     ya: "一年前",
+    label: "中文",
   },
   fr: {
     t: "aujourd'hui",
@@ -62,6 +45,7 @@ const data: I18nData = {
     wa: "il y a une semaine",
     ma: "il y a un mois",
     ya: "il y a un an",
+    label: "Français",
   },
   es: {
     t: "hoy",
@@ -69,6 +53,7 @@ const data: I18nData = {
     wa: "hace una semana",
     ma: "hace un mes",
     ya: "hace un año",
+    label: "Español",
   },
   sr: {
     t: "danas",
@@ -76,7 +61,24 @@ const data: I18nData = {
     wa: "pre nedelju dana",
     ma: "pre mesec dana",
     ya: "pre godinu dana",
+    label: "Srpski",
   },
-};
+  it: {
+    t: "oggi",
+    y: "ieri",
+    wa: "una settimana fa",
+    ma: "un mese fa",
+    ya: "un anno fa",
+    label: "Italiano",
+  },
+} as const;
 
-export default data;
+export type LocaleKey = keyof typeof i18nData;
+export type Translation = Omit<(typeof i18nData)["en"], "label">;
+
+export const LOCALE_OPTIONS = Object.entries(i18nData).map(([value, data]) => ({
+  value: value as LocaleKey,
+  label: data.label,
+}));
+
+export default i18nData;

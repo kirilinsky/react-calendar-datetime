@@ -8,7 +8,7 @@
 
 ---
 
-📅 Modern **Date** and **Time** picker with built-in presets and customizable themes.
+📅 Modern **Date** and **Time** picker with locales, built-in presets and themes.
 
 [![N|Solid](https://i.ibb.co/TBshMfhH/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
@@ -47,7 +47,7 @@ const App = () => {
 | :--------------- | :-------------- | :----------- | :---------------------------------------------------------------- |
 | **date**         | `Date \| Dayjs` | `new Date()` | Accepts native Date, string, number or Dayjs instance             |
 | **onChangeDate** | `function`      | -----        | Callback returns new native Date object on change                 |
-| **locale**       | `string`        | `'en'`       | Supported: `en`, `ru`, `ua`, `de`, `fr`, `zh-cn`, `es`, `sr`      |
+| **locale**       | `string`        | `'en'`       | Supported: `en`,`it`, `ru`, `ua`, `de`, `fr`, `zh-cn`, `es`, `sr` |
 | **theme**        | `string`        | `'light'`    | Theme (style) name                                                |
 | **presets**      | `boolean`       | `false`      | Enables quick date selection (today, yesterday, etc.)             |
 | **time**         | `boolean`       | `false`      | Enables time picker mode                                          |
@@ -82,14 +82,16 @@ Basic commands for development and building:
 
 ## ✅ Patch notes:
 
-### 📦 v2.2.0
+## 🚀 Version 2.3.0 _ Current _
 
-- **Goober Integration:** Auto-injected runtime styles (~1KB). Dropped manual `.css` imports and `clsx`.
-- **New Theme:** Added `Dracula` 🔴 dark-red palette.
+- **Zero-Deps:** Removed `dayjs` entirely; significantly reduced bundle size by switching to native **JS Date** and **Intl API**.
+- **Drum Picker & IT:** Revamped Time Picker with a smooth "drum" UI, input throttling, and added **Italian** locale support.
+- **Stable UI:** Implemented a fixed 42-cell grid to prevent layout shifts, enhanced with a subtle fade-in animation.
 
 <details>
 <summary>📜 Older versions</summary>
 
+- **v2.2.0:** Auto-injected runtime styles (~1KB), added `Dracula` 🔴 dark-red palette.
 - **v2.1.0:** Added `Phosphor` neon-green theme.
 - **v2.0.0:** TS migration, strict types, React 19, pre-generated labels, flexible `months` layout, `es`/`sr` locales.
 - **v1.3.1:** Added year picker, dark theme, and `zh-cn`, `fr` locales.
