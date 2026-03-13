@@ -205,6 +205,17 @@
     }
   }
 }
+.calendar-days-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cal-color-text);
+  opacity: 0.5;
+  text-transform: uppercase;
+  user-select: none;
+}
 
 .calendar-presets {
   grid-area: PRESETS;
