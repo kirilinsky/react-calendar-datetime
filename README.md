@@ -12,11 +12,11 @@
 
 [**Live Demo**](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
-[![N|Solid](https://i.ibb.co/d0G4xXF7/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
+[![N|Solid](https://i.ibb.co/WvZsPvWJ/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
-  <img src="https://i.ibb.co/rGGX6sSj/image.png" alt="Time Picker" width="45%"/>
+  <img src="https://i.ibb.co/B5pxjJf9/image.png" alt="Time Picker" width="45%"/>
 # Time picker
-  <img src="https://i.ibb.co/DPZWq2Tn/image.png" alt="Dark Theme" width="45%" >
+  <img src="https://i.ibb.co/99RdvGNM/image.png" alt="Dark Theme" width="50%" >
 # Themes
 
 ---
