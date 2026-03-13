@@ -9,11 +9,11 @@ export default defineConfig({
   splitting: true,
   sourcemap: false,
   bundle: true,
-  skipNodeModulesBundle: true,
-  external: ["react", "react-dom", "dayjs", "clsx"],
+  external: ["react", "react-dom", "dayjs"],
   platform: "browser",
+  treeshake: true,
   onSuccess: async () => {
-    console.log("🚀 Build successful! Dist is clean.");
+    console.log("🚀 Build successful! Goober runtime is injected.");
   },
   outExtension({ format }) {
     return {

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import dayjs, { Dayjs, ManipulateType } from "dayjs";
 import { Down, Up } from "../../Icons";
+import * as s from "./time.styles";
 
 interface TimeProps {
   date: Date | string | number | Dayjs;
@@ -8,119 +9,50 @@ interface TimeProps {
 }
 
 const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
-  const [hour, setHour] = useState<string>(dayjs(date).format("HH"));
-  const [minute, setMinute] = useState<string>(dayjs(date).format("mm"));
+  const d = dayjs(date);
 
-  const addDiff = (value: number, type: ManipulateType) => {
-    changeAction(dayjs(date).add(value, type));
+  const handleDiff = (val: number, type: ManipulateType) => {
+    changeAction(d.add(val, type));
   };
 
-  const subtractDiff = (value: number, type: ManipulateType) => {
-    changeAction(dayjs(date).subtract(value, type));
+  const onWheel = (e: React.WheelEvent, type: ManipulateType) => {
+    const val = e.deltaY < 0 ? -1 : 1;
+    handleDiff(val, type);
   };
 
-  const scrollHandle = (
-    e: React.WheelEvent | WheelEvent,
-    type: ManipulateType,
-  ) => {
-    const delta = "deltaY" in e ? e.deltaY : 0;
-    if (delta < 0) {
-      changeAction(dayjs(date).subtract(1, type));
-    } else if (delta > 0) {
-      changeAction(dayjs(date).add(1, type));
-    }
-  };
+  const renderColumn = (type: "h" | "m") => {
+    const format = type === "h" ? "HH" : "mm";
+    const offsets = [-2, -1, 0, 1, 2];
 
-  useEffect(() => {
-    const d = dayjs(date);
-    setHour(d.format("HH"));
-    setMinute(d.format("mm"));
-  }, [date]);
+    return (
+      <div className={s.column} onWheel={(e) => onWheel(e, type)}>
+        <div className={s.cell} onClick={() => handleDiff(-1, type)}>
+          <Up />
+        </div>
+
+        {offsets.map((offset) => {
+          const isCurrent = offset === 0;
+          return (
+            <div
+              key={offset}
+              className={s.cell}
+              onClick={!isCurrent ? () => handleDiff(offset, type) : undefined}
+            >
+              {d.add(offset, type).format(format)}
+            </div>
+          );
+        })}
+        <div className={s.cell} onClick={() => handleDiff(1, type)}>
+          <Down />
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className="calendar-time">
-      <div
-        className="calendar-time-half hours"
-        onWheel={(e) => scrollHandle(e, "h")}
-      >
-        <div
-          className="calendar-time-half-cell"
-          onClick={() => subtractDiff(1, "h")}
-        >
-          <Up />
-        </div>
-        <div
-          onClick={() => subtractDiff(2, "h")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).subtract(2, "h").format("HH")}
-        </div>
-        <div
-          onClick={() => subtractDiff(1, "h")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).subtract(1, "h").format("HH")}
-        </div>
-        <div className="calendar-time-half-cell dividerhour">{hour}</div>
-        <div
-          onClick={() => addDiff(1, "h")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).add(1, "h").format("HH")}
-        </div>
-        <div
-          onClick={() => addDiff(2, "h")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).add(2, "h").format("HH")}
-        </div>
-        <div
-          className="calendar-time-half-cell"
-          onClick={() => addDiff(1, "h")}
-        >
-          <Down />
-        </div>
-      </div>
-
-      <div className="calendar-time-half" onWheel={(e) => scrollHandle(e, "m")}>
-        <div
-          className="calendar-time-half-cell"
-          onClick={() => subtractDiff(1, "m")}
-        >
-          <Up />
-        </div>
-        <div
-          onClick={() => subtractDiff(2, "m")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).subtract(2, "m").format("mm")}
-        </div>
-        <div
-          onClick={() => subtractDiff(1, "m")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).subtract(1, "m").format("mm")}
-        </div>
-        <div className="calendar-time-half-cell">{minute}</div>
-        <div
-          onClick={() => addDiff(1, "m")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).add(1, "m").format("mm")}
-        </div>
-        <div
-          onClick={() => addDiff(2, "m")}
-          className="calendar-time-half-cell"
-        >
-          {dayjs(date).add(2, "m").format("mm")}
-        </div>
-        <div
-          onClick={() => addDiff(1, "m")}
-          className="calendar-time-half-cell"
-        >
-          <Down />
-        </div>
-      </div>
+    <div className={s.container}>
+      {renderColumn("h")}
+      {renderColumn("m")}
     </div>
   );
 };

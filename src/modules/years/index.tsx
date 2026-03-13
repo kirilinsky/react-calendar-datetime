@@ -1,55 +1,55 @@
-import dayjs, { Dayjs } from "dayjs";
 import React from "react";
+import dayjs from "dayjs";
 import { Left, Right } from "../../Icons";
-
-interface YearsProps {
-  date: Date | string | number | Dayjs;
-  toggleYearPicker: () => void;
-  changeAction: (date: Dayjs) => void;
-}
+import * as s from "./years.styles";
+import { YearsProps } from "@/types/years";
 
 const Years: React.FC<YearsProps> = ({
   date,
   toggleYearPicker,
   changeAction,
 }) => {
-  const prevYear = () => {
-    changeAction(dayjs(date).subtract(1, "year"));
+  const d = dayjs(date);
+
+  const handleYearChange = (offset: number) => {
+    changeAction(d.add(offset, "year"));
   };
 
-  const nextYear = () => {
-    changeAction(dayjs(date).add(1, "year"));
+  const onKey = (e: React.KeyboardEvent, action: () => void) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      action();
+    }
   };
 
   return (
-    <div className="calendar-years">
+    <div className={s.container}>
       <div
         tabIndex={0}
         role="button"
-        className="calendar-years-arrow"
-        onClick={prevYear}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") prevYear();
-        }}
+        className={s.arrow}
+        onClick={() => handleYearChange(-1)}
+        onKeyDown={(e) => onKey(e, () => handleYearChange(-1))}
       >
         <Left />
       </div>
+
       <div
         onClick={toggleYearPicker}
-        className="calendar-years-current"
+        className={s.currentYear}
         role="button"
         tabIndex={0}
+        onKeyDown={(e) => onKey(e, toggleYearPicker)}
       >
-        {dayjs(date).format("YYYY")}
+        {d.format("YYYY")}
       </div>
+
       <div
-        onClick={nextYear}
+        onClick={() => handleYearChange(1)}
         role="button"
         tabIndex={0}
-        className="calendar-years-arrow"
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") nextYear();
-        }}
+        className={s.arrow}
+        onKeyDown={(e) => onKey(e, () => handleYearChange(1))}
       >
         <Right />
       </div>

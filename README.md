@@ -12,11 +12,11 @@
 
 [**Live Demo**](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
-[![N|Solid](https://i.ibb.co/d0G4xXF7/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
+[![N|Solid](https://i.ibb.co/WvZsPvWJ/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
-  <img src="https://i.ibb.co/rGGX6sSj/image.png" alt="Time Picker" width="45%"/>
+  <img src="https://i.ibb.co/B5pxjJf9/image.png" alt="Time Picker" width="45%"/>
 # Time picker
-  <img src="https://i.ibb.co/DPZWq2Tn/image.png" alt="Dark Theme" width="45%" >
+  <img src="https://i.ibb.co/99RdvGNM/image.png" alt="Dark Theme" width="50%" >
 # Themes
 
 ---
@@ -48,17 +48,17 @@ const App = () => {
 
 ## Props:
 
-| Property         | Type            | Default      | Description                                                       |
-| :--------------- | :-------------- | :----------- | :---------------------------------------------------------------- |
-| **date**         | `Date \| Dayjs` | `new Date()` | Accepts native Date, string, number or Dayjs instance             |
-| **onChangeDate** | `function`      | -----        | Callback returns new native Date object on change                 |
-| **locale**       | `string`        | `'en'`       | Supported: `en`, `ru`, `ua`, `de`, `fr`, `zh-cn`, `es`, `sr`      |
-| **theme**        | `string`        | `'light'`    | Styles: `light`, `dark`, `midnight`, `sandstone`, `mint_blue`     |
-| **presets**      | `boolean`       | `false`      | Enables quick date selection (today, yesterday, etc.)             |
-| **time**         | `boolean`       | `false`      | Enables time picker mode                                          |
-| **months**       | `boolean`       | `true`       | Toggle side month-selector. If `false`, day-grid fills full width |
-| **width**        | `string`        | `null`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                |
-| **height**       | `string`        | `null`       | Any CSS height measure                                            |
+| Property         | Type            | Default      | Description                                                                    |
+| :--------------- | :-------------- | :----------- | :----------------------------------------------------------------------------- |
+| **date**         | `Date \| Dayjs` | `new Date()` | Accepts native Date, string, number or Dayjs instance                          |
+| **onChangeDate** | `function`      | -----        | Callback returns new native Date object on change                              |
+| **locale**       | `string`        | `'en'`       | Supported: `en`, `ru`, `ua`, `de`, `fr`, `zh-cn`, `es`, `sr`                   |
+| **theme**        | `string`        | `'light'`    | Styles: `light`, `dark`, `midnight`, `sandstone`, `mintblue,dracula, phosphor` |
+| **presets**      | `boolean`       | `false`      | Enables quick date selection (today, yesterday, etc.)                          |
+| **time**         | `boolean`       | `false`      | Enables time picker mode                                                       |
+| **months**       | `boolean`       | `true`       | Toggle side month-selector. If `false`, day-grid fills full width              |
+| **width**        | `string`        | `null`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                             |
+| **height**       | `string`        | `null`       | Any CSS height measure                                                         |
 
 ## 🛠 Scripts
 
@@ -72,26 +72,34 @@ Basic commands for development and building:
 
 ## ✅ Patch notes:
 
-### v 2.1.0 — New Theme 🟢 'Phosphor' added  
+### 📦 v2.2.0 — The Runtime Evolution
 
- <img src="https://iili.io/qcQT4CG.md.png"   alt="Phosphor" border="0">
+**Core Engine:**
+
+- **Goober Integration:** Migrated to runtime CSS-in-JS (~1KB). Dropped `clsx`
+- **Import:** Styles are now auto-injected; manual `.css` imports removed.
+
+**Themes:**
+
+- **Dracula Theme:** Added a new `Dracula` 🔴 dark-red color palette.
+
+### v 2.1.0 — New Theme 🟢 'Phosphor' added
+
+<img src="https://iili.io/qcQT4CG.md.png" alt="Phosphor" border="0">
 
 ### v 2.0.0 — The "Performance & Style" Update 🚀
 
-**Optimization & Refactoring:**
+**Refactoring & Optimization:**
 
-- **Dependency Swap:** Migrated from `classnames` to **`clsx`** — package is now lighter and faster.
-- **Architecture Refactor:** Months and weekdays are now pre-generated in the core component, significantly reducing `dayjs` overhead in child components.
-- **Modern Bundler Support:** Fixed dynamic locale loading
-- **Type Safety:** Added strict `LocaleKey` and `Theme` types for better developer experience.
+- **clsx:** Switched for better performance and lower weight.
+- **Logic:** Pre-generated labels to cut `dayjs` overhead.
+- **Stability:** Fixed dynamic locales and added strict type safety via `typescript`.
 
 **New Features:**
 
-- **Weekday Headers:** Added localized day-of-week labels (Mon, Tue, etc.) above the date grid.
-- **Built-in Themes:** Introduced 5 color palettes using CSS variables.
-- **Flexible Layout:** New `months` prop allows the date grid to adapt and fill the container width.
-- **Expanded Locales:** Added `es` (Spanish) and `sr` (Serbian) support.
-- **Smart Presets:** Labels like "yesterday" or "month ago" are now fully localized via a dedicated i18n engine.
+- **Visuals:** Added weekday headers and 5 built-in color themes.
+- **Layout:** New flexible `months` prop for responsive grids.
+- **i18n:** Added `es`, `sr` support and localized smart presets.
 
 ---
 

@@ -1,33 +1,17 @@
-import dayjs, { Dayjs, ManipulateType } from "dayjs";
+import dayjs, { ManipulateType } from "dayjs";
 import React from "react";
-import i18n, { LocaleKey, Translation } from "../../i18n";
-
-interface PresetsProps {
-  locale: LocaleKey;
-  changeAction: (date: Dayjs) => void;
-}
-
-const PRESET_CONFIG: {
-  key: keyof Translation;
-  amount: number;
-  unit: ManipulateType;
-}[] = [
-  { key: "t", amount: 0, unit: "day" },
-  { key: "y", amount: 1, unit: "day" },
-  { key: "wa", amount: 1, unit: "week" },
-  { key: "ma", amount: 1, unit: "month" },
-  { key: "ya", amount: 1, unit: "year" },
-];
+import i18n from "../../i18n";
+import * as s from "./presets.styles";
+import { PRESET_CONFIG, PresetsProps } from "@/types/presets";
 
 const Presets: React.FC<PresetsProps> = ({ locale, changeAction }) => {
   const voc = i18n[locale] || i18n["en"];
-
   const handlePresetClick = (amount: number, unit: ManipulateType) => {
     changeAction(dayjs().subtract(amount, unit).startOf("day"));
   };
 
   return (
-    <div className="calendar-presets">
+    <div className={s.container}>
       {PRESET_CONFIG.map(({ key, amount, unit }) => (
         <div
           key={key}
@@ -38,7 +22,7 @@ const Presets: React.FC<PresetsProps> = ({ locale, changeAction }) => {
           }}
           tabIndex={0}
           role="button"
-          className="calendar-presets-preset"
+          className={s.presetItem}
         >
           {voc[key]}
         </div>

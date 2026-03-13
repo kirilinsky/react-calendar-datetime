@@ -3,16 +3,18 @@ export type CalendarTheme =
   | "dark"
   | "midnight"
   | "sandstone"
-  | "mint_blue"
+  | "mintblue"
   | "cyber"
+  | "dracula"
   | "phosphor";
 
 export const THEME_OPTIONS: { value: CalendarTheme; label: string }[] = [
   { value: "light", label: "Light" },
   { value: "dark", label: "Dark" },
-  { value: "mint_blue", label: "Mint Blue" },
+  { value: "mintblue", label: "Mint Blue" },
   { value: "midnight", label: "Midnight Blue" },
   { value: "sandstone", label: "Sandstone" },
   { value: "phosphor", label: "Phosphor" },
+  { value: "dracula", label: "Dracula" },
   { value: "cyber", label: "Cyber" },
 ];
