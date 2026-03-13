@@ -6,15 +6,19 @@ export interface Translation {
   ya: string;
 }
 
-export interface I18nData {
-  ru: Translation;
-  "en-gb": Translation;
-  ua: Translation;
-  de: Translation;
-  "zh-cn": Translation;
-  fr: Translation;
+export type LocaleKey =
+  | "ru"
+  | "en"
+  | "ua"
+  | "de"
+  | "zh-cn"
+  | "fr"
+  | "es"
+  | "sr";
+
+export type I18nData = Record<LocaleKey, Translation> & {
   [key: string]: Translation;
-}
+};
 
 const data: I18nData = {
   ru: {
@@ -24,7 +28,7 @@ const data: I18nData = {
     ma: "месяц назад",
     ya: "год назад",
   },
-  "en-gb": {
+  en: {
     t: "today",
     y: "yesterday",
     wa: "week ago",
@@ -36,12 +40,12 @@ const data: I18nData = {
     y: "вчора",
     wa: "тиждень тому",
     ma: "місяць тому",
-    ya: "рік  тому",
+    ya: "рік тому",
   },
   de: {
     t: "heute",
     y: "gestern",
-    wa: "vor 1 woche",
+    wa: "vor 1 Woche",
     ma: "vor 1 Monat",
     ya: "vor 1 Jahr",
   },
@@ -53,11 +57,25 @@ const data: I18nData = {
     ya: "一年前",
   },
   fr: {
-    t: "jour",
+    t: "aujourd'hui",
     y: "hier",
     wa: "il y a une semaine",
     ma: "il y a un mois",
     ya: "il y a un an",
+  },
+  es: {
+    t: "hoy",
+    y: "ayer",
+    wa: "hace una semana",
+    ma: "hace un mes",
+    ya: "hace un año",
+  },
+  sr: {
+    t: "danas",
+    y: "juče",
+    wa: "pre nedelju dana",
+    ma: "pre mesec dana",
+    ya: "pre godinu dana",
   },
 };
 

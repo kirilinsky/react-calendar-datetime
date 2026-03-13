@@ -3,10 +3,22 @@ import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
 import dayjs from "dayjs";
 import { THEME_OPTIONS, CalendarTheme } from "../types/themes";
+import { LocaleKey } from "../i18n";
 
 export default {
   title: "Components/Calendar",
 };
+
+const LOCALE_OPTIONS: { value: LocaleKey; label: string }[] = [
+  { value: "en", label: "English" },
+  { value: "ru", label: "Русский" },
+  { value: "ua", label: "Українська" },
+  { value: "de", label: "Deutsch" },
+  { value: "fr", label: "Français" },
+  { value: "es", label: "Español" },
+  { value: "sr", label: "Srpski" },
+  { value: "zh-cn", label: "中文" },
+];
 
 const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
   <div
@@ -82,6 +94,16 @@ export const WithPresets = () => {
   );
 };
 
+export const WithoutMonths = () => {
+  const [date, setDate] = useState<Date>(new Date());
+
+  return (
+    <StoryWrapper title="No Months" subtitle="Just days">
+      <Calendar date={date} onChangeDate={setDate} months={false} />
+    </StoryWrapper>
+  );
+};
+
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint_blue");
@@ -127,15 +149,59 @@ export const ThemePlayground = () => {
   );
 };
 
-export const International = () => {
+export const LocalePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
+  const [activeLocale, setActiveLocale] = useState<LocaleKey>("en");
 
   return (
     <StoryWrapper
-      title="Localization (zh-cn)"
-      subtitle={dayjs(date).locale("zh-cn").format("DD.MM.YYYY")}
+      title="Interactive Playground"
+      subtitle="Switch between locales"
     >
-      <Calendar date={date} locale="zh-cn" onChangeDate={setDate} presets />
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+          marginBottom: "24px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
+        {LOCALE_OPTIONS.map((loc) => (
+          <button
+            key={loc.value}
+            onClick={() => setActiveLocale(loc.value)}
+            style={{
+              padding: "6px 12px",
+              borderRadius: "6px",
+              fontSize: "13px",
+              border:
+                activeLocale === loc.value
+                  ? "2px solid #10b981"
+                  : "1px solid var(--cal-border-color, #d1d5db)",
+              background:
+                activeLocale === loc.value
+                  ? "#ecfdf5"
+                  : "var(--cal-accent, #fff)",
+              color:
+                activeLocale === loc.value
+                  ? "#047857"
+                  : "var(--cal-color-text, #374151)",
+              cursor: "pointer",
+              transition: "all 0.2s",
+            }}
+          >
+            {loc.label}
+          </button>
+        ))}
+      </div>
+
+      <Calendar
+        locale={activeLocale}
+        date={date}
+        onChangeDate={setDate}
+        presets
+      />
     </StoryWrapper>
   );
 };

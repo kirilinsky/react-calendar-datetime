@@ -80,6 +80,24 @@
     grid-template-rows: 60px auto 50px;
     grid-template-areas: "YY YY YY" "MM DD TIME" "PRESETS PRESETS PRESETS";
   }
+  &.no_months {
+    grid-template-columns: 1fr;
+
+    grid-template-areas: "YY" "DD";
+
+    &.with_time {
+      grid-template-columns: 5fr 2fr;
+      grid-template-areas: "YY YY" "DD TIME";
+    }
+
+    &.with_presets {
+      grid-template-areas: "YY" "DD" "PRESETS";
+
+      &.with_time {
+        grid-template-areas: "YY YY" "DD TIME" "PRESETS PRESETS";
+      }
+    }
+  }
 
   &.years_picker {
     grid-template-columns: 1fr !important;

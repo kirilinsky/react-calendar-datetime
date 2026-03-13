@@ -1,32 +1,26 @@
 import clsx from "clsx";
 import dayjs, { Dayjs } from "dayjs";
-import localeData from "dayjs/plugin/localeData";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 interface DaysProps {
-  date: Date | string | number | Dayjs;
+  date: Dayjs;
   changeAction: (date: Dayjs) => void;
+  weekdays: dayjs.WeekdayNames | never[];
 }
 
-const Days: React.FC<DaysProps> = ({ date, changeAction }) => {
-  const [countDays, setCountDays] = useState<number[]>([]);
+const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
+  const currentDay = date.date();
 
-  dayjs.extend(localeData);
-
-  const setDay = (day: number) => {
-    const currentDayjs = dayjs(date);
-    if (day === currentDayjs.date()) {
-      return;
-    }
-    changeAction(currentDayjs.set("date", day));
-  };
-
-  useEffect(() => {
-    const count = dayjs(date).daysInMonth();
-    setCountDays(Array.from({ length: count }, (_, i) => i + 1));
+  const daysArray = useMemo(() => {
+    const count = date.daysInMonth();
+    return Array.from({ length: count }, (_, i) => i + 1);
   }, [date]);
 
-  const weekdays = dayjs().localeData().weekdaysMin();
+  const setDay = (day: number) => {
+    if (day === currentDay) return;
+    changeAction(date.date(day));
+  };
+
   return (
     <div className="calendar-days">
       {weekdays.map((day) => (
@@ -34,7 +28,7 @@ const Days: React.FC<DaysProps> = ({ date, changeAction }) => {
           {day}
         </div>
       ))}
-      {countDays.map((x) => (
+      {daysArray.map((x) => (
         <div
           key={x}
           onClick={() => setDay(x)}
@@ -44,7 +38,7 @@ const Days: React.FC<DaysProps> = ({ date, changeAction }) => {
           tabIndex={0}
           role="button"
           className={clsx("calendar-days-day", {
-            calendar_active: dayjs(date).date() === x,
+            calendar_active: x === currentDay,
           })}
         >
           {x}
