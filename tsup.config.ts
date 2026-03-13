@@ -3,16 +3,18 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["cjs", "esm"],
-  dts: true,
+  dts: {
+    resolve: true,
+  },
   clean: true,
   minify: true,
   splitting: false,
   sourcemap: false,
   bundle: true,
   skipNodeModulesBundle: true,
-  external: ["react", "react-dom", "dayjs", "classnames"], 
+  external: ["react", "react-dom", "dayjs", "classnames"],
   injectStyle: true,
-  platform: "browser", 
+  platform: "browser",
   onSuccess: async () => {
     console.log("🚀 Build successful! Dist is clean.");
   },
