@@ -1,6 +1,7 @@
 import dayjs, { Dayjs, ManipulateType } from "dayjs";
 import React from "react";
 import i18n, { LocaleKey, Translation } from "../../i18n";
+import * as s from "@/styles/styles.css";
 
 interface PresetsProps {
   locale: LocaleKey;
@@ -27,7 +28,7 @@ const Presets: React.FC<PresetsProps> = ({ locale, changeAction }) => {
   };
 
   return (
-    <div className="calendar-presets">
+    <div className={s.presets}>
       {PRESET_CONFIG.map(({ key, amount, unit }) => (
         <div
           key={key}
@@ -38,7 +39,7 @@ const Presets: React.FC<PresetsProps> = ({ locale, changeAction }) => {
           }}
           tabIndex={0}
           role="button"
-          className="calendar-presets-preset"
+          className={s.presetItem}
         >
           {voc[key]}
         </div>

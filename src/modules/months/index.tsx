@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { Dayjs } from "dayjs";
 import React from "react";
+// Путь по твоему запросу
+import * as s from "@/styles/styles.css";
 
 interface MonthsProps {
   date: Dayjs;
@@ -12,12 +14,12 @@ const Months: React.FC<MonthsProps> = ({ date, monthsNames, changeAction }) => {
   const currentMonth = date.month();
 
   return (
-    <div className="calendar-months">
+    <div className={s.months}>
       {monthsNames.map((name, i) => (
         <div
           key={i}
-          className={clsx("calendar-months-month", {
-            calendar_active: i === currentMonth,
+          className={clsx(s.interactive, {
+            [s.active]: i === currentMonth,
           })}
           onClick={() => changeAction(date.month(i))}
         >

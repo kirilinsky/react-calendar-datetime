@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import dayjs, { Dayjs } from "dayjs";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
+import * as s from "@/styles/styles.css";
 
 interface DaysProps {
   date: Dayjs;
@@ -22,9 +23,9 @@ const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
   };
 
   return (
-    <div className="calendar-days">
+    <div className={s.days}>
       {weekdays.map((day) => (
-        <div key={day} className="calendar-days-header">
+        <div key={day} className={s.daysHeader}>
           {day}
         </div>
       ))}
@@ -37,8 +38,8 @@ const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
           }}
           tabIndex={0}
           role="button"
-          className={clsx("calendar-days-day", {
-            calendar_active: x === currentDay,
+          className={clsx(s.interactive, {
+            [s.active]: x === currentDay,
           })}
         >
           {x}

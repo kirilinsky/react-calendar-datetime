@@ -1,4 +1,5 @@
 import { defineConfig } from "tsup";
+import { vanillaExtractPlugin } from "@vanilla-extract/esbuild-plugin";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -12,6 +13,7 @@ export default defineConfig({
   skipNodeModulesBundle: true,
   external: ["react", "react-dom", "dayjs", "clsx"],
   platform: "browser",
+  esbuildPlugins: [vanillaExtractPlugin()],
   onSuccess: async () => {
     console.log("🚀 Build successful! Dist is clean.");
   },

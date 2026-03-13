@@ -1,32 +1,12 @@
 import clsx from "clsx";
-import React, { useEffect, useInsertionEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import localeData from "dayjs/plugin/localeData";
-import "dayjs/locale/en";
-import "dayjs/locale/es";
-import "dayjs/locale/ru";
-import "dayjs/locale/de";
-import "dayjs/locale/sr";
-import "dayjs/locale/fr";
-
-import { Years, YearPicker, Days, Time, Months, Presets } from "../modules";
-import { CalendarTheme } from "@/types/themes";
-import { LocaleKey } from "@/i18n";
-import { calendarStyles } from "@/styles";
+import * as s from "@/styles/styles.css";
+import { Years, YearPicker, Days, Time, Months, Presets } from "@/modules";
+import { CalendarProps } from "@/types/calendar";
 
 dayjs.extend(localeData);
-
-export interface CalendarProps {
-  presets?: boolean;
-  months?: boolean;
-  date?: Date | string | number | Dayjs;
-  time?: boolean;
-  locale?: LocaleKey;
-  onChangeDate?: (date: Date) => void;
-  width?: string | number | null;
-  height?: string | number | null;
-  theme?: CalendarTheme;
-}
 
 export const Calendar: React.FC<CalendarProps> = ({
   presets = false,
@@ -46,16 +26,6 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   const toggleYearPicker = () => setShowYearPicker(!showYearPicker);
 
-  useInsertionEffect(() => {
-    const styleId = "react-calendar-datetime-styles";
-    if (typeof document !== "undefined" && !document.getElementById(styleId)) {
-      const style = document.createElement("style");
-      style.id = styleId;
-      style.innerHTML = calendarStyles;
-      document.head.appendChild(style);
-    }
-  }, []);
-
   const handleChange = (newDate: Dayjs) => {
     if (onChangeDate) {
       onChangeDate(newDate.toDate());
@@ -63,25 +33,14 @@ export const Calendar: React.FC<CalendarProps> = ({
       console.warn('Must provide an "onChangeDate" function');
     }
   };
-  const monthsNames = shouldRender
-    ? Array.from({ length: 12 }, (_, i) =>
-        dayjs().locale(locale).month(i).format("MMMM"),
-      )
-    : [];
 
   useEffect(() => {
     let isMounted = true;
-
     const loadLocale = async () => {
       try {
-        if (locale === "en") {
-          dayjs.locale("en");
-        } else {
+        if (locale !== "en") {
           await import(`dayjs/locale/${locale}.js`);
-
-          if (isMounted) {
-            dayjs.locale(locale);
-          }
+          if (isMounted) dayjs.locale(locale);
         }
       } catch (err) {
         console.warn(`Could not load locale: ${locale}`, err);
@@ -89,13 +48,17 @@ export const Calendar: React.FC<CalendarProps> = ({
         if (isMounted) setShouldRender(true);
       }
     };
-
     loadLocale();
     return () => {
       isMounted = false;
     };
   }, [locale]);
 
+  const monthsNames = shouldRender
+    ? Array.from({ length: 12 }, (_, i) =>
+        dayjs().locale(locale).month(i).format("MMMM"),
+      )
+    : [];
   const weekdays = shouldRender
     ? dayjs().locale(locale).localeData().weekdaysMin()
     : [];
@@ -103,13 +66,12 @@ export const Calendar: React.FC<CalendarProps> = ({
   return (
     <div
       style={{ width: width ?? undefined, height: height ?? undefined }}
-      className={clsx("calendar", {
+      className={clsx(s.calendar, s.themes[theme], {
         with_time: time,
         with_presets: presets,
         years_picker: showYearPicker,
         no_months: !months,
       })}
-      data-theme={theme !== "light" ? theme : undefined}
     >
       {showYearPicker ? (
         <YearPicker

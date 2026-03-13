@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
 import dayjs, { Dayjs } from "dayjs";
+import clsx from "clsx"; 
+import * as s from "@/styles/styles.css";
 import { Left, Right } from "../../Icons";
 
 interface YearsPickerProps {
@@ -15,10 +16,9 @@ const YearPicker: React.FC<YearsPickerProps> = ({
   changeAction,
 }) => {
   const [localDate, setLocalDate] = useState<Dayjs>(dayjs(date));
-  const [year_anim, setAnim] = useState(true);
+  const [shouldAnimate, setShouldAnimate] = useState(true);
 
   const currentYear = localDate.year();
-
   const yearsArray = Array.from({ length: 25 }, (_, i) => currentYear - 12 + i);
 
   const goBack = (e?: React.MouseEvent) => {
@@ -37,17 +37,17 @@ const YearPicker: React.FC<YearsPickerProps> = ({
   };
 
   useEffect(() => {
-    setAnim(false);
-    const timer = setTimeout(() => setAnim(true), 50);
+    setShouldAnimate(false);
+    const timer = setTimeout(() => setShouldAnimate(true), 50);
     return () => clearTimeout(timer);
   }, [localDate]);
 
   return (
-    <div className="calendar-yearPicker" onContextMenu={goBack}>
+    <div className={s.yearPicker} onContextMenu={goBack}>
       <button
         disabled={currentYear < 1925}
         onClick={() => setLocalDate(localDate.subtract(25, "y"))}
-        className="calendar-yearPicker-arrow"
+        className={s.yearPickerArrow}
       >
         <Left />
       </button>
@@ -57,9 +57,9 @@ const YearPicker: React.FC<YearsPickerProps> = ({
           key={x}
           disabled={x > 2100 || x < 1900}
           onClick={() => setYear(x)}
-          className={clsx("calendar-yearPicker-year", {
-            year_anim,
-            calendar_active: currentYear === x,
+          className={clsx(s.yearItem, {
+            [s.yearAnim]: shouldAnimate,
+            [s.active]: currentYear === x,
           })}
           style={{ animationDelay: getDelay(x), animationIterationCount: 1 }}
         >
@@ -68,7 +68,7 @@ const YearPicker: React.FC<YearsPickerProps> = ({
       ))}
 
       <button
-        className="calendar-yearPicker-arrow"
+        className={s.yearPickerArrow}
         disabled={currentYear > 2075}
         onClick={() => setLocalDate(localDate.add(25, "y"))}
       >
