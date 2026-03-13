@@ -1,11 +1,15 @@
+[![npm version](https://badge.fury.io/js/react-calendar-datetime.svg)](https://badge.fury.io/js/react-calendar-datetime) ![npm](https://img.shields.io/npm/dw/react-calendar-datetime)
+
 # Calendar component for React
 
 ---
 
 📅 Date and **time** picker, include presets
+ [Demo](https://lovecss.site/calendar/)
+[![N|Solid](https://i.ibb.co/d0G4xXF7/image.png)](https://react-calendar-datetime.vercel.app/?story=components--calendar--base)
 
 <div style="display:flex;width:80vw">
-<img src="https://i.ibb.co/d0G4xXF7/image.png" alt="time" width="45%"/>
+<img src="https://i.ibb.co/rGGX6sSj/image.png" alt="time" width="45%"/>
 <img src="https://i.ibb.co/DPZWq2Tn/image.png" width="45%" alt="dark" > 
 </div>
 
