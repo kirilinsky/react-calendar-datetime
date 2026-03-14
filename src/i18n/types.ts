@@ -1,7 +1,8 @@
 export interface Translation {
-  t: string;
   y: string;
+  t: string; 
   wa: string;
+  tm: string;
   ma: string;
   ya: string;
 }

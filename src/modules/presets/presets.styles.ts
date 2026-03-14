@@ -1,5 +1,5 @@
 import { css } from "goober";
-import { interactiveBase } from "@/styles/shared.styles";
+import { interactiveBase, textSm } from "@/styles/shared.styles";
 
 export const container = css`
   grid-area: PRESETS;
@@ -12,9 +12,9 @@ export const container = css`
 
 export const presetItem = css`
   ${interactiveBase}
+  ${textSm}
   flex: 1;
   text-align: center;
-  font-size: 13px;
   padding: 3px;
   background: var(--cal-tone);
 

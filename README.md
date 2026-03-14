@@ -89,6 +89,7 @@ export default App;
 | **locale**       | `string`   | `'en'`       | See [Supported Locales](#-supported-locales)                      |
 | **theme**        | `string`   | `'paper'`    | Theme (style) name [Supported themes](#-supported-themes)         |
 | **presets**      | `boolean`  | `false`      | Enables quick date selection (today, yesterday, etc.)             |
+| **years**        | `boolean`  | `false`      | Enables year section and year pciker mode                         |
 | **time**         | `boolean`  | `false`      | Enables time picker mode                                          |
 | **months**       | `boolean`  | `true`       | Toggle side month-selector. If `false`, day-grid fills full width |
 | **width**        | `string`   | `null`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                |
@@ -125,20 +126,11 @@ The library uses the native **Intl API** for localization, ensuring minimal bund
 
 ## ✅ Patch notes:
 
-### 🚀 Version 2.4.1
+### 🚀 Version 2.4.2
 
-- **TS & DX Optimization:** Decoupled data from types in `.d.ts` files.
+- Minor bugs fixed
+- Added "Tomorrow" preset
+- Implemented dynamic preset filtering based on active modules
+- and optimized CSS bundle size.
 
-<details>
-<summary>📜 Older versions</summary>
-<br />
-<ul>
-  <li><strong>v2.4.0:</strong> added <code>Comfy, La Rosa, Solar</code>, and <code>Snowstorm</code> themes, added <code>Portugal</code> 🇵🇹 locale.</li>
-  <li><strong>v2.3.0:</strong> Removed <code>dayjs</code>, refactored Time Picker, Implemented a fixed 42-cell days grid</li>
-  <li><strong>v2.2.0:</strong> Auto-injected runtime styles (~1KB), added <code>Dracula</code> 🔴 dark-red palette</li>
-  <li><strong>v2.1.0:</strong> Added <code>Phosphor</code> neon-green theme</li>
-  <li><strong>v2.0.0:</strong> TS migration, strict types, React 19, pre-generated labels, flexible <code>months</code> layout, <code>es</code>/<code>sr</code> locales.</li>
-  <li><strong>v1.3.1:</strong> Added year picker, dark theme, and <code>zh-cn</code>, <code>fr</code> locales</li>
-  <li><strong>v1.0.0:</strong> Initial release</li>
-</ul>
-</details>
+_Patch notes for older versions you can find in CONTRIBUTING.md_

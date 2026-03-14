@@ -1,5 +1,5 @@
 import { css } from "goober";
-import { interactiveBase } from "@/styles/shared.styles";
+import { interactiveBase, textSm } from "@/styles/shared.styles";
 
 export const container = css`
   grid-area: MM;
@@ -14,11 +14,6 @@ export const container = css`
 
 export const item = css`
   ${interactiveBase}
-  font-size: 13px;
+  ${textSm}
   padding: 10px 5px;
-`;
-
-export const active = css`
-  background: var(--cal-highlight) !important;
-  color: var(--cal-accent) !important;
 `;

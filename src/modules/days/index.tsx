@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import * as s from "./days.styles";
 import { DaysProps } from "@/types/days";
 import {
@@ -7,25 +7,36 @@ import {
   getFirstDayOffset,
 } from "@/utils/date-utils";
 
+const CELLS = Array.from({ length: 42 }, (_, i) => i);
+
 const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
   const currentDay = date.getDate();
   const daysInMonth = getDaysInMonth(date);
   const offset = getFirstDayOffset(date);
 
-  const TOTAL_CELLS = 42;
-  const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+  const handleSetDay = useCallback(
+    (day: number) => {
+      if (day !== currentDay) changeAction(setDateValue(date, day));
+    },
+    [currentDay, date, changeAction],
+  );
 
-  const handleSetDay = (day: number) => {
-    if (day === currentDay) return;
-    changeAction(setDateValue(date, day));
-  };
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent, day: number) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleSetDay(day);
+      }
+    },
+    [handleSetDay],
+  );
 
   return (
     <div
-      className={`${s.container} animating`}
+      className={s.container + " animating"}
       role="grid"
       aria-label="Calendar days"
-      key={monthKey}
+      key={date.getFullYear() + "-" + date.getMonth()}
     >
       <div role="row" style={{ display: "contents" }}>
         {weekdays.map((day) => (
@@ -36,34 +47,24 @@ const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
       </div>
 
       <div role="row" style={{ display: "contents" }}>
-        {Array.from({ length: TOTAL_CELLS }).map((_, i) => {
-          const dayNumber = i - offset + 1;
-          const isCurrentMonth = dayNumber > 0 && dayNumber <= daysInMonth;
-          const isSelected = isCurrentMonth && dayNumber === currentDay;
+        {CELLS.map((i) => {
+          const day = i - offset + 1;
+          const isValid = day > 0 && day <= daysInMonth;
+          const isSelected = isValid && day === currentDay;
 
           return (
             <div
               key={i}
-              onClick={
-                isCurrentMonth ? () => handleSetDay(dayNumber) : undefined
-              }
-              onKeyDown={(e) => {
-                if (isCurrentMonth && (e.key === "Enter" || e.key === " ")) {
-                  e.preventDefault();
-                  handleSetDay(dayNumber);
-                }
-              }}
-              tabIndex={isCurrentMonth ? 0 : -1}
+              onClick={isValid ? () => handleSetDay(day) : undefined}
+              onKeyDown={isValid ? (e) => handleKeyDown(e, day) : undefined}
+              tabIndex={isValid ? 0 : -1}
               role="gridcell"
               aria-selected={isSelected}
-              aria-label={isCurrentMonth ? `Day ${dayNumber}` : undefined}
-              className={`${s.dayItem} ${isSelected ? s.active : ""}`}
-              style={{
-                cursor: isCurrentMonth ? "pointer" : "default",
-                visibility: isCurrentMonth ? "visible" : "hidden",
-              }}
+              aria-label={isValid ? "Day " + day : undefined}
+              className={isSelected ? s.dayItem + " " + s.active : s.dayItem}
+              style={isValid ? undefined : { visibility: "hidden" }}
             >
-              {isCurrentMonth && <span aria-hidden="true">{dayNumber}</span>}
+              {isValid && <span aria-hidden="true">{day}</span>}
             </div>
           );
         })}

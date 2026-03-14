@@ -2,6 +2,7 @@ import React from "react";
 import * as s from "./months.styles";
 import { MonthsProps } from "@/types/months";
 import { setMonth } from "@/utils/date-utils";
+import { activeItem } from "@/styles/shared.styles";
 
 const Months: React.FC<MonthsProps> = ({ date, monthsNames, changeAction }) => {
   const currentMonth = date.getMonth();
@@ -15,7 +16,7 @@ const Months: React.FC<MonthsProps> = ({ date, monthsNames, changeAction }) => {
       {monthsNames.map((name, i) => (
         <div
           key={i}
-          className={`${s.item} ${i === currentMonth ? s.active : ""}`}
+          className={`${s.item} ${i === currentMonth ? activeItem : ""}`}
           onClick={() => handleMonthClick(i)}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {

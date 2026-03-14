@@ -12,7 +12,7 @@ const YearPicker: React.FC<YearsPickerProps> = ({
   const [localDate, setLocalDate] = useState<Date>(date);
   const [isAnimating, setIsAnimating] = useState(true);
 
-  const currentYear = date.getFullYear();
+  const currentYear = localDate.getFullYear();
 
   const yearsArray = useMemo(() => {
     return getYearsRange(currentYear, 25);
@@ -51,7 +51,7 @@ const YearPicker: React.FC<YearsPickerProps> = ({
         return (
           <button
             key={year}
-            disabled={year > 2100 || year < 1900}
+            disabled={year > 2050 || year < 1900}
             onClick={() => handleSetYear(year)}
             className={`${s.yearItem} ${isAnimating ? "animating" : ""} ${isActive ? s.active : ""}`}
             style={{ animationDelay: delay }}

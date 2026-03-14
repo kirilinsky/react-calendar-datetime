@@ -11,6 +11,7 @@ setup(React.createElement);
 export const Calendar: React.FC<CalendarProps> = ({
   presets = false,
   months = true,
+  years = true,
   date: initialDate = new Date(),
   time = false,
   locale = "en",
@@ -43,6 +44,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       className={s.calendarContainer({
         time,
         presets,
+        years,
         months,
         yearsPicker: showYearPicker,
       })}
@@ -60,11 +62,13 @@ export const Calendar: React.FC<CalendarProps> = ({
         />
       ) : (
         <>
-          <Years
-            date={dateObj}
-            toggleYearPicker={toggleYearPicker}
-            changeAction={handleChange}
-          />
+          {years && (
+            <Years
+              date={dateObj}
+              toggleYearPicker={toggleYearPicker}
+              changeAction={handleChange}
+            />
+          )}
           {months && (
             <Months
               monthsNames={monthsNames}
@@ -80,7 +84,14 @@ export const Calendar: React.FC<CalendarProps> = ({
             />
           )}
           {time && <Time date={dateObj} changeAction={handleChange} />}
-          {presets && <Presets locale={locale} changeAction={handleChange} />}
+          {presets && (
+            <Presets
+              years={years}
+              months={months}
+              locale={locale}
+              changeAction={handleChange}
+            />
+          )}
         </>
       )}
     </div>

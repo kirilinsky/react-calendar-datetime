@@ -14,10 +14,20 @@ interface TimeProps {
   changeAction: (date: Date) => void;
 }
 
+const OFFSETS = [-2, -1, 0, 1, 2];
+
+const DRUM_STYLES = OFFSETS.reduce(
+  (acc, offset) => {
+    acc[offset] = getDrumStyles(offset);
+    return acc;
+  },
+  {} as Record<number, React.CSSProperties>,
+);
+
 const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  const throttledChange = useThrottle(changeAction, 60);
+  const throttledChange = useThrottle(changeAction, 75);
 
   const handleDiff = (val: number, type: "h" | "m") => {
     const nextDate = addTime(date, val, type);
@@ -25,6 +35,7 @@ const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
   };
 
   const createWheelHandler = (type: "h" | "m") => (e: React.WheelEvent) => {
+    e.preventDefault();
     const direction = e.deltaY < 0 ? -1 : 1;
     handleDiff(direction, type);
   };
@@ -32,7 +43,7 @@ const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
   const renderColumn = (type: "h" | "m") => {
     const currentVal = type === "h" ? hours : minutes;
     const max = type === "h" ? 24 : 60;
-    const offsets = [-2, -1, 0, 1, 2];
+
     const label = type === "h" ? "Select hours" : "Select minutes";
 
     const onKeyDown = (e: React.KeyboardEvent) => {
@@ -63,7 +74,7 @@ const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
           <Up />
         </div>
 
-        {offsets.map((offset) => {
+        {OFFSETS.map((offset) => {
           const value = getDrumValue(currentVal, offset, max);
           const isCurrent = offset === 0;
 
@@ -71,7 +82,7 @@ const Time: React.FC<TimeProps> = ({ date, changeAction }) => {
             <div
               key={offset}
               className={`${s.cell} ${isCurrent ? s.activeCell : ""}`}
-              style={getDrumStyles(offset)}
+              style={DRUM_STYLES[offset]}
               onClick={!isCurrent ? () => handleDiff(offset, type) : undefined}
             >
               {padTime(value)}

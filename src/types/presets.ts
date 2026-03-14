@@ -2,6 +2,8 @@ import { LocaleKey, Translation } from "@/i18n/types";
 
 export interface PresetsProps {
   locale: LocaleKey;
+  years: boolean;
+  months: boolean;
   changeAction: (date: Date) => void;
 }
 
@@ -16,6 +18,7 @@ export interface PresetItem {
 export const PRESET_CONFIG: PresetItem[] = [
   { key: "t", amount: 0, unit: "day" },
   { key: "y", amount: 1, unit: "day" },
+  { key: "tm", amount: -1, unit: "day" },
   { key: "wa", amount: 1, unit: "week" },
   { key: "ma", amount: 1, unit: "month" },
   { key: "ya", amount: 1, unit: "year" },

@@ -3,7 +3,14 @@ import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
 import { THEME_OPTIONS, CalendarTheme } from "../types/themes";
 import { LocaleKey } from "../i18n/types";
-import { LOCALE_OPTIONS } from "../i18n";
+import { i18nData } from "../i18n";
+
+const LOCALE_OPTIONS = (Object.keys(i18nData) as LocaleKey[]).map((key) => ({
+  value: key,
+  label: i18nData[key].label,
+}));
+
+type ThemeOption = (typeof THEME_OPTIONS)[number];
 
 export default {
   title: "Calendar",
@@ -44,39 +51,6 @@ export const Base = () => {
   );
 };
 
-export const WithTimePicker = () => {
-  const [date, setDate] = useState<Date>(new Date());
-  return (
-    <StoryWrapper
-      title="Time & Date Picker"
-      subtitle={`Time: ${formatSubtitle(date, "en", true)}`}
-    >
-      <Calendar date={date} onChangeDate={setDate} time />
-    </StoryWrapper>
-  );
-};
-
-export const WithPresets = () => {
-  const [date, setDate] = useState<Date>(new Date());
-  return (
-    <StoryWrapper
-      title="Quick Presets"
-      subtitle="Jump to specific dates instantly"
-    >
-      <Calendar date={date} onChangeDate={setDate} presets />
-    </StoryWrapper>
-  );
-};
-
-export const WithoutMonths = () => {
-  const [date, setDate] = useState<Date>(new Date());
-  return (
-    <StoryWrapper title="No Months" subtitle="Just days">
-      <Calendar date={date} onChangeDate={setDate} months={false} />
-    </StoryWrapper>
-  );
-};
-
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
@@ -85,7 +59,7 @@ export const ThemePlayground = () => {
   const darkThemes = THEME_OPTIONS.filter((t) => !t.light);
   const lightThemes = THEME_OPTIONS.filter((t) => t.light);
 
-  const renderThemeButtons = (themes: typeof THEME_OPTIONS) => (
+  const renderThemeButtons = (themes: ThemeOption[]) => (
     <div className="theme-group">
       {themes.map((theme) => (
         <button
@@ -160,6 +134,49 @@ export const LocalePlayground = () => {
         onChangeDate={setDate}
         presets
         width="80vh"
+      />
+    </StoryWrapper>
+  );
+};
+
+export const BuilderPlayground = () => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [config, setConfig] = useState({
+    years: true,
+    months: true,
+    time: false,
+    presets: false,
+  });
+
+  const toggle = (key: keyof typeof config) => {
+    setConfig((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  return (
+    <StoryWrapper
+      title="Calendar Builder"
+      subtitle="Toggle modules to see dynamic grid adjustments"
+    >
+      <div className="story-controls">
+        {Object.keys(config).map((key) => (
+          <button
+            key={key}
+            onClick={() => toggle(key as keyof typeof config)}
+            className={`story-button ${config[key as keyof typeof config] ? "active-green" : ""}`}
+            style={{ textTransform: "capitalize" }}
+          >
+            {key}: {config[key as keyof typeof config] ? "ON" : "OFF"}
+          </button>
+        ))}
+      </div>
+
+      <Calendar
+        date={date}
+        onChangeDate={setDate}
+        years={config.years}
+        months={config.months}
+        time={config.time}
+        presets={config.presets}
       />
     </StoryWrapper>
   );

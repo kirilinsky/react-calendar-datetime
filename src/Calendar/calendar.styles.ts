@@ -1,17 +1,19 @@
 import { css } from "goober";
 import { interactiveBase } from "@/styles/shared.styles";
- 
+
 export { interactiveBase };
 
 export const calendarContainer = ({
   time,
   presets,
+  years,
   months,
   yearsPicker,
 }: {
   time: boolean;
   presets: boolean;
   months: boolean;
+  years: boolean;
   yearsPicker: boolean;
 }) => {
   const cols = !months
@@ -21,18 +23,34 @@ export const calendarContainer = ({
     : time
       ? "2fr 5fr 2fr"
       : "2fr 5fr";
-  const rows = presets ? "60px auto 50px" : "60px auto";
+
+  let rows = "auto";
+  if (years) rows = `60px ${rows}`;
+  if (presets) rows = `${rows} 50px`;
 
   const areas = (() => {
     if (yearsPicker) return '"."';
 
-    let matrix = !months
+    const baseRow = !months
       ? time
-        ? '"YY YY" "DD TIME"'
-        : '"YY" "DD"'
+        ? '"DD TIME"'
+        : '"DD"'
       : time
-        ? '"YY YY YY" "MM DD TIME"'
-        : '"YY YY" "MM DD"';
+        ? '"MM DD TIME"'
+        : '"MM DD"';
+
+    let matrix = baseRow;
+
+    if (years) {
+      const yyRow = !months
+        ? time
+          ? '"YY YY"'
+          : '"YY"'
+        : time
+          ? '"YY YY YY"'
+          : '"YY YY"';
+      matrix = `${yyRow} ${matrix}`;
+    }
 
     if (presets) {
       const presetRow = !months
@@ -42,7 +60,7 @@ export const calendarContainer = ({
         : time
           ? '"PRESETS PRESETS PRESETS"'
           : '"PRESETS PRESETS"';
-      matrix += ` ${presetRow}`;
+      matrix = `${matrix} ${presetRow}`;
     }
 
     return matrix;

@@ -1,17 +1,16 @@
-import { css, keyframes } from "goober";
-import { interactiveBase } from "@/styles/shared.styles";
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
+import { css } from "goober";
+import {
+  fadeInKeyframes,
+  interactiveBase,
+  textMd,
+} from "@/styles/shared.styles";
 
 export const container = css`
   background: var(--cal-backdrop);
   display: grid;
   grid-template-columns: 50px repeat(5, 1fr) 50px;
   grid-template-rows: repeat(5, 1fr);
-  animation: ${fadeIn} 0.2s linear forwards;
+  animation: ${fadeInKeyframes} 0.2s linear forwards;
 `;
 
 export const arrow = css`
@@ -31,12 +30,12 @@ export const arrow = css`
 
 export const yearItem = css`
   ${interactiveBase}
+  ${textMd}
   background: var(--cal-backdrop);
   opacity: 0;
-  font-size: 14px;
 
   &.animating {
-    animation: ${fadeIn} 0.3s forwards;
+    animation: ${fadeInKeyframes} 0.3s forwards;
   }
 `;
 

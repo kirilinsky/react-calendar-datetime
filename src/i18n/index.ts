@@ -3,6 +3,7 @@ import { I18nLocale, LocaleKey } from "./types";
 export const i18nData: Record<LocaleKey, I18nLocale> = {
   en: {
     t: "today",
+    tm: "tomorrow",
     y: "yesterday",
     wa: "week ago",
     ma: "month ago",
@@ -11,6 +12,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   pt: {
     t: "hoje",
+    tm: "amanhã",
     y: "ontem",
     wa: "semana passada",
     ma: "mês pasado",
@@ -19,6 +21,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   ru: {
     t: "сегодня",
+    tm: "завтра",
     y: "вчера",
     wa: "неделю назад",
     ma: "месяц назад",
@@ -27,6 +30,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   it: {
     t: "oggi",
+    tm: "domani",
     y: "ieri",
     wa: "una settimana fa",
     ma: "un mese fa",
@@ -35,6 +39,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   ua: {
     t: "сьогодні",
+    tm: "завтра",
     y: "вчора",
     wa: "тиждень тому",
     ma: "місяць тому",
@@ -43,6 +48,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   de: {
     t: "heute",
+    tm: "morgen",
     y: "gestern",
     wa: "vor 1 Woche",
     ma: "vor 1 Monat",
@@ -51,6 +57,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   "zh-cn": {
     t: "今天",
+    tm: "明天",
     y: "昨天",
     wa: "一周前",
     ma: "一个月前",
@@ -59,6 +66,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   fr: {
     t: "aujourd'hui",
+    tm: "demain",
     y: "hier",
     wa: "il y a une semaine",
     ma: "il y a un mois",
@@ -67,6 +75,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   es: {
     t: "hoy",
+    tm: "mañana",
     y: "ayer",
     wa: "hace una semana",
     ma: "hace un mes",
@@ -75,6 +84,7 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
   },
   sr: {
     t: "danas",
+    tm: "sutra",
     y: "juče",
     wa: "pre nedelju dana",
     ma: "pre mesec dana",
@@ -82,12 +92,5 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     label: "Srpski",
   },
 };
-
-export const LOCALE_OPTIONS = (Object.keys(i18nData) as LocaleKey[]).map(
-  (key) => ({
-    value: key,
-    label: i18nData[key].label,
-  }),
-);
 
 export default i18nData;

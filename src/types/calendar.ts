@@ -4,6 +4,7 @@ import { CalendarTheme } from "./themes";
 export interface CalendarProps {
   presets?: boolean;
   months?: boolean;
+  years?: boolean;
   date?: Date | string | number;
   time?: boolean;
   locale?: LocaleKey;

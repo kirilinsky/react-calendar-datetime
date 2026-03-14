@@ -1,3 +1,10 @@
+import { css, keyframes } from "goober";
+
+export const textSm = `font-size: 13px;`;
+export const textXs = `font-size: 12px;`;
+export const textMd = `font-size: 14px;`;
+export const textLg = `font-size: 20px;`;
+
 export const interactiveBase = `
   border: none;
   background: transparent;
@@ -27,4 +34,20 @@ export const interactiveBase = `
     flex-shrink: 0;
     display: block;
   }
+`;
+
+export const flexCenter = `
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const activeItem = css`
+  background: var(--cal-highlight) !important;
+  color: var(--cal-accent) !important;
+`;
+
+export const fadeInKeyframes = keyframes`
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
 `;

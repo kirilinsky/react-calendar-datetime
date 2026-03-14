@@ -1,5 +1,5 @@
 import { css } from "goober";
-import { interactiveBase } from "@/styles/shared.styles";
+import { interactiveBase, textLg } from "@/styles/shared.styles";
 
 export const container = css`
   grid-area: YY;
@@ -15,9 +15,9 @@ export const container = css`
 
 export const currentYear = css`
   ${interactiveBase}
+  ${textLg}
   flex: 1;
   margin: 0 10px;
-  font-size: 20px;
   font-weight: 700;
   height: 44px;
   &:active {
