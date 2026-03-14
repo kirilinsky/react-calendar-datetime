@@ -1,12 +1,4 @@
 export const i18nData = {
-  ru: {
-    t: "сегодня",
-    y: "вчера",
-    wa: "неделю назад",
-    ma: "месяц назад",
-    ya: "год назад",
-    label: "Русский",
-  },
   en: {
     t: "today",
     y: "yesterday",
@@ -15,6 +7,30 @@ export const i18nData = {
     ya: "year ago",
     label: "English",
   },
+  pt: {
+    t: "hoje",
+    y: "ontem",
+    wa: "semana passada",
+    ma: "mês passado",
+    ya: "ano passado",
+    label: "Português",
+  },
+  ru: {
+    t: "сегодня",
+    y: "вчера",
+    wa: "неделю назад",
+    ma: "месяц назад",
+    ya: "год назад",
+    label: "Русский",
+  },
+  it: {
+    t: "oggi",
+    y: "ieri",
+    wa: "una settimana fa",
+    ma: "un mese fa",
+    ya: "un anno fa",
+    label: "Italiano",
+  }, 
   ua: {
     t: "сьогодні",
     y: "вчора",
@@ -62,14 +78,6 @@ export const i18nData = {
     ma: "pre mesec dana",
     ya: "pre godinu dana",
     label: "Srpski",
-  },
-  it: {
-    t: "oggi",
-    y: "ieri",
-    wa: "una settimana fa",
-    ma: "un mese fa",
-    ya: "un anno fa",
-    label: "Italiano",
   },
 } as const;
 

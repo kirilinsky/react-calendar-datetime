@@ -17,7 +17,7 @@ export const timeSelectionIndicator = css`
   transform: translate(-50%, -50%);
   width: 80%;
   height: 40px;
-  //background: var(--cal-highlight);
+  background: var(--cal-highlight);
   border-radius: 8px;
   z-index: 0;
   pointer-events: none;

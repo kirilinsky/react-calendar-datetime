@@ -21,8 +21,8 @@ const formatSubtitle = (
   }).format(date);
 };
 
-const StoryWrapper = ({ children, title, subtitle, theme = "light" }: any) => (
-  <div className="story-wrapper" data-theme={theme}>
+const StoryWrapper = ({ children, title, subtitle, light = true }: any) => (
+  <div className="story-wrapper" data-light={light}>
     <div className="story-header">
       <h2 className="story-title">{title}</h2>
       <p className="story-subtitle">{subtitle}</p>
@@ -79,32 +79,55 @@ export const WithoutMonths = () => {
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
+  const [light, setLight] = useState<boolean>(true);
+
+  const darkThemes = THEME_OPTIONS.filter((t) => !t.light);
+  const lightThemes = THEME_OPTIONS.filter((t) => t.light);
+
+  const renderThemeButtons = (themes: typeof THEME_OPTIONS) => (
+    <div className="theme-group">
+      {themes.map((theme) => (
+        <button
+          key={theme.value}
+          onClick={() => {
+            setActiveTheme(theme.value);
+            setLight(theme.light);
+          }}
+          className={`story-button ${activeTheme === theme.value ? "active-blue" : ""}`}
+        >
+          {theme.label}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <StoryWrapper
-      theme={activeTheme}
+      light={light}
       title="Theme Playground"
       subtitle="Switch between all our custom tokens"
     >
-      <div className="story-controls">
-        {THEME_OPTIONS.map((theme) => (
-          <button
-            key={theme.value}
-            onClick={() => setActiveTheme(theme.value)}
-            className={`story-button ${activeTheme === theme.value ? "active-blue" : ""}`}
-          >
-            {theme.label}
-          </button>
-        ))}
-      </div>
+      <div className="playground-layout">
+        <div className="controls-sidebar">
+          <h4>🌙 Dark Themes</h4>
+          {renderThemeButtons(darkThemes)}
+        </div>
 
-      <Calendar
-        theme={activeTheme}
-        date={date}
-        onChangeDate={setDate}
-        presets
-        time
-      />
+        <div className="calendar-preview">
+          <Calendar
+            theme={activeTheme}
+            date={date}
+            onChangeDate={setDate}
+            presets
+            time
+          />
+        </div>
+
+        <h4 style={{ marginTop: "20px" }}>☀️ Light Themes</h4>
+        <div className="controls-sidebar">
+          {renderThemeButtons(lightThemes)}
+        </div>
+      </div>
     </StoryWrapper>
   );
 };

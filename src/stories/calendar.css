@@ -14,13 +14,12 @@
     color 0.3s ease;
 }
 
-.story-wrapper[data-theme="light"],
-.story-wrapper[data-theme="mint_blue"] {
+.story-wrapper[data-light="true"] {
   background-color: #f3f4f6;
   color: #111827;
 }
 
-.story-wrapper:not([data-theme="light"]):not([data-theme="mint_blue"]) {
+.story-wrapper:not([data-light="true"]) {
   background-color: #0f111a;
   color: #ffffff;
 }
@@ -153,4 +152,11 @@ label:active:after {
 .wrap.trs *:after {
   transition: all 750ms !important;
   transition-delay: 0 !important;
+}
+
+.theme-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
 }

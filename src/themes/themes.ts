@@ -57,6 +57,30 @@ export const CALENDAR_THEMES = {
     colorText: "#171827",
     borderColor: "#eef0f5",
   },
+  larosa: {
+    accent: "#ffffff",
+    backdrop: "#dbd8e0",
+    highlight: "#d65d91",
+    tone: "#e5e1e9",
+    colorText: "#2d2a32",
+    borderColor: "#cfcbd4",
+  },
+  snowstorm: {
+    accent: "#ffffff",
+    backdrop: "#e2e5e9",
+    highlight: "#3a60d6",
+    tone: "#eceff4",
+    colorText: "#2e3440",
+    borderColor: "#d8dee9",
+  },
+  solar: {
+    accent: "#ffffff",
+    backdrop: "#d8cf9a",
+    highlight: "#a5994b",
+    tone: "#e4dbab",
+    colorText: "#433f26",
+    borderColor: "#c9c08d",
+  },
   dracula: {
     accent: "#1a0f0f",
     backdrop: "#1c1111",
@@ -64,6 +88,14 @@ export const CALENDAR_THEMES = {
     tone: "#341d1d",
     colorText: "#ffffff",
     borderColor: "#3d2626",
+  },
+  comfy: {
+    accent: "#ffffff",
+    backdrop: "#e9ded5",
+    highlight: "#a65d3a",
+    tone: "#f5ece5",
+    colorText: "#6e4531",
+    borderColor: "#dccfbe",
   },
 };
 

@@ -6,10 +6,11 @@ export default defineConfig({
   dts: true,
   clean: true,
   minify: true,
-  splitting: true,
+  splitting: false,
   sourcemap: false,
   bundle: true,
   external: ["react", "react-dom"],
+  noExternal: ["goober"],
   platform: "browser",
   treeshake: true,
   onSuccess: async () => {

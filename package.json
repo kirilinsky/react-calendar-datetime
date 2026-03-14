@@ -1,7 +1,7 @@
 {
   "name": "react-calendar-datetime",
-  "version": "2.3.0",
-  "description": "React date and time calendar component (with presets and locale)",
+  "version": "2.4.0",
+  "description": "Ultra-lightweight React Date & Time picker. Zero dependencies, 12+ themes, presets and native i18n support.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -43,7 +43,8 @@
     "react": "^19",
     "react-dom": "^19",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "goober": "^2.1.18"
   },
   "keywords": [
     "react",
@@ -52,7 +53,7 @@
     "datetime-picker",
     "time-picker",
     "react-calendar",
-    "react-datepicker", 
+    "react-datepicker",
     "localization",
     "multi-language",
     "themes",
@@ -65,9 +66,5 @@
     "node": ">=18.0.0"
   },
   "author": "Kirilinsky (https://github.com/kirilinsky)",
-  "license": "MIT",
-  "dependencies": { 
-     
-    "goober": "^2.1.18"
-  }
+  "license": "MIT"
 }
