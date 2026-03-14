@@ -8,8 +8,8 @@ export const container = css`
   grid-template-rows: repeat(6, 1fr);
   padding: 15px 10px;
   gap: 4px;
-  border-right: 1px solid var(--cal-border-color);
-  background: var(--cal-backdrop);
+  border-right: 1px solid var(--c-s);
+  background: var(--c-b);
 `;
 
 export const item = css`

@@ -20,21 +20,19 @@
 
 # ⚡️ React Calendar & Date/Time Picker
 
-### 📦 Small but Mighty
-
-📅 **Ultra-lightweight** (~15.6kB Min / **6kB Gzipped**) Date & Time picker for React.  
-Built for performance: **zero external dependencies**, **zero-runtime-bloat**.
+📅 **Ultra-lightweight** (~12kB Min / **5kb Gzipped**) Date & Time picker for React.  
+📦 Small but Mighty: **zero external dependencies**, **zero-runtime-bloat**.
 
 <div align="center">
   <table style="border: none; border-collapse: collapse;">
     <tr style="border: none;">
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Paper Theme (default)</b></p>
-        <img src="https://i.postimg.cc/3RZyjPRL/white.png" alt="Calendar Light Theme" width="400" />
+        <img src="https://i.postimg.cc/3RZyjPRL/white.png" alt="Light Theme" width="410" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Carbon Theme</b></p>
-        <img src="https://i.postimg.cc/7ZTftCh9/dark.png" alt="Calendar Dark Theme" width="400" />
+        <img src="https://i.postimg.cc/7ZTftCh9/dark.png" alt="Dark Theme" width="410" />
       </td>
     </tr>
   </table>
@@ -49,10 +47,10 @@ Built for performance: **zero external dependencies**, **zero-runtime-bloat**.
 ### ✨ Key Features
 
 - 🚀 **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Just pure React.
-- 📦 **Tiny Footprint** — Only **6kB** gzipped. Optimized for the modern web.
+- 📦 **Tiny Footprint** — Only **5kB** gzipped. Optimized for the modern web.
 - 🌎 **Native I18n** — 10 languages (`en`, `ru`, `ua`, `de`, `fr`, etc.) powered by native **Intl API**.
 - 🎨 **12+ Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar` and more.
-- 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago".
+- 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago" etc.
 
 ## 🔨 How to install:
 
@@ -64,7 +62,7 @@ Built for performance: **zero external dependencies**, **zero-runtime-bloat**.
 
 ## 📆 How to use:
 
-[![How to use](https://iili.io/q0IyGDv.md.png)](https://github.com/kirilinsky/react-calendar-datetime)
+<img src="https://iili.io/q0IyGDv.md.png" alt="use" />
 
 ```tsx
 import { Calendar } from "react-calendar-datetime";
@@ -84,12 +82,12 @@ export default App;
 
 | Property         | Type       | Default      | Description                                                       |
 | :--------------- | :--------- | :----------- | :---------------------------------------------------------------- |
-| **date**         | `Date`     | `new Date()` | Accepts native Date, string, number or Dayjs instance             |
+| **date**         | `Date`     | `new Date()` | Accepts native Date, string, number                               |
 | **onChangeDate** | `function` | -----        | Callback returns new native Date object on change                 |
 | **locale**       | `string`   | `'en'`       | See [Supported Locales](#-supported-locales)                      |
 | **theme**        | `string`   | `'paper'`    | Theme (style) name [Supported themes](#-supported-themes)         |
 | **presets**      | `boolean`  | `false`      | Enables quick date selection (today, yesterday, etc.)             |
-| **years**        | `boolean`  | `false`      | Enables year section and year pciker mode                         |
+| **years**        | `boolean`  | `false`      | Enables year section and year picker mode                         |
 | **time**         | `boolean`  | `false`      | Enables time picker mode                                          |
 | **months**       | `boolean`  | `true`       | Toggle side month-selector. If `false`, day-grid fills full width |
 | **width**        | `string`   | `null`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                |
@@ -126,11 +124,9 @@ The library uses the native **Intl API** for localization, ensuring minimal bund
 
 ## ✅ Patch notes:
 
-### 🚀 Version 2.4.2
+### 🚀 Version 2.4.3
 
 - Minor bugs fixed
-- Added "Tomorrow" preset
-- Implemented dynamic preset filtering based on active modules
-- and optimized CSS bundle size.
+- Optimized bundle size (experimental).
 
 _Patch notes for older versions you can find in CONTRIBUTING.md_

@@ -5,31 +5,19 @@ import { setMonth } from "@/utils/date-utils";
 import { activeItem } from "@/styles/shared.styles";
 
 const Months: React.FC<MonthsProps> = ({ date, monthsNames, changeAction }) => {
-  const currentMonth = date.getMonth();
-
-  const handleMonthClick = (index: number) => {
-    changeAction(setMonth(date, index));
-  };
+  const cur = date.getMonth();
 
   return (
     <div className={s.container}>
-      {monthsNames.map((name, i) => (
-        <div
+      {monthsNames.map((n, i) => (
+        <button
           key={i}
-          className={`${s.item} ${i === currentMonth ? activeItem : ""}`}
-          onClick={() => handleMonthClick(i)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleMonthClick(i);
-            }
-          }}
-          tabIndex={0}
-          role="button"
-          aria-pressed={i === currentMonth}
+          type="button"
+          className={`${s.item} ${i === cur ? activeItem : ""}`}
+          onClick={() => changeAction(setMonth(date, i))}
         >
-          {name}
-        </div>
+          {n}
+        </button>
       ))}
     </div>
   );

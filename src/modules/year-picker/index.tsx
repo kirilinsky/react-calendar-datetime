@@ -1,71 +1,46 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Left, Right } from "../../Icons";
 import * as s from "./year-picker.styles";
-import { YearsPickerProps } from "@/types/years";
 import { setYear, addYears, getYearsRange } from "@/utils/date-utils";
+import { activeItem } from "@/styles/shared.styles";
+import { YearsProps } from "@/types/years";
 
-const YearPicker: React.FC<YearsPickerProps> = ({
+const YearPicker: React.FC<YearsProps> = ({
   toggleYearPicker,
   date,
   changeAction,
 }) => {
-  const [localDate, setLocalDate] = useState<Date>(date);
-  const [isAnimating, setIsAnimating] = useState(true);
+  const [loc, setLoc] = useState(date);
+  const cur = loc.getFullYear();
+  const years = useMemo(() => getYearsRange(cur, 25), [cur]);
 
-  const currentYear = localDate.getFullYear();
-
-  const yearsArray = useMemo(() => {
-    return getYearsRange(currentYear, 25);
-  }, [currentYear]);
-
-  const handleSetYear = (year: number) => {
-    changeAction(setYear(localDate, year));
-    toggleYearPicker();
-  };
-
-  const handleGoBack = (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    toggleYearPicker();
-  };
-
-  useEffect(() => {
-    setIsAnimating(false);
-    const timer = setTimeout(() => setIsAnimating(true), 10);
-    return () => clearTimeout(timer);
-  }, [currentYear]);
+  const nav = (v: number) => setLoc(addYears(loc, v));
 
   return (
-    <div className={s.container} onContextMenu={handleGoBack}>
+    <div
+      className={s.container}
+      onContextMenu={(e) => (e.preventDefault(), toggleYearPicker())}
+    >
       <button
-        disabled={currentYear < 1925}
-        onClick={() => setLocalDate(addYears(localDate, -25))}
+        disabled={cur < 1925}
+        onClick={() => nav(-25)}
         className={s.arrow}
       >
         <Left />
       </button>
 
-      {yearsArray.map((year) => {
-        const isActive = year === date.getFullYear();
-        const delay = `${((Math.abs(currentYear - year) * 0.1) / 2).toFixed(2)}s`;
+      {years.map((y) => (
+        <button
+          key={y}
+          disabled={y > 2050 || y < 1900}
+          onClick={() => (changeAction(setYear(loc, y)), toggleYearPicker())}
+          className={`${s.yearItem} ${y === date.getFullYear() ? activeItem : ""}`}
+        >
+          {y}
+        </button>
+      ))}
 
-        return (
-          <button
-            key={year}
-            disabled={year > 2050 || year < 1900}
-            onClick={() => handleSetYear(year)}
-            className={`${s.yearItem} ${isAnimating ? "animating" : ""} ${isActive ? s.active : ""}`}
-            style={{ animationDelay: delay }}
-          >
-            {year}
-          </button>
-        );
-      })}
-
-      <button
-        className={s.arrow}
-        disabled={currentYear > 2050}
-        onClick={() => setLocalDate(addYears(localDate, 25))}
-      >
+      <button disabled={cur > 2050} onClick={() => nav(25)} className={s.arrow}>
         <Right />
       </button>
     </div>

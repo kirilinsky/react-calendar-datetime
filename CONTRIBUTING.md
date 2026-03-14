@@ -34,6 +34,7 @@ Basic commands for development and building:
 
 ## Patch notes (old versions)
 
+- **v2.4.2:** Bugfixes, added `Tomorrow` preset. 
 - **v2.4.1:** Decoupled data from types in `.d.ts` files.
 - **v2.4.0:** Added `Comfy`, `La Rosa`, `Solar`, and `Snowstorm` themes, added `Portugal` 🇵🇹 locale.
 - **v2.3.0:** Removed `dayjs`, refactored Time Picker, Implemented a fixed 42-cell days grid.

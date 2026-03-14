@@ -1,3 +1,5 @@
+import { PresetUnit } from "@/types/presets";
+
 const i18nCache: Record<string, string[]> = {};
 
 const clone = (d: Date) => new Date(d.getTime());
@@ -81,10 +83,7 @@ export const getWeekdaysNames = (locale: string): string[] => {
 
 export const padTime = (n: number) => (n < 10 ? "0" + n : n);
 
-export const getPresetDate = (
-  amount: number,
-  unit: "day" | "week" | "month" | "year",
-): Date => {
+export const getPresetDate = (amount: number, unit: PresetUnit): Date => {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
 
@@ -103,13 +102,4 @@ export const getDrumValue = (
 ): number => {
   const val = (current + offset) % max;
   return val < 0 ? val + max : val;
-};
-
-export const getDrumStyles = (offset: number) => {
-  const abs = Math.abs(offset);
-  return {
-    opacity: 1 - abs * 0.3,
-    transform: `scale(${1 - abs * 0.1})`,
-    fontWeight: offset === 0 ? "700" : "400",
-  };
 };

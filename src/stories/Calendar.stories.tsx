@@ -1,16 +1,41 @@
 import { useState } from "react";
 import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
-import { THEME_OPTIONS, CalendarTheme } from "../types/themes";
+import { CalendarTheme, DARK_THEMES, LIGHT_THEMES } from "../types/themes";
 import { LocaleKey } from "../i18n/types";
 import { i18nData } from "../i18n";
 
+const LOCALE_LABELS: Record<LocaleKey, string> = {
+  en: "English",
+  pt: "Português",
+  ru: "Русский",
+  it: "Italiano",
+  ua: "Українська",
+  de: "Deutsch",
+  "zh-cn": "中文",
+  fr: "Français",
+  es: "Español",
+  sr: "Srpski",
+};
+
+const THEME_LABELS: Record<CalendarTheme, string> = {
+  paper: "Paper",
+  carbon: "Carbon",
+  mintblue: "Mint Blue",
+  midnight: "Midnight Blue",
+  sandstone: "Sandstone",
+  phosphor: "Phosphor",
+  dracula: "Dracula",
+  cyber: "Cyber",
+  comfy: "Comfy",
+  larosa: "La Rosa",
+  snowstorm: "Snow Storm",
+  solar: "Solar",
+};
 const LOCALE_OPTIONS = (Object.keys(i18nData) as LocaleKey[]).map((key) => ({
   value: key,
-  label: i18nData[key].label,
+  label: LOCALE_LABELS[key],
 }));
-
-type ThemeOption = (typeof THEME_OPTIONS)[number];
 
 export default {
   title: "Calendar",
@@ -56,21 +81,21 @@ export const ThemePlayground = () => {
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
   const [light, setLight] = useState<boolean>(true);
 
-  const darkThemes = THEME_OPTIONS.filter((t) => !t.light);
-  const lightThemes = THEME_OPTIONS.filter((t) => t.light);
-
-  const renderThemeButtons = (themes: ThemeOption[]) => (
+  const renderThemeButtons = (
+    themes: readonly CalendarTheme[],
+    light: "light" | "dark",
+  ) => (
     <div className="theme-group">
       {themes.map((theme) => (
         <button
-          key={theme.value}
+          key={theme}
           onClick={() => {
-            setActiveTheme(theme.value);
-            setLight(theme.light);
+            setActiveTheme(theme);
+            setLight(light === "light");
           }}
-          className={`story-button ${activeTheme === theme.value ? "active-blue" : ""}`}
+          className={`story-button ${activeTheme === theme ? "active-blue" : ""}`}
         >
-          {theme.label}
+          {THEME_LABELS[theme]}
         </button>
       ))}
     </div>
@@ -85,7 +110,7 @@ export const ThemePlayground = () => {
       <div className="playground-layout">
         <div className="controls-sidebar">
           <h4>🌙 Dark Themes</h4>
-          {renderThemeButtons(darkThemes)}
+          {renderThemeButtons(DARK_THEMES, "dark")}
         </div>
 
         <div className="calendar-preview">
@@ -100,7 +125,7 @@ export const ThemePlayground = () => {
 
         <h4 style={{ marginTop: "20px" }}>☀️ Light Themes</h4>
         <div className="controls-sidebar">
-          {renderThemeButtons(lightThemes)}
+          {renderThemeButtons(LIGHT_THEMES, "light")}
         </div>
       </div>
     </StoryWrapper>
@@ -133,7 +158,7 @@ export const LocalePlayground = () => {
         date={date}
         onChangeDate={setDate}
         presets
-        width="80vh"
+        width="85vh"
       />
     </StoryWrapper>
   );

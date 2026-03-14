@@ -6,6 +6,7 @@ import {
   getDaysInMonth,
   getFirstDayOffset,
 } from "@/utils/date-utils";
+import { activeItem } from "@/styles/shared.styles";
 
 const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
@@ -21,21 +22,11 @@ const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
     [currentDay, date, changeAction],
   );
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, day: number) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleSetDay(day);
-      }
-    },
-    [handleSetDay],
-  );
-
   return (
     <div
       className={s.container + " animating"}
       role="grid"
-      aria-label="Calendar days"
+      aria-label="days"
       key={date.getFullYear() + "-" + date.getMonth()}
     >
       <div role="row" style={{ display: "contents" }}>
@@ -53,19 +44,17 @@ const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
           const isSelected = isValid && day === currentDay;
 
           return (
-            <div
+            <button
               key={i}
-              onClick={isValid ? () => handleSetDay(day) : undefined}
-              onKeyDown={isValid ? (e) => handleKeyDown(e, day) : undefined}
-              tabIndex={isValid ? 0 : -1}
-              role="gridcell"
+              type="button"
+              disabled={!isValid}
+              onClick={() => handleSetDay(day)}
               aria-selected={isSelected}
-              aria-label={isValid ? "Day " + day : undefined}
-              className={isSelected ? s.dayItem + " " + s.active : s.dayItem}
+              className={`${s.dayItem} ${isSelected ? activeItem : ""}`}
               style={isValid ? undefined : { visibility: "hidden" }}
             >
-              {isValid && <span aria-hidden="true">{day}</span>}
-            </div>
+              {isValid && day}
+            </button>
           );
         })}
       </div>

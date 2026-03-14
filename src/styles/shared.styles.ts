@@ -8,7 +8,7 @@ export const textLg = `font-size: 20px;`;
 export const interactiveBase = `
   border: none;
   background: transparent;
-  color: var(--cal-color-text);
+  color: var(--c-c);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,7 @@ export const interactiveBase = `
   user-select: none;
 
   &:hover:not([disabled]) {
-    background: var(--cal-tone);
+    background: var(--c-t);
   }
   
   &[disabled] {
@@ -27,7 +27,7 @@ export const interactiveBase = `
   }
 
   & svg {
-    width: 23px;
+    width: 22px;
     height: 22px;
     fill: currentColor;
     stroke-width: 1.4;
@@ -43,11 +43,18 @@ export const flexCenter = `
 `;
 
 export const activeItem = css`
-  background: var(--cal-highlight) !important;
-  color: var(--cal-accent) !important;
+  background: var(--c-h) !important;
+  color: var(--c-a) !important;
 `;
 
-export const fadeInKeyframes = keyframes`
-  from { opacity: 0; transform: translateY(2px); }
-  to { opacity: 1; transform: translateY(0); }
+export const jumpInKeyframes = keyframes`
+  0% {
+    opacity: 0.8;
+     transform: translateY(2px) scaleY(1.01) ; 
+     z-index:1;
+  }
+  100% {
+    opacity: 1; z-index:1;
+    transform: translateY(0)  ;
+  }
 `;

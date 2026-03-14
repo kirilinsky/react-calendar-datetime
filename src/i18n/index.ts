@@ -1,6 +1,6 @@
 import { I18nLocale, LocaleKey } from "./types";
 
-export const i18nData: Record<LocaleKey, I18nLocale> = {
+export const i18nData: Record<LocaleKey, Omit<I18nLocale, "label">> = {
   en: {
     t: "today",
     tm: "tomorrow",
@@ -8,7 +8,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "week ago",
     ma: "month ago",
     ya: "year ago",
-    label: "English",
   },
   pt: {
     t: "hoje",
@@ -17,7 +16,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "semana passada",
     ma: "mês pasado",
     ya: "ano pasado",
-    label: "Português",
   },
   ru: {
     t: "сегодня",
@@ -26,7 +24,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "неделю назад",
     ma: "месяц назад",
     ya: "год назад",
-    label: "Русский",
   },
   it: {
     t: "oggi",
@@ -35,7 +32,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "una settimana fa",
     ma: "un mese fa",
     ya: "un anno fa",
-    label: "Italiano",
   },
   ua: {
     t: "сьогодні",
@@ -44,7 +40,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "тиждень тому",
     ma: "місяць тому",
     ya: "рік тому",
-    label: "Українська",
   },
   de: {
     t: "heute",
@@ -53,7 +48,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "vor 1 Woche",
     ma: "vor 1 Monat",
     ya: "vor 1 Jahr",
-    label: "Deutsch",
   },
   "zh-cn": {
     t: "今天",
@@ -62,7 +56,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "一周前",
     ma: "一个月前",
     ya: "一年前",
-    label: "中文",
   },
   fr: {
     t: "aujourd'hui",
@@ -71,7 +64,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "il y a une semaine",
     ma: "il y a un mois",
     ya: "il y a un an",
-    label: "Français",
   },
   es: {
     t: "hoy",
@@ -80,7 +72,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "hace una semana",
     ma: "hace un mes",
     ya: "hace un año",
-    label: "Español",
   },
   sr: {
     t: "danas",
@@ -89,7 +80,6 @@ export const i18nData: Record<LocaleKey, I18nLocale> = {
     wa: "pre nedelju dana",
     ma: "pre mesec dana",
     ya: "pre godinu dana",
-    label: "Srpski",
   },
 };
 

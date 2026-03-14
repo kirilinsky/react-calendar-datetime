@@ -9,53 +9,20 @@ const Years: React.FC<YearsProps> = ({
   toggleYearPicker,
   changeAction,
 }) => {
-  const currentYear = date.getFullYear();
-
-  const handleYearChange = (offset: number) => {
-    changeAction(addYears(date, offset));
-  };
-
-  const onKey = (e: React.KeyboardEvent, action: () => void) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      action();
-    }
-  };
+  const cur = date.getFullYear();
+  const ch = (v: number) => changeAction(addYears(date, v));
 
   return (
     <div className={s.container}>
-      <div
-        tabIndex={0}
-        role="button"
-        aria-label="Previous year"
-        className={s.arrow}
-        onClick={() => handleYearChange(-1)}
-        onKeyDown={(e) => onKey(e, () => handleYearChange(-1))}
-      >
+      <button className={s.arrow} onClick={() => ch(-1)}>
         <Left />
-      </div>
-
-      <div
-        onClick={toggleYearPicker}
-        className={s.currentYear}
-        role="button"
-        tabIndex={0}
-        aria-label="Open year selection"
-        onKeyDown={(e) => onKey(e, toggleYearPicker)}
-      >
-        {currentYear}
-      </div>
-
-      <div
-        onClick={() => handleYearChange(1)}
-        role="button"
-        tabIndex={0}
-        aria-label="Next year"
-        className={s.arrow}
-        onKeyDown={(e) => onKey(e, () => handleYearChange(1))}
-      >
+      </button>
+      <button className={s.currentYear} onClick={toggleYearPicker}>
+        {cur}
+      </button>
+      <button className={s.arrow} onClick={() => ch(1)}>
         <Right />
-      </div>
+      </button>
     </div>
   );
 };

@@ -39,21 +39,14 @@ const Presets: React.FC<PresetsProps> = ({
   return (
     <div className={s.container}>
       {presets.map(({ key, amount, unit }) => (
-        <div
+        <button
           key={key}
-          onClick={() => handlePresetClick(amount, unit)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handlePresetClick(amount, unit);
-            }
-          }}
-          tabIndex={0}
-          role="button"
+          type="button"
           className={s.presetItem}
+          onClick={() => handlePresetClick(amount, unit)}
         >
           {voc[key]}
-        </div>
+        </button>
       ))}
     </div>
   );

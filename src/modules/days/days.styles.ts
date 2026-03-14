@@ -2,19 +2,19 @@ import { css } from "goober";
 import {
   interactiveBase,
   flexCenter,
-  fadeInKeyframes,
   textXs,
+  jumpInKeyframes,
 } from "@/styles/shared.styles";
 
 export const container = css`
   grid-area: DD;
-  background: var(--cal-backdrop);
+  background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 15px;
-  gap: 5px;
+  padding: 14px;
+  gap: 3px 5px;
   &.animating {
-    animation: ${fadeInKeyframes} 0.2s ease-out forwards;
+    animation: ${jumpInKeyframes} 0.2s ease-out forwards;
   }
 `;
 
@@ -24,15 +24,11 @@ export const header = css`
   text-transform: uppercase;
   user-select: none;
   font-weight: 600;
-  color: var(--cal-color-text);
+  color: var(--c-c);
 `;
 
 export const dayItem = css`
   ${interactiveBase}
   ${flexCenter}
-`;
-
-export const active = css`
-  background: var(--cal-highlight) !important;
-  color: var(--cal-accent) !important;
+  padding: 8px 4px;
 `;

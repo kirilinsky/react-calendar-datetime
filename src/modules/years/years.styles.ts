@@ -5,8 +5,8 @@ export const container = css`
   grid-area: YY;
   display: flex;
   align-items: center;
-  background: var(--cal-accent);
-  border-bottom: 1px solid var(--cal-border-color);
+  background: var(--c-a);
+  border-bottom: 1px solid var(--c-s);
   justify-content: space-between;
   padding: 0 8px;
   height: 60px;
@@ -29,8 +29,7 @@ export const arrow = css`
   ${interactiveBase}
   width: 44px;
   height: 44px;
-  flex-shrink: 0;
-
+  flex-shrink: 0; 
   & svg {
     margin: 0;
   }

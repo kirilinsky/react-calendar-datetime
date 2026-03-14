@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { setup } from "goober";
 import { Years, YearPicker, Days, Time, Months, Presets } from "../modules";
 import * as s from "./calendar.styles";
@@ -21,11 +21,6 @@ export const Calendar: React.FC<CalendarProps> = ({
   theme = "paper",
 }) => {
   const [showYearPicker, setShowYearPicker] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const dateObj =
     initialDate instanceof Date ? initialDate : new Date(initialDate);
@@ -36,8 +31,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     onChangeDate?.(newDate);
   };
 
-  const monthsNames = isMounted ? getMonthNames(locale) : [];
-  const weekdays = isMounted ? getWeekdaysNames(locale) : [];
+  const mNames = useMemo(() => getMonthNames(locale), [locale]);
+  const wDays = useMemo(() => getWeekdaysNames(locale), [locale]);
 
   return (
     <div
@@ -71,18 +66,12 @@ export const Calendar: React.FC<CalendarProps> = ({
           )}
           {months && (
             <Months
-              monthsNames={monthsNames}
+              monthsNames={mNames}
               date={dateObj}
               changeAction={handleChange}
             />
           )}
-          {isMounted && (
-            <Days
-              date={dateObj}
-              changeAction={handleChange}
-              weekdays={weekdays}
-            />
-          )}
+          <Days date={dateObj} changeAction={handleChange} weekdays={wDays} />
           {time && <Time date={dateObj} changeAction={handleChange} />}
           {presets && (
             <Presets
