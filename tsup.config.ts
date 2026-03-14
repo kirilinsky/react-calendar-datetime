@@ -8,7 +8,7 @@ export default defineConfig({
   minify: "terser",
   terserOptions: {
     compress: {
-      passes: 3,
+      passes: 2,
       unsafe: false,
       pure_getters: true,
       drop_console: true,

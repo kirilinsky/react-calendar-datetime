@@ -1,7 +1,5 @@
 <div align="center">
 
-[![npm version](https://img.shields.io/npm/v/react-calendar-datetime.svg?style=flat-square)](https://www.npmjs.com/package/react-calendar-datetime)
-&nbsp;&nbsp;
 [![react version](https://img.shields.io/badge/react-%5E18.0.0%20%7C%7C%20%5E19.0.0-61dafb?style=flat-square&logo=react)](https://react.dev/)
 &nbsp;&nbsp;
 [![npm downloads](https://img.shields.io/npm/dm/react-calendar-datetime.svg?style=flat-square)](https://www.npmjs.com/package/react-calendar-datetime)
@@ -124,9 +122,8 @@ The library uses the native **Intl API** for localization, ensuring minimal bund
 
 ## ✅ Patch notes:
 
-### 🚀 Version 2.4.3
+### 🚀 Version 2.4.4
 
 - Minor bugs fixed
-- Optimized bundle size (experimental).
 
 _Patch notes for older versions you can find in CONTRIBUTING.md_

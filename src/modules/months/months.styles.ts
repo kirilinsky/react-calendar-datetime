@@ -6,7 +6,7 @@ export const container = css`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  padding: 15px 10px;
+  padding: 14px 8px;
   gap: 4px;
   border-right: 1px solid var(--c-s);
   background: var(--c-b);

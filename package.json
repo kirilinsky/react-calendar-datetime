@@ -1,6 +1,6 @@
 {
   "name": "react-calendar-datetime",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "Ultra-lightweight React Date & Time picker. Zero dependencies, 12+ themes, presets and native i18n support.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -29,7 +29,6 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "build:demo": "ladle build",
-    "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
   "peerDependencies": {

@@ -10,9 +10,12 @@ export const container = css`
   grid-area: DD;
   background: var(--c-b);
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 1fr); 
   padding: 14px;
   gap: 3px 5px;
+  height: 100%;
+  box-sizing: border-box;
+  min-height: 250px;
   &.animating {
     animation: ${jumpInKeyframes} 0.2s ease-out forwards;
   }
