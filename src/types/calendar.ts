@@ -1,4 +1,4 @@
-import { LocaleKey } from "@/i18n"; 
+import { LocaleKey } from "@/i18n/types";
 import { CalendarTheme } from "./themes";
 
 export interface CalendarProps {

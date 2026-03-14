@@ -1,4 +1,4 @@
-import { LocaleKey, Translation } from "@/i18n";
+import { LocaleKey, Translation } from "@/i18n/types";
 
 export interface PresetsProps {
   locale: LocaleKey;

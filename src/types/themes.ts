@@ -1,6 +1,6 @@
 export type CalendarTheme =
-  | "light"
-  | "dark"
+  | "paper"
+  | "carbon"
   | "midnight"
   | "sandstone"
   | "mintblue"
@@ -17,8 +17,8 @@ export const THEME_OPTIONS: {
   label: string;
   light: boolean;
 }[] = [
-  { value: "light", label: "Light", light: true },
-  { value: "dark", label: "Dark", light: false },
+  { value: "paper", label: "Paper", light: true },
+  { value: "carbon", label: "Carbon", light: false },
   { value: "mintblue", label: "Mint Blue", light: true },
   { value: "midnight", label: "Midnight Blue", light: false },
   { value: "sandstone", label: "Sandstone", light: false },

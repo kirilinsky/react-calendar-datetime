@@ -31,15 +31,15 @@ export const column = css`
 `;
 
 export const separator = css`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--cal-color-text);
-  margin-top: -4px;
+  color: var(--cal-accent);
+  margin-top: -3px;
   z-index: 1;
 `;
 
 export const cell = css`
-  height: 36px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
 import { THEME_OPTIONS, CalendarTheme } from "../types/themes";
-import { LocaleKey, LOCALE_OPTIONS } from "../i18n";
+import { LocaleKey } from "../i18n/types";
+import { LOCALE_OPTIONS } from "../i18n";
 
 export default {
   title: "Calendar",

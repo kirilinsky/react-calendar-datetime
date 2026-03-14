@@ -1,11 +1,12 @@
 import React from "react";
-import i18n from "../../i18n";
+import i18n from "@/i18n";
 import * as s from "./presets.styles";
 import { PRESET_CONFIG, PresetsProps, PresetUnit } from "@/types/presets";
 import { getPresetDate } from "@/utils/date-utils";
+import { LocaleKey } from "@/i18n/types";
 
 const Presets: React.FC<PresetsProps> = ({ locale, changeAction }) => {
-  const voc = i18n[locale] || i18n["en"];
+  const voc = i18n[locale as LocaleKey];
 
   const handlePresetClick = (amount: number, unit: PresetUnit) => {
     changeAction(getPresetDate(amount, unit));

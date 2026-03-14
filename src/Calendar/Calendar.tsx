@@ -17,7 +17,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   onChangeDate,
   width = null,
   height = null,
-  theme = "light",
+  theme = "paper",
 }) => {
   const [showYearPicker, setShowYearPicker] = useState(false);
   const [isMounted, setIsMounted] = useState(false);

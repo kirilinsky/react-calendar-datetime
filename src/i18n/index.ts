@@ -1,4 +1,6 @@
-export const i18nData = {
+import { I18nLocale, LocaleKey } from "./types";
+
+export const i18nData: Record<LocaleKey, I18nLocale> = {
   en: {
     t: "today",
     y: "yesterday",
@@ -11,8 +13,8 @@ export const i18nData = {
     t: "hoje",
     y: "ontem",
     wa: "semana passada",
-    ma: "mês passado",
-    ya: "ano passado",
+    ma: "mês pasado",
+    ya: "ano pasado",
     label: "Português",
   },
   ru: {
@@ -30,7 +32,7 @@ export const i18nData = {
     ma: "un mese fa",
     ya: "un anno fa",
     label: "Italiano",
-  }, 
+  },
   ua: {
     t: "сьогодні",
     y: "вчора",
@@ -79,14 +81,13 @@ export const i18nData = {
     ya: "pre godinu dana",
     label: "Srpski",
   },
-} as const;
+};
 
-export type LocaleKey = keyof typeof i18nData;
-export type Translation = Omit<(typeof i18nData)["en"], "label">;
-
-export const LOCALE_OPTIONS = Object.entries(i18nData).map(([value, data]) => ({
-  value: value as LocaleKey,
-  label: data.label,
-}));
+export const LOCALE_OPTIONS = (Object.keys(i18nData) as LocaleKey[]).map(
+  (key) => ({
+    value: key,
+    label: i18nData[key].label,
+  }),
+);
 
 export default i18nData;

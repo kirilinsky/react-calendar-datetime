@@ -20,17 +20,20 @@
 
 # ⚡️ React Calendar & Date/Time Picker
 
-📅 **Ultra-lightweight** Date & Time picker for React. Built with **zero external dependencies**, **zero-runtime-bloat**, native **Intl** localization, time presets and aesthetic custom themes.
+### 📦 Small but Mighty
+
+📅 **Ultra-lightweight** (~15.6kB Min / **6kB Gzipped**) Date & Time picker for React.  
+Built for performance: **zero external dependencies**, **zero-runtime-bloat**.
 
 <div align="center">
   <table style="border: none; border-collapse: collapse;">
     <tr style="border: none;">
       <td align="center" style="border: none; padding: 6px;">
-        <p><b>Light Theme</b></p>
+        <p><b>Paper Theme (default)</b></p>
         <img src="https://i.postimg.cc/3RZyjPRL/white.png" alt="Calendar Light Theme" width="400" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
-        <p><b>Dark Theme</b></p>
+        <p><b>Carbon Theme</b></p>
         <img src="https://i.postimg.cc/7ZTftCh9/dark.png" alt="Calendar Dark Theme" width="400" />
       </td>
     </tr>
@@ -42,6 +45,14 @@
     <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Try%20it%20Out-60d276?style=for-the-badge&logo=rocket&logoColor=white" alt="Live Demo" />
   </a>
 </div>
+
+### ✨ Key Features
+
+- 🚀 **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Just pure React.
+- 📦 **Tiny Footprint** — Only **6kB** gzipped. Optimized for the modern web.
+- 🌎 **Native I18n** — 10 languages (`en`, `ru`, `ua`, `de`, `fr`, etc.) powered by native **Intl API**.
+- 🎨 **12+ Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar` and more.
+- 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago".
 
 ## 🔨 How to install:
 
@@ -76,7 +87,7 @@ export default App;
 | **date**         | `Date`     | `new Date()` | Accepts native Date, string, number or Dayjs instance             |
 | **onChangeDate** | `function` | -----        | Callback returns new native Date object on change                 |
 | **locale**       | `string`   | `'en'`       | See [Supported Locales](#-supported-locales)                      |
-| **theme**        | `string`   | `'light'`    | Theme (style) name [Supported themes](#-supported-themes)         |
+| **theme**        | `string`   | `'paper'`    | Theme (style) name [Supported themes](#-supported-themes)         |
 | **presets**      | `boolean`  | `false`      | Enables quick date selection (today, yesterday, etc.)             |
 | **time**         | `boolean`  | `false`      | Enables time picker mode                                          |
 | **months**       | `boolean`  | `true`       | Toggle side month-selector. If `false`, day-grid fills full width |
@@ -93,7 +104,7 @@ The calendar comes with 12 built-in themes. Just pass the theme name as a prop:
 
 | Dark Themes     | Backdrop                                                                 | Highlight                                                                |     | Light Themes    | Backdrop                                                                 | Highlight                                                                |
 | :-------------- | :----------------------------------------------------------------------- | :----------------------------------------------------------------------- | :-- | :-------------- | :----------------------------------------------------------------------- | :----------------------------------------------------------------------- |
-| **`dark`**      | ![](https://img.shields.io/badge/-%231a1a1c-%231a1a1c?style=flat-square) | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) |     | **`light`**     | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) | ![](https://img.shields.io/badge/-%231a1a1c-%231a1a1c?style=flat-square) |
+| **`carbon`**    | ![](https://img.shields.io/badge/-%231a1a1c-%231a1a1c?style=flat-square) | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) |     | **`paper`**     | ![](https://img.shields.io/badge/-%23ffffff-%23ffffff?style=flat-square) | ![](https://img.shields.io/badge/-%231a1a1c-%231a1a1c?style=flat-square) |
 | **`midnight`**  | ![](https://img.shields.io/badge/-%23141721-%23141721?style=flat-square) | ![](https://img.shields.io/badge/-%233559e0-%233559e0?style=flat-square) |     | **`mintblue`**  | ![](https://img.shields.io/badge/-%23f8f9fc-%23f8f9fc?style=flat-square) | ![](https://img.shields.io/badge/-%2360d276-%2360d276?style=flat-square) |
 | **`cyber`**     | ![](https://img.shields.io/badge/-%230d0d15-%230d0d15?style=flat-square) | ![](https://img.shields.io/badge/-%2300f3ff-%2300f3ff?style=flat-square) |     | **`comfy`**     | ![](https://img.shields.io/badge/-%23E9DED5-%23E9DED5?style=flat-square) | ![](https://img.shields.io/badge/-%23A65D3A-%23A65D3A?style=flat-square) |
 | **`phosphor`**  | ![](https://img.shields.io/badge/-%23020602-%23020602?style=flat-square) | ![](https://img.shields.io/badge/-%2376ff03-%2376ff03?style=flat-square) |     | **`snowstorm`** | ![](https://img.shields.io/badge/-%23E2E5E9-%23E2E5E9?style=flat-square) | ![](https://img.shields.io/badge/-%233A60D6-%233A60D6?style=flat-square) |
@@ -114,27 +125,20 @@ The library uses the native **Intl API** for localization, ensuring minimal bund
 
 ## ✅ Patch notes:
 
-### 🚀 Version 2.4.0
+### 🚀 Version 2.4.1
 
-- **Themes:** added `Comfy`, `La Rosa`,`Solar`, and `Snowstorm` palette.
-- **Locales:** added `pt` 🇵🇹 language.
+- **TS & DX Optimization:** Decoupled data from types in `.d.ts` files.
 
 <details>
 <summary>📜 Older versions</summary>
 <br />
 <ul>
+  <li><strong>v2.4.0:</strong> added <code>Comfy, La Rosa, Solar</code>, and <code>Snowstorm</code> themes, added <code>Portugal</code> 🇵🇹 locale.</li>
   <li><strong>v2.3.0:</strong> Removed <code>dayjs</code>, refactored Time Picker, Implemented a fixed 42-cell days grid</li>
   <li><strong>v2.2.0:</strong> Auto-injected runtime styles (~1KB), added <code>Dracula</code> 🔴 dark-red palette</li>
   <li><strong>v2.1.0:</strong> Added <code>Phosphor</code> neon-green theme</li>
-  <li><strong>v2.0.0:</strong> TS migration, strict types, React 19, pre-generated labels, flexible <code>months</code> layout, <code>es</code>/<code>sr</code> locales</li>
+  <li><strong>v2.0.0:</strong> TS migration, strict types, React 19, pre-generated labels, flexible <code>months</code> layout, <code>es</code>/<code>sr</code> locales.</li>
   <li><strong>v1.3.1:</strong> Added year picker, dark theme, and <code>zh-cn</code>, <code>fr</code> locales</li>
   <li><strong>v1.0.0:</strong> Initial release</li>
 </ul>
 </details>
-
-<div align="center">
-
-[![npm version](https://img.shields.io/npm/v/react-calendar-datetime.svg?style=flat-square)](https://www.npmjs.com/package/react-calendar-datetime)
-[![license](https://img.shields.io/npm/l/react-calendar-datetime.svg?style=flat-square)](https://github.com/kirilinsky/react-calendar-datetime/blob/main/LICENSE)
-
-</div>
