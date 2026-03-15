@@ -1,4 +1,5 @@
-import { PRESET_CONFIG, PresetItem } from "@/types/presets";
+import { PresetItem } from "@/types/presets";
+import { PRESET_CONFIG } from "./presets";
 const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const isLeap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
 

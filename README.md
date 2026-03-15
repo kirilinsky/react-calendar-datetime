@@ -14,9 +14,9 @@
 
 </div>
 
-# ⚡️ React Calendar & Date/Time Picker **400+ languages**
+# ⚡️ React Calendar & Date/Time Picker
 
-📅 **Ultra-lightweight** (~13kB Min / **6kb Gzipped**) Date & Time picker for React.  
+📅 **Ultra-lightweight** (~13kB Min / **5kb Gzipped**) Date & Time picker for React.  
 📦 **Small but Mighty**: **Zero external dependencies** & **zero-runtime-bloat**.
 
 <div align="center">
@@ -43,8 +43,8 @@
 ### ✨ Key Features
 
 - 🚀 **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Just pure React.
-- 📦 **Tiny Footprint** — Only **6kB** gzipped. Optimized for the modern web.
-- 🌎 **Global by Default** — Instant support for **400+ BCP 47 locales** (including `en`, `de`, `fr`, `ru`, `zh-CN`, `ja`).
+- 📦 **Tiny Footprint** — Only **5kB** gzipped. Optimized for the modern web.
+- 🌎 **Global by Default** — Instant support for **400+ BCP47 locales** (including `en`, `de`, `ru`, `zh-CN` etc).
 - 🌐 **Universal Localization** — No dictionaries, no extra bytes—powered by native **Intl API**.
 - 🎨 **14+ Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar` and more.
 - 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago" etc.
@@ -66,9 +66,7 @@ import { Calendar } from "react-calendar-datetime";
 const App = () => {
   const [date, setDate] = useState(new Date());
 
-  return (
-    <Calendar date={date} onChangeDate={setDate} locale="en" theme="comfy" />
-  );
+  return <Calendar date={date} onChangeDate={setDate} />;
 };
 
 export default App;
@@ -109,9 +107,11 @@ The calendar comes with 14 built-in themes. Just pass the theme name as a prop:
 | **`sandstone`** | ![](https://img.shields.io/badge/-%231f1c18-%231f1c18?style=flat-square) | ![](https://img.shields.io/badge/-%23e3ae5c-%23e3ae5c?style=flat-square) |     | **`solar`**     | ![](https://img.shields.io/badge/-%23d8cf9a-%23d8cf9a?style=flat-square) | ![](https://img.shields.io/badge/-%23e67e22-%23e67e22?style=flat-square) |
 | **`temporal`**  | ![](https://img.shields.io/badge/-%2314252e-%2314252e?style=flat-square) | ![](https://img.shields.io/badge/-%2327d1f4-%2327d1f4?style=flat-square) |     | **`neonlight`** | ![](https://img.shields.io/badge/-%23f7f8f9-%23f7f8f9?style=flat-square) | ![](https://img.shields.io/badge/-%2380ec27-%2380ec27?style=flat-square) |
 
- <a href="https://react-calendar-datetime.vercel.app/?story=calendar--theme-playground" target="_blank">
-    <img src="https://img.shields.io/badge/🚀%20Themes%20Playground-Try%20it%20Out60d276?style=for-the-badge&logo=rocket&logoColor=white" alt="Play with themes" />
-  </a>
+&nbsp;
+
+<a href="https://react-calendar-datetime.vercel.app/?story=calendar--theme-playground" target="_blank">
+  <img src="https://img.shields.io/badge/Themes%20Playground-Try%20it%20Out-60d276?style=for-the-badge&logo=paint-format&logoColor=white" alt="Play with themes" />
+</a>
 
 ### 🌍 Localization
 
@@ -120,9 +120,6 @@ No dictionaries, no extra bytes. The library leverages the native browser **Intl
 ```tsx
   <Calendar locale="en" /> // Default
   <Calendar locale="en-US" /> // (English US)
-
-  <Calendar locale="ja" /> // Japanese
-  <Calendar locale="sr" /> // Serbian
 ```
 
 Pass any **BCP 47** language tag, and the calendar will automatically format days, months, and smart presets according to local standards.
@@ -135,4 +132,4 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 - **🎨 New Radical Themes**: Added `Neonlight` and `Temporal` themes.
 - **🛡️ Date Constraints**: Added `minDate` and `maxDate` support.
 
-Patch notes for older versions you can find in CONTRIBUTING.md
+[**Full Version History in CONTRIBUTING.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CONTRIBUTING.md)

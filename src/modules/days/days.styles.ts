@@ -31,7 +31,6 @@ export const header = css`
 `;
 
 export const dayItem = css`
-  ${interactiveBase}
-  ${flexCenter}
+  ${interactiveBase} 
   padding: 10px 4px;
 `;
