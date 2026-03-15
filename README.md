@@ -126,10 +126,11 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 
 ## ✅ Patch notes:
 
-### 🚀 Version 2.5.0
+### 🚀 Version 2.5.2
 
 - **🌍 Infinite Localization**
 - **🎨 New Radical Themes**: Added `Neonlight` and `Temporal` themes.
+- **🌑 Dynamic Shadows**: Added a new `boxShadow` layer to the theme engine. 
 - **🛡️ Date Constraints**: Added `minDate` and `maxDate` support.
 
 [**Full Version History in CONTRIBUTING.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CONTRIBUTING.md)

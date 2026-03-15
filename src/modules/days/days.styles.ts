@@ -23,7 +23,8 @@ export const container = css`
 
 export const header = css`
   ${flexCenter}
-  ${textXs}  opacity: 0.5;
+  ${textXs} 
+  opacity: 0.5;
   text-transform: uppercase;
   user-select: none;
   font-weight: 600;

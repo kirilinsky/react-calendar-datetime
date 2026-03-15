@@ -17,11 +17,12 @@ export const interactiveBase = `
   user-select: none; 
   &:hover:not([disabled]) {
     background: var(--c-t);
-  } 
+    box-shadow: inset 0 2px 8px var(--c-x);
+  }  
   &[disabled] {
     cursor: not-allowed;
     opacity: 0.4;
-  } 
+  }
   & svg {
     width: 22px;
     height: 22px;
@@ -35,6 +36,7 @@ export const interactiveBase = `
 export const activeItem = css`
   background: var(--c-h) !important;
   color: var(--c-a) !important;
+  box-shadow: unset !important;
 `;
 
 export const jumpInKeyframes = keyframes`
@@ -45,6 +47,6 @@ export const jumpInKeyframes = keyframes`
   }
   100% {
     opacity: 1; z-index:1;
-    transform: translateY(0)  ;
+    transform: translateY(0);
   }
 `;

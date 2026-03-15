@@ -38,7 +38,7 @@ export const calendarContainer = (p: {
       sans-serif;
     border-radius: 16px;
     border: 1px solid var(--c-s);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 6px 22px var(--c-x);
     overflow: hidden;
 
     grid-template-columns: ${cols};
