@@ -5,21 +5,37 @@ import {
   setDateValue,
   getDaysInMonth,
   getFirstDayOffset,
+  checkIsDateDisabled,
 } from "@/utils/date-utils";
 import { activeItem } from "@/styles/shared.styles";
 
 const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
-const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
+const Days: React.FC<DaysProps> = ({
+  date,
+  changeAction,
+  weekdays,
+  minDate,
+  maxDate,
+}) => {
   const currentDay = date.getDate();
   const daysInMonth = getDaysInMonth(date);
   const offset = getFirstDayOffset(date);
 
+  const isDateDisabled = useCallback(
+    (day: number) => {
+      if (!minDate && !maxDate) return false;
+      return checkIsDateDisabled(day, date, minDate, maxDate);
+    },
+    [date, minDate, maxDate],
+  );
+
   const handleSetDay = useCallback(
     (day: number) => {
-      if (day !== currentDay) changeAction(setDateValue(date, day));
+      if (day !== currentDay && !isDateDisabled(day))
+        changeAction(setDateValue(date, day));
     },
-    [currentDay, date, changeAction],
+    [currentDay, date, changeAction, isDateDisabled],
   );
 
   return (
@@ -42,12 +58,13 @@ const Days: React.FC<DaysProps> = ({ date, changeAction, weekdays }) => {
           const day = i - offset + 1;
           const isValid = day > 0 && day <= daysInMonth;
           const isSelected = isValid && day === currentDay;
+          const outOfLimitedRange = isValid && isDateDisabled(day);
 
           return (
             <button
               key={i}
               type="button"
-              disabled={!isValid}
+              disabled={!isValid || outOfLimitedRange}
               onClick={() => handleSetDay(day)}
               aria-selected={isSelected}
               className={`${s.dayItem} ${isSelected ? activeItem : ""}`}

@@ -1,5 +1,5 @@
 import { css } from "goober";
-import { interactiveBase, textMd } from "@/styles/shared.styles";
+import { interactiveBase, textSm } from "@/styles/shared.styles";
 
 export const container = css`
   background: var(--c-b);
@@ -16,13 +16,13 @@ export const arrow = css`
   }
   &:last-child {
     grid-area: 1/7/6/7;
-  } 
+  }
   border-radius: 0;
 `;
 
 export const yearItem = css`
   ${interactiveBase}
-  ${textMd}
+  ${textSm}
   background: var(--c-b);
   padding: 4px;
   margin: 5px;

@@ -13,10 +13,11 @@ const Months: React.FC<MonthsProps> = ({ date, monthsNames, changeAction }) => {
         <button
           key={i}
           type="button"
+          disabled={n.disabled}
           className={`${s.item} ${i === cur ? activeItem : ""}`}
           onClick={() => changeAction(setMonth(date, i))}
         >
-          {n}
+          {n.label}
         </button>
       ))}
     </div>

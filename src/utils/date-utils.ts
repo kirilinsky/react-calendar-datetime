@@ -1,4 +1,8 @@
-import { PresetUnit } from "@/types/presets";
+import { PRESET_CONFIG, PresetItem } from "@/types/presets";
+const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const isLeap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+
+const rtfCache: Record<string, Intl.RelativeTimeFormat> = {};
 
 const i18nCache: Record<string, string[]> = {};
 
@@ -10,6 +14,18 @@ const mutate = (d: Date, fn: (n: Date) => void): Date => {
   return n;
 };
 
+const getLimit = (d?: Date | string | null, isMax?: boolean) =>
+  d
+    ? new Date(d).setHours(
+        isMax ? 23 : 0,
+        isMax ? 59 : 0,
+        isMax ? 59 : 0,
+        isMax ? 999 : 0,
+      )
+    : null;
+
+const getYearSafe = (d?: Date | string | null) =>
+  d ? new Date(d).getFullYear() : null;
 export const isValidDate = (d: any): d is Date =>
   d instanceof Date && !isNaN(d.getTime());
 
@@ -23,10 +39,8 @@ export const addMonth = (date: Date, v: number) =>
 
 export const setMonth = (date: Date, v: number) =>
   mutate(date, (d) => {
-    const targetDays = new Date(d.getFullYear(), v + 1, 0).getDate();
-    if (d.getDate() > targetDays) {
-      d.setDate(targetDays);
-    }
+    const maxDays = v === 1 && isLeap(d.getFullYear()) ? 29 : DAYS[v];
+    if (d.getDate() > maxDays) d.setDate(maxDays);
     d.setMonth(v);
   });
 
@@ -38,15 +52,20 @@ export const setDateValue = (date: Date, v: number) =>
   mutate(date, (d) => d.setDate(v));
 
 export const addTime = (date: Date, amount: number, unit: "h" | "m") =>
-  mutate(date, (d) =>
-    unit === "h"
-      ? d.setHours(d.getHours() + amount)
-      : d.setMinutes(d.getMinutes() + amount),
-  );
+  mutate(date, (d) => {
+    if (unit === "h") {
+      d.setHours(getDrumValue(d.getHours(), amount, 24));
+    } else {
+      d.setMinutes(getDrumValue(d.getMinutes(), amount, 60));
+    }
+  });
 
-export const getDaysInMonth = (date: Date): number =>
-  new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+export const getDaysInMonth = (date: Date): number => {
+  const m = date.getMonth();
+  return m === 1 && isLeap(date.getFullYear()) ? 29 : DAYS[m];
+};
 
+// TODO extend logic for firstDayOfWeek prop
 export const getFirstDayOffset = (date: Date): number =>
   (new Date(date.getFullYear(), date.getMonth(), 1).getDay() + 6) % 7;
 
@@ -81,17 +100,12 @@ export const getWeekdaysNames = (locale: string): string[] => {
   return i18nCache[key];
 };
 
-export const padTime = (n: number) => (n < 10 ? "0" + n : n);
+export const padTime = (n: number) => n.toString().padStart(2, "0");
 
-export const getPresetDate = (amount: number, unit: PresetUnit): Date => {
+export const getPresetDate = (preset: PresetItem): Date => {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
-
-  if (unit === "day") d.setDate(d.getDate() - amount);
-  else if (unit === "week") d.setDate(d.getDate() - amount * 7);
-  else if (unit === "month") d.setMonth(d.getMonth() - amount);
-  else d.setFullYear(d.getFullYear() - amount);
-
+  preset.calc(d);
   return d;
 };
 
@@ -102,4 +116,120 @@ export const getDrumValue = (
 ): number => {
   const val = (current + offset) % max;
   return val < 0 ? val + max : val;
+};
+
+export const checkIsDateDisabled = (
+  day: number,
+  viewDate: Date,
+  min?: Date | string | null,
+  max?: Date | string | null,
+): boolean => {
+  if (!min && !max) return false;
+  const t = new Date(
+    viewDate.getFullYear(),
+    viewDate.getMonth(),
+    day,
+  ).getTime();
+
+  const minT = getLimit(min);
+  const maxT = getLimit(max, true);
+
+  return (minT !== null && t < minT) || (maxT !== null && t > maxT);
+};
+
+export const getMonthListData = (
+  locale: string,
+  year: number,
+  min?: Date | null,
+  max?: Date | null,
+) => {
+  const names = getMonthNames(locale);
+  if (!min && !max) return names.map((label) => ({ label, disabled: false }));
+
+  const minT = getLimit(min);
+  const maxT = getLimit(max, true);
+
+  return names.map((label, index) => {
+    const firstDay = new Date(year, index, 1).getTime();
+    const lastDay = new Date(year, index + 1, 0).getTime();
+    return {
+      label,
+      disabled:
+        (minT !== null && lastDay < minT) || (maxT !== null && firstDay > maxT),
+    };
+  });
+};
+
+export const checkIsYearDisabled = (
+  year: number,
+  min?: Date | null,
+  max?: Date | null,
+): boolean => {
+  const minY = getYearSafe(min);
+  const maxY = getYearSafe(max);
+  return (minY !== null && year < minY) || (maxY !== null && year > maxY);
+};
+
+export const getYearListData = (
+  centerYear: number,
+  minDate?: Date | null,
+  maxDate?: Date | null,
+  rangeLen: number = 25,
+) => {
+  const years = getYearsRange(centerYear, rangeLen);
+
+  return years.map((y) => ({
+    value: y,
+    disabled: checkIsYearDisabled(y, minDate, maxDate),
+  }));
+};
+
+export const isYearFixed = (
+  curYear: number,
+  min?: Date | null,
+  max?: Date | null,
+): boolean => {
+  return !!(
+    min &&
+    max &&
+    getYearSafe(min) === curYear &&
+    getYearSafe(max) === curYear
+  );
+};
+
+export const getFilteredPresets = (
+  showYears: boolean,
+  showMonths: boolean,
+  min?: Date | null,
+  max?: Date | null,
+): PresetItem[] => {
+  const fUnits = [
+    ...(!showMonths ? ["month", "week"] : []),
+    ...(!showYears ? ["year"] : []),
+  ];
+
+  const valid = PRESET_CONFIG.filter((p) => !fUnits.includes(p.unit));
+
+  if (!min && !max) return valid;
+
+  const minT = getLimit(min);
+  const maxT = getLimit(max, true);
+
+  return valid.filter((p) => {
+    const t = getPresetDate(p).getTime();
+    return !(minT !== null && t < minT) && !(maxT !== null && t > maxT);
+  });
+};
+
+export const getRelativeLabel = (
+  locale: string,
+  amount: number,
+  unit: Intl.RelativeTimeFormatUnit,
+) => {
+  if (!rtfCache[locale]) {
+    rtfCache[locale] = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  }
+
+  const label = rtfCache[locale].format(amount, unit);
+  return label.charAt(0).toUpperCase() + label.slice(1);
 };

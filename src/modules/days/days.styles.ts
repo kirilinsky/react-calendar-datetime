@@ -10,7 +10,7 @@ export const container = css`
   grid-area: DD;
   background: var(--c-b);
   display: grid;
-  grid-template-columns: repeat(7, 1fr); 
+  grid-template-columns: repeat(7, 1fr);
   padding: 14px;
   gap: 3px 5px;
   height: 100%;
@@ -33,5 +33,5 @@ export const header = css`
 export const dayItem = css`
   ${interactiveBase}
   ${flexCenter}
-  padding: 8px 4px;
+  padding: 10px 4px;
 `;

@@ -22,6 +22,17 @@ export const currentYear = css`
   height: 44px;
   &:active {
     transform: scale(0.98);
+  } 
+  &.static {
+    cursor: default;
+    background: transparent;
+    pointer-events: none; 
+    &:active {
+      transform: none;
+    } 
+    &:hover {
+      background: transparent;
+    }
   }
 `;
 
@@ -29,7 +40,7 @@ export const arrow = css`
   ${interactiveBase}
   width: 44px;
   height: 44px;
-  flex-shrink: 0; 
+  flex-shrink: 0;
   & svg {
     margin: 0;
   }

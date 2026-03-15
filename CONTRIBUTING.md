@@ -34,6 +34,7 @@ Basic commands for development and building:
 
 ## Patch notes (old versions)
 
+- **v2.4.4:** Bugfixes.
 - **v2.4.3:** Optimized bundle size (experimental `tsup` config)
 - **v2.4.2:** Bugfixes, added `Tomorrow` preset.
 - **v2.4.1:** Decoupled data from types in `.d.ts` files.

@@ -2,21 +2,22 @@ import { useState } from "react";
 import { Calendar } from "../Calendar/Calendar";
 import "./calendar.css";
 import { CalendarTheme, DARK_THEMES, LIGHT_THEMES } from "../types/themes";
-import { LocaleKey } from "../i18n/types";
-import { i18nData } from "../i18n";
+import { ButtonGroup } from "./story.components";
 
-const LOCALE_LABELS: Record<LocaleKey, string> = {
-  en: "English",
-  pt: "Português",
-  ru: "Русский",
-  it: "Italiano",
-  ua: "Українська",
-  de: "Deutsch",
-  "zh-cn": "中文",
-  fr: "Français",
-  es: "Español",
-  sr: "Srpski",
-};
+const LOCALES_LIST = [
+  { locale: "en", label: "English" },
+  { locale: "de", label: "Deutsch" },
+  { locale: "fr", label: "Français" },
+  { locale: "es", label: "Español" },
+  { locale: "it", label: "Italiano" },
+  { locale: "pt", label: "Português" },
+  { locale: "ua", label: "Українська" },
+  { locale: "pl", label: "Polski" },
+  { locale: "ru", label: "Русский" },
+  { locale: "zh-CN", label: "中文" },
+  { locale: "ja", label: "日本語" },
+  { locale: "sr", label: "Srpski" },
+] as const;
 
 const THEME_LABELS: Record<CalendarTheme, string> = {
   paper: "Paper",
@@ -28,14 +29,12 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   dracula: "Dracula",
   cyber: "Cyber",
   comfy: "Comfy",
+  temporal: "Temporal",
+  neonlight: "Neon Light",
   larosa: "La Rosa",
   snowstorm: "Snow Storm",
   solar: "Solar",
 };
-const LOCALE_OPTIONS = (Object.keys(i18nData) as LocaleKey[]).map((key) => ({
-  value: key,
-  label: LOCALE_LABELS[key],
-}));
 
 export default {
   title: "Calendar",
@@ -60,7 +59,7 @@ const StoryWrapper = ({ children, title, subtitle, light = true }: any) => (
       <h2 className="story-title">{title}</h2>
       <p className="story-subtitle">{subtitle}</p>
     </div>
-    {children}
+    <div className="story-content">{children}</div>
   </div>
 );
 
@@ -76,6 +75,55 @@ export const Base = () => {
   );
 };
 
+export const minMaxDates = () => {
+  const getOffsetDay = (days: number) => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + days);
+    return d;
+  };
+
+  const [date, setDate] = useState<Date>(new Date());
+  const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-11));
+  const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(11));
+  const toISODate = (d: Date) => d.toISOString().split("T")[0];
+
+  return (
+    <StoryWrapper
+      title="With date limits"
+      subtitle={`Selected: ${formatSubtitle(date)} | Min: ${formatSubtitle(minDate)} | Max: ${formatSubtitle(maxDate)}`}
+    >
+      <div className="unified-controls">
+        <div className="control-group">
+          <label>Min Date</label>
+          <input
+            type="date"
+            value={toISODate(minDate)}
+            onChange={(e) => setMinDate(new Date(e.target.value))}
+          />
+        </div>
+        <div className="control-group">
+          <label>Max Date</label>
+          <input
+            type="date"
+            value={toISODate(maxDate)}
+            onChange={(e) => setMaxDate(new Date(e.target.value))}
+          />
+        </div>
+      </div>
+
+      <Calendar
+        date={date}
+        onChangeDate={setDate}
+        minDate={minDate}
+        maxDate={maxDate}
+        theme="snowstorm"
+        presets
+      />
+    </StoryWrapper>
+  );
+};
+
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
@@ -83,22 +131,19 @@ export const ThemePlayground = () => {
 
   const renderThemeButtons = (
     themes: readonly CalendarTheme[],
-    light: "light" | "dark",
+    isLight: boolean,
   ) => (
-    <div className="theme-group">
-      {themes.map((theme) => (
-        <button
-          key={theme}
-          onClick={() => {
-            setActiveTheme(theme);
-            setLight(light === "light");
-          }}
-          className={`story-button ${activeTheme === theme ? "active-blue" : ""}`}
-        >
-          {THEME_LABELS[theme]}
-        </button>
-      ))}
-    </div>
+    <ButtonGroup
+      items={themes.map((theme) => ({
+        id: theme,
+        label: THEME_LABELS[theme],
+        isActive: activeTheme === theme,
+        onClick: () => {
+          setActiveTheme(theme);
+          setLight(isLight);
+        },
+      }))}
+    />
   );
 
   return (
@@ -107,26 +152,22 @@ export const ThemePlayground = () => {
       title="Theme Playground"
       subtitle="Switch between all our custom tokens"
     >
-      <div className="playground-layout">
-        <div className="controls-sidebar">
-          <h4>🌙 Dark Themes</h4>
-          {renderThemeButtons(DARK_THEMES, "dark")}
-        </div>
+      <div className="control-group">
+        <h4>🌙 Dark Themes</h4>
+        {renderThemeButtons(DARK_THEMES, false)}
+      </div>
 
-        <div className="calendar-preview">
-          <Calendar
-            theme={activeTheme}
-            date={date}
-            onChangeDate={setDate}
-            presets
-            time
-          />
-        </div>
+      <Calendar
+        theme={activeTheme}
+        date={23}
+        onChangeDate={setDate}
+        presets
+        time
+      />
 
-        <h4 style={{ marginTop: "20px" }}>☀️ Light Themes</h4>
-        <div className="controls-sidebar">
-          {renderThemeButtons(LIGHT_THEMES, "light")}
-        </div>
+      <div className="control-group">
+        <h4>☀️ Light Themes</h4>
+        {renderThemeButtons(LIGHT_THEMES, true)}
       </div>
     </StoryWrapper>
   );
@@ -134,32 +175,46 @@ export const ThemePlayground = () => {
 
 export const LocalePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
-  const [activeLocale, setActiveLocale] = useState<LocaleKey>("en");
+  const [activeLocale, setActiveLocale] = useState<string>("en");
+
+  const renderLocaleButtons = (locales: (typeof LOCALES_LIST)[number][]) => (
+    <ButtonGroup
+      items={locales.map((loc) => ({
+        id: loc.locale,
+        label: loc.label,
+        isActive: activeLocale === loc.locale,
+        onClick: () => setActiveLocale(loc.locale),
+      }))}
+    />
+  );
 
   return (
     <StoryWrapper
       title="Interactive Playground"
       subtitle={`Selected in ${activeLocale}: ${formatSubtitle(date, activeLocale)}`}
     >
-      <div className="story-controls">
-        {LOCALE_OPTIONS.map((loc) => (
-          <button
-            key={loc.value}
-            onClick={() => setActiveLocale(loc.value)}
-            className={`story-button ${activeLocale === loc.value ? "active-green" : ""}`}
-          >
-            {loc.label}
-          </button>
-        ))}
-      </div>
-
+      <p
+        style={{
+          fontSize: "14px",
+          opacity: 0.7,
+          maxWidth: "600px",
+          textAlign: "center",
+          marginTop: "-16px",
+          marginBottom: "8px",
+        }}
+      >
+        *These 12 locales are just a showcase. Thanks to the native Intl API,
+        the calendar automatically supports all 400+ BCP 47 language tags out of
+        the box (e.g., "nl", "sv", "ko").
+      </p>
+      {renderLocaleButtons(LOCALES_LIST.slice(0, 6))}
       <Calendar
         locale={activeLocale}
         date={date}
         onChangeDate={setDate}
         presets
-        width="85vh"
       />
+      {renderLocaleButtons(LOCALES_LIST.slice(6))}
     </StoryWrapper>
   );
 };
@@ -182,12 +237,12 @@ export const BuilderPlayground = () => {
       title="Calendar Builder"
       subtitle="Toggle modules to see dynamic grid adjustments"
     >
-      <div className="story-controls">
+      <div className="unified-controls">
         {Object.keys(config).map((key) => (
           <button
             key={key}
             onClick={() => toggle(key as keyof typeof config)}
-            className={`story-button ${config[key as keyof typeof config] ? "active-green" : ""}`}
+            className={`story-button ${config[key as keyof typeof config] ? "active" : ""}`}
             style={{ textTransform: "capitalize" }}
           >
             {key}: {config[key as keyof typeof config] ? "ON" : "OFF"}

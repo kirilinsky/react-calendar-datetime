@@ -6,7 +6,7 @@ export const container = css`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  padding: 14px 8px;
+  padding: 12px 8px;
   gap: 4px;
   border-right: 1px solid var(--c-s);
   background: var(--c-b);
@@ -15,5 +15,5 @@ export const container = css`
 export const item = css`
   ${interactiveBase}
   ${textSm}
-  padding: 10px 5px;
+  padding: 9px 5px;
 `;

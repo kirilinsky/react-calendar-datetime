@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { setup } from "goober";
 import { Years, YearPicker, Days, Time, Months, Presets } from "../modules";
 import * as s from "./calendar.styles";
 import { getThemeVars } from "@/themes/themes";
 import { CalendarProps } from "@/types/calendar";
-import { getMonthNames, getWeekdaysNames } from "@/utils/date-utils";
+import {
+  getMonthListData,
+  getWeekdaysNames,
+  isYearFixed,
+} from "@/utils/date-utils";
 
 setup(React.createElement);
 
@@ -19,6 +23,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   width = null,
   height = null,
   theme = "paper",
+  minDate,
+  maxDate,
 }) => {
   const [showYearPicker, setShowYearPicker] = useState(false);
 
@@ -31,7 +37,10 @@ export const Calendar: React.FC<CalendarProps> = ({
     onChangeDate?.(newDate);
   };
 
-  const mNames = useMemo(() => getMonthNames(locale), [locale]);
+  const mNames = useMemo(
+    () => getMonthListData(locale, dateObj.getFullYear(), minDate, maxDate),
+    [locale, dateObj.getFullYear(), minDate, maxDate],
+  );
   const wDays = useMemo(() => getWeekdaysNames(locale), [locale]);
 
   return (
@@ -54,11 +63,15 @@ export const Calendar: React.FC<CalendarProps> = ({
           date={dateObj}
           changeAction={handleChange}
           toggleYearPicker={toggleYearPicker}
+          minDate={minDate}
+          maxDate={maxDate}
         />
       ) : (
         <>
           {years && (
             <Years
+              minDate={minDate}
+              maxDate={maxDate}
               date={dateObj}
               toggleYearPicker={toggleYearPicker}
               changeAction={handleChange}
@@ -71,7 +84,13 @@ export const Calendar: React.FC<CalendarProps> = ({
               changeAction={handleChange}
             />
           )}
-          <Days date={dateObj} changeAction={handleChange} weekdays={wDays} />
+          <Days
+            date={dateObj}
+            changeAction={handleChange}
+            weekdays={wDays}
+            minDate={minDate}
+            maxDate={maxDate}
+          />
           {time && <Time date={dateObj} changeAction={handleChange} />}
           {presets && (
             <Presets
@@ -79,6 +98,8 @@ export const Calendar: React.FC<CalendarProps> = ({
               months={months}
               locale={locale}
               changeAction={handleChange}
+              minDate={minDate}
+              maxDate={maxDate}
             />
           )}
         </>

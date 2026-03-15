@@ -1,51 +1,39 @@
-import React, { useEffect, useState } from "react";
-import i18n from "@/i18n";
+import React, { useMemo } from "react";
 import * as s from "./presets.styles";
+import { PresetItem, PresetsProps } from "@/types/presets";
 import {
-  PRESET_CONFIG,
-  PresetItem,
-  PresetsProps,
-  PresetUnit,
-} from "@/types/presets";
-import { getPresetDate } from "@/utils/date-utils";
-import { LocaleKey } from "@/i18n/types";
+  getFilteredPresets,
+  getPresetDate,
+  getRelativeLabel,
+} from "@/utils/date-utils";
 
 const Presets: React.FC<PresetsProps> = ({
   locale,
   changeAction,
   years,
   months,
+  minDate,
+  maxDate,
 }) => {
-  const voc = i18n[locale as LocaleKey];
-  const [presets, setPresets] = useState<PresetItem[]>([]);
+  const presets = useMemo(
+    () => getFilteredPresets(years, months, minDate, maxDate),
+    [years, months, minDate, maxDate],
+  );
 
-  const handlePresetClick = (amount: number, unit: PresetUnit) => {
-    changeAction(getPresetDate(amount, unit));
+  const handlePresetClick = (preset: PresetItem) => {
+    changeAction(getPresetDate(preset));
   };
-
-  useEffect(() => {
-    const forbiddenUnits: PresetUnit[] = [];
-
-    if (!months) forbiddenUnits.push("month", "week");
-    if (!years) forbiddenUnits.push("year");
-
-    const filtered = PRESET_CONFIG.filter(
-      (preset) => !forbiddenUnits.includes(preset.unit),
-    );
-
-    setPresets(filtered);
-  }, [years, months]);
 
   return (
     <div className={s.container}>
-      {presets.map(({ key, amount, unit }) => (
+      {presets.map((preset) => (
         <button
-          key={key}
+          key={preset.id}
           type="button"
           className={s.presetItem}
-          onClick={() => handlePresetClick(amount, unit)}
+          onClick={() => handlePresetClick(preset)}
         >
-          {voc[key]}
+          {getRelativeLabel(locale, preset.amount, preset.unit)}{" "}
         </button>
       ))}
     </div>
