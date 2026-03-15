@@ -159,7 +159,7 @@ export const ThemePlayground = () => {
 
       <Calendar
         theme={activeTheme}
-        date={23}
+        date={date}
         onChangeDate={setDate}
         presets
         time
