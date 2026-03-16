@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar } from "../Calendar/Calendar";
+import { Calendar } from "../components/calendar/calendar";
 import "./calendar.css";
 import { CalendarTheme, DARK_THEMES, LIGHT_THEMES } from "../types/themes";
 import { ButtonGroup } from "./story.components";
@@ -226,6 +226,7 @@ export const BuilderPlayground = () => {
     months: true,
     time: false,
     presets: false,
+    compactMonths: false,
   });
 
   const toggle = (key: keyof typeof config) => {
@@ -257,6 +258,7 @@ export const BuilderPlayground = () => {
         months={config.months}
         time={config.time}
         presets={config.presets}
+        compactMonths={config.compactMonths}
       />
     </StoryWrapper>
   );

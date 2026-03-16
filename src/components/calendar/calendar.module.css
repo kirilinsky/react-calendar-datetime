@@ -1,0 +1,17 @@
+.calendarContainer {
+  min-width: 450px;
+  min-height: 400px;;
+  background: var(--c-a);
+  color: var(--c-c);
+  display: grid;
+  user-select: none;
+  box-sizing: border-box;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  border-radius: 16px;
+  border: 1px solid var(--c-s);
+  box-shadow: 0 4px 16px var(--c-x);
+  overflow: hidden;
+}

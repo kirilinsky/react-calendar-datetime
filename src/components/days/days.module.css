@@ -1,0 +1,65 @@
+.dayGridContainer {
+  grid-area: DD;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cal-gap);
+  width: 100%;
+}
+
+.weekDaysRow,
+.daysMatrix {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--cal-gap);
+}
+
+.weekDayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--cal-cell-size) * 0.8);
+  font-size: 0.8rem;
+  color: var(--cal-muted-color);
+  font-weight: 500;
+  user-select: none;
+}
+
+.dayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--cal-cell-size);
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--cal-text-color);
+  border-radius: var(--cal-border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.15s ease;
+  padding: 0;
+}
+
+.dayCell:hover {
+  background-color: var(--cal-bg-hover);
+}
+
+.dayCellSelected {
+  background-color: var(--cal-text-color);
+  color: #fff;
+}
+
+.dayCellSelected:hover {
+  background-color: var(--cal-text-color);
+}
+
+.dayCellOutside {
+  color: var(--cal-muted-color);
+  opacity: 0.5;
+}
+
+.dayCellDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
