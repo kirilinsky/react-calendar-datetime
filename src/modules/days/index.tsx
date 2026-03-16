@@ -1,13 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import * as s from "./days.styles";
 import { DaysProps } from "@/types/days";
-import {
-  setDateValue,
-  getDaysInMonth,
-  getFirstDayOffset,
-  checkIsDateDisabled,
-} from "@/utils/date-utils";
-import { activeItem } from "@/styles/shared.styles";
+import { getFirstDayOffset, checkIsDateDisabled } from "@/utils/date-utils";
+import { activeItem, otherItem } from "@/styles/shared.styles";
 
 const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
@@ -18,24 +13,38 @@ const Days: React.FC<DaysProps> = ({
   minDate,
   maxDate,
 }) => {
-  const currentDay = date.getDate();
-  const daysInMonth = getDaysInMonth(date);
+  const currentMonth = date.getMonth();
+  const currentYear = date.getFullYear();
   const offset = getFirstDayOffset(date);
 
-  const isDateDisabled = useCallback(
-    (day: number) => {
-      if (!minDate && !maxDate) return false;
-      return checkIsDateDisabled(day, date, minDate, maxDate);
-    },
-    [date, minDate, maxDate],
-  );
+  const calendarData = useMemo(() => {
+    return CELLS.map((i) => {
+      const fullDate = new Date(currentYear, currentMonth, i - offset + 1);
+      const isCurrentMonth = fullDate.getMonth() === currentMonth;
+      const day = fullDate.getDate();
+
+      const isDisabled = checkIsDateDisabled(day, fullDate, minDate, maxDate);
+
+      return {
+        day,
+        fullDate,
+        isCurrentMonth,
+        isDisabled,
+        isSelected:
+          isCurrentMonth &&
+          day === date.getDate() &&
+          fullDate.getFullYear() === currentYear,
+      };
+    });
+  }, [currentYear, currentMonth, offset, date, minDate, maxDate]);
 
   const handleSetDay = useCallback(
-    (day: number) => {
-      if (day !== currentDay && !isDateDisabled(day))
-        changeAction(setDateValue(date, day));
+    (targetDate: Date, isDisabled: boolean) => {
+      if (!isDisabled) {
+        changeAction(targetDate);
+      }
     },
-    [currentDay, date, changeAction, isDateDisabled],
+    [changeAction],
   );
 
   return (
@@ -43,7 +52,7 @@ const Days: React.FC<DaysProps> = ({
       className={s.container + " animating"}
       role="grid"
       aria-label="days"
-      key={date.getFullYear() + "-" + date.getMonth()}
+      key={`${currentYear}-${currentMonth}`}
     >
       <div role="row" style={{ display: "contents" }}>
         {weekdays.map((day) => (
@@ -54,26 +63,25 @@ const Days: React.FC<DaysProps> = ({
       </div>
 
       <div role="row" style={{ display: "contents" }}>
-        {CELLS.map((i) => {
-          const day = i - offset + 1;
-          const isValid = day > 0 && day <= daysInMonth;
-          const isSelected = isValid && day === currentDay;
-          const outOfLimitedRange = isValid && isDateDisabled(day);
-
-          return (
+        {calendarData.map(
+          ({ day, fullDate, isCurrentMonth, isDisabled, isSelected }, i) => (
             <button
               key={i}
               type="button"
-              disabled={!isValid || outOfLimitedRange}
-              onClick={() => handleSetDay(day)}
+              disabled={isDisabled}
+              onClick={() => handleSetDay(fullDate, isDisabled)}
               aria-selected={isSelected}
-              className={`${s.dayItem} ${isSelected ? activeItem : ""}`}
-              style={isValid ? undefined : { visibility: "hidden" }}
+              className={`
+              ${s.dayItem} 
+            ${isSelected ? activeItem : ""} 
+      ${!isCurrentMonth ? otherItem : ""}
+              
+            `}
             >
-              {isValid && day}
+              {day}
             </button>
-          );
-        })}
+          ),
+        )}
       </div>
     </div>
   );

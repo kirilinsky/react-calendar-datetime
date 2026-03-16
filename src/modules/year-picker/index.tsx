@@ -1,12 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Left, Right } from "../../Icons";
 import * as s from "./year-picker.styles";
-import {
-  setYear,
-  addYears,
-  getYearsRange,
-  getYearListData,
-} from "@/utils/date-utils";
+import { setYear, addYears, getYearListData } from "@/utils/date-utils";
 import { activeItem } from "@/styles/shared.styles";
 import { YearsProps } from "@/types/years";
 

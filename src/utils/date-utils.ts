@@ -27,20 +27,14 @@ const getLimit = (d?: Date | string | null, isMax?: boolean) =>
 
 const getYearSafe = (d?: Date | string | null) =>
   d ? new Date(d).getFullYear() : null;
-export const isValidDate = (d: any): d is Date =>
-  d instanceof Date && !isNaN(d.getTime());
+ 
 
-export const isSameDay = (d1: Date, d2: Date): boolean =>
-  d1.getDate() === d2.getDate() &&
-  d1.getMonth() === d2.getMonth() &&
-  d1.getFullYear() === d2.getFullYear();
-
-export const addMonth = (date: Date, v: number) =>
-  mutate(date, (d) => d.setMonth(d.getMonth() + v));
+const _getDaysInMonth = (year: number, month: number): number =>
+  month === 1 && isLeap(year) ? 29 : DAYS[month];
 
 export const setMonth = (date: Date, v: number) =>
   mutate(date, (d) => {
-    const maxDays = v === 1 && isLeap(d.getFullYear()) ? 29 : DAYS[v];
+    const maxDays = _getDaysInMonth(d.getFullYear(), v);
     if (d.getDate() > maxDays) d.setDate(maxDays);
     d.setMonth(v);
   });
@@ -49,8 +43,6 @@ export const addYears = (date: Date, v: number) =>
   mutate(date, (d) => d.setFullYear(d.getFullYear() + v));
 export const setYear = (date: Date, v: number) =>
   mutate(date, (d) => d.setFullYear(v));
-export const setDateValue = (date: Date, v: number) =>
-  mutate(date, (d) => d.setDate(v));
 
 export const addTime = (date: Date, amount: number, unit: "h" | "m") =>
   mutate(date, (d) => {
@@ -60,11 +52,6 @@ export const addTime = (date: Date, amount: number, unit: "h" | "m") =>
       d.setMinutes(getDrumValue(d.getMinutes(), amount, 60));
     }
   });
-
-export const getDaysInMonth = (date: Date): number => {
-  const m = date.getMonth();
-  return m === 1 && isLeap(date.getFullYear()) ? 29 : DAYS[m];
-};
 
 // TODO extend logic for firstDayOfWeek prop
 export const getFirstDayOffset = (date: Date): number =>
@@ -76,7 +63,7 @@ export const getYearsRange = (center: number, len: number = 25): number[] => {
 };
 
 export const getMonthNames = (locale: string): string[] => {
-  const key = locale + "M";
+  const key = `${locale}M`;
   if (!i18nCache[key]) {
     const f = new Intl.DateTimeFormat(locale, { month: "long" }).format;
     const year = new Date().getFullYear();
@@ -88,7 +75,7 @@ export const getMonthNames = (locale: string): string[] => {
 };
 
 export const getWeekdaysNames = (locale: string): string[] => {
-  const key = locale + "W";
+  const key = `${locale}W`;
   if (!i18nCache[key]) {
     const f = new Intl.DateTimeFormat(locale, { weekday: "short" }).format;
     const baseDate = new Date(2024, 0, 1);

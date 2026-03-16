@@ -117,7 +117,7 @@ export const minMaxDates = () => {
         onChangeDate={setDate}
         minDate={minDate}
         maxDate={maxDate}
-        theme="snowstorm"
+        theme="solar"
         presets
       />
     </StoryWrapper>

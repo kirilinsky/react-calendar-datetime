@@ -11,11 +11,12 @@ export const container = css`
   background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 14px;
-  gap: 3px 5px;
-  height: 100%;
+  grid-template-rows: 23px repeat(6, 1fr);
+  align-content: center;
+  padding: 8px 15px;
+  gap: 3px;
+  min-height: 297px;
   box-sizing: border-box;
-  min-height: 250px;
   &.animating {
     animation: ${jumpInKeyframes} 0.2s ease-out forwards;
   }
@@ -32,6 +33,18 @@ export const header = css`
 `;
 
 export const dayItem = css`
-  ${interactiveBase} 
-  padding: 10px 4px;
+  ${interactiveBase}
+  padding: 8px 4px;
+  position: relative;
+  z-index: 1;
+
+  &:disabled {
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 4px,
+      var(--c-t) 2px,
+      var(--c-t) 5px
+    );
+  }
 `;

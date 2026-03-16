@@ -51,7 +51,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#2f2b24",
     "#fdfbf7",
     "#5d5448",
-    "rgba(0, 0, 0, 0.26)",
+    "#0000002a",
   ],
   mintblue: [
     W,
@@ -60,7 +60,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#eaedf4",
     "#171827",
     "#b8c0d1",
-    "#00000a",
+    "#00000a1a",
   ],
   larosa: [
     W,
@@ -69,7 +69,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#e5e1e9",
     "#2d2a32",
     "#a8a1af",
-    "#d4639449",
+    "#d4639422",
   ],
   snowstorm: [
     W,
@@ -114,7 +114,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#e9f3eb",
     "#1f2937",
     "#bed3c3",
-    "#80ec2744",
+    "#80ec2722",
   ],
   temporal: [
     "#122127",

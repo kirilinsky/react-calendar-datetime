@@ -2,11 +2,9 @@ import { flexCenter, textLg } from "@/styles/shared.styles";
 import { css } from "goober";
 
 export const container = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexCenter}
   position: relative;
-  padding: 10px;
+  padding: 8px 6px;
   gap: 3px;
   background: var(--c-b);
 `;
@@ -22,12 +20,12 @@ export const timeSelectionIndicator = css`
   border-radius: 8px;
   z-index: 0;
   pointer-events: none;
+  box-shadow: 0 0 10px var(--c-x);
 `;
 
 export const column = css`
-  display: flex;
+  ${flexCenter}
   flex-direction: column;
-  align-items: center;
   z-index: 1;
 `;
 
@@ -44,7 +42,6 @@ export const cell = css`
   height: 32px;
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s ease;
   color: var(--c-c);
   transition: transform 0.1s ease-out;
   &:active {

@@ -126,7 +126,7 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 
 ## ✅ Patch notes:
 
-### 🚀 Version 2.5.2
+### 🚀 Version 2.5.4
 
 - **🌍 Infinite Localization**
 - **🎨 New Radical Themes**: Added `Neonlight` and `Temporal` themes.
