@@ -163,6 +163,9 @@ export const ThemePlayground = () => {
         onChangeDate={setDate}
         presets
         time
+        months
+        years
+        compactMonths
       />
 
       <div className="control-group">

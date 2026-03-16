@@ -1,7 +1,7 @@
 .calendarContainer {
   min-width: 450px;
-  min-height: 400px;;
-  background: var(--c-a);
+  min-height: 400px;
+  background: var(--c-b);
   color: var(--c-c);
   display: grid;
   user-select: none;

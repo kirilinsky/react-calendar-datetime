@@ -3,111 +3,69 @@ import { CalendarProps } from "@/types/calendar";
 import { CalendarProvider } from "@/components/provider/provider";
 import { DaysComponent } from "../days/days";
 import styles from "./Calendar.module.css";
-
-const getGridLayout = (p: {
-  time?: boolean;
-  presets?: boolean;
-  months?: boolean;
-  years?: boolean;
-  compactMonths?: boolean;
-  yearsPicker?: boolean;
-}) => {
-  if (p.yearsPicker) {
-    return {
-      gridTemplateColumns: "1fr",
-      gridTemplateRows: "1fr",
-      gridTemplateAreas: '"YY"',
-    };
-  }
-
-  const colCount = (p.months ? 1 : 0) + 1 + (p.time ? 1 : 0);
-
-  const cols = [p.months && "2fr", "5fr", p.time && "2fr"]
-    .filter(Boolean)
-    .join(" ");
-  const hasTopBar = p.years || p.compactMonths;
-
-  const mainRow = [p.months && "MM", "DD", p.time && "TT"]
-    .filter(Boolean)
-    .join(" ");
-
-  const fullRow = (key: string) =>
-    `"${new Array(colCount).fill(key).join(" ")}"`;
-
-  const areas = [
-    hasTopBar && fullRow("SS"),
-    `"${mainRow}"`,
-    p.presets && fullRow("PP"),
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  const rows = [hasTopBar && "60px", "auto", p.presets && "50px"]
-    .filter(Boolean)
-    .join(" ");
-
-  return {
-    gridTemplateColumns: cols,
-    gridTemplateRows: rows,
-    gridTemplateAreas: areas,
-  };
-};
+import { HeaderComponent } from "../header/header";
+import { getGridLayout } from "@/helpers/get-grid-layout";
+import { getThemeVariables } from "@/helpers/get-theme";
+import { MonthsComponent } from "../months/months";
+import { Presets } from "@/modules";
+import { PresetsComponent } from "../presets/presets";
 
 export const Calendar: React.FC<CalendarProps> = ({
-  presets = false,
-  months = false,
-  years = true,
-  date = new Date(),
-  time = true,
-  locale = "en",
-  maxDate,
-  minDate,
-  disabledDates,
-  disableWeekends = false,
-  startOfWeek = 1,
-  compactMonths = false,
-  onChangeDate,
-  width,
-  height,
+  width = "100%",
+  height = "auto",
   theme = "paper",
+  presets = false,
+  compactMonths = false,
+  years = true,
+  time = false,
+  months = true,
+  locale = "en",
+  ...restProps
 }) => {
-  const dynamicGridStyles = useMemo(
-    () => getGridLayout({ time, presets, months, years, compactMonths }),
-    [time, presets, months, years, compactMonths],
-  );
+  const resolvedProps = {
+    width,
+    height,
+    theme,
+    presets,
+    compactMonths,
+    years,
+    time,
+    months,
+    locale,
+    ...restProps,
+  };
+
+  const containerStyle = useMemo(() => {
+    const themeVars = getThemeVariables(theme);
+    const gridLayout = getGridLayout({
+      presets,
+      compactMonths,
+      years,
+      time,
+      months,
+    });
+
+    return {
+      width,
+      height,
+      ...themeVars,
+      ...gridLayout,
+    } as React.CSSProperties;
+  }, [width, height, theme, presets, compactMonths, years, time, months]);
 
   return (
-    <CalendarProvider
-      date={date}
-      maxDate={maxDate}
-      minDate={minDate}
-      disabledDates={disabledDates}
-      disableWeekends={disableWeekends}
-      startOfWeek={startOfWeek}
-      locale={locale}
-      onChangeDate={onChangeDate}
-    >
+    <CalendarProvider {...resolvedProps}>
       <div
         className={`${styles.calendarContainer} theme-${theme}`}
-        style={{
-          width: width ?? "100%",
-          height: height ?? "auto",
-          ...dynamicGridStyles,
-        }}
+        style={containerStyle}
       >
-        {presets && <div style={{ gridArea: "PP" }}>presets</div>}
+        {presets && <PresetsComponent />}
 
-        {(years || compactMonths) && (
-          <div style={{ gridArea: "SS" }}>years header</div>
-        )}
-
-        {/*  {yearsPicker && (
-          <div style={{ gridArea: "YY" }}>year picker full screen</div>
-        )} */}
+        {(years || compactMonths) && <HeaderComponent />}
 
         <DaysComponent />
 
-        {months && <div style={{ gridArea: "MM" }}>months</div>}
+        {months && <MonthsComponent />}
 
         {time && <div style={{ gridArea: "TT" }}>time</div>}
       </div>

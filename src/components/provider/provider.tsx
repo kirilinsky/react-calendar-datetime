@@ -1,5 +1,5 @@
+import React, { createContext, useContext, useMemo, ReactNode } from "react";
 import { CalendarContextValue, CalendarProps } from "@/types/calendar";
-import React, { createContext, useContext, useState, ReactNode } from "react";
 
 const CalendarContext = createContext<CalendarContextValue | undefined>(
   undefined,
@@ -12,41 +12,23 @@ export const useCalendarContext = () => {
   return context;
 };
 
-interface ProviderProps extends Omit<
-  CalendarProps,
-  "presets" | "width" | "height" | "theme"
-> {
-  children: ReactNode;
-}
+ 
+export const CalendarProvider: React.FC<
+  CalendarProps & { children: ReactNode }
+> = ({ children, ...props }) => {
+  const contextValue = useMemo(() => {
+    const rawDate = props.date ? new Date(props.date) : new Date();
+    const safeDate = isNaN(rawDate.getTime()) ? new Date() : rawDate;
 
-export const CalendarProvider: React.FC<ProviderProps> = ({
-  children,
-  date,
-  onChangeDate,
-  ...restProps
-}) => {
-  const initialDate = date || new Date();
-
-  const [selectedDate, setSelectedDateState] = useState<Date | null>(
-    initialDate,
-  );
-  const [viewDate, setViewDate] = useState<Date>(initialDate);
-
-  const handleSetSelectedDate = (newDate: Date) => {
-    setSelectedDateState(newDate);
-    if (onChangeDate) onChangeDate(newDate);
-  };
+    return {
+      ...props,  
+      date: safeDate,
+      onChangeDate: (d: Date) => props.onChangeDate?.(d),
+    } as CalendarContextValue;
+  }, [props]);
 
   return (
-    <CalendarContext.Provider
-      value={{
-        selectedDate,
-        viewDate,
-        setSelectedDate: handleSetSelectedDate,
-        setViewDate,
-        ...restProps,
-      }}
-    >
+    <CalendarContext.Provider value={contextValue}>
       {children}
     </CalendarContext.Provider>
   );

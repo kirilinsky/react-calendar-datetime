@@ -1,14 +1,12 @@
 import { CalendarTheme } from "./themes";
 
-export type LocaleKey = "en" | "en-US" | "de" | "zh-CN" | (string & {});
-
 export interface CalendarProps {
   presets?: boolean;
   months?: boolean;
   years?: boolean;
   date?: Date; //default - today
   time?: boolean;
-  locale?: LocaleKey;
+  locale?: string;
   maxDate?: Date;
   minDate?: Date;
   disabledDates?: Date | Date[];
@@ -23,10 +21,14 @@ export interface CalendarProps {
 
 export interface CalendarContextValue extends Omit<
   CalendarProps,
-  "presets" | "width" | "height" | "theme" | "date" | "onChangeDate"
+  "width" | "height" | "theme"
 > {
-  selectedDate: Date | null;
-  viewDate: Date;
-  setSelectedDate: (date: Date) => void;
-  setViewDate: (date: Date) => void;
+  date: Date;
+  locale: string;
+  onChangeDate: (date: Date) => void;
+  months: boolean;
+  presets: boolean;
+  compactMonths: boolean;
+  years: boolean;
+  time: boolean;
 }

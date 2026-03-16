@@ -27,7 +27,6 @@ const getLimit = (d?: Date | string | null, isMax?: boolean) =>
 
 const getYearSafe = (d?: Date | string | null) =>
   d ? new Date(d).getFullYear() : null;
- 
 
 const _getDaysInMonth = (year: number, month: number): number =>
   month === 1 && isLeap(year) ? 29 : DAYS[month];

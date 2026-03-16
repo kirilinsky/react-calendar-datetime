@@ -1,9 +1,34 @@
 .dayGridContainer {
   grid-area: DD;
+  background: var(--c-b);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 23px repeat(6, 1fr);
+  align-content: center;
+  padding: 8px 15px;
+  gap: 3px;
+  min-height: 297px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.right {
+  animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.left {
+  animation: slideInLeft 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.header {
   display: flex;
-  flex-direction: column;
-  gap: var(--cal-gap);
-  width: 100%;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  text-transform: uppercase;
+  user-select: none;
+  font-weight: 600;
+  color: var(--c-c);
 }
 
 .weekDaysRow,
@@ -24,42 +49,43 @@
   user-select: none;
 }
 
-.dayCell {
+.dayItem {
+  composes: interactive from "../../global/global.module.css";
+
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--cal-cell-size);
-  width: 100%;
-  border: none;
-  background: transparent;
-  color: var(--cal-text-color);
-  border-radius: var(--cal-border-radius);
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.15s ease;
-  padding: 0;
+  padding: 8px 4px;
+  position: relative;
+  z-index: 1;
+  &:disabled {
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 4px,
+      var(--c-t) 2px,
+      var(--c-t) 5px
+    );
+  }
+}
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
-.dayCell:hover {
-  background-color: var(--cal-bg-hover);
-}
-
-.dayCellSelected {
-  background-color: var(--cal-text-color);
-  color: #fff;
-}
-
-.dayCellSelected:hover {
-  background-color: var(--cal-text-color);
-}
-
-.dayCellOutside {
-  color: var(--cal-muted-color);
-  opacity: 0.5;
-}
-
-.dayCellDisabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }

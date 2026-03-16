@@ -1,0 +1,84 @@
+.headerContainer {
+  grid-area: HH;
+  display: flex;
+  align-items: center;
+  background: var(--c-a);
+  border-bottom: 1px solid var(--c-s);
+  justify-content: space-between;
+  padding: 0 8px;
+  height: 60px;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 8px;
+}
+
+.yearsSelector {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  background: var(--c-a);
+  justify-content: space-between;
+  padding: 0 8px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.currentYear {
+  font-size: 20px;
+  composes: interactive from "../../global/global.module.css";
+  flex: 1;
+  margin: 0 10px;
+  font-weight: 700;
+  height: 44px;
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.static {
+  cursor: default;
+  background: transparent;
+  pointer-events: none;
+  &:active {
+    transform: none;
+  }
+  &:hover {
+    background: transparent;
+  }
+}
+
+.arrow {
+  composes: interactive from "../../global/global.module.css";
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  & svg {
+    margin: 0;
+  }
+}
+
+.monthButton {
+  composes: interactive from "../../global/global.module.css";
+  width: auto;
+  border: none;
+  min-width: 130px;
+  height: 44px;
+  background-color: var(--c-t) !important;
+  color: var(--c-h);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+
+  & > svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 3;
+    flex-shrink: 0;
+  }
+}

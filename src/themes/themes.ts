@@ -9,7 +9,7 @@
  * s: borderColor (--c-s) (stroke)
  * x: boxShadow (--c-x)
  */
-const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
+export const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
 
 const W = "#ffffff";
 const B = "#1a1a1c";

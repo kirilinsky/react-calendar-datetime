@@ -1,0 +1,16 @@
+.monthsContainer {
+  grid-area: MM;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  padding: 12px 8px;
+  gap: 5px;
+  border-right: 1px solid var(--c-s);
+  background: var(--c-b);z-index: 2;
+}
+
+.item {
+  composes: interactive from "../../global/global.module.css";
+  padding: 8px 5px;
+  
+}
