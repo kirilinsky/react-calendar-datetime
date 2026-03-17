@@ -9,6 +9,7 @@ import { getThemeVariables } from "@/helpers/get-theme";
 import { MonthsComponent } from "../months/months";
 import { Presets } from "@/modules";
 import { PresetsComponent } from "../presets/presets";
+import { TimeComponent } from "../time/time";
 
 export const Calendar: React.FC<CalendarProps> = ({
   width = "100%",
@@ -67,7 +68,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
         {months && <MonthsComponent />}
 
-        {time && <div style={{ gridArea: "TT" }}>time</div>}
+        {time && <TimeComponent />}
       </div>
     </CalendarProvider>
   );

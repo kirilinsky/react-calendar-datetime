@@ -1,0 +1,60 @@
+.timeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 8px 6px;
+  gap: 3px;
+  background: var(--c-b);
+}
+
+.timeSelectionIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 40px;
+  background: var(--c-h);
+  border-radius: 8px;
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: 0 0 10px var(--c-x);
+}
+
+.column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.separator {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: var(--c-a);
+  margin-top: -5px;
+  z-index: 1;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--c-c);
+  transition: transform 0.1s ease-out;
+
+  &:active {
+    transform: scale(1.14);
+  }
+}
+
+.active {
+  color: var(--c-a) !important;
+  font-weight: 600;
+}

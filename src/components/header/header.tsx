@@ -13,6 +13,16 @@ export const HeaderComponent: React.FC = () => {
     [cur, minDate, maxDate],
   );
 
+  const canGoPrev = useMemo(() => {
+    if (!minDate) return true;
+    return cur > new Date(minDate).getFullYear();
+  }, [cur, minDate]);
+
+  const canGoNext = useMemo(() => {
+    if (!maxDate) return true;
+    return cur < new Date(maxDate).getFullYear();
+  }, [cur, maxDate]);
+
   const currentMonthName = new Intl.DateTimeFormat(locale, {
     month: "long",
   }).format(date);
@@ -30,18 +40,22 @@ export const HeaderComponent: React.FC = () => {
       )}
       {years && (
         <div className={styles.yearsSelector}>
-          <div className={styles.arrow} onClick={() => ch(-1)}>
-            <Left />
-          </div>
+          {canGoPrev && (
+            <div className={styles.arrow} onClick={() => ch(-1)}>
+              <Left />
+            </div>
+          )}
           <button
             onClick={yearFixed ? undefined : undefined}
             className={`${styles.currentYear} ${yearFixed ? styles.static : ""}`}
           >
             {cur}
           </button>
-          <div className={styles.arrow} onClick={() => ch(1)}>
-            <Right />
-          </div>
+          {canGoNext && (
+            <div className={styles.arrow} onClick={() => ch(1)}>
+              <Right />
+            </div>
+          )}
         </div>
       )}
     </div>

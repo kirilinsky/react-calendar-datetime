@@ -21,8 +21,13 @@ export const DaysComponent: React.FC = () => {
   const offset = getFirstDayOffset(date);
 
   useEffect(() => {
-    if (date.getTime() !== prevDate.getTime()) {
-      const isForward = date > prevDate;
+    const isSameMonth =
+      date.getMonth() === prevDate.getMonth() &&
+      date.getFullYear() === prevDate.getFullYear();
+
+    if (!isSameMonth) {
+      const isForward = date.getTime() > prevDate.getTime();
+
       setDirection(isForward ? "right" : "left");
       setPrevDate(date);
     }

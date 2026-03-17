@@ -189,23 +189,26 @@ export const getFilteredPresets = (
   showMonths: boolean,
   min?: Date | null,
   max?: Date | null,
-): PresetItem[] => {
+): (PresetItem & { targetDate: Date })[] => {
   const fUnits = [
     ...(!showMonths ? ["month", "week"] : []),
     ...(!showYears ? ["year"] : []),
   ];
 
-  const valid = PRESET_CONFIG.filter((p) => !fUnits.includes(p.unit));
-
-  if (!min && !max) return valid;
+  const basePresets = PRESET_CONFIG.filter((p) => !fUnits.includes(p.unit));
 
   const minT = getLimit(min);
   const maxT = getLimit(max, true);
 
-  return valid.filter((p) => {
-    const t = getPresetDate(p).getTime();
-    return !(minT !== null && t < minT) && !(maxT !== null && t > maxT);
-  });
+  return basePresets
+    .map((p) => ({
+      ...p,
+      targetDate: getPresetDate(p),
+    }))
+    .filter(({ targetDate }) => {
+      const t = targetDate.getTime();
+      return !(minT !== null && t < minT) && !(maxT !== null && t > maxT);
+    });
 };
 
 export const getRelativeLabel = (
