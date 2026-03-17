@@ -10,6 +10,7 @@ import {
   CalendarProps,
   CalendarView,
 } from "@/types/calendar";
+import { DARK_THEMES } from "@/types/themes";
 
 const CalendarContext = createContext<CalendarContextValue | undefined>(
   undefined,
@@ -24,8 +25,15 @@ export const useCalendarContext = () => {
 
 export const CalendarProvider: React.FC<
   CalendarProps & { children: ReactNode }
-> = ({ children, ...props }) => {
+> = ({ children, theme, ...props }) => {
   const [view, setView] = useState<CalendarView>("calendar");
+
+  const isDark = useMemo(() => {
+    if (!theme) {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return (DARK_THEMES as readonly string[]).includes(theme);
+  }, [theme]);
 
   const contextValue = useMemo(() => {
     const rawDate = props.date ? new Date(props.date) : new Date();
@@ -35,6 +43,7 @@ export const CalendarProvider: React.FC<
       ...props,
       view,
       setView,
+      dark: isDark,
       date: safeDate,
       onChangeDate: (d: Date) => props.onChangeDate?.(d),
     } as CalendarContextValue;

@@ -5,14 +5,14 @@ import {
   checkIsDateDisabled,
   getFirstDayOffset,
   getNextMonthFromSwipe,
-  getWeekdaysNames,
 } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
+import WeekDays from "../week-days/week-days";
 
 const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
 export const DaysComponent: React.FC = () => {
-  const { minDate, maxDate, date, onChangeDate, locale, gestures } =
+  const { minDate, maxDate, date, onChangeDate, gestures, disableWeekends } =
     useCalendarContext();
 
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
@@ -56,7 +56,13 @@ export const DaysComponent: React.FC = () => {
       const isCurrentMonth = fullDate.getMonth() === currentMonth;
       const day = fullDate.getDate();
 
-      const isDisabled = checkIsDateDisabled(day, fullDate, minDate, maxDate);
+      const isDisabled = checkIsDateDisabled(
+        day,
+        fullDate,
+        minDate,
+        maxDate,
+        disableWeekends,
+      );
 
       return {
         day,
@@ -70,8 +76,6 @@ export const DaysComponent: React.FC = () => {
       };
     });
   }, [currentYear, currentMonth, offset, date, minDate, maxDate]);
-
-  const wDays = useMemo(() => getWeekdaysNames(locale), [locale]);
 
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
@@ -92,13 +96,7 @@ export const DaysComponent: React.FC = () => {
       onTouchStart={handleTouchStart}
       className={`${styles.dayGridContainer} ${direction !== "none" ? styles[direction] : ""}`}
     >
-      <div role="row" style={{ display: "contents" }}>
-        {wDays.map((day) => (
-          <div key={day} className={styles.header} role="columnheader">
-            {day}
-          </div>
-        ))}
-      </div>
+      <WeekDays />
       <div role="row" style={{ display: "contents" }}>
         {calendarData.map(
           ({ day, fullDate, isCurrentMonth, isDisabled, isSelected }, i) => (

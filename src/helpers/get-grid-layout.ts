@@ -11,9 +11,9 @@ export const getGridLayout = (p: {
   const isCramped = p.months && p.time;
 
   const cols = [
-    p.months && (isCramped ? "24cqw" : "28cqw"),
+    p.months && (isCramped ? "25cqw" : "28cqw"),
     "1fr",
-    p.time && (isCramped ? "15cqw" : "21cqw"),
+    p.time && (isCramped ? "16cqw" : "20cqw"),
   ]
     .filter(Boolean)
     .join(" ");

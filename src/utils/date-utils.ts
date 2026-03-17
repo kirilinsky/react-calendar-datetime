@@ -110,7 +110,13 @@ export const checkIsDateDisabled = (
   viewDate: Date,
   min?: Date | string | null,
   max?: Date | string | null,
+  disableWeekends?: boolean,
 ): boolean => {
+  if (disableWeekends) {
+    if (day === 0 || day === 6) {
+      return true;
+    }
+  }
   if (!min && !max) return false;
   const t = new Date(
     viewDate.getFullYear(),

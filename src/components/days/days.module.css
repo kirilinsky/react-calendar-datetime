@@ -3,25 +3,16 @@
   background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1.5em repeat(6, 1fr);
+  grid-template-rows: 1.2em repeat(6, 1fr);
   align-content: center;
-  gap: 0.5em;
+  gap: 0.4em;
   padding: 1em;
   min-height: auto;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.3;
-  text-transform: uppercase;
-  user-select: none; 
-  color: var(--c-c);
-  font-size: 0.6em;
-}
+
 
 .dayItem {
   aspect-ratio: 1 / 1;

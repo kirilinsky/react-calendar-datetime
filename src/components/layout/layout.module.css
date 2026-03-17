@@ -61,3 +61,7 @@
   fill: currentColor;
   flex-shrink: 0;
 }
+:root {
+  --c-we: #e53935;
+  --c-wed: #ff8a80;
+}

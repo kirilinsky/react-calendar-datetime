@@ -71,7 +71,14 @@ export const Base = () => {
       subtitle={`Selected: ${formatSubtitle(date)}`}
     >
       <div className="calendar-fixed-container">
-        <Calendar date={date} onChangeDate={setDate} months years gestures />
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          months
+          years
+          gestures
+          highlightWeekends
+        />
       </div>
     </StoryWrapper>
   );
@@ -201,6 +208,7 @@ export const ThemePlayground = () => {
           months
           years
           compactMonths
+          highlightWeekends
         />
       </div>
 

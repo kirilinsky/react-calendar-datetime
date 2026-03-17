@@ -10,6 +10,7 @@ export interface CalendarProps {
   maxDate?: Date;
   minDate?: Date;
   disabledDates?: Date | Date[];
+  highlightWeekends?: boolean;
   disableWeekends?: boolean;
   gestures?: boolean;
   startOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -34,6 +35,7 @@ export interface CalendarContextValue extends Omit<
   compactMonths: boolean;
   years: boolean;
   time: boolean;
+  dark: boolean;
   view: CalendarView;
   setView: (view: CalendarView) => void;
 }
