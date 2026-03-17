@@ -85,6 +85,7 @@ export const DaysComponent: React.FC = () => {
           ({ day, fullDate, isCurrentMonth, isDisabled, isSelected }, i) => (
             <button
               key={i}
+              data-action
               type="button"
               disabled={isDisabled}
               onClick={() => handleSetDay(fullDate, isDisabled)}

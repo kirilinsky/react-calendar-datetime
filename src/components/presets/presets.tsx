@@ -16,9 +16,6 @@ export const PresetsComponent: React.FC = () => {
     () => getFilteredPresets(years, months, minDate, maxDate),
     [years, months, minDate, maxDate],
   );
-  {
-    console.log(presets, "sdf");
-  }
 
   return (
     <div className={styles.presetsContainer}>
@@ -29,6 +26,7 @@ export const PresetsComponent: React.FC = () => {
           <button
             key={preset.id}
             type="button"
+            data-action={isActive}
             className={`${styles.presetItem} ${isActive ? shared.activeItem : ""}`}
             onClick={() => onChangeDate(getPresetDate(preset))}
           >

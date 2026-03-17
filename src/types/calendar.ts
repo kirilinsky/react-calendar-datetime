@@ -14,8 +14,8 @@ export interface CalendarProps {
   startOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   compactMonths?: boolean;
   onChangeDate?: (date: Date) => void;
-  width?: string | number | null;
-  height?: string | number | null;
+  width?: string | number;
+  height?: string | number;
   theme?: CalendarTheme;
 }
 

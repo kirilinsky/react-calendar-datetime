@@ -3,75 +3,51 @@
   background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 23px repeat(6, 1fr);
+  grid-template-rows: 1.5em repeat(6, 1fr);
   align-content: center;
-  padding: 8px 15px;
-  gap: 3px;
-  min-height: 297px;
+  gap: 0.5em;
+  padding: 1em;
+  min-height: auto;
   box-sizing: border-box;
   overflow: hidden;
-}
-
-.right {
-  animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.left {
-  animation: slideInLeft 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.5;
+  opacity: 0.3;
   text-transform: uppercase;
-  user-select: none;
-  font-weight: 600;
+  user-select: none; 
   color: var(--c-c);
-}
-
-.weekDaysRow,
-.daysMatrix {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: var(--cal-gap);
-}
-
-.weekDayCell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(var(--cal-cell-size) * 0.8);
-  font-size: 0.8rem;
-  color: var(--cal-muted-color);
-  font-weight: 500;
-  user-select: none;
+  font-size: 0.6em;
 }
 
 .dayItem {
-  composes: interactive from "../../global/global.module.css";
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  font-size: .9em !important;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 4px;
   position: relative;
   z-index: 1;
+
   &:disabled {
     background: repeating-linear-gradient(
       -45deg,
       transparent,
-      transparent 4px,
-      var(--c-t) 2px,
-      var(--c-t) 5px
+      transparent 0.2em,
+      var(--c-t) 0.3em,
+      var(--c-t) 0.5em
     );
   }
 }
+
 @keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateX(20px) scale(0.98);
+    transform: translateX(1.5em) scale(0.98);
   }
   to {
     opacity: 1;
@@ -82,10 +58,18 @@
 @keyframes slideInLeft {
   from {
     opacity: 0;
-    transform: translateX(-20px) scale(0.98);
+    transform: translateX(-1.5em) scale(0.98);
   }
   to {
     opacity: 1;
     transform: translateX(0) scale(1);
   }
+}
+
+.right {
+  animation: slideInRight 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.left {
+  animation: slideInLeft 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }

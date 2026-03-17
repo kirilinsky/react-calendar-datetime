@@ -19,11 +19,11 @@ export const CalendarLayout: React.FC<{
       className={`${styles.calendarContainer} theme-${theme}`}
       style={containerStyle}
     >
-      {view !== "calendar" && <SelectorComponent type={view} />} 
-      {presets && <PresetsComponent />} 
-      {(years || compactMonths) && <HeaderComponent />} 
-      <DaysComponent /> 
-      {months && <MonthsComponent />} 
+      {view !== "calendar" && <SelectorComponent type={view} />}
+      {presets && <PresetsComponent />}
+      {(years || compactMonths) && <HeaderComponent />}
+      <DaysComponent />
+      {months && <MonthsComponent />}
       {time && <TimeComponent />}
     </div>
   );

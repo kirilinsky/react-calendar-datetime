@@ -1,21 +1,21 @@
 .presetsContainer {
   grid-area: PP;
   display: flex;
-  border-top: 1px solid var(--c-s);
-  padding: 6px;
-  gap: 5px;
+  flex-wrap: nowrap;
+  gap: 0.5em;
+  padding: 0.5em;
+  border-top: 1px solid var(--c-x);
   background: var(--c-a);
-  z-index: 2;
 }
 
 .presetItem {
-  composes: interactive from "../../global/global.module.css";
-  flex: 1;
-  font-size: 13px;
-  text-align: center;
-  background: var(--c-t);
-  transition: transform 0.1s ease-out;
-  &:active {
-    transform: scale(0.97);
+  font-size: 0.8em !important;
+  height: 100%;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &[data-action="false"] {
+    background: var(--c-t) !important;
   }
 }

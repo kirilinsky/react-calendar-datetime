@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { CalendarProps } from "@/types/calendar";
-import { CalendarProvider } from "@/components/provider/provider"; 
+import { CalendarProvider } from "@/components/provider/provider";
 import { getGridLayout } from "@/helpers/get-grid-layout";
-import { getThemeVariables } from "@/helpers/get-theme"; 
+import { getThemeVariables } from "@/helpers/get-theme";
 import { CalendarLayout } from "../layout/layout";
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -11,9 +11,9 @@ export const Calendar: React.FC<CalendarProps> = ({
   theme = "paper",
   presets = false,
   compactMonths = false,
-  years = true,
+  years = false,
   time = false,
-  months = true,
+  months = false,
   locale = "en",
   ...restProps
 }) => {
@@ -29,6 +29,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     locale,
     ...restProps,
   };
+  console.log(width, "width");
 
   const containerStyle = useMemo(() => {
     const themeVars = getThemeVariables(theme);
@@ -50,7 +51,9 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <CalendarProvider {...resolvedProps}>
-      <CalendarLayout theme={theme} containerStyle={containerStyle} />
+      <div style={{ containerType: "inline-size", width, height }}>
+        <CalendarLayout theme={theme} containerStyle={containerStyle} />
+      </div>
     </CalendarProvider>
   );
 };

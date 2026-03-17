@@ -1,60 +1,93 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./time.module.css";
 import { useCalendarContext } from "../provider/provider";
 import { useThrottle } from "@/hooks/use-throttle";
 import { addTime, getDrumValue, padTime } from "@/utils/date-utils";
 import { Down, Up } from "@/Icons";
 
-const OFFSETS = [-2, -1, 0, 1, 2];
+const OFFSETS = [-3, -2, -1, 0, 1, 2, 3];
+
+const TimeColumn = ({
+  type,
+  val,
+  max,
+  move,
+}: {
+  type: "h" | "m";
+  val: number;
+  max: number;
+  move: (v: number, t: "h" | "m") => void;
+}) => {
+  const colRef = useRef<HTMLDivElement>(null);
+
+  const moveRef = useRef(move);
+  useEffect(() => {
+    moveRef.current = move;
+  }, [move]);
+
+  useEffect(() => {
+    const el = colRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      moveRef.current(e.deltaY < 0 ? -1 : 1, type);
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, [type]);
+
+  return (
+    <div
+      ref={colRef}
+      className={styles.column}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key.includes("Arrow")) {
+          e.preventDefault();
+          move(e.key === "ArrowUp" ? -1 : 1, type);
+        }
+      }}
+    >
+      <div className={styles.cell} onClick={() => move(-1, type)}>
+        <Up />
+      </div>
+      {OFFSETS.map((o) => {
+        const isCurr = o === 0;
+        return (
+          <div
+            key={o}
+            className={`${styles.cell} ${isCurr ? styles.active : ""}`}
+            onClick={isCurr ? undefined : () => move(o, type)}
+          >
+            {padTime(getDrumValue(val, o, max))}
+          </div>
+        );
+      })}
+      <div className={styles.cell} onClick={() => move(1, type)}>
+        <Down />
+      </div>
+    </div>
+  );
+};
 
 export const TimeComponent: React.FC = () => {
-  const { months, minDate, maxDate, years, onChangeDate, date } =
-    useCalendarContext();
+  const { onChangeDate, date } = useCalendarContext();
 
   const throttled = useThrottle(onChangeDate, 75);
   const move = (v: number, t: "h" | "m") => throttled(addTime(date, v, t));
 
-  const renderCol = (t: "h" | "m") => {
-    const val = t === "h" ? date.getHours() : date.getMinutes();
-    const max = t === "h" ? 24 : 60;
+  const hVal = date.getHours();
+  const mVal = date.getMinutes();
 
-    return (
-      <div
-        className={styles.column}
-        tabIndex={0}
-        onWheel={(e) => (e.preventDefault(), move(e.deltaY < 0 ? -1 : 1, t))}
-        onKeyDown={(e) =>
-          e.key.includes("Arrow") &&
-          (e.preventDefault(), move(e.key === "ArrowUp" ? -1 : 1, t))
-        }
-      >
-        <div className={styles.cell} onClick={() => move(-1, t)}>
-          <Up />
-        </div>
-        {OFFSETS.map((o) => {
-          const isCurr = o === 0;
-          return (
-            <div
-              key={o}
-              className={`${styles.cell} ${isCurr ? styles.active : ""}`}
-              onClick={isCurr ? undefined : () => move(o, t)}
-            >
-              {padTime(getDrumValue(val, o, max))}
-            </div>
-          );
-        })}
-        <div className={styles.cell} onClick={() => move(1, t)}>
-          <Down />
-        </div>
-      </div>
-    );
-  };
   return (
     <div className={styles.timeContainer}>
       <div className={styles.timeSelectionIndicator} />
-      {renderCol("h")}
+      <TimeColumn type="h" val={hVal} max={24} move={move} />
       <div className={styles.separator}>:</div>
-      {renderCol("m")}
+      <TimeColumn type="m" val={mVal} max={60} move={move} />
     </div>
   );
 };

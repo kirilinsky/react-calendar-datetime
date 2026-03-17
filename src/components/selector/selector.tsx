@@ -50,6 +50,7 @@ export const SelectorComponent: React.FC<{
           <>
             <button
               disabled={!canGoPrev}
+              data-action
               onClick={() => setNavDate(addYears(navDate, -12))}
               className={styles.navBtn}
             >
@@ -59,6 +60,7 @@ export const SelectorComponent: React.FC<{
               {yearsData[0].value} - {yearsData[yearsData.length - 1].value}
             </span>
             <button
+              data-action
               disabled={!canGoNext}
               onClick={() => setNavDate(addYears(navDate, 12))}
               className={styles.navBtn}
@@ -74,8 +76,9 @@ export const SelectorComponent: React.FC<{
           monthsData.map((m, i) => (
             <button
               key={i}
+              data-action
               disabled={m.disabled}
-              className={`${styles.item} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.activeItem : ""}`}
+              className={`${styles.item} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.actionItem : ""}`}
               onClick={() => handleSelect(setMonth(date, i))}
             >
               {m.label}
@@ -87,7 +90,8 @@ export const SelectorComponent: React.FC<{
             <button
               key={value}
               disabled={disabled}
-              className={`${styles.item} ${value === date.getFullYear() ? shared.activeItem : ""}`}
+              data-action
+              className={`${styles.item} ${value === date.getFullYear() ? shared.actionItem : ""}`}
               onClick={() => handleSelect(setYear(date, value))}
             >
               {value}
@@ -95,7 +99,11 @@ export const SelectorComponent: React.FC<{
           ))}
       </div>
       <div className={styles.footer}>
-        <button className={styles.closeBtn} onClick={() => setView("calendar")}>
+        <button
+          data-action
+          className={styles.closeBtn}
+          onClick={() => setView("calendar")}
+        >
           Cancel
         </button>
       </div>

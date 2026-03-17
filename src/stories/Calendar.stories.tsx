@@ -70,7 +70,16 @@ export const Base = () => {
       title="Standard Calendar"
       subtitle={`Selected: ${formatSubtitle(date)}`}
     >
-      <Calendar date={date} onChangeDate={setDate} />
+      <div className="calendar-fixed-container">
+        <Calendar
+          width="580px"
+          date={date}
+          onChangeDate={setDate}
+          presets
+          years
+          compactMonths
+        />
+      </div>
     </StoryWrapper>
   );
 };
@@ -117,10 +126,42 @@ export const minMaxDates = () => {
         onChangeDate={setDate}
         minDate={minDate}
         maxDate={maxDate}
-        theme="solar"
-        compactMonths
+        theme="sandstone"
+        width="580px"
+        years
         presets
+        months
       />
+    </StoryWrapper>
+  );
+};
+
+export const AdaptivePlayground = () => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [containerWidth, setContainerWidth] = useState(580);
+
+  return (
+    <StoryWrapper
+      title="Container Queries Playground"
+      subtitle={`Current Width: ${containerWidth}px (Drag slider to test adaptation)`}
+    >
+      <div className="control-group" style={{ width: "100%" }}>
+        <input
+          type="range"
+          min="250"
+          max="900"
+          value={containerWidth}
+          className="width-slider"
+          onChange={(e) => setContainerWidth(Number(e.target.value))}
+        />
+      </div>
+
+      <div
+        className="resize-container"
+        style={{ width: `${containerWidth}px` }}
+      >
+        <Calendar months years presets date={date} onChangeDate={setDate} />
+      </div>
     </StoryWrapper>
   );
 };
@@ -157,17 +198,19 @@ export const ThemePlayground = () => {
         <h4>🌙 Dark Themes</h4>
         {renderThemeButtons(DARK_THEMES, false)}
       </div>
-
-      <Calendar
-        theme={activeTheme}
-        date={date}
-        onChangeDate={setDate}
-        presets
-        time
-        months
-        years
-        compactMonths
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          theme={activeTheme}
+          date={date}
+          onChangeDate={setDate}
+          presets
+          time
+          months
+          years
+          compactMonths
+          width="580px"
+        />
+      </div>
 
       <div className="control-group">
         <h4>☀️ Light Themes</h4>
@@ -217,6 +260,8 @@ export const LocalePlayground = () => {
         date={date}
         onChangeDate={setDate}
         presets
+        width="580px"
+        months
       />
       {renderLocaleButtons(LOCALES_LIST.slice(6))}
     </StoryWrapper>
@@ -257,6 +302,7 @@ export const BuilderPlayground = () => {
 
       <Calendar
         date={date}
+        width="580px"
         onChangeDate={setDate}
         years={config.years}
         months={config.months}

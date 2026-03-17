@@ -1,0 +1,24 @@
+import { defineConfig } from "tsdown";
+import pkg from "./package.json" with { type: "json" };
+
+export default defineConfig({
+  entry: ["src/index.ts"],
+  outDir: "dist",
+  format: ["cjs", "esm"],
+  dts: true,
+  clean: true, 
+  minify: true,
+  treeshake: true, 
+  target: "es2022",
+  external: [
+    "react",
+    "react-dom",
+    "react/jsx-runtime",
+    ...Object.keys(pkg.peerDependencies || {}),
+  ],
+
+  css: {
+    inject: true,
+    minify: true,
+  },
+});

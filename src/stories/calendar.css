@@ -41,7 +41,7 @@
   font-size: 15px;
 }
 
- .story-content {
+.story-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +49,7 @@
   width: 100%;
 }
 
- .unified-controls {
+.unified-controls {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -58,7 +58,24 @@
   max-width: 800px;
 }
 
- .control-group {
+ 
+
+.resize-container {
+  border: 2px dashed rgba(128, 128, 128, 0.3);
+  padding: 10px;
+  border-radius: 16px;
+  position: relative;
+  background: rgba(128, 128, 128, 0.05);
+}
+
+.width-slider {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  accent-color: #007bff;
+}
+
+.control-group {
   display: flex;
   flex-direction: column;
   align-items: center;

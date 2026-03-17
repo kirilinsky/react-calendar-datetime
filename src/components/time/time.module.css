@@ -3,9 +3,11 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 8px 6px;
-  gap: 3px;
+  padding: 0.4em;
+
   background: var(--c-b);
+  min-height: 10em;
+  border-left: 1px solid var(--c-x);
 }
 
 .timeSelectionIndicator {
@@ -13,13 +15,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
-  height: 40px;
+  width: 90%;
+  height: 2.1em;
   background: var(--c-h);
-  border-radius: 8px;
+  border-radius: 0.4em;
   z-index: 0;
   pointer-events: none;
-  box-shadow: 0 0 10px var(--c-x);
+  box-shadow: 0 0 0.5em var(--c-x);
 }
 
 .column {
@@ -28,33 +30,37 @@
   align-items: center;
   flex-direction: column;
   z-index: 1;
+  flex: 1;
 }
 
 .separator {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 700;
-  color: var(--c-a);
-  margin-top: -5px;
+  font-size: 0.7em;
+  font-weight: 800;
+  color: var(--c-a) !important;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 2em;
 }
 
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 32px;
+  height: 2.4em;
+  width: 100%;
   cursor: pointer;
   user-select: none;
   color: var(--c-c);
+  font-size: 0.8em;
   transition: transform 0.1s ease-out;
 
   &:active {
-    transform: scale(1.14);
+    transform: scale(1.1);
   }
 }
 
 .active {
   color: var(--c-a) !important;
-  font-weight: 600;
+  font-weight: 700;
 }

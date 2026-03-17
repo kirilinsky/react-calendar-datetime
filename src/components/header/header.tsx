@@ -37,6 +37,7 @@ export const HeaderComponent: React.FC = () => {
       {compactMonths && (
         <div className={styles.monthsSelector}>
           <button
+            data-action
             className={styles.monthButton}
             onClick={() => setView("month")}
           >
@@ -47,20 +48,21 @@ export const HeaderComponent: React.FC = () => {
       {years && (
         <div className={styles.yearsSelector}>
           {canGoPrev && (
-            <div className={styles.arrow} onClick={() => ch(-1)}>
+            <button data-action className={styles.arrow} onClick={() => ch(-1)}>
               <Left />
-            </div>
+            </button>
           )}
           <button
+            data-action
             onClick={() => setView(yearFixed ? "calendar" : "year")}
-            className={`${styles.currentYear} ${yearFixed ? styles.static : ""}`}
+            className={`${styles.currentYear} ${yearFixed ? styles.staticButton : ""}`}
           >
             {cur}
           </button>
           {canGoNext && (
-            <div className={styles.arrow} onClick={() => ch(1)}>
+            <button data-action className={styles.arrow} onClick={() => ch(1)}>
               <Right />
-            </div>
+            </button>
           )}
         </div>
       )}
