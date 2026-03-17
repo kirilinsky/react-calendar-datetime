@@ -1,15 +1,9 @@
 import React, { useMemo } from "react";
 import { CalendarProps } from "@/types/calendar";
-import { CalendarProvider } from "@/components/provider/provider";
-import { DaysComponent } from "../days/days";
-import styles from "./Calendar.module.css";
-import { HeaderComponent } from "../header/header";
+import { CalendarProvider } from "@/components/provider/provider"; 
 import { getGridLayout } from "@/helpers/get-grid-layout";
-import { getThemeVariables } from "@/helpers/get-theme";
-import { MonthsComponent } from "../months/months";
-import { Presets } from "@/modules";
-import { PresetsComponent } from "../presets/presets";
-import { TimeComponent } from "../time/time";
+import { getThemeVariables } from "@/helpers/get-theme"; 
+import { CalendarLayout } from "../layout/layout";
 
 export const Calendar: React.FC<CalendarProps> = ({
   width = "100%",
@@ -56,20 +50,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   return (
     <CalendarProvider {...resolvedProps}>
-      <div
-        className={`${styles.calendarContainer} theme-${theme}`}
-        style={containerStyle}
-      >
-        {presets && <PresetsComponent />}
-
-        {(years || compactMonths) && <HeaderComponent />}
-
-        <DaysComponent />
-
-        {months && <MonthsComponent />}
-
-        {time && <TimeComponent />}
-      </div>
+      <CalendarLayout theme={theme} containerStyle={containerStyle} />
     </CalendarProvider>
   );
 };

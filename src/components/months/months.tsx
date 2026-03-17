@@ -19,7 +19,6 @@ export const MonthsComponent: React.FC = () => {
           key={i}
           type="button"
           disabled={n.disabled}
-          data-active={i === currentMonth}
           className={`${styles.item} ${i === currentMonth ? shared.activeItem : ""}`}
           onClick={() => onChangeDate(setMonth(date, i))}
         >

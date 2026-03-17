@@ -1,5 +1,5 @@
 .calendarContainer {
-  min-width: 450px;
+  min-width: 430px;
   min-height: 400px;
   background: var(--c-b);
   color: var(--c-c);
@@ -14,4 +14,5 @@
   border: 1px solid var(--c-s);
   box-shadow: 0 4px 16px var(--c-x);
   overflow: hidden;
+  position: relative;
 }

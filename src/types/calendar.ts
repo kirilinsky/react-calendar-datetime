@@ -19,6 +19,8 @@ export interface CalendarProps {
   theme?: CalendarTheme;
 }
 
+export type CalendarView = "calendar" | "month" | "year";
+
 export interface CalendarContextValue extends Omit<
   CalendarProps,
   "width" | "height" | "theme"
@@ -31,4 +33,6 @@ export interface CalendarContextValue extends Omit<
   compactMonths: boolean;
   years: boolean;
   time: boolean;
+  view: CalendarView;
+  setView: (view: CalendarView) => void;
 }

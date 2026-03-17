@@ -171,6 +171,28 @@ export const getYearListData = (
   }));
 };
 
+export const checkYearNavigation = (
+  payload: number | { value: number }[],
+  minDate?: Date | null,
+  maxDate?: Date | null,
+) => {
+  const ABSOLUTE_MIN = 1900;
+  const ABSOLUTE_MAX = 2100;
+
+  const minYear = minDate ? new Date(minDate).getFullYear() : ABSOLUTE_MIN;
+  const maxYear = maxDate ? new Date(maxDate).getFullYear() : ABSOLUTE_MAX;
+
+  const startYear = Array.isArray(payload) ? payload[0].value : payload;
+  const endYear = Array.isArray(payload)
+    ? payload[payload.length - 1].value
+    : payload;
+
+  return {
+    canGoPrev: startYear > Math.max(minYear, ABSOLUTE_MIN),
+    canGoNext: endYear < Math.min(maxYear, ABSOLUTE_MAX),
+  };
+};
+
 export const isYearFixed = (
   curYear: number,
   min?: Date | null,

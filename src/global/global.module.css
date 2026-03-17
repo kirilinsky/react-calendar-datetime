@@ -9,15 +9,7 @@
   transition: all 0.2s ease;
   cursor: pointer;
   user-select: none;
-  &[data-active="true"] {
-    background-color: var(--c-h);
-    box-shadow: 0 4px 12px var(--c-x);
-    color: var(--c-a);
-    &:hover {
-      opacity: 0.9;
-      background-color: var(--c-h);
-    }
-  }
+ 
   &:hover:not([disabled]) {
     background: var(--c-t);
     box-shadow: 0 1px 4px var(--c-x);
@@ -51,3 +43,5 @@
     opacity: 0.8;
   }
 }
+
+ 

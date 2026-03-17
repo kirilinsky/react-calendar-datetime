@@ -2,26 +2,29 @@ import React, { useMemo } from "react";
 import styles from "./header.module.css";
 import { Down, Left, Right } from "@/Icons";
 import { useCalendarContext } from "../provider/provider";
-import { addYears, isYearFixed } from "@/utils/date-utils";
+import { addYears, checkYearNavigation, isYearFixed } from "@/utils/date-utils";
 
 export const HeaderComponent: React.FC = () => {
-  const { onChangeDate, compactMonths, minDate, maxDate, years, date, locale } =
-    useCalendarContext();
+  const {
+    onChangeDate,
+    compactMonths,
+    minDate,
+    maxDate,
+    years,
+    date,
+    locale,
+    setView,
+  } = useCalendarContext();
   const cur = date.getFullYear();
   const yearFixed = useMemo(
     () => isYearFixed(cur, minDate, maxDate),
     [cur, minDate, maxDate],
   );
 
-  const canGoPrev = useMemo(() => {
-    if (!minDate) return true;
-    return cur > new Date(minDate).getFullYear();
-  }, [cur, minDate]);
-
-  const canGoNext = useMemo(() => {
-    if (!maxDate) return true;
-    return cur < new Date(maxDate).getFullYear();
-  }, [cur, maxDate]);
+  const { canGoPrev, canGoNext } = useMemo(
+    () => checkYearNavigation(cur, minDate, maxDate),
+    [cur, minDate, maxDate],
+  );
 
   const currentMonthName = new Intl.DateTimeFormat(locale, {
     month: "long",
@@ -33,7 +36,10 @@ export const HeaderComponent: React.FC = () => {
     <div className={styles.headerContainer}>
       {compactMonths && (
         <div className={styles.monthsSelector}>
-          <button className={styles.monthButton}>
+          <button
+            className={styles.monthButton}
+            onClick={() => setView("month")}
+          >
             <Down /> {currentMonthName}
           </button>
         </div>
@@ -46,7 +52,7 @@ export const HeaderComponent: React.FC = () => {
             </div>
           )}
           <button
-            onClick={yearFixed ? undefined : undefined}
+            onClick={() => setView(yearFixed ? "calendar" : "year")}
             className={`${styles.currentYear} ${yearFixed ? styles.static : ""}`}
           >
             {cur}

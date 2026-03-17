@@ -118,6 +118,7 @@ export const minMaxDates = () => {
         minDate={minDate}
         maxDate={maxDate}
         theme="solar"
+        compactMonths
         presets
       />
     </StoryWrapper>

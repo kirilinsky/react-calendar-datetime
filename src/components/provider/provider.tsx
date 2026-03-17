@@ -1,5 +1,15 @@
-import React, { createContext, useContext, useMemo, ReactNode } from "react";
-import { CalendarContextValue, CalendarProps } from "@/types/calendar";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  ReactNode,
+  useState,
+} from "react";
+import {
+  CalendarContextValue,
+  CalendarProps,
+  CalendarView,
+} from "@/types/calendar";
 
 const CalendarContext = createContext<CalendarContextValue | undefined>(
   undefined,
@@ -12,20 +22,23 @@ export const useCalendarContext = () => {
   return context;
 };
 
- 
 export const CalendarProvider: React.FC<
   CalendarProps & { children: ReactNode }
 > = ({ children, ...props }) => {
+  const [view, setView] = useState<CalendarView>("calendar");
+
   const contextValue = useMemo(() => {
     const rawDate = props.date ? new Date(props.date) : new Date();
     const safeDate = isNaN(rawDate.getTime()) ? new Date() : rawDate;
 
     return {
-      ...props,  
+      ...props,
+      view,
+      setView,
       date: safeDate,
       onChangeDate: (d: Date) => props.onChangeDate?.(d),
     } as CalendarContextValue;
-  }, [props]);
+  }, [props, view]);
 
   return (
     <CalendarContext.Provider value={contextValue}>
