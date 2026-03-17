@@ -4,6 +4,7 @@ import { useCalendarContext } from "../provider/provider";
 import {
   checkIsDateDisabled,
   getFirstDayOffset,
+  getNextMonthFromSwipe,
   getWeekdaysNames,
 } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
@@ -11,7 +12,8 @@ import shared from "@/global/global.module.css";
 const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
 export const DaysComponent: React.FC = () => {
-  const { minDate, maxDate, date, onChangeDate, locale } = useCalendarContext();
+  const { minDate, maxDate, date, onChangeDate, locale, gestures } =
+    useCalendarContext();
 
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
   const [prevDate, setPrevDate] = useState(date);
@@ -19,19 +21,34 @@ export const DaysComponent: React.FC = () => {
   const currentMonth = date.getMonth();
   const currentYear = date.getFullYear();
   const offset = getFirstDayOffset(date);
-
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
   useEffect(() => {
     const isSameMonth =
       date.getMonth() === prevDate.getMonth() &&
       date.getFullYear() === prevDate.getFullYear();
-
     if (!isSameMonth) {
       const isForward = date.getTime() > prevDate.getTime();
-
       setDirection(isForward ? "right" : "left");
       setPrevDate(date);
     }
   }, [date, prevDate]);
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!gestures || touchStartX === null) return;
+
+    const deltaX = touchStartX - e.changedTouches[0].clientX;
+    const nextDate = getNextMonthFromSwipe(deltaX, date, minDate, maxDate);
+
+    if (nextDate) {
+      onChangeDate(nextDate);
+    }
+
+    setTouchStartX(null);
+  };
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!gestures) return;
+    setTouchStartX(e.changedTouches[0].clientX);
+  };
 
   const calendarData = useMemo(() => {
     return CELLS.map((i) => {
@@ -71,6 +88,8 @@ export const DaysComponent: React.FC = () => {
     <div
       aria-label="days"
       key={animationKey}
+      onTouchEnd={handleTouchEnd}
+      onTouchStart={handleTouchStart}
       className={`${styles.dayGridContainer} ${direction !== "none" ? styles[direction] : ""}`}
     >
       <div role="row" style={{ display: "contents" }}>

@@ -6,9 +6,13 @@
   padding: 0.5em;
   border-top: 1px solid var(--c-x);
   background: var(--c-a);
+  height: 2.5em;
 }
 
 .presetItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.8em !important;
   height: 100%;
   flex: 1 1 auto;

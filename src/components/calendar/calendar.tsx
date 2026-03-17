@@ -29,7 +29,6 @@ export const Calendar: React.FC<CalendarProps> = ({
     locale,
     ...restProps,
   };
-  console.log(width, "width");
 
   const containerStyle = useMemo(() => {
     const themeVars = getThemeVariables(theme);

@@ -71,14 +71,7 @@ export const Base = () => {
       subtitle={`Selected: ${formatSubtitle(date)}`}
     >
       <div className="calendar-fixed-container">
-        <Calendar
-          width="580px"
-          date={date}
-          onChangeDate={setDate}
-          presets
-          years
-          compactMonths
-        />
+        <Calendar date={date} onChangeDate={setDate} months years gestures />
       </div>
     </StoryWrapper>
   );
@@ -120,18 +113,18 @@ export const minMaxDates = () => {
           />
         </div>
       </div>
-
-      <Calendar
-        date={date}
-        onChangeDate={setDate}
-        minDate={minDate}
-        maxDate={maxDate}
-        theme="sandstone"
-        width="580px"
-        years
-        presets
-        months
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          minDate={minDate}
+          maxDate={maxDate}
+          theme="sandstone"
+          years
+          presets
+          months
+        />
+      </div>
     </StoryWrapper>
   );
 };
@@ -208,7 +201,6 @@ export const ThemePlayground = () => {
           months
           years
           compactMonths
-          width="580px"
         />
       </div>
 
@@ -255,14 +247,15 @@ export const LocalePlayground = () => {
         the box (e.g., "nl", "sv", "ko").
       </p>
       {renderLocaleButtons(LOCALES_LIST.slice(0, 6))}
-      <Calendar
-        locale={activeLocale}
-        date={date}
-        onChangeDate={setDate}
-        presets
-        width="580px"
-        months
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          locale={activeLocale}
+          date={date}
+          onChangeDate={setDate}
+          presets
+          months
+        />
+      </div>
       {renderLocaleButtons(LOCALES_LIST.slice(6))}
     </StoryWrapper>
   );
@@ -299,17 +292,17 @@ export const BuilderPlayground = () => {
           </button>
         ))}
       </div>
-
-      <Calendar
-        date={date}
-        width="580px"
-        onChangeDate={setDate}
-        years={config.years}
-        months={config.months}
-        time={config.time}
-        presets={config.presets}
-        compactMonths={config.compactMonths}
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          years={config.years}
+          months={config.months}
+          time={config.time}
+          presets={config.presets}
+          compactMonths={config.compactMonths}
+        />
+      </div>
     </StoryWrapper>
   );
 };

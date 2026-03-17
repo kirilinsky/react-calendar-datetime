@@ -11,6 +11,7 @@ export interface CalendarProps {
   minDate?: Date;
   disabledDates?: Date | Date[];
   disableWeekends?: boolean;
+  gestures?: boolean;
   startOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   compactMonths?: boolean;
   onChangeDate?: (date: Date) => void;

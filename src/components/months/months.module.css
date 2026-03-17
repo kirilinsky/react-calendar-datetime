@@ -2,8 +2,8 @@
   grid-area: MM;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(6, 1fr); 
-  padding: 0.6em 0.2em; 
+  grid-template-rows: repeat(6, 1fr);
+  padding: 0.5em;
   gap: 0.1em;
   border-right: 1px solid var(--c-x);
   background: var(--c-b);

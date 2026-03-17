@@ -179,8 +179,8 @@ export const checkYearNavigation = (
   const ABSOLUTE_MIN = 1900;
   const ABSOLUTE_MAX = 2100;
 
-  const minYear = minDate ? new Date(minDate).getFullYear() : ABSOLUTE_MIN;
-  const maxYear = maxDate ? new Date(maxDate).getFullYear() : ABSOLUTE_MAX;
+  const minYear = getYearSafe(minDate) ?? ABSOLUTE_MIN;
+  const maxYear = getYearSafe(maxDate) ?? ABSOLUTE_MAX;
 
   const startYear = Array.isArray(payload) ? payload[0].value : payload;
   const endYear = Array.isArray(payload)
@@ -244,4 +244,37 @@ export const getRelativeLabel = (
 
   const label = rtfCache[locale].format(amount, unit);
   return label.charAt(0).toUpperCase() + label.slice(1);
+};
+
+export const getNextMonthFromSwipe = (
+  deltaX: number,
+  currentDate: Date,
+  minDate?: Date,
+  maxDate?: Date,
+  threshold = 50,
+): Date | null => {
+  if (Math.abs(deltaX) < threshold) return null;
+
+  const isNext = deltaX > 0;
+  const newDate = new Date(currentDate);
+
+  const expectedMonth = (newDate.getMonth() + (isNext ? 1 : -1) + 12) % 12;
+  newDate.setMonth(newDate.getMonth() + (isNext ? 1 : -1));
+  if (newDate.getMonth() !== expectedMonth) {
+    newDate.setDate(0);
+  }
+
+  const newYearMonth = newDate.getFullYear() * 12 + newDate.getMonth();
+
+  if (minDate) {
+    const minYearMonth = minDate.getFullYear() * 12 + minDate.getMonth();
+    if (newYearMonth < minYearMonth) return null;
+  }
+
+  if (maxDate) {
+    const maxYearMonth = maxDate.getFullYear() * 12 + maxDate.getMonth();
+    if (newYearMonth > maxYearMonth) return null;
+  }
+
+  return newDate;
 };
