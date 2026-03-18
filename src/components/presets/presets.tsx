@@ -18,11 +18,19 @@ export const PresetsComponent: React.FC = () => {
     onChangeDate,
     locale,
     jellyMode,
+    compactMonths,
+    compactYears,
   } = useCalendarContext();
 
   const presets = useMemo(
-    () => getFilteredPresets(years, months, minDate, maxDate),
-    [years, months, minDate, maxDate],
+    () =>
+      getFilteredPresets(
+        years || !!compactYears,
+        months || !!compactMonths,
+        minDate,
+        maxDate,
+      ),
+    [years, months, minDate, maxDate, compactYears, compactMonths],
   );
 
   return (
