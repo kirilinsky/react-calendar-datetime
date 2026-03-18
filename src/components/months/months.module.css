@@ -17,21 +17,22 @@
 
 .monthsContainer.staticMode {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding: 10px 5px !important;
-  gap: 4px !important;
+  padding: 10px 4px !important;
+  gap: 3px !important;
 }
 
 .item {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
+  composes: interactive from "../../global/global.module.css";
+  composes: hoverable from "../../global/global.module.css";
   justify-self: center;
   align-self: center;
-  width: 100%;
+  width: 95%;
   height: 85% !important;
   font-size: 0.8em !important;
   white-space: nowrap;
 }
 .monthsContainer.staticMode .item {
-  height: 95% !important;
+  height: 80% !important;
+   width: 90% !important;
   font-size: clamp(9px, 3cqw, 12px) !important;
 }

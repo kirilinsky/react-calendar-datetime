@@ -186,8 +186,10 @@ export const JellyPlayground = () => {
           jellyMode
           months
           years
+          locale="de"
           presets
           date={date}
+          time
           onChangeDate={setDate}
         />
       </div>
@@ -199,6 +201,7 @@ export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
   const [light, setLight] = useState<boolean>(true);
+  const [gradient, setGradient] = useState<boolean>(false);
 
   const renderThemeButtons = (
     themes: readonly CalendarTheme[],
@@ -238,12 +241,20 @@ export const ThemePlayground = () => {
           years
           compactMonths
           highlightWeekends
+          gradientBackground={gradient}
         />
       </div>
 
       <div className="control-group">
         <h4>☀️ Light Themes</h4>
         {renderThemeButtons(LIGHT_THEMES, true)}
+        <button
+          onClick={() => setGradient(!gradient)}
+          className={`story-button ${gradient ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          Gradient: {gradient ? "ON" : "OFF"}
+        </button>
       </div>
     </StoryWrapper>
   );

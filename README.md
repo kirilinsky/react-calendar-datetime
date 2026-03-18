@@ -16,7 +16,7 @@
 
 # ⚡️ React Calendar & Date/Time Picker
 
-📅 **Ultra-lightweight** Date & Time picker for React.  
+📅 **Ultra-lightweight** (5kb gzipped)| Date & Time picker for React.  
 📦 **Small but Mighty**: **Zero external dependencies** & **zero-runtime-bloat**.
 
 <div align="center">
@@ -24,11 +24,11 @@
     <tr style="border: none;">
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Paper Theme (default)</b></p>
-        <img src="https://i.ibb.co/gFQtzfF8/image.png" alt="Light" width="435" />
+        <img src="https://i.ibb.co/gFQtzfF8/image.png" alt="Light" width="440" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
-        <p><b>Sandstone Theme</b></p>
-        <img src="https://i.ibb.co/hFDGFJD5/image.png" alt="Dark" width="435" />
+        <p><b>Carbon Theme</b></p>
+        <img src="https://i.ibb.co/hFDGFJD5/image.png" alt="Dark" width="440" />
       </td>
     </tr>
   </table>
@@ -43,13 +43,13 @@
 ### ✨ Key Features
 
 - 🚀 **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Just pure React.
-- 📦 **Tiny Footprint** — Optimized for the modern web.
+- 📦 **Tiny Footprint** — `5kb gzipped`. Optimized for the modern web.
 - 🌎 **Global by Default** — Instant support for **400+ BCP47 locales** (including `en`, `de`, `ru`, `zh-CN` etc).
 - 🌐 **Universal Localization** — No dictionaries, no extra bytes—powered by native **Intl API**.
 - 🎨 **16 Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar`, `Crimson` and more.
 - 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago" etc.
 - 🛠️ **Fully Modular** — Toggle **Years**, **Months**, **Time**, or **Presets** independently. Build your own UI.
-- 🎛️ **Deeply Customizable** — Tailor the experience: start-of-week day, highlight weekends, gradient and more.
+- 🎛️ **Deeply Customizable** — Tailor experience: start-of-week day, highlight weekends, gradient.
 
 ## 🔨 How to install:
 
@@ -75,29 +75,29 @@ export default App;
 
 ## Props:
 
-| Property               | Type                           | Default      | Description                                                           |
-| :--------------------- | :----------------------------- | :----------- | :-------------------------------------------------------------------- |
-| **date**               | `Date`                         | `new Date()` | Accepts native Date                                                   |
-| **minDate**            | `Date`                         | -----        | Accepts native Date                                                   |
-| **maxDate**            | `Date`                         | -----        | Accepts native Date                                                   |
-| **onChangeDate**       | `function`                     | -----        | Callback returns new native Date on change                            |
-| **locale**             | `string`                       | `'en'`       | Supports every possible locale, see [Localization](#-localization)    |
-| **theme**              | `string`                       | `'paper'`    | Theme (style) name [Supported themes](#-supported-themes)             |
-| **presets**            | `boolean`                      | `false`      | Toggle quick date selection (today, yesterday, etc.)                  |
-| **years**              | `boolean`                      | `true`       | Toggle year section and year picker mode                              |
-| **time**               | `boolean`                      | `false`      | Toggle time picker mode                                               |
-| **months**             | `boolean`                      | `false`      | Toggle side month-selector.                                           |
-| **compactYears**       | `boolean`                      | `false`      | Toggle compact years-selector in header.                              |
-| **compactMonths**      | `boolean`                      | `true`       | Toggle compact month-selector in header.                              |
-| **jellyMode**          | `boolean`                      | `false`      | Toggle **Jelly Mode** extra adaptive layout (with dynamic font-size). |
-| **highlightWeekends**  | `boolean`                      | `true`       | Use this if you want to highlight weekends.                           |
-| **disableWeekends**    | `boolean`                      | `false`      | Use this if you want to disable weekends.                             |
-| **showWeekNumber**     | `boolean`                      | -----        | Use this if you want to display week numbers.                         |
-| **gradientBackground** | `boolean`                      | '`false`'    | Toggle for main block gradient background.                            |
-| **gestures**           | `boolean`                      | -----        | Enable swipe gestures on mobile screen to change months.              |
-| **startOfWeek**        | `number (0 to 7)  0 == Sunday` | 1            | Set start of week day.                                                |
-| **width**              | `string`                       | `100%`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                    |
-| **height**             | `string`                       | `auto`       | Any CSS height measure                                                |
+| Property               | Type       | Default      | Description                                                           |
+| :--------------------- | :--------- | :----------- | :-------------------------------------------------------------------- |
+| **date**               | `Date`     | `new Date()` | Accepts native Date                                                   |
+| **minDate**            | `Date`     | -----        | Accepts native Date                                                   |
+| **maxDate**            | `Date`     | -----        | Accepts native Date                                                   |
+| **onChangeDate**       | `function` | -----        | Callback returns new native Date on change                            |
+| **locale**             | `string`   | `'en'`       | Supports every possible locale, see [Localization](#-localization)    |
+| **theme**              | `string`   | `'paper'`    | Theme (style) name [Supported themes](#-supported-themes)             |
+| **presets**            | `boolean`  | `false`      | Toggle quick date selection (today, yesterday, etc.)                  |
+| **years**              | `boolean`  | `true`       | Toggle year section and year picker mode                              |
+| **time**               | `boolean`  | `false`      | Toggle time picker mode                                               |
+| **months**             | `boolean`  | `false`      | Toggle side month-selector.                                           |
+| **compactYears**       | `boolean`  | `false`      | Toggle compact years-selector in header.                              |
+| **compactMonths**      | `boolean`  | `true`       | Toggle compact month-selector in header.                              |
+| **jellyMode**          | `boolean`  | `false`      | Toggle **Jelly Mode** extra adaptive layout (with dynamic font-size). |
+| **highlightWeekends**  | `boolean`  | `true`       | Use this if you want to highlight weekends.                           |
+| **disableWeekends**    | `boolean`  | `false`      | Use this if you want to disable weekends.                             |
+| **showWeekNumber**     | `boolean`  | -----        | Use this if you want to display week numbers.                         |
+| **gradientBackground** | `boolean`  | '`false`'    | Toggle for main block gradient background.                            |
+| **gestures**           | `boolean`  | -----        | Enable swipe gestures on mobile screen to change months.              |
+| **startOfWeek**        | `number`   | 1            | Set start of week day, values (0 to 7) where 0 == Sunday              |
+| **width**              | `string`   | `100%`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                    |
+| **height**             | `string`   | `auto`       | Any CSS height measure                                                |
 
 ### 🎨 Theming
 
@@ -120,7 +120,7 @@ The calendar comes with 16 built-in themes. Just pass the theme name as a prop:
 
 &nbsp;
 
-<a href="https://calendar-demo-pi.vercel.app/" target="_blank">
+<a href="https://calendar-demo-pi.vercel.app/?step=3" target="_blank">
   <img src="https://img.shields.io/badge/Themes%20Playground-Try%20it%20Out-60d276?style=for-the-badge&logo=paint-format&logoColor=white" alt="Play with themes" />
 </a>
 
@@ -134,6 +134,10 @@ No dictionaries, no extra bytes. The library leverages the native browser **Intl
 ```
 
 Pass any **BCP 47** language tag, and the calendar will automatically format days, months, and smart presets according to local standards.
+
+<a href="https://calendar-demo-pi.vercel.app/?step=2" target="_blank">
+  <img src="https://img.shields.io/badge/Locale-playground-Try%20it%20Out-60d276?style=for-the-badge&logo=paint-format&logoColor=white" alt="Play with themes" />
+</a>
 
 ## ✅ Patch notes:
 

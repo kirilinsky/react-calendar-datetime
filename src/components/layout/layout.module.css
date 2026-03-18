@@ -51,7 +51,9 @@
 .calendarContainer.gradient > div {
   background: unset !important;
 }
-
+.calendarContainer.gradient > div[data-state="open"] {
+  background: var(--c-b) !important;
+}
 :root {
   --c-we: #e53935;
   --c-wed: #ff8a80;

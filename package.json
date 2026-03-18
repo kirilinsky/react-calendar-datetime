@@ -1,25 +1,19 @@
 {
   "name": "react-calendar-datetime",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Ultra-lightweight React Calendar Date & Time picker. 0 dependencies, 400+ languages, 14 themes and presets.",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
   "exports": {
     ".": {
-      "types": {
-        "import": "./dist/index.d.mts",
-        "require": "./dist/index.d.cts"
-      },
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     }
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kirilinsky/react-calendar-datetime"
   },
-  "homepage": "https://github.com/kirilinsky/react-calendar-datetime/",
+  "homepage": "https://calendar-demo-pi.vercel.app/",
   "bugs": {
     "url": "https://github.com/kirilinsky/react-calendar-datetime/issues"
   },
@@ -45,7 +39,6 @@
     "@types/react-dom": "^19.2.3",
     "react": "^19",
     "react-dom": "^19",
-    "terser": "^5.46.0",
     "tsdown": "^0.21.4",
     "typescript": "^5.9.3"
   },
@@ -67,6 +60,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "sideEffects": false,
   "author": "Kirilinsky (https://github.com/kirilinsky)",
   "license": "MIT"
 }

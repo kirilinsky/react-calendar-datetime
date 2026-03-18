@@ -51,7 +51,10 @@ export const SelectorComponent: React.FC<{
   };
 
   return (
-    <div className={styles.selectorOverlay}>
+    <div
+      className={styles.selectorOverlay}
+      data-state={type !== "calendar" ? "open" : "closed"}
+    >
       {type === "year" && (
         <div className={styles.navHeader}>
           <>

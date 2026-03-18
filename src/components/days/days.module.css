@@ -4,7 +4,7 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: 1.2em repeat(6, 1fr);
   align-content: center;
-  gap: 0.4em;
+  gap: 0;
   padding: 1em;
   min-height: auto;
   box-sizing: border-box;
@@ -12,7 +12,7 @@
 }
 .dayGridContainer.staticMode {
   grid-template-rows: 23px repeat(6, 1fr);
-  padding: 8px 15px;
+  padding: 8px 14px;
   gap: 3px;
   min-height: 297px;
 }

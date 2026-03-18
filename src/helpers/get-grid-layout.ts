@@ -39,7 +39,7 @@ export const getGridLayout = (p: {
   const rows = [
     hasHeader && (isJelly ? "auto" : "60px"),
     isJelly ? "1fr" : "auto",
-    p.presets && (isJelly ? "auto" : "50px"),
+    p.presets && (isJelly ? "auto" : "minmax(50px, auto)"),
   ]
     .filter(Boolean)
     .join(" ");
