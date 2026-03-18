@@ -1,0 +1,69 @@
+import React, { useMemo } from "react";
+import styles from "./presets.module.css";
+import { useCalendarContext } from "../provider/provider";
+import {
+  getFilteredPresets,
+  getPresetDate,
+  getRelativeLabel,
+} from "@/utils/date-utils";
+import shared from "@/global/global.module.css";
+
+export const PresetsComponent: React.FC = () => {
+  const {
+    months,
+    date,
+    minDate,
+    maxDate,
+    years,
+    onChangeDate,
+    locale,
+    jellyMode,
+    compactMonths,
+    compactYears,
+  } = useCalendarContext();
+
+  const presets = useMemo(
+    () =>
+      getFilteredPresets(
+        years || !!compactYears,
+        months || !!compactMonths,
+        minDate,
+        maxDate,
+      ),
+    [years, months, minDate, maxDate, compactYears, compactMonths],
+  );
+
+  return (
+    <div
+      className={[
+        styles.presetsContainer,
+        jellyMode === false ? styles.staticMode : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      style={{ gridArea: "PP" }}
+    >
+      {presets.map((preset) => {
+        const isActive =
+          preset.targetDate.toDateString() === date.toDateString();
+        return (
+          <button
+            key={preset.id}
+            type="button"
+            className={[
+              styles.presetItem,
+              shared.interactive,
+              shared.hoverable,
+              isActive ? shared.activeItem : styles.inactiveItem,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            onClick={() => onChangeDate(getPresetDate(preset))}
+          >
+            {getRelativeLabel(locale, preset.amount, preset.unit)}{" "}
+          </button>
+        );
+      })}
+    </div>
+  );
+};

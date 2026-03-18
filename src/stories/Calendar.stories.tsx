@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar } from "../Calendar/Calendar";
+import { Calendar } from "../components/calendar/calendar";
 import "./calendar.css";
 import { CalendarTheme, DARK_THEMES, LIGHT_THEMES } from "../types/themes";
 import { ButtonGroup } from "./story.components";
@@ -23,7 +23,7 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   paper: "Paper",
   carbon: "Carbon",
   mintblue: "Mint Blue",
-  midnight: "Midnight Blue",
+  midnight: "Midnight",
   sandstone: "Sandstone",
   phosphor: "Phosphor",
   dracula: "Dracula",
@@ -32,6 +32,8 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   temporal: "Temporal",
   neonlight: "Neon Light",
   larosa: "La Rosa",
+  amethyst: "Amethyst",
+  crimson: "Crimson",
   snowstorm: "Snow Storm",
   solar: "Solar",
 };
@@ -63,14 +65,23 @@ const StoryWrapper = ({ children, title, subtitle, light = true }: any) => (
   </div>
 );
 
-export const Base = () => {
+export const ASimple = () => {
   const [date, setDate] = useState<Date>(new Date());
   return (
     <StoryWrapper
       title="Standard Calendar"
       subtitle={`Selected: ${formatSubtitle(date)}`}
     >
-      <Calendar date={date} onChangeDate={setDate} />
+      <div className="calendar-fixed-container">
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          months
+          years
+          gestures
+          highlightWeekends
+        />
+      </div>
     </StoryWrapper>
   );
 };
@@ -84,6 +95,8 @@ export const minMaxDates = () => {
   };
 
   const [date, setDate] = useState<Date>(new Date());
+  const [disableWeekends, setDisableWeekends] = useState<boolean>(false);
+  const [showWeekNumber, setshowWeekNumber] = useState<boolean>(false);
   const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-11));
   const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(11));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
@@ -111,15 +124,75 @@ export const minMaxDates = () => {
           />
         </div>
       </div>
+      <div className="calendar-fixed-container">
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          minDate={minDate}
+          maxDate={maxDate}
+          theme="sandstone"
+          years
+          presets
+          months
+          showWeekNumber={showWeekNumber}
+          disableWeekends={disableWeekends}
+        />
+      </div>
+      <div className="control-group">
+        <button
+          onClick={() => setDisableWeekends(!disableWeekends)}
+          className={`story-button ${disableWeekends ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          disableWeekends: {disableWeekends ? "ON" : "OFF"}
+        </button>
+        <button
+          onClick={() => setshowWeekNumber(!showWeekNumber)}
+          className={`story-button ${showWeekNumber ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          show week numbers: {showWeekNumber ? "ON" : "OFF"}
+        </button>
+      </div>
+    </StoryWrapper>
+  );
+};
 
-      <Calendar
-        date={date}
-        onChangeDate={setDate}
-        minDate={minDate}
-        maxDate={maxDate}
-        theme="solar"
-        presets
-      />
+export const JellyPlayground = () => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [containerWidth, setContainerWidth] = useState(580);
+
+  return (
+    <StoryWrapper
+      title="Container Queries Playground"
+      subtitle={`Current Width: ${containerWidth}px (Drag slider to test adaptation)`}
+    >
+      <div className="control-group" style={{ width: "100%" }}>
+        <input
+          type="range"
+          min="250"
+          max="900"
+          value={containerWidth}
+          className="width-slider"
+          onChange={(e) => setContainerWidth(Number(e.target.value))}
+        />
+      </div>
+
+      <div
+        className="resize-container"
+        style={{ width: `${containerWidth}px` }}
+      >
+        <Calendar
+          jellyMode
+          months
+          years
+          locale="de"
+          presets
+          date={date}
+          time
+          onChangeDate={setDate}
+        />
+      </div>
     </StoryWrapper>
   );
 };
@@ -128,6 +201,7 @@ export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
   const [light, setLight] = useState<boolean>(true);
+  const [gradient, setGradient] = useState<boolean>(false);
 
   const renderThemeButtons = (
     themes: readonly CalendarTheme[],
@@ -156,18 +230,31 @@ export const ThemePlayground = () => {
         <h4>🌙 Dark Themes</h4>
         {renderThemeButtons(DARK_THEMES, false)}
       </div>
-
-      <Calendar
-        theme={activeTheme}
-        date={date}
-        onChangeDate={setDate}
-        presets
-        time
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          theme={activeTheme}
+          date={date}
+          onChangeDate={setDate}
+          presets
+          time
+          months
+          years
+          compactMonths
+          highlightWeekends
+          gradientBackground={gradient}
+        />
+      </div>
 
       <div className="control-group">
         <h4>☀️ Light Themes</h4>
         {renderThemeButtons(LIGHT_THEMES, true)}
+        <button
+          onClick={() => setGradient(!gradient)}
+          className={`story-button ${gradient ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          Gradient: {gradient ? "ON" : "OFF"}
+        </button>
       </div>
     </StoryWrapper>
   );
@@ -208,12 +295,15 @@ export const LocalePlayground = () => {
         the box (e.g., "nl", "sv", "ko").
       </p>
       {renderLocaleButtons(LOCALES_LIST.slice(0, 6))}
-      <Calendar
-        locale={activeLocale}
-        date={date}
-        onChangeDate={setDate}
-        presets
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          locale={activeLocale}
+          date={date}
+          onChangeDate={setDate}
+          presets
+          months
+        />
+      </div>
       {renderLocaleButtons(LOCALES_LIST.slice(6))}
     </StoryWrapper>
   );
@@ -226,6 +316,8 @@ export const BuilderPlayground = () => {
     months: true,
     time: false,
     presets: false,
+    compactMonths: false,
+    compactYears: false,
   });
 
   const toggle = (key: keyof typeof config) => {
@@ -249,15 +341,18 @@ export const BuilderPlayground = () => {
           </button>
         ))}
       </div>
-
-      <Calendar
-        date={date}
-        onChangeDate={setDate}
-        years={config.years}
-        months={config.months}
-        time={config.time}
-        presets={config.presets}
-      />
+      <div className="calendar-fixed-container">
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          years={config.years}
+          months={config.months}
+          time={config.time}
+          presets={config.presets}
+          compactMonths={config.compactMonths}
+          compactYears={config.compactYears}
+        />
+      </div>
     </StoryWrapper>
   );
 };

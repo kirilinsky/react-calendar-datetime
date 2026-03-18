@@ -1,0 +1,73 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.5em;
+  gap: 0.5em;
+  padding: 0 1em;
+  z-index: 3;
+  background: var(--c-a);
+  border-bottom: 1px solid var(--c-s);
+  box-sizing: border-box;
+  transition: all 0.25s linear;
+  &:hover {
+    box-shadow: 0 0.1em 0.1em var(--c-x);
+  }
+}
+
+.yearsSelector {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.2em;
+  gap: 0.2em;
+  height: 100%;
+}
+
+.currentYear {
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
+  font-size: 1.1em;
+  font-weight: 800;
+  line-height: 1;
+  flex: 1;
+  margin: 0 0.5em;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.arrow {
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
+  width: 2.2em;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.monthButton {
+  composes: interactive from '../../global/global.module.css';
+  width: auto;
+  padding: 0 1em;
+  font-size: 0.9em;
+  background-color: var(--c-t) !important;
+  color: var(--c-h);
+  font-weight: 700;
+  gap: 0.4em;
+  opacity: 0.9;
+
+  & svg {
+    width: 1.4em;
+    height: 1.4em;
+    stroke-width: 3;
+  }
+}
+
+.staticButton {
+  cursor: default;
+  pointer-events: none;
+  background: transparent !important;
+  box-shadow: none !important;
+}

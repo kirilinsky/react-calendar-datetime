@@ -1,22 +1,34 @@
 /**
- * Map of theme keys to CSS variable suffixes.
- * This order must strictly match THEMES_DATA arrays.
- * a: accent (--c-a)
- * b: backdrop (--c-b)
- * h: highlight (--c-h)
- * t: tone (--c-t)
- * c: colorText (--c-c)
- * s: borderColor (--c-s) (stroke)
- * x: boxShadow (--c-x)
+ * CSS variable suffixes (--c-*). Order MUST strictly match THEMES_DATA arrays.
+ * a: accent | b: backdrop | h: highlight | t: tone | c: text | s: stroke | x: shadow
  */
-const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
+export const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
 
 const W = "#ffffff";
 const B = "#1a1a1c";
+const G = "#f0f0f0";
 
 export const THEMES_DATA: Record<string, string[]> = {
-  paper: ["#ffffff", W, B, "#f4f4f4", B, "#f0f0f0", "#0001"],
-  carbon: [B, B, W, "#2d2d2d", "#f0f0f0", "#333333", "#fff1"],
+  paper: [W, W, B, "#f4f4f4", B, G, "#0001"],
+  carbon: [B, B, W, "#2d2d2d", G, "#333333", "#fff1"],
+  crimson: [
+    "#161111",
+    "#0d0909",
+    "#f92f2f",
+    "#3a1616",
+    W,
+    "#2b1a1a",
+    "#f92f2f20",
+  ],
+  amethyst: [
+    W,
+    "#f5f3f7",
+    "#681c9e",
+    "#ebdff4",
+    "#2b2533",
+    "#e6dfea",
+    "#681c9e15",
+  ],
   cyber: [
     "#0d0d15",
     "#07070b",
@@ -129,11 +141,9 @@ export const THEMES_DATA: Record<string, string[]> = {
 
 export const getThemeVars = (themeKey: string) => {
   const values = THEMES_DATA[themeKey] || THEMES_DATA.paper;
-  return values.reduce(
-    (acc, value, i) => {
-      acc[`--c-${THEME_MAP[i]}`] = value;
-      return acc;
-    },
-    {} as Record<string, string>,
-  );
+  const vars: Record<string, string> = {};
+  for (let i = 0; i < THEME_MAP.length; i++) {
+    vars[`--c-${THEME_MAP[i]}`] = values[i];
+  }
+  return vars;
 };

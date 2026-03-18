@@ -1,0 +1,38 @@
+.presetsContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5em;
+  padding: 0.5em;
+  border-top: 1px solid var(--c-x);
+  background: var(--c-a);
+  height: 2.5em;
+  z-index: 3;
+  transition: all 0.25s linear;
+  &:hover {
+    transition: all 0.25s linear;
+    box-shadow: 0 -0.1em 0.1em var(--c-x);
+  }
+}
+
+.presetsContainer.staticMode {
+  padding: 6px;
+  gap: 5px;
+  border-top: 1px solid var(--c-s);
+  height: 100%;
+}
+
+.presetItem {
+  font-size: 0.8em !important;
+  flex: 1 1 auto;
+  padding: 0 0.8em !important;
+}
+
+.inactiveItem {
+  background: var(--c-t);
+}
+
+.presetsContainer.staticMode .presetItem {
+  height: auto !important;
+  font-size: clamp(9px, 3cqw, 12px) !important;
+  flex: 1;
+}

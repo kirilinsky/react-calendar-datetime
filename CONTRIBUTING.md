@@ -34,6 +34,11 @@ Basic commands for development and building:
 
 ## Patch notes (old versions)
 
+- **v2.5.4:** Bug fixes.
+- **v2.5.3:** Added `minDate` and `maxDate` support.
+- **v2.5.2:** Added a new `boxShadow` layer to the theme engine.
+- **v2.5.1:** New Radical Theme: `Neonlight` and `Temporal`
+- **v2.5.0:** Infinite Localization added.
 - **v2.4.4:** Bugfixes.
 - **v2.4.3:** Optimized bundle size (experimental `tsup` config)
 - **v2.4.2:** Bugfixes, added `Tomorrow` preset.

@@ -6,6 +6,7 @@ export const LIGHT_THEMES = [
   "larosa",
   "snowstorm",
   "solar",
+  "amethyst",
 ] as const;
 export const DARK_THEMES = [
   "carbon",
@@ -15,6 +16,7 @@ export const DARK_THEMES = [
   "dracula",
   "cyber",
   "temporal",
+  "crimson",
 ] as const;
 
 export type CalendarTheme =
