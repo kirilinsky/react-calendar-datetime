@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./time.module.css";
+import shared from "@/global/global.module.css";
 import { useCalendarContext } from "../provider/provider";
 import { useThrottle } from "@/hooks/use-throttle";
 import { addTime, getDrumValue, padTime } from "@/utils/date-utils";
@@ -42,7 +43,7 @@ const TimeColumn = ({
   return (
     <div
       ref={colRef}
-      className={styles.column}
+      className={`${styles.column} ${shared.flexCenter}`}
       style={{ gridArea: "TT" }}
       tabIndex={0}
       onKeyDown={(e) => {
@@ -52,7 +53,10 @@ const TimeColumn = ({
         }
       }}
     >
-      <div className={styles.cell} onClick={() => move(-1, type)}>
+      <div
+        className={`${styles.cell} ${shared.interactive}`}
+        onClick={() => move(-1, type)}
+      >
         <Up />
       </div>
       {OFFSETS.map((o) => {
@@ -60,14 +64,19 @@ const TimeColumn = ({
         return (
           <div
             key={o}
-            className={`${styles.cell} ${isCurr ? styles.active : ""}`}
+            className={`${styles.cell} ${shared.interactive} ${
+              isCurr ? styles.active : ""
+            }`}
             onClick={isCurr ? undefined : () => move(o, type)}
           >
             {padTime(getDrumValue(val, o, max))}
           </div>
         );
       })}
-      <div className={styles.cell} onClick={() => move(1, type)}>
+      <div
+        className={`${styles.cell} ${shared.interactive}`}
+        onClick={() => move(1, type)}
+      >
         <Down />
       </div>
     </div>
@@ -84,7 +93,7 @@ export const TimeComponent: React.FC = () => {
   const mVal = date.getMinutes();
 
   return (
-    <div className={styles.timeContainer}>
+    <div className={`${styles.timeContainer} ${shared.flexCenter}`}>
       <div className={styles.timeSelectionIndicator} />
       <TimeColumn type="h" val={hVal} max={24} move={move} />
       <div className={styles.separator}>:</div>

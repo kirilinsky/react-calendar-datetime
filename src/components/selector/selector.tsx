@@ -60,7 +60,7 @@ export const SelectorComponent: React.FC<{
               onClick={() =>
                 setNavDate(addYears(navDate, -12, disableWeekends))
               }
-              className={styles.navBtn}
+              className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
               <Left />
             </button>
@@ -70,7 +70,7 @@ export const SelectorComponent: React.FC<{
             <button
               disabled={!canGoNext}
               onClick={() => setNavDate(addYears(navDate, 12, disableWeekends))}
-              className={styles.navBtn}
+              className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
               <Right />
             </button>
@@ -84,7 +84,7 @@ export const SelectorComponent: React.FC<{
             <button
               key={i}
               disabled={m.disabled}
-              className={`${styles.item} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.activeItem : ""}`}
+              className={`${styles.item} ${shared.interactive} ${shared.hoverable} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.activeItem : ""}`}
               onClick={() => handleSelect(setMonth(date, i, disableWeekends))}
             >
               {m.label}
@@ -96,7 +96,7 @@ export const SelectorComponent: React.FC<{
             <button
               key={value}
               disabled={disabled}
-              className={`${styles.item} ${value === date.getFullYear() ? shared.activeItem : ""}`}
+              className={`${styles.item} ${shared.interactive} ${shared.hoverable} ${value === date.getFullYear() ? shared.activeItem : ""}`}
               onClick={() => handleSelect(setYear(date, value))}
             >
               {value}
@@ -105,7 +105,7 @@ export const SelectorComponent: React.FC<{
       </div>
       <div className={styles.footer}>
         <button
-          className={styles.closeBtn}
+          className={`${styles.closeBtn} ${shared.interactive} ${shared.hoverable}`}
           onClick={() => setView("calendar")}
         >
           Cancel

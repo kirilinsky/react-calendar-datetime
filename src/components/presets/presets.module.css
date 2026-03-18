@@ -22,11 +22,9 @@
 }
 
 .presetItem {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
   font-size: 0.8em !important;
-  height: 100%;
   flex: 1 1 auto;
+  padding: 0 0.8em !important;
 }
 
 .inactiveItem {

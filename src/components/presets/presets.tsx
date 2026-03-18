@@ -52,6 +52,8 @@ export const PresetsComponent: React.FC = () => {
             type="button"
             className={[
               styles.presetItem,
+              shared.interactive,
+              shared.hoverable,
               isActive ? shared.activeItem : styles.inactiveItem,
             ]
               .filter(Boolean)

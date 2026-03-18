@@ -35,8 +35,6 @@
 }
 
 .item {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
   height: 2.8em;
   font-size: 1.1em;
   font-weight: 600;
@@ -50,15 +48,11 @@
 }
 
 .navBtn {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
   aspect-ratio: 1 / 1;
   padding: 0;
 }
 
 .closeBtn {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
   padding: 0 1.5em;
   font-size: 0.9em;
   font-weight: 700;

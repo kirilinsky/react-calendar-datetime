@@ -1,5 +1,4 @@
 .timeContainer {
-  composes: flexCenter from "../../global/global.module.css";
   position: relative;
   padding: 0.4em;
   background: var(--c-b);
@@ -27,7 +26,6 @@
 }
 
 .column {
-  composes: flexCenter from "../../global/global.module.css";
   flex-direction: column;
   z-index: 1;
   flex: 1;
@@ -44,7 +42,6 @@
 }
 
 .cell {
-  composes: interactive from "../../global/global.module.css";
   height: 2.4em;
   width: 100%;
   font-size: 0.7em;

@@ -108,8 +108,12 @@ export const getFirstDayOffset = (
 
 /** Generates an array of years around a central year for the Year Selector */
 export const getYearsRange = (center: number, len: number = 25): number[] => {
-  const start = center - ((len / 2) | 0);
-  return Array.from({ length: len }, (_, i) => start + i);
+  const start = center - Math.floor(len / 2);
+  const years: number[] = [];
+  for (let i = 0; i < len; i++) {
+    years.push(start + i);
+  }
+  return years;
 };
 
 /** Retrieves an array of localized month names (e.g., ["January", "February", ...]) */
@@ -179,20 +183,12 @@ export const checkIsDateDisabled = (
   max?: Date | string | null,
   disableWeekends?: boolean,
 ): boolean => {
-  if (disableWeekends) {
-    const dayOfWeek = viewDate.getDay();
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      return true;
-    }
+  if (disableWeekends && viewDate.getDay() % 6 === 0) {
+    return true;
   }
   if (!min && !max) return false;
 
-  /* creates exact date at midnight for comparison */
-  const t = new Date(
-    viewDate.getFullYear(),
-    viewDate.getMonth(),
-    day,
-  ).getTime();
+  const t = viewDate.getTime();
 
   const minT = getLimit(min);
   const maxT = getLimit(max, true);
@@ -393,33 +389,34 @@ export const getCalendarData = (
   maxDate?: Date | null,
   disableWeekends?: boolean,
 ) => {
-  const flatCells = Array.from({ length: 42 }, (_, i) => {
-    const fullDate = new Date(currentYear, currentMonth, i - offset + 1);
-    const isCurrentMonth = fullDate.getMonth() === currentMonth;
-    const day = fullDate.getDate();
-
-    const isDisabled = checkIsDateDisabled(
-      day,
-      fullDate,
-      minDate,
-      maxDate,
-      disableWeekends,
-    );
-    return {
-      day,
-      fullDate,
-      isCurrentMonth,
-      isDisabled,
-      isSelected:
-        isCurrentMonth &&
-        day === selectedDate.getDate() &&
-        fullDate.getFullYear() === currentYear,
-    };
-  });
+  const selectedTime = new Date(
+    selectedDate.getFullYear(),
+    selectedDate.getMonth(),
+    selectedDate.getDate(),
+  ).getTime();
 
   const weeks = [];
-  for (let i = 0; i < 42; i += 7) {
-    const days = flatCells.slice(i, i + 7);
+  for (let i = 0; i < 6; i++) {
+    const days = [];
+    for (let j = 0; j < 7; j++) {
+      const dayOfMonth = i * 7 + j - offset + 1;
+      const fullDate = new Date(currentYear, currentMonth, dayOfMonth);
+      const isCurrentMonth = fullDate.getMonth() === currentMonth;
+      const day = fullDate.getDate();
+      days.push({
+        day,
+        fullDate,
+        isCurrentMonth,
+        isDisabled: checkIsDateDisabled(
+          day,
+          fullDate,
+          minDate,
+          maxDate,
+          disableWeekends,
+        ),
+        isSelected: isCurrentMonth && fullDate.getTime() === selectedTime,
+      });
+    }
     weeks.push({
       weekNumber: String(getWeekNumber(days[0].fullDate)).padStart(2, "0"),
       days,
