@@ -97,7 +97,7 @@ export const DaysComponent: React.FC = () => {
       className={`${styles.dayGridContainer} ${direction !== "none" ? styles[direction] : ""}`}
     >
       <WeekDays />
-      <div role="row" style={{ display: "contents" }}>
+      <div role="row" style={{ display: "contents", gridArea: "DD" }}>
         {calendarData.map(
           ({ day, fullDate, isCurrentMonth, isDisabled, isSelected }, i) => (
             <button
@@ -107,12 +107,13 @@ export const DaysComponent: React.FC = () => {
               disabled={isDisabled}
               onClick={() => handleSetDay(fullDate, isDisabled)}
               aria-selected={isSelected}
-              className={`
-                ${styles.dayItem} 
-              ${isSelected ? shared.activeItem : ""} 
-        ${!isCurrentMonth ? shared.otherItem : ""}
-                
-              `}
+              className={[
+                styles.dayItem,
+                isSelected && shared.activeItem,
+                !isCurrentMonth && shared.otherItem,
+              ]
+                .filter(Boolean)
+                .join(" ")}
             >
               {day}
             </button>

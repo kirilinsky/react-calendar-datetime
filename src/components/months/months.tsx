@@ -13,7 +13,7 @@ export const MonthsComponent: React.FC = () => {
   );
 
   return (
-    <div className={styles.monthsContainer}>
+    <div className={styles.monthsContainer} style={{ gridArea: "MM" }}>
       {mNames.map((n, i) => (
         <button
           key={i}

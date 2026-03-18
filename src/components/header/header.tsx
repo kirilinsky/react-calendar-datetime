@@ -33,7 +33,7 @@ export const HeaderComponent: React.FC = () => {
   const ch = (v: number) => onChangeDate(addYears(date, v));
 
   return (
-    <div className={styles.headerContainer}>
+    <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
       {compactMonths && (
         <div className={styles.monthsSelector}>
           <button

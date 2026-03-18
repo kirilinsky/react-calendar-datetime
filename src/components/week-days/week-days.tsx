@@ -6,7 +6,6 @@ import styles from "./weekdays.module.css";
 const WeekDays = () => {
   const { locale, highlightWeekends, dark } = useCalendarContext();
   const wDays = useMemo(() => getWeekdaysNames(locale), [locale]);
-  console.log(wDays, "wDays");
 
   return (
     <div role="row" style={{ display: "contents" }}>

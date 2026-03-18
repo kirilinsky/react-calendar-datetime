@@ -1,5 +1,5 @@
 .presetsContainer {
-  grid-area: PP;
+ 
   display: flex;
   flex-wrap: nowrap;
   gap: 0.5em;

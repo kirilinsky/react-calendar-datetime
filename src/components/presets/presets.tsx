@@ -18,7 +18,7 @@ export const PresetsComponent: React.FC = () => {
   );
 
   return (
-    <div className={styles.presetsContainer}>
+    <div className={styles.presetsContainer} style={{ gridArea: "PP" }}>
       {presets.map((preset) => {
         const isActive =
           preset.targetDate.toDateString() === date.toDateString();

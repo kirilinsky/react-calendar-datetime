@@ -43,6 +43,7 @@ const TimeColumn = ({
     <div
       ref={colRef}
       className={styles.column}
+      style={{ gridArea: "TT" }}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key.includes("Arrow")) {
