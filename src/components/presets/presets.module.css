@@ -1,5 +1,4 @@
 .presetsContainer {
- 
   display: flex;
   flex-wrap: nowrap;
   gap: 0.5em;
@@ -7,6 +6,14 @@
   border-top: 1px solid var(--c-x);
   background: var(--c-a);
   height: 2.5em;
+  z-index: 2;
+}
+
+.presetsContainer.staticMode {
+  padding: 6px;
+  gap: 5px;
+  border-top: 1px solid var(--c-s);
+  height: 100%;
 }
 
 .presetItem {
@@ -19,7 +26,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
   &[data-action="false"] {
     background: var(--c-t) !important;
   }
+}
+
+.presetsContainer.staticMode .presetItem {
+  height: auto !important;
+  font-size: clamp(10px, 3cqw, 13px) !important;
+  flex: 1;
 }

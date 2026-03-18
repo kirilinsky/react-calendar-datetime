@@ -5,9 +5,20 @@
   grid-template-rows: repeat(6, 1fr);
   padding: 0.5em;
   gap: 0.1em;
-  border-right: 1px solid var(--c-x);
+  border-right: 1px solid var(--c-s);
   background: var(--c-b);
   z-index: 2;
+  transition: all 0.25s linear;
+  &:hover {
+    transition: all 0.25s linear;
+    box-shadow: 0.2em 0 0.5em var(--c-x);
+  }
+}
+
+.monthsContainer.staticMode {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 10px 5px !important;
+  gap: 4px !important;
 }
 
 .item {
@@ -17,4 +28,8 @@
   height: 85% !important;
   font-size: 0.8em !important;
   white-space: nowrap;
+}
+.monthsContainer.staticMode .item {
+  height: 95% !important;
+  font-size: clamp(9px, 3cqw, 12px) !important;
 }

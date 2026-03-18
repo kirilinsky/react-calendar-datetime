@@ -63,7 +63,7 @@ const StoryWrapper = ({ children, title, subtitle, light = true }: any) => (
   </div>
 );
 
-export const Base = () => {
+export const ASimple = () => {
   const [date, setDate] = useState<Date>(new Date());
   return (
     <StoryWrapper
@@ -94,6 +94,7 @@ export const minMaxDates = () => {
 
   const [date, setDate] = useState<Date>(new Date());
   const [disableWeekends, setDisableWeekends] = useState<boolean>(false);
+  const [showWeekNumber, setshowWeekNumber] = useState<boolean>(false);
   const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-11));
   const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(11));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
@@ -131,6 +132,7 @@ export const minMaxDates = () => {
           years
           presets
           months
+          showWeekNumber={showWeekNumber}
           disableWeekends={disableWeekends}
         />
       </div>
@@ -142,12 +144,19 @@ export const minMaxDates = () => {
         >
           disableWeekends: {disableWeekends ? "ON" : "OFF"}
         </button>
+        <button
+          onClick={() => setshowWeekNumber(!showWeekNumber)}
+          className={`story-button ${showWeekNumber ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          show week numbers: {showWeekNumber ? "ON" : "OFF"}
+        </button>
       </div>
     </StoryWrapper>
   );
 };
 
-export const AdaptivePlayground = () => {
+export const JellyPlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [containerWidth, setContainerWidth] = useState(580);
 
@@ -171,7 +180,14 @@ export const AdaptivePlayground = () => {
         className="resize-container"
         style={{ width: `${containerWidth}px` }}
       >
-        <Calendar months years presets date={date} onChangeDate={setDate} />
+        <Calendar
+          jellyMode
+          months
+          years
+          presets
+          date={date}
+          onChangeDate={setDate}
+        />
       </div>
     </StoryWrapper>
   );

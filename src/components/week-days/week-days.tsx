@@ -4,7 +4,8 @@ import { useCalendarContext } from "../provider/provider";
 import styles from "./weekdays.module.css";
 
 const WeekDays = () => {
-  const { locale, highlightWeekends, dark, startOfWeek } = useCalendarContext();
+  const { locale, highlightWeekends, dark, startOfWeek, showWeekNumber } =
+    useCalendarContext();
   const wDays = useMemo(
     () => getWeekdaysNames(locale, startOfWeek),
     [locale, startOfWeek],
@@ -12,6 +13,7 @@ const WeekDays = () => {
 
   return (
     <div role="row" style={{ display: "contents" }}>
+      {showWeekNumber && <div></div>}
       {wDays.map((day, i) => {
         const actualDay = (startOfWeek + i) % 7;
         const isWeekend =

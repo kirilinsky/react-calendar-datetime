@@ -5,8 +5,16 @@ import { getMonthListData, setMonth } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
 
 export const MonthsComponent: React.FC = () => {
-  const { onChangeDate, locale, date, minDate, maxDate, disableWeekends } =
-    useCalendarContext();
+  const {
+    onChangeDate,
+    locale,
+    date,
+    minDate,
+    maxDate,
+    disableWeekends,
+    jellyMode,
+  } = useCalendarContext();
+
   const currentMonth = date.getMonth();
   const mNames = useMemo(
     () => getMonthListData(locale, date.getFullYear(), minDate, maxDate),
@@ -14,14 +22,24 @@ export const MonthsComponent: React.FC = () => {
   );
 
   return (
-    <div className={styles.monthsContainer} style={{ gridArea: "MM" }}>
+    <div
+      className={[
+        styles.monthsContainer,
+        jellyMode === false ? styles.staticMode : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      style={{ gridArea: "MM" }}
+    >
       {mNames.map((n, i) => (
         <button
           key={i}
           type="button"
           data-action
           disabled={n.disabled}
-          className={`${styles.item} ${i === currentMonth ? shared.activeItem : ""}`}
+          className={[styles.item, i === currentMonth ? shared.activeItem : ""]
+            .filter(Boolean)
+            .join(" ")}
           onClick={() => onChangeDate(setMonth(date, i, disableWeekends))}
         >
           {n.label}

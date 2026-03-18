@@ -10,6 +10,33 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+.dayGridContainer.staticMode {
+  grid-template-rows: 23px repeat(6, 1fr);
+  padding: 8px 15px;
+  gap: 3px;
+  min-height: 297px;
+}
+
+.dayGridContainer.withWeekNumbers {
+  grid-template-columns: 2em repeat(7, 1fr);
+}
+
+.weekNumberItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  color: var(--c-s);
+  font-weight: 600;
+}
+
+.dayGridContainer.staticMode .weekNumberItem {
+  font-size: 12px;
+}
+
+.dayGridContainer.staticMode.withWeekNumbers {
+  grid-template-columns: 35px repeat(7, 1fr);
+}
 
 .dayItem {
   aspect-ratio: 1 / 1;
@@ -22,18 +49,15 @@
   z-index: 1;
 
   &:disabled {
-    opacity: 0.3 !important;
-    background: repeating-linear-gradient(
-      -45deg,
-      var(--c-wed) 0.01em,
-      var(--c-wed) 0.03em,
-      transparent 0.03em,
-      transparent 2em
-    ) !important;
-    &:hover {
-      opacity: 0.8 !important;
-    }
+    opacity: 0.5 !important;
+    text-decoration: line-through;
   }
+}
+.dayGridContainer.staticMode .dayItem {
+  aspect-ratio: auto;
+  padding: 8px 4px;
+  font-size: 13px !important;
+  height: auto !important;
 }
 
 @keyframes slideInRight {

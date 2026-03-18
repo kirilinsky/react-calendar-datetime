@@ -2,14 +2,12 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./days.module.css";
 import { useCalendarContext } from "../provider/provider";
 import {
-  checkIsDateDisabled,
   getFirstDayOffset,
   getNextMonthFromSwipe,
+  getCalendarData,
 } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
 import WeekDays from "../week-days/week-days";
-
-const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
 export const DaysComponent: React.FC = () => {
   const {
@@ -20,6 +18,8 @@ export const DaysComponent: React.FC = () => {
     gestures,
     disableWeekends,
     startOfWeek,
+    jellyMode,
+    showWeekNumber,
   } = useCalendarContext();
 
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
@@ -29,6 +29,7 @@ export const DaysComponent: React.FC = () => {
   const currentYear = date.getFullYear();
   const offset = getFirstDayOffset(date, startOfWeek);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
   useEffect(() => {
     const isSameMonth =
       date.getMonth() === prevDate.getMonth() &&
@@ -52,36 +53,22 @@ export const DaysComponent: React.FC = () => {
 
     setTouchStartX(null);
   };
+
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!gestures) return;
     setTouchStartX(e.changedTouches[0].clientX);
   };
 
-  const calendarData = useMemo(() => {
-    return CELLS.map((i) => {
-      const fullDate = new Date(currentYear, currentMonth, i - offset + 1);
-      const isCurrentMonth = fullDate.getMonth() === currentMonth;
-      const day = fullDate.getDate();
-
-      const isDisabled = checkIsDateDisabled(
-        day,
-        fullDate,
-        minDate,
-        maxDate,
-        disableWeekends,
-      );
-
-      return {
-        day,
-        fullDate,
-        isCurrentMonth,
-        isDisabled,
-        isSelected:
-          isCurrentMonth &&
-          day === date.getDate() &&
-          fullDate.getFullYear() === currentYear,
-      };
-    });
+  const weeksData = useMemo(() => {
+    return getCalendarData(
+      currentYear,
+      currentMonth,
+      offset,
+      date,
+      minDate,
+      maxDate,
+      disableWeekends,
+    );
   }, [
     currentYear,
     currentMonth,
@@ -109,31 +96,49 @@ export const DaysComponent: React.FC = () => {
       key={animationKey}
       onTouchEnd={handleTouchEnd}
       onTouchStart={handleTouchStart}
-      className={`${styles.dayGridContainer} ${direction !== "none" ? styles[direction] : ""}`}
+      className={[
+        styles.dayGridContainer,
+        direction !== "none" ? styles[direction] : "",
+        jellyMode === false ? styles.staticMode : "",
+        showWeekNumber ? styles.withWeekNumbers : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <WeekDays />
       <div role="row" style={{ display: "contents", gridArea: "DD" }}>
-        {calendarData.map(
-          ({ day, fullDate, isCurrentMonth, isDisabled, isSelected }, i) => (
-            <button
-              key={i}
-              data-action
-              type="button"
-              disabled={isDisabled}
-              onClick={() => handleSetDay(fullDate, isDisabled)}
-              aria-selected={isSelected}
-              className={[
-                styles.dayItem,
-                isSelected && shared.activeItem,
-                !isCurrentMonth && shared.otherItem,
-              ]
-                .filter(Boolean)
-                .join(" ")}
-            >
-              {day}
-            </button>
-          ),
-        )}
+        {weeksData.map((week, wIndex) => (
+          <React.Fragment key={wIndex}>
+            {showWeekNumber && (
+              <div className={styles.weekNumberItem}>{week.weekNumber}</div>
+            )}
+
+            {week.days.map(
+              (
+                { day, fullDate, isCurrentMonth, isDisabled, isSelected },
+                i,
+              ) => (
+                <button
+                  key={i}
+                  data-action
+                  type="button"
+                  disabled={isDisabled}
+                  onClick={() => handleSetDay(fullDate, isDisabled)}
+                  aria-selected={isSelected}
+                  className={[
+                    styles.dayItem,
+                    isSelected && shared.activeItem,
+                    !isCurrentMonth && shared.otherItem,
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  {day}
+                </button>
+              ),
+            )}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );

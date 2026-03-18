@@ -4,7 +4,7 @@
   justify-content: space-between;
   min-height: 3.5em;
   gap: 0.5em;
-  padding: 0 1em;
+  padding: 0 1em;z-index: 2;
   background: var(--c-a);
   border-bottom: 1px solid var(--c-x);
   box-sizing: border-box;

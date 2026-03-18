@@ -9,8 +9,16 @@ import {
 import shared from "@/global/global.module.css";
 
 export const PresetsComponent: React.FC = () => {
-  const { months, date, minDate, maxDate, years, onChangeDate, locale } =
-    useCalendarContext();
+  const {
+    months,
+    date,
+    minDate,
+    maxDate,
+    years,
+    onChangeDate,
+    locale,
+    jellyMode,
+  } = useCalendarContext();
 
   const presets = useMemo(
     () => getFilteredPresets(years, months, minDate, maxDate),
@@ -18,7 +26,15 @@ export const PresetsComponent: React.FC = () => {
   );
 
   return (
-    <div className={styles.presetsContainer} style={{ gridArea: "PP" }}>
+    <div
+      className={[
+        styles.presetsContainer,
+        jellyMode === false ? styles.staticMode : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      style={{ gridArea: "PP" }}
+    >
       {presets.map((preset) => {
         const isActive =
           preset.targetDate.toDateString() === date.toDateString();
@@ -27,7 +43,9 @@ export const PresetsComponent: React.FC = () => {
             key={preset.id}
             type="button"
             data-action={isActive}
-            className={`${styles.presetItem} ${isActive ? shared.activeItem : ""}`}
+            className={[styles.presetItem, isActive ? shared.activeItem : ""]
+              .filter(Boolean)
+              .join(" ")}
             onClick={() => onChangeDate(getPresetDate(preset))}
           >
             {getRelativeLabel(locale, preset.amount, preset.unit)}{" "}

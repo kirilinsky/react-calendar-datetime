@@ -140,7 +140,8 @@ export const getWeekdaysNames = (
       return f(d);
     });
   }
-  const defaultDays = i18nCache[key];
+  let defaultDays = i18nCache[key];
+
   const shift = startOfWeek === 0 ? 6 : startOfWeek - 1;
   if (shift === 0) return defaultDays;
   return [...defaultDays.slice(shift), ...defaultDays.slice(0, shift)];
@@ -186,7 +187,7 @@ export const checkIsDateDisabled = (
   }
   if (!min && !max) return false;
 
-  // Creates exact date at midnight for comparison
+  /* creates exact date at midnight for comparison */
   const t = new Date(
     viewDate.getFullYear(),
     viewDate.getMonth(),
@@ -372,4 +373,57 @@ export const getNextMonthFromSwipe = (
   }
 
   return newDate;
+};
+export const getWeekNumber = (date: Date): number => {
+  const target = new Date(date.valueOf());
+  const dayNr = (date.getDay() + 6) % 7;
+  target.setDate(target.getDate() - dayNr + 3);
+
+  const firstThursday = new Date(target.getFullYear(), 0, 4);
+  const dayDiff = (target.getTime() - firstThursday.getTime()) / 86400000;
+  return 1 + Math.ceil(dayDiff / 7);
+};
+
+export const getCalendarData = (
+  currentYear: number,
+  currentMonth: number,
+  offset: number,
+  selectedDate: Date,
+  minDate?: Date | null,
+  maxDate?: Date | null,
+  disableWeekends?: boolean,
+) => {
+  const flatCells = Array.from({ length: 42 }, (_, i) => {
+    const fullDate = new Date(currentYear, currentMonth, i - offset + 1);
+    const isCurrentMonth = fullDate.getMonth() === currentMonth;
+    const day = fullDate.getDate();
+
+    const isDisabled = checkIsDateDisabled(
+      day,
+      fullDate,
+      minDate,
+      maxDate,
+      disableWeekends,
+    );
+    return {
+      day,
+      fullDate,
+      isCurrentMonth,
+      isDisabled,
+      isSelected:
+        isCurrentMonth &&
+        day === selectedDate.getDate() &&
+        fullDate.getFullYear() === currentYear,
+    };
+  });
+
+  const weeks = [];
+  for (let i = 0; i < 42; i += 7) {
+    const days = flatCells.slice(i, i + 7);
+    weeks.push({
+      weekNumber: String(getWeekNumber(days[0].fullDate)).padStart(2, "0"),
+      days,
+    });
+  }
+  return weeks;
 };

@@ -7,14 +7,16 @@ export const getGridLayout = (p: {
   years?: boolean;
   compactYears?: boolean;
   compactMonths?: boolean;
+  jellyMode?: boolean;
 }): CSSProperties => {
+  const isJelly = p.jellyMode !== false;
   const colCount = (p.months ? 1 : 0) + 1 + (p.time ? 1 : 0);
   const isCramped = p.months && p.time;
 
   const cols = [
-    p.months && (isCramped ? "25cqw" : "28cqw"),
-    "1fr",
-    p.time && (isCramped ? "16cqw" : "20cqw"),
+    p.months && (isJelly ? (isCramped ? "25cqw" : "28cqw") : "2fr"),
+    isJelly ? "1fr" : "5fr",
+    p.time && (isJelly ? (isCramped ? "16cqw" : "20cqw") : "2fr"),
   ]
     .filter(Boolean)
     .join(" ");
@@ -23,18 +25,22 @@ export const getGridLayout = (p: {
   const mainRow = [p.months && "MM", "DD", p.time && "TT"]
     .filter(Boolean)
     .join(" ");
-  const fullWidthRow = (key: string) =>
+  const fullWidth = (key: string) =>
     `"${new Array(colCount).fill(key).join(" ")}"`;
 
   const areas = [
-    hasHeader && fullWidthRow("HH"),
+    hasHeader && fullWidth("HH"),
     `"${mainRow}"`,
-    p.presets && fullWidthRow("PP"),
+    p.presets && fullWidth("PP"),
   ]
     .filter(Boolean)
     .join(" ");
 
-  const rows = [hasHeader && "auto", "1fr", p.presets && "auto"]
+  const rows = [
+    hasHeader && (isJelly ? "auto" : "60px"),
+    isJelly ? "1fr" : "auto",
+    p.presets && (isJelly ? "auto" : "50px"),
+  ]
     .filter(Boolean)
     .join(" ");
 

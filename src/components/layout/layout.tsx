@@ -11,12 +11,26 @@ export const CalendarLayout: React.FC<{
   theme: string;
   containerStyle: React.CSSProperties;
 }> = ({ theme, containerStyle }) => {
-  const { view, presets, years, compactMonths, compactYears, months, time } =
-    useCalendarContext();
+  const {
+    view,
+    presets,
+    years,
+    compactMonths,
+    compactYears,
+    months,
+    time,
+    jellyMode,
+  } = useCalendarContext();
 
   return (
     <div
-      className={`${styles.calendarContainer} theme-${theme}`}
+      className={[
+        styles.calendarContainer,
+        `theme-${theme}`,
+        !jellyMode ? styles.staticMode : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       style={containerStyle}
     >
       {view !== "calendar" && <SelectorComponent type={view} />}

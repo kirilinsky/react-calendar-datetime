@@ -10,14 +10,15 @@ export const Calendar: React.FC<CalendarProps> = ({
   height = "auto",
   theme = "paper",
   presets = false,
-  compactMonths = false,
+  compactMonths = true,
   compactYears = false,
-  years = false,
+  years = true,
   time = false,
   months = false,
   locale = "en",
   disableWeekends = false,
   startOfWeek = 1,
+  jellyMode = false,
   ...restProps
 }) => {
   const resolvedProps = {
@@ -33,6 +34,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     locale,
     disableWeekends,
     startOfWeek,
+    jellyMode,
     ...restProps,
   };
 
@@ -45,6 +47,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       years,
       time,
       months,
+      jellyMode,
     });
 
     return {

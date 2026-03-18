@@ -16,6 +16,11 @@
   box-shadow: 0 0.2em 0.8em var(--c-x);
   overflow: hidden;
 }
+.calendarContainer.staticMode {
+  font-size: 15px;
+  min-width: 350px;
+  width: max-content;
+}
 
 .calendarContainer * {
   box-sizing: border-box;

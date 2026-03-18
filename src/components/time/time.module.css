@@ -4,10 +4,14 @@
   align-items: center;
   position: relative;
   padding: 0.4em;
-
   background: var(--c-b);
   min-height: 10em;
-  border-left: 1px solid var(--c-x);
+  border-left: 1px solid var(--c-s);
+  transition: all 0.25s linear;
+  &:hover {
+    transition: all 0.25s linear;
+    box-shadow: -0.2em 0 0.5em var(--c-x);
+  }
 }
 
 .timeSelectionIndicator {

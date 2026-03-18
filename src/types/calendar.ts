@@ -14,6 +14,7 @@ export interface CalendarProps {
   jellyMode?: boolean;
   highlightWeekends?: boolean;
   disableWeekends?: boolean;
+  showWeekNumber?: boolean;
   gestures?: boolean;
   startOfWeek?: StartOfWeek;
   compactYears?: boolean;
