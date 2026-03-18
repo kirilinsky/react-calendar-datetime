@@ -16,6 +16,23 @@
   box-shadow: 0 0.2em 0.8em var(--c-x);
   overflow: hidden;
 }
+.calendarContainer.gradient {
+  background: linear-gradient(
+    135deg,
+    var(--c-a) 0%,
+    var(--c-b) 50%,
+    var(--c-t) 100%
+  ) !important;
+}
+
+.calendarContainer.gradient.dark {
+  background: radial-gradient(
+    circle at 0% 0%,
+    var(--c-t) 0%,
+    var(--c-b) 60%,
+    var(--c-a) 100%
+  ) !important;
+}
 .calendarContainer.staticMode {
   font-size: 15px;
   min-width: 350px;
@@ -30,6 +47,9 @@
   width: 100%;
   height: 100%;
   background: inherit;
+}
+.calendarContainer.gradient > div {
+  background: unset !important;
 }
 
 .calendarContainer [data-action] {

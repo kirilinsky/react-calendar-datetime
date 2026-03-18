@@ -32,6 +32,8 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   temporal: "Temporal",
   neonlight: "Neon Light",
   larosa: "La Rosa",
+  amethyst: "Amethyst",
+  crimson: "Crimson",
   snowstorm: "Snow Storm",
   solar: "Solar",
 };

@@ -20,6 +20,8 @@ export const CalendarLayout: React.FC<{
     months,
     time,
     jellyMode,
+    gradientBackground,
+    dark,
   } = useCalendarContext();
 
   return (
@@ -28,6 +30,8 @@ export const CalendarLayout: React.FC<{
         styles.calendarContainer,
         `theme-${theme}`,
         !jellyMode ? styles.staticMode : "",
+        gradientBackground ? styles.gradient : "",
+        dark ? styles.dark : "",
       ]
         .filter(Boolean)
         .join(" ")}

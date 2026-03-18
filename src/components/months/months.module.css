@@ -11,7 +11,7 @@
   transition: all 0.25s linear;
   &:hover {
     transition: all 0.25s linear;
-    box-shadow: 0.2em 0 0.5em var(--c-x);
+    box-shadow: 0.1em 0 0.5em var(--c-x);
   }
 }
 

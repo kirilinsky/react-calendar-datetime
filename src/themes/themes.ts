@@ -17,6 +17,24 @@ const B = "#1a1a1c";
 export const THEMES_DATA: Record<string, string[]> = {
   paper: ["#ffffff", W, B, "#f4f4f4", B, "#f0f0f0", "#0001"],
   carbon: [B, B, W, "#2d2d2d", "#f0f0f0", "#333333", "#fff1"],
+  crimson: [
+    "#161111",
+    "#0d0909",
+    "#f92f2f",
+    "#3a1616",
+    W,
+    "#2b1a1a",
+    "#f92f2f20",
+  ],
+  amethyst: [
+    W,
+    "#f5f3f7",
+    "#681c9e",
+    "#ebdff4",
+    "#2b2533",
+    "#e6dfea",
+    "#681c9e15",
+  ],
   cyber: [
     "#0d0d15",
     "#07070b",

@@ -43,7 +43,6 @@
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "esbuild-css-modules-plugin": "^3.1.5",
     "react": "^19",
     "react-dom": "^19",
     "terser": "^5.46.0",

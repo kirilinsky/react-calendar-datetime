@@ -6,7 +6,12 @@
   border-top: 1px solid var(--c-x);
   background: var(--c-a);
   height: 2.5em;
-  z-index: 2;
+  z-index: 3;
+  transition: all 0.25s linear;
+  &:hover {
+    transition: all 0.25s linear;
+    box-shadow: 0 -0.1em 0.1em var(--c-x);
+  }
 }
 
 .presetsContainer.staticMode {

@@ -19,6 +19,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   disableWeekends = false,
   startOfWeek = 1,
   jellyMode = false,
+  gradientBackground = false,
+  highlightWeekends = true,
   ...restProps
 }) => {
   const resolvedProps = {
@@ -35,6 +37,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     disableWeekends,
     startOfWeek,
     jellyMode,
+    gradientBackground,
+    highlightWeekends,
     ...restProps,
   };
 

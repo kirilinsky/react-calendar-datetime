@@ -15,6 +15,7 @@ export interface CalendarProps {
   highlightWeekends?: boolean;
   disableWeekends?: boolean;
   showWeekNumber?: boolean;
+  gradientBackground?: boolean;
   gestures?: boolean;
   startOfWeek?: StartOfWeek;
   compactYears?: boolean;
