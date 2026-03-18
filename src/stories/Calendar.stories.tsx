@@ -93,6 +93,7 @@ export const minMaxDates = () => {
   };
 
   const [date, setDate] = useState<Date>(new Date());
+  const [disableWeekends, setDisableWeekends] = useState<boolean>(false);
   const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-11));
   const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(11));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
@@ -130,7 +131,17 @@ export const minMaxDates = () => {
           years
           presets
           months
+          disableWeekends={disableWeekends}
         />
+      </div>
+      <div className="control-group">
+        <button
+          onClick={() => setDisableWeekends(!disableWeekends)}
+          className={`story-button ${disableWeekends ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          disableWeekends: {disableWeekends ? "ON" : "OFF"}
+        </button>
       </div>
     </StoryWrapper>
   );

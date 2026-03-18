@@ -5,7 +5,8 @@ import { getMonthListData, setMonth } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
 
 export const MonthsComponent: React.FC = () => {
-  const { onChangeDate, locale, date, minDate, maxDate } = useCalendarContext();
+  const { onChangeDate, locale, date, minDate, maxDate, disableWeekends } =
+    useCalendarContext();
   const currentMonth = date.getMonth();
   const mNames = useMemo(
     () => getMonthListData(locale, date.getFullYear(), minDate, maxDate),
@@ -21,7 +22,7 @@ export const MonthsComponent: React.FC = () => {
           data-action
           disabled={n.disabled}
           className={`${styles.item} ${i === currentMonth ? shared.activeItem : ""}`}
-          onClick={() => onChangeDate(setMonth(date, i))}
+          onClick={() => onChangeDate(setMonth(date, i, disableWeekends))}
         >
           {n.label}
         </button>

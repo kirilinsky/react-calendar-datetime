@@ -15,6 +15,7 @@ export const HeaderComponent: React.FC = () => {
     date,
     locale,
     setView,
+    disableWeekends,
   } = useCalendarContext();
   const cur = date.getFullYear();
   const yearFixed = useMemo(
@@ -31,7 +32,7 @@ export const HeaderComponent: React.FC = () => {
     month: "long",
   }).format(date);
 
-  const ch = (v: number) => onChangeDate(addYears(date, v));
+  const ch = (v: number) => onChangeDate(addYears(date, v, disableWeekends));
 
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>

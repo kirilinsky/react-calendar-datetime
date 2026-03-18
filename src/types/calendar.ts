@@ -4,7 +4,7 @@ export interface CalendarProps {
   presets?: boolean;
   months?: boolean;
   years?: boolean;
-  date?: Date; //default - today
+  date?: Date;
   time?: boolean;
   locale?: string;
   maxDate?: Date;

@@ -17,8 +17,15 @@ const YEAR_STEP = 12;
 export const SelectorComponent: React.FC<{
   type: "month" | "year" | "calendar";
 }> = ({ type }) => {
-  const { date, onChangeDate, setView, locale, minDate, maxDate } =
-    useCalendarContext();
+  const {
+    date,
+    onChangeDate,
+    setView,
+    locale,
+    minDate,
+    maxDate,
+    disableWeekends,
+  } = useCalendarContext();
 
   const [navDate, setNavDate] = useState(date);
   const navYear = navDate.getFullYear();
@@ -51,7 +58,9 @@ export const SelectorComponent: React.FC<{
             <button
               disabled={!canGoPrev}
               data-action
-              onClick={() => setNavDate(addYears(navDate, -12))}
+              onClick={() =>
+                setNavDate(addYears(navDate, -12, disableWeekends))
+              }
               className={styles.navBtn}
             >
               <Left />
@@ -62,7 +71,7 @@ export const SelectorComponent: React.FC<{
             <button
               data-action
               disabled={!canGoNext}
-              onClick={() => setNavDate(addYears(navDate, 12))}
+              onClick={() => setNavDate(addYears(navDate, 12, disableWeekends))}
               className={styles.navBtn}
             >
               <Right />
@@ -79,7 +88,7 @@ export const SelectorComponent: React.FC<{
               data-action
               disabled={m.disabled}
               className={`${styles.item} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.actionItem : ""}`}
-              onClick={() => handleSelect(setMonth(date, i))}
+              onClick={() => handleSelect(setMonth(date, i, disableWeekends))}
             >
               {m.label}
             </button>

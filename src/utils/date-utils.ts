@@ -31,15 +31,27 @@ const getYearSafe = (d?: Date | string | null) =>
 const _getDaysInMonth = (year: number, month: number): number =>
   month === 1 && isLeap(year) ? 29 : DAYS[month];
 
-export const setMonth = (date: Date, v: number) =>
+export const setMonth = (date: Date, v: number, disableWeekends?: boolean) =>
   mutate(date, (d) => {
     const maxDays = _getDaysInMonth(d.getFullYear(), v);
     if (d.getDate() > maxDays) d.setDate(maxDays);
+
     d.setMonth(v);
+    if (disableWeekends) {
+      const dayOfWeek = d.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        const offset = dayOfWeek === 6 ? 2 : 1;
+        d.setDate(d.getDate() + offset);
+      }
+    }
   });
 
-export const addYears = (date: Date, v: number) =>
-  mutate(date, (d) => d.setFullYear(d.getFullYear() + v));
+export const addYears = (date: Date, v: number, disableWeekends?: boolean) =>
+  mutate(date, (d) => {
+    d.setFullYear(d.getFullYear() + v);
+    const validDate = ensureValidDay(d, disableWeekends);
+    d.setTime(validDate.getTime());
+  });
 export const setYear = (date: Date, v: number) =>
   mutate(date, (d) => d.setFullYear(v));
 
@@ -283,5 +295,15 @@ export const getNextMonthFromSwipe = (
     if (newYearMonth > maxYearMonth) return null;
   }
 
+  return newDate;
+};
+
+const ensureValidDay = (date: Date, disableWeekends?: boolean): Date => {
+  if (!disableWeekends) return date;
+
+  const newDate = new Date(date);
+  while (newDate.getDay() === 0 || newDate.getDay() === 6) {
+    newDate.setDate(newDate.getDate() + 1);
+  }
   return newDate;
 };

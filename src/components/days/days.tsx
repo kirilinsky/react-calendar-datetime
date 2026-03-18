@@ -75,7 +75,15 @@ export const DaysComponent: React.FC = () => {
           fullDate.getFullYear() === currentYear,
       };
     });
-  }, [currentYear, currentMonth, offset, date, minDate, maxDate]);
+  }, [
+    currentYear,
+    currentMonth,
+    offset,
+    date,
+    minDate,
+    maxDate,
+    disableWeekends,
+  ]);
 
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
