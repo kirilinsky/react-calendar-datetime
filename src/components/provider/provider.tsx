@@ -4,6 +4,7 @@ import React, {
   useMemo,
   ReactNode,
   useState,
+  useEffect,
 } from "react";
 import {
   CalendarContextValue,
@@ -25,27 +26,42 @@ export const useCalendarContext = () => {
 
 export const CalendarProvider: React.FC<
   CalendarProps & { children: ReactNode }
-> = ({ children, theme, ...props }) => {
+> = ({ children, theme, date: externalDate, onChangeDate, ...props }) => {
   const [view, setView] = useState<CalendarView>("calendar");
+
+  const [internalDate, setInternalDate] = useState<Date>(() => {
+    const d = externalDate ? new Date(externalDate) : new Date();
+    return isNaN(d.getTime()) ? new Date() : d;
+  });
+
+  useEffect(() => {
+    if (externalDate) {
+      const d = new Date(externalDate);
+      if (!isNaN(d.getTime())) {
+        setInternalDate(d);
+      }
+    }
+  }, [externalDate]);
 
   const isDark = useMemo(() => {
     if (!theme) {
+      if (typeof window === "undefined") return false;
       return window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
     return (DARK_THEMES as readonly string[]).includes(theme);
   }, [theme]);
 
   const contextValue = useMemo(() => {
-    const rawDate = props.date ? new Date(props.date) : new Date();
-    const safeDate = isNaN(rawDate.getTime()) ? new Date() : rawDate;
-
     return {
       ...props,
       view,
       setView,
       dark: isDark,
-      date: safeDate,
-      onChangeDate: (d: Date) => props.onChangeDate?.(d),
+      date: internalDate,
+      onChangeDate: (d: Date) => {
+        setInternalDate(d);
+        onChangeDate?.(d);
+      },
     } as CalendarContextValue;
   }, [props, view]);
 

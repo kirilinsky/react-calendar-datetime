@@ -113,7 +113,8 @@ export const checkIsDateDisabled = (
   disableWeekends?: boolean,
 ): boolean => {
   if (disableWeekends) {
-    if (day === 0 || day === 6) {
+    const dayOfWeek = viewDate.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
       return true;
     }
   }
