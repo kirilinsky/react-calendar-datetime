@@ -1,6 +1,6 @@
 {
   "name": "react-calendar-datetime",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Ultra-lightweight React Calendar Date & Time picker. 0 dependencies, 400+ languages, 14 themes and presets.",
   "type": "module",
   "exports": {

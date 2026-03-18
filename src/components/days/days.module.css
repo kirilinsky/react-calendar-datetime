@@ -22,6 +22,9 @@
 }
 
 .weekNumberItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.75em;
   color: var(--c-s);
   font-weight: 600;
