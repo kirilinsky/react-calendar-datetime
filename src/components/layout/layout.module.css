@@ -18,9 +18,9 @@
 }
 .calendarContainer.gradient {
   background: linear-gradient(
-    135deg,
+    130deg,
     var(--c-a) 0%,
-    var(--c-b) 50%,
+    var(--c-b) 40%,
     var(--c-t) 100%
   ) !important;
 }

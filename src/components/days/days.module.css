@@ -44,13 +44,12 @@
   height: auto;
   padding: 0;
   font-size: 0.9em !important;
-
   position: relative;
   z-index: 1;
-
   &:disabled {
-    opacity: 0.5 !important;
     text-decoration: line-through;
+    color: var(--c-h) !important;
+    opacity: 0.9 !important;
   }
 }
 .dayGridContainer.staticMode .dayItem {
