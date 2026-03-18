@@ -1,20 +1,24 @@
 import { PresetItem } from "@/types/presets";
 import { PRESET_CONFIG } from "./presets";
+import { StartOfWeek } from "@/types/calendar";
+
 const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const isLeap = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
 
 const rtfCache: Record<string, Intl.RelativeTimeFormat> = {};
-
 const i18nCache: Record<string, string[]> = {};
 
+/** Creates a new Date instance to avoid mutating the original object */
 const clone = (d: Date) => new Date(d.getTime());
 
+/** Helper to cleanly mutate a cloned Date object and return it */
 const mutate = (d: Date, fn: (n: Date) => void): Date => {
   const n = clone(d);
   fn(n);
   return n;
 };
 
+/** Normalizes min/max dates to the start (00:00:00) or end (23:59:59) of the day */
 const getLimit = (d?: Date | string | null, isMax?: boolean) =>
   d
     ? new Date(d).setHours(
@@ -25,12 +29,32 @@ const getLimit = (d?: Date | string | null, isMax?: boolean) =>
       )
     : null;
 
+/** Safely extracts the year from a Date or string, returning null if invalid */
 const getYearSafe = (d?: Date | string | null) =>
   d ? new Date(d).getFullYear() : null;
 
+/** Returns the number of days in a specific month, accounting for leap years */
 const _getDaysInMonth = (year: number, month: number): number =>
   month === 1 && isLeap(year) ? 29 : DAYS[month];
 
+/**
+ * Ensures the target date does not fall on a weekend if disableWeekends is true.
+ * If it does, pushes the date forward to the nearest Monday.
+ */
+const ensureValidDay = (date: Date, disableWeekends?: boolean): Date => {
+  if (!disableWeekends) return date;
+
+  const newDate = new Date(date);
+  while (newDate.getDay() === 0 || newDate.getDay() === 6) {
+    newDate.setDate(newDate.getDate() + 1);
+  }
+  return newDate;
+};
+
+/**
+ * Sets the month of a date, handling edge cases like Jan 31 -> Feb 28.
+ * Also skips weekends if disableWeekends is enabled.
+ */
 export const setMonth = (date: Date, v: number, disableWeekends?: boolean) =>
   mutate(date, (d) => {
     const maxDays = _getDaysInMonth(d.getFullYear(), v);
@@ -46,15 +70,21 @@ export const setMonth = (date: Date, v: number, disableWeekends?: boolean) =>
     }
   });
 
+/** Adds or subtracts years from a date, ensuring valid weekend behavior */
 export const addYears = (date: Date, v: number, disableWeekends?: boolean) =>
   mutate(date, (d) => {
     d.setFullYear(d.getFullYear() + v);
     const validDate = ensureValidDay(d, disableWeekends);
     d.setTime(validDate.getTime());
   });
+
+/** Hard-sets the year of a given date */
 export const setYear = (date: Date, v: number) =>
   mutate(date, (d) => d.setFullYear(v));
 
+/**
+ * Updates hours or minutes using a circular drum logic (e.g., 23h + 1h = 00h)
+ */
 export const addTime = (date: Date, amount: number, unit: "h" | "m") =>
   mutate(date, (d) => {
     if (unit === "h") {
@@ -64,15 +94,25 @@ export const addTime = (date: Date, amount: number, unit: "h" | "m") =>
     }
   });
 
-// TODO extend logic for firstDayOfWeek prop
-export const getFirstDayOffset = (date: Date): number =>
-  (new Date(date.getFullYear(), date.getMonth(), 1).getDay() + 6) % 7;
+/**
+ * Calculates how many empty cells to render before the 1st day of the month
+ * based on the user's preferred start of the week (0=Sun, 1=Mon, etc.)
+ */
+export const getFirstDayOffset = (
+  date: Date,
+  startOfWeek: StartOfWeek,
+): number => {
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  return (firstDay - startOfWeek + 7) % 7;
+};
 
+/** Generates an array of years around a central year for the Year Selector */
 export const getYearsRange = (center: number, len: number = 25): number[] => {
   const start = center - ((len / 2) | 0);
   return Array.from({ length: len }, (_, i) => start + i);
 };
 
+/** Retrieves an array of localized month names (e.g., ["January", "February", ...]) */
 export const getMonthNames = (locale: string): string[] => {
   const key = `${locale}M`;
   if (!i18nCache[key]) {
@@ -85,7 +125,11 @@ export const getMonthNames = (locale: string): string[] => {
   return i18nCache[key];
 };
 
-export const getWeekdaysNames = (locale: string): string[] => {
+/** Retrieves an array of localized short weekday names, shifted by startOfWeek */
+export const getWeekdaysNames = (
+  locale: string,
+  startOfWeek: StartOfWeek,
+): string[] => {
   const key = `${locale}W`;
   if (!i18nCache[key]) {
     const f = new Intl.DateTimeFormat(locale, { weekday: "short" }).format;
@@ -96,11 +140,16 @@ export const getWeekdaysNames = (locale: string): string[] => {
       return f(d);
     });
   }
-  return i18nCache[key];
+  const defaultDays = i18nCache[key];
+  const shift = startOfWeek === 0 ? 6 : startOfWeek - 1;
+  if (shift === 0) return defaultDays;
+  return [...defaultDays.slice(shift), ...defaultDays.slice(0, shift)];
 };
 
+/** Pads a number with a leading zero (e.g., 9 -> "09") */
 export const padTime = (n: number) => n.toString().padStart(2, "0");
 
+/** Evaluates a preset configuration to return its actual target Date */
 export const getPresetDate = (preset: PresetItem): Date => {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
@@ -108,6 +157,7 @@ export const getPresetDate = (preset: PresetItem): Date => {
   return d;
 };
 
+/** Helper for Time component: circular math to wrap time values (23 + 1 = 0) */
 export const getDrumValue = (
   current: number,
   offset: number,
@@ -117,6 +167,10 @@ export const getDrumValue = (
   return val < 0 ? val + max : val;
 };
 
+/**
+ * Checks if a specific day should be disabled based on min/max limits
+ * and weekend constraints.
+ */
 export const checkIsDateDisabled = (
   day: number,
   viewDate: Date,
@@ -131,6 +185,8 @@ export const checkIsDateDisabled = (
     }
   }
   if (!min && !max) return false;
+
+  // Creates exact date at midnight for comparison
   const t = new Date(
     viewDate.getFullYear(),
     viewDate.getMonth(),
@@ -143,6 +199,10 @@ export const checkIsDateDisabled = (
   return (minT !== null && t < minT) || (maxT !== null && t > maxT);
 };
 
+/**
+ * Generates data for the Month List view, checking if entire months
+ * are out of bounds based on min/max dates.
+ */
 export const getMonthListData = (
   locale: string,
   year: number,
@@ -166,6 +226,7 @@ export const getMonthListData = (
   });
 };
 
+/** Validates if a specific year falls completely outside min/max bounds */
 export const checkIsYearDisabled = (
   year: number,
   min?: Date | null,
@@ -176,6 +237,7 @@ export const checkIsYearDisabled = (
   return (minY !== null && year < minY) || (maxY !== null && year > maxY);
 };
 
+/** Generates the list of years for the Year Grid, applying disabled flags */
 export const getYearListData = (
   centerYear: number,
   minDate?: Date | null,
@@ -190,6 +252,10 @@ export const getYearListData = (
   }));
 };
 
+/**
+ * Determines if the navigation arrows in the Year Grid should be active
+ * based on whether the next/prev pages contain valid years.
+ */
 export const checkYearNavigation = (
   payload: number | { value: number }[],
   minDate?: Date | null,
@@ -212,6 +278,7 @@ export const checkYearNavigation = (
   };
 };
 
+/** Checks if the min and max dates fall in the exact same year */
 export const isYearFixed = (
   curYear: number,
   min?: Date | null,
@@ -225,6 +292,10 @@ export const isYearFixed = (
   );
 };
 
+/**
+ * Filters the preset list based on active calendar features (e.g., hiding 'Next Year'
+ * if years are disabled) and min/max date boundaries.
+ */
 export const getFilteredPresets = (
   showYears: boolean,
   showMonths: boolean,
@@ -252,6 +323,7 @@ export const getFilteredPresets = (
     });
 };
 
+/** Formats relative time (e.g., "In 2 days", "Yesterday") using Intl API */
 export const getRelativeLabel = (
   locale: string,
   amount: number,
@@ -265,6 +337,10 @@ export const getRelativeLabel = (
   return label.charAt(0).toUpperCase() + label.slice(1);
 };
 
+/**
+ * Calculates the next or previous month based on a swipe gesture delta,
+ * ensuring the resulting month respects min/max date bounds.
+ */
 export const getNextMonthFromSwipe = (
   deltaX: number,
   currentDate: Date,
@@ -295,15 +371,5 @@ export const getNextMonthFromSwipe = (
     if (newYearMonth > maxYearMonth) return null;
   }
 
-  return newDate;
-};
-
-const ensureValidDay = (date: Date, disableWeekends?: boolean): Date => {
-  if (!disableWeekends) return date;
-
-  const newDate = new Date(date);
-  while (newDate.getDay() === 0 || newDate.getDay() === 6) {
-    newDate.setDate(newDate.getDate() + 1);
-  }
   return newDate;
 };

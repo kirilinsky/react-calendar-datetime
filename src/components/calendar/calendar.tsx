@@ -17,6 +17,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   months = false,
   locale = "en",
   disableWeekends = false,
+  startOfWeek = 1,
   ...restProps
 }) => {
   const resolvedProps = {
@@ -31,6 +32,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     months,
     locale,
     disableWeekends,
+    startOfWeek,
     ...restProps,
   };
 

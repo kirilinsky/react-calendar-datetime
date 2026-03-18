@@ -1,5 +1,7 @@
 import { CalendarTheme } from "./themes";
 
+export type StartOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 export interface CalendarProps {
   presets?: boolean;
   months?: boolean;
@@ -9,11 +11,11 @@ export interface CalendarProps {
   locale?: string;
   maxDate?: Date;
   minDate?: Date;
-  disabledDates?: Date | Date[];
+  jellyMode?: boolean;
   highlightWeekends?: boolean;
   disableWeekends?: boolean;
   gestures?: boolean;
-  startOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  startOfWeek?: StartOfWeek;
   compactYears?: boolean;
   compactMonths?: boolean;
   onChangeDate?: (date: Date) => void;
@@ -38,5 +40,6 @@ export interface CalendarContextValue extends Omit<
   time: boolean;
   dark: boolean;
   view: CalendarView;
+  startOfWeek: StartOfWeek;
   setView: (view: CalendarView) => void;
 }

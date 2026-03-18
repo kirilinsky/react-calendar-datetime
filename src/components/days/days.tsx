@@ -12,15 +12,22 @@ import WeekDays from "../week-days/week-days";
 const CELLS = Array.from({ length: 42 }, (_, i) => i);
 
 export const DaysComponent: React.FC = () => {
-  const { minDate, maxDate, date, onChangeDate, gestures, disableWeekends } =
-    useCalendarContext();
+  const {
+    minDate,
+    maxDate,
+    date,
+    onChangeDate,
+    gestures,
+    disableWeekends,
+    startOfWeek,
+  } = useCalendarContext();
 
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
   const [prevDate, setPrevDate] = useState(date);
 
   const currentMonth = date.getMonth();
   const currentYear = date.getFullYear();
-  const offset = getFirstDayOffset(date);
+  const offset = getFirstDayOffset(date, startOfWeek);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   useEffect(() => {
     const isSameMonth =
