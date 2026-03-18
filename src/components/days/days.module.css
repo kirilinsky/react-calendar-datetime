@@ -22,7 +22,6 @@
 }
 
 .weekNumberItem {
-  composes: flexCenter from '../../global/global.module.css';
   font-size: 0.75em;
   color: var(--c-s);
   font-weight: 600;
@@ -37,8 +36,8 @@
 }
 
 .dayItem {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
+  composes: interactive from "../../global/global.module.css";
+  composes: hoverable from "../../global/global.module.css";
   aspect-ratio: 1 / 1;
   width: 100%;
   height: auto;

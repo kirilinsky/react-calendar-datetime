@@ -24,18 +24,18 @@
     <tr style="border: none;">
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Paper Theme (default)</b></p>
-        <img src="https://i.postimg.cc/3RZyjPRL/white.png" alt="Light" width="430" />
+        <img src="https://i.ibb.co/gFQtzfF8/image.png" alt="Light" width="435" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Sandstone Theme</b></p>
-        <img src="https://i.postimg.cc/7ZTftCh9/dark.png" alt="Dark" width="430" />
+        <img src="https://i.ibb.co/hFDGFJD5/image.png" alt="Dark" width="435" />
       </td>
     </tr>
   </table>
 
   <br />
 
-  <a href="https://react-calendar-datetime.vercel.app/?story=calendar--base" target="_blank">
+  <a href="https://calendar-demo-pi.vercel.app/" target="_blank">
     <img src="https://img.shields.io/badge/Live%20Demo-Try%20it%20Out-60d276?style=for-the-badge&logo=rocket&logoColor=white" alt="Live Demo" />
   </a>
 </div>
@@ -49,7 +49,7 @@
 - 🎨 **16 Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar`, `Crimson` and more.
 - 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago" etc.
 - 🛠️ **Fully Modular** — Toggle **Years**, **Months**, **Time**, or **Presets** independently. Build your own UI.
-- 🎛️ **Deeply Customizable** — Tailor the experience: choose start-of-week day, highlight weekends, gradient and more.
+- 🎛️ **Deeply Customizable** — Tailor the experience: start-of-week day, highlight weekends, gradient and more.
 
 ## 🔨 How to install:
 
@@ -120,7 +120,7 @@ The calendar comes with 16 built-in themes. Just pass the theme name as a prop:
 
 &nbsp;
 
-<a href="https://react-calendar-datetime.vercel.app/?story=calendar--theme-playground" target="_blank">
+<a href="https://calendar-demo-pi.vercel.app/" target="_blank">
   <img src="https://img.shields.io/badge/Themes%20Playground-Try%20it%20Out-60d276?style=for-the-badge&logo=paint-format&logoColor=white" alt="Play with themes" />
 </a>
 
@@ -151,3 +151,12 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 - **⚡ Next-Gen Build Engine** — Switched from `tsup` to `tsdown` for superior minification. While the massive influx of new features resulted in a slightly larger footprint, the new bundler keeps the calendar incredibly lean and highly optimized.
 
   [**Full Version History in CONTRIBUTING.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CONTRIBUTING.md)
+
+## 🗺️ Roadmap
+
+- [ ] **Date Range** — Support for date range selection.
+- [ ] **Custom Presets** — Ability to pass custom quick-select buttons.
+- [ ] **Custom Themes** — API for creating and applying fully custom color schemes.
+- [ ] **Disabled Dates Array** — Specific date blocking by passing an array.
+- [ ] **RTL Support** — Full support for right-to-left interfaces.
+- [ ] **Compact Time Selector** — A new minimalist widget for time selection.
