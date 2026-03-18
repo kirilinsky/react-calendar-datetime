@@ -14,6 +14,7 @@ export interface CalendarProps {
   disableWeekends?: boolean;
   gestures?: boolean;
   startOfWeek?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  compactYears?: boolean;
   compactMonths?: boolean;
   onChangeDate?: (date: Date) => void;
   width?: string | number;

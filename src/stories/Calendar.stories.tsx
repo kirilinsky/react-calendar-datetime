@@ -277,6 +277,7 @@ export const BuilderPlayground = () => {
     time: false,
     presets: false,
     compactMonths: false,
+    compactYears: false,
   });
 
   const toggle = (key: keyof typeof config) => {
@@ -309,6 +310,7 @@ export const BuilderPlayground = () => {
           time={config.time}
           presets={config.presets}
           compactMonths={config.compactMonths}
+          compactYears={config.compactYears}
         />
       </div>
     </StoryWrapper>

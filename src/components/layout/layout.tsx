@@ -11,7 +11,7 @@ export const CalendarLayout: React.FC<{
   theme: string;
   containerStyle: React.CSSProperties;
 }> = ({ theme, containerStyle }) => {
-  const { view, presets, years, compactMonths, months, time } =
+  const { view, presets, years, compactMonths, compactYears, months, time } =
     useCalendarContext();
 
   return (
@@ -21,7 +21,7 @@ export const CalendarLayout: React.FC<{
     >
       {view !== "calendar" && <SelectorComponent type={view} />}
       {presets && <PresetsComponent />}
-      {(years || compactMonths) && <HeaderComponent />}
+      {(years || compactMonths || compactYears) && <HeaderComponent />}
       <DaysComponent />
       {months && <MonthsComponent />}
       {time && <TimeComponent />}

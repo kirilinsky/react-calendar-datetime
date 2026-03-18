@@ -8,6 +8,7 @@ export const HeaderComponent: React.FC = () => {
   const {
     onChangeDate,
     compactMonths,
+    compactYears,
     minDate,
     maxDate,
     years,
@@ -64,6 +65,17 @@ export const HeaderComponent: React.FC = () => {
               <Right />
             </button>
           )}
+        </div>
+      )}
+      {compactYears && (
+        <div className={styles.monthsSelector}>
+          <button
+            data-action
+            className={styles.monthButton}
+            onClick={() => setView("year")}
+          >
+            {cur} <Down />
+          </button>
         </div>
       )}
     </div>

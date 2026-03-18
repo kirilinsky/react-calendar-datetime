@@ -5,6 +5,7 @@ export const getGridLayout = (p: {
   presets?: boolean;
   months?: boolean;
   years?: boolean;
+  compactYears?: boolean;
   compactMonths?: boolean;
 }): CSSProperties => {
   const colCount = (p.months ? 1 : 0) + 1 + (p.time ? 1 : 0);
@@ -18,7 +19,7 @@ export const getGridLayout = (p: {
     .filter(Boolean)
     .join(" ");
 
-  const hasHeader = p.years || p.compactMonths;
+  const hasHeader = p.years || p.compactMonths || p.compactYears;
   const mainRow = [p.months && "MM", "DD", p.time && "TT"]
     .filter(Boolean)
     .join(" ");

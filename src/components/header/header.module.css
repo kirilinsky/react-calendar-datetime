@@ -1,5 +1,4 @@
 .headerContainer {
- 
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,7 +14,6 @@
   flex-grow: 1;
   display: flex;
   align-items: center;
-
   justify-content: space-between;
   padding: 0 0.2em;
   gap: 0.2em;
@@ -46,7 +44,7 @@
   width: auto;
   height: 2.2em;
   padding: 0 1em;
-  font-size: 0.9em;
+  font-size: 0.9em !important;
   background-color: var(--c-t) !important;
   color: var(--c-h);
   font-weight: 700;

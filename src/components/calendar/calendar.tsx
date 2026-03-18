@@ -11,6 +11,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   theme = "paper",
   presets = false,
   compactMonths = false,
+  compactYears = false,
   years = false,
   time = false,
   months = false,
@@ -23,6 +24,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     theme,
     presets,
     compactMonths,
+    compactYears,
     years,
     time,
     months,
@@ -35,6 +37,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     const gridLayout = getGridLayout({
       presets,
       compactMonths,
+      compactYears,
       years,
       time,
       months,
@@ -46,7 +49,17 @@ export const Calendar: React.FC<CalendarProps> = ({
       ...themeVars,
       ...gridLayout,
     } as React.CSSProperties;
-  }, [width, height, theme, presets, compactMonths, years, time, months]);
+  }, [
+    width,
+    height,
+    theme,
+    presets,
+    compactYears,
+    compactMonths,
+    years,
+    time,
+    months,
+  ]);
 
   return (
     <CalendarProvider {...resolvedProps}>
