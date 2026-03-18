@@ -52,40 +52,6 @@
   background: unset !important;
 }
 
-.calendarContainer [data-action] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  color: var(--c-c);
-  transition: all 0.2s ease;
-  cursor: pointer;
-  user-select: none;
-
-  font-size: 1em;
-  height: 2.2em;
-  padding: 0 0.8em;
-  border-radius: 0.5em;
-}
-
-.calendarContainer [data-action]:hover:not([disabled]) {
-  background: var(--c-t);
-  box-shadow: 0 0.1em 0.3em var(--c-x);
-}
-
-.calendarContainer [data-action][disabled] {
-  cursor: not-allowed;
-  opacity: 0.9;
-  color: var(--c-s);
-}
-
-.calendarContainer [data-action] svg {
-  width: 1.2em;
-  height: 1.2em;
-  fill: currentColor;
-  flex-shrink: 0;
-}
 :root {
   --c-we: #e53935;
   --c-wed: #ff8a80;

@@ -50,8 +50,10 @@ export const PresetsComponent: React.FC = () => {
           <button
             key={preset.id}
             type="button"
-            data-action={isActive}
-            className={[styles.presetItem, isActive ? shared.activeItem : ""]
+            className={[
+              styles.presetItem,
+              isActive ? shared.activeItem : styles.inactiveItem,
+            ]
               .filter(Boolean)
               .join(" ")}
             onClick={() => onChangeDate(getPresetDate(preset))}

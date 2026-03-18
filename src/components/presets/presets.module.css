@@ -22,15 +22,15 @@
 }
 
 .presetItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7em !important;
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
+  font-size: 0.8em !important;
   height: 100%;
   flex: 1 1 auto;
-  &[data-action="false"] {
-    background: var(--c-t) !important;
-  }
+}
+
+.inactiveItem {
+  background: var(--c-t);
 }
 
 .presetsContainer.staticMode .presetItem {

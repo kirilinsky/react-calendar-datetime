@@ -1,3 +1,41 @@
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interactive {
+  composes: flexCenter;
+  border: none;
+  background: transparent;
+  color: var(--c-c);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1em;
+  height: 2.2em;
+  padding: 0 0.8em;
+  border-radius: 0.5em;
+}
+
+.hoverable:hover:not([disabled]) {
+  background: var(--c-t);
+  box-shadow: 0 0.1em 0.3em var(--c-x);
+}
+
+.interactive[disabled] {
+  cursor: not-allowed;
+  opacity: 0.9;
+  color: var(--c-s);
+}
+
+.interactive svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
 .activeItem {
   background: var(--c-h) !important;
   color: var(--c-a) !important;

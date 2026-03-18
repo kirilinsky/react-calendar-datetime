@@ -120,7 +120,6 @@ export const DaysComponent: React.FC = () => {
               ) => (
                 <button
                   key={i}
-                  data-action
                   type="button"
                   disabled={isDisabled}
                   onClick={() => handleSetDay(fullDate, isDisabled)}

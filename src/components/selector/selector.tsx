@@ -57,7 +57,6 @@ export const SelectorComponent: React.FC<{
           <>
             <button
               disabled={!canGoPrev}
-              data-action
               onClick={() =>
                 setNavDate(addYears(navDate, -12, disableWeekends))
               }
@@ -69,7 +68,6 @@ export const SelectorComponent: React.FC<{
               {yearsData[0].value} - {yearsData[yearsData.length - 1].value}
             </span>
             <button
-              data-action
               disabled={!canGoNext}
               onClick={() => setNavDate(addYears(navDate, 12, disableWeekends))}
               className={styles.navBtn}
@@ -85,9 +83,8 @@ export const SelectorComponent: React.FC<{
           monthsData.map((m, i) => (
             <button
               key={i}
-              data-action
               disabled={m.disabled}
-              className={`${styles.item} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.actionItem : ""}`}
+              className={`${styles.item} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.activeItem : ""}`}
               onClick={() => handleSelect(setMonth(date, i, disableWeekends))}
             >
               {m.label}
@@ -99,8 +96,7 @@ export const SelectorComponent: React.FC<{
             <button
               key={value}
               disabled={disabled}
-              data-action
-              className={`${styles.item} ${value === date.getFullYear() ? shared.actionItem : ""}`}
+              className={`${styles.item} ${value === date.getFullYear() ? shared.activeItem : ""}`}
               onClick={() => handleSelect(setYear(date, value))}
             >
               {value}
@@ -109,7 +105,6 @@ export const SelectorComponent: React.FC<{
       </div>
       <div className={styles.footer}>
         <button
-          data-action
           className={styles.closeBtn}
           onClick={() => setView("calendar")}
         >

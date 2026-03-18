@@ -22,6 +22,8 @@
 }
 
 .item {
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
   justify-self: center;
   align-self: center;
   width: 100%;

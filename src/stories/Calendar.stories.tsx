@@ -23,7 +23,7 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   paper: "Paper",
   carbon: "Carbon",
   mintblue: "Mint Blue",
-  midnight: "Midnight Blue",
+  midnight: "Midnight",
   sandstone: "Sandstone",
   phosphor: "Phosphor",
   dracula: "Dracula",

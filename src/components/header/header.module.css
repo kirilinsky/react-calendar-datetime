@@ -11,7 +11,6 @@
   box-sizing: border-box;
   transition: all 0.25s linear;
   &:hover {
-    transition: all 0.25s linear;
     box-shadow: 0 0.1em 0.1em var(--c-x);
   }
 }
@@ -27,9 +26,10 @@
 }
 
 .currentYear {
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
   font-size: 1.1em;
   font-weight: 800;
-  height: 2.2em;
   line-height: 1;
   flex: 1;
   margin: 0 0.5em;
@@ -40,17 +40,18 @@
 }
 
 .arrow {
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
   width: 2.2em;
-  height: 2.2em;
   flex-shrink: 0;
   padding: 0;
 }
 
 .monthButton {
+  composes: interactive from '../../global/global.module.css';
   width: auto;
-  height: 2.2em;
   padding: 0 1em;
-  font-size: 0.9em !important;
+  font-size: 0.9em;
   background-color: var(--c-t) !important;
   color: var(--c-h);
   font-weight: 700;

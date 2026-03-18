@@ -1,7 +1,5 @@
 .timeContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  composes: flexCenter from "../../global/global.module.css";
   position: relative;
   padding: 0.4em;
   background: var(--c-b);
@@ -29,9 +27,7 @@
 }
 
 .column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  composes: flexCenter from "../../global/global.module.css";
   flex-direction: column;
   z-index: 1;
   flex: 1;
@@ -48,16 +44,12 @@
 }
 
 .cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  composes: interactive from "../../global/global.module.css";
   height: 2.4em;
   width: 100%;
-  cursor: pointer;
-  user-select: none;
-  color: var(--c-c);
-  font-size: 0.8em;
+  font-size: 0.7em;
   transition: transform 0.1s ease-out;
+  user-select: none;
 
   &:active {
     transform: scale(1.1);
@@ -67,4 +59,7 @@
 .active {
   color: var(--c-a) !important;
   font-weight: 700;
+  &:hover {
+    background: unset !important;
+  }
 }

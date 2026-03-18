@@ -22,9 +22,7 @@
 }
 
 .weekNumberItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  composes: flexCenter from '../../global/global.module.css';
   font-size: 0.75em;
   color: var(--c-s);
   font-weight: 600;
@@ -39,17 +37,19 @@
 }
 
 .dayItem {
+  composes: interactive from '../../global/global.module.css';
+  composes: hoverable from '../../global/global.module.css';
   aspect-ratio: 1 / 1;
   width: 100%;
   height: auto;
   padding: 0;
-  font-size: 0.9em !important;
+  font-size: 0.9em;
   position: relative;
   z-index: 1;
   &:disabled {
     text-decoration: line-through;
-    color: var(--c-h) !important;
-    opacity: 0.9 !important;
+    color: var(--c-h);
+    opacity: 0.9;
   }
 }
 .dayGridContainer.staticMode .dayItem {
