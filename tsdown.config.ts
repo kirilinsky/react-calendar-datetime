@@ -4,11 +4,15 @@ import pkg from "./package.json" with { type: "json" };
 export default defineConfig({
   entry: ["src/index.ts"],
   outDir: "dist",
-  format: ["esm"],
+  format: ["cjs", "esm"],
+  outExtensions: () => ({
+    dts: '.d.ts',
+  }),
   clean: true,
   minify: true,
+  dts: true,
   treeshake: true,
-  target: "esnext",
+  target: "es2022",
   external: [
     "react",
     "react-dom",
