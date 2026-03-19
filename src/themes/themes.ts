@@ -138,12 +138,3 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#27d1f433",
   ],
 };
-
-export const getThemeVars = (themeKey: string) => {
-  const values = THEMES_DATA[themeKey] || THEMES_DATA.paper;
-  const vars: Record<string, string> = {};
-  for (let i = 0; i < THEME_MAP.length; i++) {
-    vars[`--c-${THEME_MAP[i]}`] = values[i];
-  }
-  return vars;
-};
