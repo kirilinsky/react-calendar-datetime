@@ -36,6 +36,9 @@
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
   },
+  "dependencies": {
+    "var-th": "^0.1.2"
+  },
   "devDependencies": {
     "@ladle/react": "^5.1.1",
     "@tsdown/css": "^0.21.4",

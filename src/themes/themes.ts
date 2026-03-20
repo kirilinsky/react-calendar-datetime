@@ -1,3 +1,4 @@
+import { defineThemes } from "var-th";
 /**
  * CSS variable suffixes (--c-*). Order MUST strictly match THEMES_DATA arrays.
  * a: accent | b: backdrop | h: highlight | t: tone | c: text | s: stroke | x: shadow
@@ -138,3 +139,9 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#27d1f433",
   ],
 };
+
+export const { getVarths } = defineThemes({
+  prefix: "c",
+  tokens: THEME_MAP,
+  themes: THEMES_DATA,
+});

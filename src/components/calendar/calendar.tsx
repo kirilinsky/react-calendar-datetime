@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { CalendarProps } from "@/types/calendar";
 import { CalendarProvider } from "@/components/provider/provider";
 import { getGridLayout } from "@/helpers/get-grid-layout";
-import { getThemeVariables } from "@/helpers/get-theme";
 import { CalendarLayout } from "../layout/layout";
+import { getVarths } from "@/themes/themes";
 
 export const Calendar: React.FC<CalendarProps> = ({
   width = "100%",
@@ -43,7 +43,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const containerStyle = useMemo(() => {
-    const themeVars = getThemeVariables(theme);
+    const themeVars = getVarths(theme);
     const gridLayout = getGridLayout({
       presets,
       compactMonths,

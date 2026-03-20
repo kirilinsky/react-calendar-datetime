@@ -6,7 +6,7 @@ export default defineConfig({
   outDir: "dist",
   format: ["cjs", "esm"],
   outExtensions: () => ({
-    dts: '.d.ts',
+    dts: ".d.ts",
   }),
   clean: true,
   minify: true,
