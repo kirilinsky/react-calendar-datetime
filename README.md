@@ -89,6 +89,7 @@ export default App;
 | **months**             | `boolean`  | `false`      | Toggle side month-selector.                                           |
 | **compactYears**       | `boolean`  | `false`      | Toggle compact years-selector in header.                              |
 | **compactMonths**      | `boolean`  | `true`       | Toggle compact month-selector in header.                              |
+| **brutalism**          | `boolean`  | `false`      | Toggle brutalism mode (unset border-radius).
 | **jellyMode**          | `boolean`  | `false`      | Toggle **Jelly Mode** extra adaptive layout (with dynamic font-size). |
 | **highlightWeekends**  | `boolean`  | `true`       | Use this if you want to highlight weekends.                           |
 | **disableWeekends**    | `boolean`  | `false`      | Use this if you want to disable weekends.                             |
@@ -137,9 +138,10 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 
 ## ✅ Patch notes:
 
-### 🚀 Version 3.0.4
+### 🚀 Version 3.0.5
 
 - **🪲 Minor bug fixes**
+- **🔳 Brutalism mode prop** - To remove rounded corners.
 - **🍮 Jelly Mode (Fluid Scaling)** — True responsive design. The calendar fluidly scales its text and layout to perfectly fill any parent container while preserving exact proportions.
 - **🎨 New Themes & Gradients** — Added `Crimson` and `Amethyst` themes. Enable the `gradientBackground` prop to add visual depth tailored to your active theme.
 - **🗓️ Advanced Grid Controls** — Deeply tailor the calendar to your needs:

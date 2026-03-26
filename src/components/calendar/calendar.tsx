@@ -19,6 +19,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   disableWeekends = false,
   startOfWeek = 1,
   jellyMode = false,
+  brutalism = false,
   gradientBackground = false,
   highlightWeekends = true,
   ...restProps
@@ -75,7 +76,11 @@ export const Calendar: React.FC<CalendarProps> = ({
   return (
     <CalendarProvider {...resolvedProps}>
       <div style={{ containerType: "inline-size", width, height }}>
-        <CalendarLayout theme={theme} containerStyle={containerStyle} />
+        <CalendarLayout
+          theme={theme}
+          containerStyle={containerStyle}
+          brutalism={brutalism}
+        />
       </div>
     </CalendarProvider>
   );

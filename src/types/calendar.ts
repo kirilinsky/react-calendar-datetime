@@ -12,6 +12,7 @@ export interface CalendarProps {
   maxDate?: Date;
   minDate?: Date;
   jellyMode?: boolean;
+  brutalism?: boolean
   highlightWeekends?: boolean;
   disableWeekends?: boolean;
   showWeekNumber?: boolean;
