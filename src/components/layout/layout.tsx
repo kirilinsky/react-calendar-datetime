@@ -10,7 +10,8 @@ import styles from "./layout.module.css";
 export const CalendarLayout: React.FC<{
   theme: string;
   containerStyle: React.CSSProperties;
-}> = ({ theme, containerStyle }) => {
+  brutalism: boolean;
+}> = ({ theme, containerStyle, brutalism }) => {
   const {
     view,
     presets,
@@ -33,6 +34,7 @@ export const CalendarLayout: React.FC<{
         !jellyMode ? styles.staticMode : "",
         gradient ? styles.gradient : "",
         dark ? styles.dark : "",
+        brutalism ? styles.brutalism : "",
       ]
         .filter(Boolean)
         .join(" ")}

@@ -16,6 +16,10 @@
   box-shadow: 0 0.2em 0.8em var(--c-x);
   overflow: hidden;
 }
+.calendarContainer.brutalism  *, .calendarContainer.brutalism {
+  border-radius: 0 !important;
+}
+
 .calendarContainer.gradient {
   background: linear-gradient(
     130deg,
