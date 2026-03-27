@@ -16,23 +16,22 @@
 
 # ⚡️ React Calendar & Date/Time Picker
 
-📅 **Ultra-lightweight** Date & Time picker for React.  
-📦 **Small but Mighty**: **Zero external dependencies** & **zero-runtime-bloat**.
+📅 Ultra-lightweight Date & Time picker for React — zero dependencies, no CSS imports required.
 
 <div align="center">
   <table style="border: none; border-collapse: collapse;">
     <tr style="border: none;">
       <td align="center" style="border: none; padding: 6px;">
-        <p><b>Paper Theme (default)</b></p>
-        <img src="https://i.ibb.co/Q3xsR6Rh/image.png" alt="Light" width="320" />
+        <p><b>Paper Theme (light theme by default)</b></p>
+        <img src="https://i.ibb.co/Q3xsR6Rh/image.png" alt="Light" height="320" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Carbon Theme with gradient</b></p>
-        <img src="https://i.ibb.co/23MbWj4h/image.png" alt="Dark" width="320" />
+        <img src="https://i.ibb.co/23MbWj4h/image.png" alt="Dark" height="320" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
-        <p><b>Carbon Theme with gradient</b></p>
-        <img src="https://i.ibb.co/23MbWj4h/image.png" alt="Dark" width="320" />
+        <p><b>Industrial Theme with brutalism mode</b></p>
+        <img src="https://iili.io/qtscYHF.png" alt="Dark" height="320" />
       </td>
     </tr>
   </table>
@@ -46,14 +45,28 @@
 
 ### ✨ Key Features
 
-- 🚀 **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Just pure React.
-- 📦 **Tiny Footprint** — `~6kb gzipped`. Optimized for the modern web.
-- 🌎 **Global by Default** — Instant support for **400+ BCP47 locales** (including `en`, `de`, `ru`, `zh-CN` etc).
-- 🌐 **Universal Localization** — No dictionaries, no extra bytes—powered by native **Intl API**.
-- 🎨 **17 Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar`, `Crimson` and more.
-- 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago" etc.
-- 🛠️ **Fully Modular** — Toggle **Years**, **Months**, **Time**, or **Presets** independently. Build your own UI.
-- 🎛️ **Deeply Customizable** — Tailor experience: start-of-week day, highlight weekends, gradient.
+- ⚡ **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Pure React.
+- 📦 **~6kb gzipped** — Styles included, no CSS imports required.
+- 🌎 **400+ Locales** — Powered by native `Intl` API. No dictionaries, no extra bytes.
+- 🎨 **17 Themes** — `Midnight`, `Crimson`, `Industrial`, `Solar` and more.
+- 🛠️ **Fully Modular** — Toggle time, presets, month grid, week numbers independently.
+- 🎛️ **Deeply Customizable** — Start of week, weekend rules, jelly mode, gradients.
+- 🕒 **Smart Presets** — "Today", "Last week", "Month ago" and more out of the box.
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <p><b>Time, presets, months grid</b></p>
+        <img src="https://iili.io/qtLNkRj.png" alt="presets" height="210" />
+      </td>
+      <td align="center">
+        <p><b>Fully modular, compact selectors</b></p>
+        <img src="https://iili.io/qtLQPZ7.md.png" alt="modules" height="210" />
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## 🔨 How to install:
 
@@ -95,20 +108,20 @@ export default App;
 
 ### Features & toggles
 
-| Property               | Type      | Default | Description                                          |
-| :--------------------- | :-------- | :------ | :--------------------------------------------------- |
-| **time**               | `boolean` | `false` | Enable time picker                                   |
-| **presets**            | `boolean` | `false` | Enable quick-select presets (today, yesterday, etc.) |
-| **years**              | `boolean` | `false` | Enable year picker                                   |
-| **months**             | `boolean` | `true`  | Enable month selector in header                      |
-| **monthsGrid**         | `boolean` | `false` | Enable side month-grid selector                      |
-| **compactMonths**      | `boolean` | `false` | Compact month dropdown in header                     |
-| **compactYears**       | `boolean` | `true`  | Compact year dropdown in header                      |
-| **jellyMode**          | `boolean` | `false` | Fluid scaling to fill parent container               |
-| **gradient** | `boolean` | `false` | Gradient background tinted by active theme           |
-| **gestures**           | `boolean` | `false` | Swipe to change months on mobile                     |
-| **highlightWeekends**  | `boolean` | `true`  | Highlight weekend days                               |
-| **disableWeekends**    | `boolean` | `false` | Disable weekend selection                            |
+| Property              | Type      | Default | Description                                          |
+| :-------------------- | :-------- | :------ | :--------------------------------------------------- |
+| **time**              | `boolean` | `false` | Enable time picker                                   |
+| **presets**           | `boolean` | `false` | Enable quick-select presets (today, yesterday, etc.) |
+| **years**             | `boolean` | `false` | Enable year picker                                   |
+| **months**            | `boolean` | `true`  | Enable month selector in header                      |
+| **monthsGrid**        | `boolean` | `false` | Enable side month-grid selector                      |
+| **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                     |
+| **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                      |
+| **jellyMode**         | `boolean` | `false` | Fluid scaling to fill parent container               |
+| **gradient**          | `boolean` | `false` | Gradient background tinted by active theme           |
+| **gestures**          | `boolean` | `false` | Swipe to change months on mobile                     |
+| **highlightWeekends** | `boolean` | `true`  | Highlight weekend days                               |
+| **disableWeekends**   | `boolean` | `false` | Disable weekend selection                            |
 
 ---
 
@@ -122,12 +135,12 @@ We offer 17 beautiful themes out of the box. Use the `theme` prop to switch betw
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="accent" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="backdrop" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" title="highlight" valign="middle"/> <img src="https://placehold.co/15x15/2d2d2d/2d2d2d.png" title="tone" valign="middle"/> <img src="https://placehold.co/15x15/f0f0f0/f0f0f0.png" title="text" valign="middle"/> **`carbon`** | <img src="https://placehold.co/15x15/ffffff/ffffff.png" title="accent" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" title="backdrop" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="highlight" valign="middle"/> <img src="https://placehold.co/15x15/f4f4f4/f4f4f4.png" title="tone" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="text" valign="middle"/> **`paper`** |
 | <img src="https://placehold.co/15x15/161111/161111.png" valign="middle"/> <img src="https://placehold.co/15x15/0d0909/0d0909.png" valign="middle"/> <img src="https://placehold.co/15x15/f92f2f/f92f2f.png" valign="middle"/> <img src="https://placehold.co/15x15/3a1616/3a1616.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`crimson`**                                                                            | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f5f3f7/f5f3f7.png" valign="middle"/> <img src="https://placehold.co/15x15/681c9e/681c9e.png" valign="middle"/> <img src="https://placehold.co/15x15/ebdff4/ebdff4.png" valign="middle"/> <img src="https://placehold.co/15x15/2b2533/2b2533.png" valign="middle"/> **`amethyst`**                                                                          |
-| <img src="https://placehold.co/15x15/0d0d15/0d0d15.png" valign="middle"/> <img src="https://placehold.co/15x15/07070b/07070b.png" valign="middle"/> <img src="https://placehold.co/15x15/00f3ff/00f3ff.png" valign="middle"/> <img src="https://placehold.co/15x15/301649/301649.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`cyber`**                                                                              | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f8f9fc/f8f9fc.png" valign="middle"/> <img src="https://placehold.co/15x15/60d276/60d276.png" valign="middle"/> <img src="https://placehold.co/15x15/eaedf4/eaedf4.png" valign="middle"/> <img src="https://placehold.co/15x15/171827/171827.png" valign="middle"/> **`mintblue`**                                                                          |
-| <img src="https://placehold.co/15x15/141721/141721.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1e2b/1a1e2b.png" valign="middle"/> <img src="https://placehold.co/15x15/3559e0/3559e0.png" valign="middle"/> <img src="https://placehold.co/15x15/212638/212638.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`midnight`**                                                                           | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/dbd8e0/dbd8e0.png" valign="middle"/> <img src="https://placehold.co/15x15/d65d91/d65d91.png" valign="middle"/> <img src="https://placehold.co/15x15/e5e1e9/e5e1e9.png" valign="middle"/> <img src="https://placehold.co/15x15/2d2a32/2d2a32.png" valign="middle"/> **`larosa`**                                                                            |
-| <img src="https://placehold.co/15x15/020602/020602.png" valign="middle"/> <img src="https://placehold.co/15x15/010401/010401.png" valign="middle"/> <img src="https://placehold.co/15x15/76ff03/76ff03.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1f1a/1a1f1a.png" valign="middle"/> <img src="https://placehold.co/15x15/00e676/00e676.png" valign="middle"/> **`phosphor`**                                                                           | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e2e5e9/e2e5e9.png" valign="middle"/> <img src="https://placehold.co/15x15/3a60d6/3a60d6.png" valign="middle"/> <img src="https://placehold.co/15x15/eceff4/eceff4.png" valign="middle"/> <img src="https://placehold.co/15x15/212630/212630.png" valign="middle"/> **`snowstorm`**                                                                         |
+| <img src="https://placehold.co/15x15/0d0d15/0d0d15.png" valign="middle"/> <img src="https://placehold.co/15x15/07070b/07070b.png" valign="middle"/> <img src="https://placehold.co/15x15/00f3ff/00f3ff.png" valign="middle"/> <img src="https://placehold.co/15x15/301649/301649.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`cyber`**                                                                              | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f8f9fc/f8f9fc.png" valign="middle"/> <img src="https://placehold.co/15x15/60d276/60d276.png" valign="middle"/> <img src="https://placehold.co/15x15/eaedf4/eaedf4.png" valign="middle"/> <img src="https://placehold.co/15x15/171827/171827.png" valign="middle"/> **`mint`**                                                                              |
+| <img src="https://placehold.co/15x15/141721/141721.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1e2b/1a1e2b.png" valign="middle"/> <img src="https://placehold.co/15x15/3559e0/3559e0.png" valign="middle"/> <img src="https://placehold.co/15x15/212638/212638.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`midnight`**                                                                           | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/dbd8e0/dbd8e0.png" valign="middle"/> <img src="https://placehold.co/15x15/d65d91/d65d91.png" valign="middle"/> <img src="https://placehold.co/15x15/e5e1e9/e5e1e9.png" valign="middle"/> <img src="https://placehold.co/15x15/2d2a32/2d2a32.png" valign="middle"/> **`rosa`**                                                                              |
+| <img src="https://placehold.co/15x15/020602/020602.png" valign="middle"/> <img src="https://placehold.co/15x15/010401/010401.png" valign="middle"/> <img src="https://placehold.co/15x15/76ff03/76ff03.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1f1a/1a1f1a.png" valign="middle"/> <img src="https://placehold.co/15x15/00e676/00e676.png" valign="middle"/> **`phosphor`**                                                                           | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e2e5e9/e2e5e9.png" valign="middle"/> <img src="https://placehold.co/15x15/3a60d6/3a60d6.png" valign="middle"/> <img src="https://placehold.co/15x15/eceff4/eceff4.png" valign="middle"/> <img src="https://placehold.co/15x15/212630/212630.png" valign="middle"/> **`snow`**                                                                              |
 | <img src="https://placehold.co/15x15/1c1a17/1c1a17.png" valign="middle"/> <img src="https://placehold.co/15x15/1f1c18/1f1c18.png" valign="middle"/> <img src="https://placehold.co/15x15/e3ae5c/e3ae5c.png" valign="middle"/> <img src="https://placehold.co/15x15/2f2b24/2f2b24.png" valign="middle"/> <img src="https://placehold.co/15x15/fdfbf7/fdfbf7.png" valign="middle"/> **`sandstone`**                                                                          | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/d8cf9a/d8cf9a.png" valign="middle"/> <img src="https://placehold.co/15x15/e67e22/e67e22.png" valign="middle"/> <img src="https://placehold.co/15x15/e4dbab/e4dbab.png" valign="middle"/> <img src="https://placehold.co/15x15/2b2718/2b2718.png" valign="middle"/> **`solar`**                                                                             |
 | <img src="https://placehold.co/15x15/1a0f0f/1a0f0f.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1111/1c1111.png" valign="middle"/> <img src="https://placehold.co/15x15/ff5e5e/ff5e5e.png" valign="middle"/> <img src="https://placehold.co/15x15/341d1d/341d1d.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`dracula`**                                                                            | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e9ded5/e9ded5.png" valign="middle"/> <img src="https://placehold.co/15x15/a65d3a/a65d3a.png" valign="middle"/> <img src="https://placehold.co/15x15/f5ece5/f5ece5.png" valign="middle"/> <img src="https://placehold.co/15x15/6e4531/6e4531.png" valign="middle"/> **`comfy`**                                                                             |
-| <img src="https://placehold.co/15x15/122127/122127.png" valign="middle"/> <img src="https://placehold.co/15x15/14252e/14252e.png" valign="middle"/> <img src="https://placehold.co/15x15/27d1f4/27d1f4.png" valign="middle"/> <img src="https://placehold.co/15x15/242f52/242f52.png" valign="middle"/> <img src="https://placehold.co/15x15/f1f5f9/f1f5f9.png" valign="middle"/> **`temporal`**                                                                           | <img src="https://placehold.co/15x15/fcfcf5/fcfcf5.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/80ec27/80ec27.png" valign="middle"/> <img src="https://placehold.co/15x15/e9f3eb/e9f3eb.png" valign="middle"/> <img src="https://placehold.co/15x15/1f2937/1f2937.png" valign="middle"/> **`neonlight`**                                                                         |
+| <img src="https://placehold.co/15x15/122127/122127.png" valign="middle"/> <img src="https://placehold.co/15x15/14252e/14252e.png" valign="middle"/> <img src="https://placehold.co/15x15/27d1f4/27d1f4.png" valign="middle"/> <img src="https://placehold.co/15x15/242f52/242f52.png" valign="middle"/> <img src="https://placehold.co/15x15/f1f5f9/f1f5f9.png" valign="middle"/> **`temporal`**                                                                           | <img src="https://placehold.co/15x15/fcfcf5/fcfcf5.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/80ec27/80ec27.png" valign="middle"/> <img src="https://placehold.co/15x15/e9f3eb/e9f3eb.png" valign="middle"/> <img src="https://placehold.co/15x15/1f2937/1f2937.png" valign="middle"/> **`neon`**                                                                              |
 | <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/111111/111111.png" valign="middle"/> <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1c1c/1c1c1c.png" valign="middle"/> <img src="https://placehold.co/15x15/d4d4d4/d4d4d4.png" valign="middle"/> **`industrial`**                                                                         |
 
 &nbsp;
@@ -138,16 +151,17 @@ We offer 17 beautiful themes out of the box. Use the `theme` prop to switch betw
 
 ### 🌍 Localization
 
-No dictionaries, no extra bytes. The library leverages the native browser **Intl API**, providing instant support for **400+ locales**.
+No dictionaries, no extra bytes — powered by the native **Intl API** with support for **400+ BCP 47 locales**.
 
 ```tsx
-  <Calendar locale="en" /> // Default
-  <Calendar locale="zh-CN" />  // Chinese
+<Calendar locale="en" />     // Default
+<Calendar locale="zh-CN" />  // Chinese
+<Calendar locale="ar-SA" />  // Arabic
 ```
 
-Pass any **BCP 47** language tag, and the calendar will automatically format days, months, and smart presets according to local standards.
+Pass any valid locale tag and the calendar automatically formats days, months, and date labels to local standards.
 
-![Check all locales](https://img.shields.io/badge/400_Locales-Supported-60d276?style=flat-square&logo=globe&logoColor=white)
+![Locales](https://img.shields.io/badge/400+_Locales-Supported-60d276?style=flat-square&logo=globe&logoColor=white)
 
 ## ✅ Patch notes:
 
@@ -160,9 +174,9 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 
 ## 🗺️ Roadmap
 
+- [ ] **Compact Time Selector** — A new minimalist widget for time selection.
 - [ ] **Date Range** — Support for date range selection.
 - [ ] **Custom Presets** — Ability to pass custom quick-select buttons.
 - [ ] **Custom Themes** — API for creating and applying fully custom color schemes.
 - [ ] **Disabled Dates Array** — Specific date blocking by passing an array.
 - [ ] **RTL Support** — Full support for right-to-left interfaces.
-- [ ] **Compact Time Selector** — A new minimalist widget for time selection.

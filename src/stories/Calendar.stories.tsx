@@ -22,7 +22,7 @@ const LOCALES_LIST = [
 const THEME_LABELS: Record<CalendarTheme, string> = {
   paper: "Paper",
   carbon: "Carbon",
-  mintblue: "Mint Blue",
+  mint: "Mint",
   midnight: "Midnight",
   industrial: "Industrial",
   sandstone: "Sandstone",
@@ -31,11 +31,11 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   cyber: "Cyber",
   comfy: "Comfy",
   temporal: "Temporal",
-  neonlight: "Neon Light",
-  larosa: "La Rosa",
+  neon: "Neon",
+  rosa: "Rosa",
   amethyst: "Amethyst",
   crimson: "Crimson",
-  snowstorm: "Snow Storm",
+  snow: "Snow",
   solar: "Solar",
 };
 
@@ -200,7 +200,7 @@ export const JellyPlayground = () => {
 
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
-  const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
+  const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint");
   const [light, setLight] = useState<boolean>(true);
   const [gradient, setGradient] = useState<boolean>(false);
 
@@ -348,13 +348,13 @@ export const BuilderPlayground = () => {
           date={date}
           onChangeDate={setDate}
           years={config.years}
-          brutalism
           months={config.months}
           monthsGrid={config.monthsGrid}
           time={config.time}
           presets={config.presets}
           compactMonths={config.compactMonths}
           compactYears={config.compactYears}
+          theme="mint"
         />
       </div>
     </StoryWrapper>

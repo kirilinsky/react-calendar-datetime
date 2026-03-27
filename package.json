@@ -1,7 +1,7 @@
 {
   "name": "react-calendar-datetime",
-  "version": "3.0.5",
-  "description": "Ultra-lightweight React Calendar Date&Time picker. 0 deps, 400+ langs, 16 themes and presets.",
+  "version": "3.1.1",
+  "description": "Ultra-lightweight React Calendar Date&Time picker. 0 deps, 400+ langs, 17 themes and presets.",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.cjs",
