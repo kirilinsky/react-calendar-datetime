@@ -10,17 +10,18 @@ export const Calendar: React.FC<CalendarProps> = ({
   height = "auto",
   theme = "paper",
   presets = false,
-  compactMonths = true,
-  compactYears = false,
-  years = true,
+  compactMonths = false,
+  compactYears = true,
+  years = false,
   time = false,
-  months = false,
+  months = true,
+  monthsGrid = false,
   locale = "en",
   disableWeekends = false,
   startOfWeek = 1,
   jellyMode = false,
-  brutalism = false,
-  gradientBackground = false,
+  brutalism = false, 
+  gradient = false,
   highlightWeekends = true,
   ...restProps
 }) => {
@@ -33,12 +34,13 @@ export const Calendar: React.FC<CalendarProps> = ({
     compactYears,
     years,
     time,
+    monthsGrid,
     months,
     locale,
     disableWeekends,
     startOfWeek,
     jellyMode,
-    gradientBackground,
+    gradient,
     highlightWeekends,
     ...restProps,
   };
@@ -52,6 +54,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       years,
       time,
       months,
+      monthsGrid,
       jellyMode,
     });
 
@@ -69,8 +72,9 @@ export const Calendar: React.FC<CalendarProps> = ({
     compactYears,
     compactMonths,
     years,
-    time,
     months,
+    time,
+    monthsGrid,
   ]);
 
   return (

@@ -1,32 +1,49 @@
 import { CSSProperties } from "react";
 
-export const getGridLayout = (p: {
+type GridLayoutProps = {
   time?: boolean;
   presets?: boolean;
-  months?: boolean;
+  monthsGrid?: boolean;
   years?: boolean;
+  months?: boolean;
   compactYears?: boolean;
   compactMonths?: boolean;
   jellyMode?: boolean;
-}): CSSProperties => {
+};
+
+const jelly = (
+  cramped: string,
+  normal: string,
+  fallback: string,
+  isJelly: boolean,
+  isCramped: boolean,
+) => (isJelly ? (isCramped ? cramped : normal) : fallback);
+
+export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
   const isJelly = p.jellyMode !== false;
-  const colCount = (p.months ? 1 : 0) + 1 + (p.time ? 1 : 0);
-  const isCramped = p.months && p.time;
+  const isCramped = !!(p.monthsGrid && p.time);
+  const colCount = (p.monthsGrid ? 1 : 0) + 1 + (p.time ? 1 : 0);
 
   const cols = [
-    p.months && (isJelly ? (isCramped ? "25cqw" : "28cqw") : "2fr"),
+    p.monthsGrid && jelly("20cqw", "24cqw", "1.7fr", isJelly, isCramped),
     isJelly ? "1fr" : "5fr",
-    p.time && (isJelly ? (isCramped ? "16cqw" : "20cqw") : "2fr"),
+    p.time && jelly("17cqw", "22cqw", "1.4fr", isJelly, isCramped),
   ]
     .filter(Boolean)
     .join(" ");
 
-  const hasHeader = p.years || p.compactMonths || p.compactYears;
-  const mainRow = [p.months && "MM", "DD", p.time && "TT"]
+  const hasHeader = !!(
+    p.years ||
+    p.compactMonths ||
+    p.compactYears ||
+    p.months
+  );
+
+  const mainRow = [p.monthsGrid && "MM", "DD", p.time && "TT"]
     .filter(Boolean)
     .join(" ");
-  const fullWidth = (key: string) =>
-    `"${new Array(colCount).fill(key).join(" ")}"`;
+
+  const fullWidth = (key: string) => `"${Array(colCount).fill(key).join(" ")}"`;
 
   const areas = [
     hasHeader && fullWidth("HH"),

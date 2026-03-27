@@ -7,10 +7,16 @@ export const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
 const W = "#ffffff";
 const B = "#1a1a1c";
 const G = "#f0f0f0";
+const OR = "#e85d00";
+const IB = "#111111";
+const IS = "#d4d4d4";
+const GA = "#f1a01d";
 
 export const THEMES_DATA: Record<string, string[]> = {
   paper: [W, W, B, "#f4f4f4", B, G, "#0001"],
   carbon: [B, B, W, "#2d2d2d", G, "#333333", "#fff1"],
+  industrial: [W, IB, OR, "#1c1c1c", IS, "#2a2a2a", "#e85d0024"],
+  graphite: [W, "#f7f8f9", GA, "#eeeff1", "#1a1a1a", "#e2e4e8", "#f5a62318"],
   crimson: [
     "#161111",
     "#0d0909",
@@ -65,33 +71,17 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#5d5448",
     "#0000002a",
   ],
-  mintblue: [
+  mint: [W, "#f8f9fc", "#60d276", "#eaedf4", "#171827", "#b8c0d1", "#00000a1a"],
+  rosa: [
     W,
-    "#f8f9fc",
-    "#60d276",
-    "#eaedf4",
-    "#171827",
-    "#b8c0d1",
-    "#00000a1a",
-  ],
-  larosa: [
-    W,
-    "#dbd8e0",
-    "#d65d91",
-    "#e5e1e9",
+    "#d5d3da",
+    "#d16292",
+    "#e5e1e9f9",
     "#2d2a32",
     "#a8a1af",
-    "#d4639422",
+    "#d25a8e22",
   ],
-  snowstorm: [
-    W,
-    "#e2e5e9",
-    "#3a60d6",
-    "#eceff4",
-    "#212630",
-    "#acb9cb",
-    "#04042c25",
-  ],
+  snow: [W, "#e2e5e9", "#3a60d6", "#eceff4", "#212630", "#acb9cb", "#04042c25"],
   solar: [
     W,
     "#d8cf9a",
@@ -119,7 +109,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#b49e8a",
     "#6e45311a",
   ],
-  neonlight: [
+  neon: [
     "#fcfcf5",
     "#f7f8f9",
     "#80ec27",

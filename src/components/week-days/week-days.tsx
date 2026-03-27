@@ -6,6 +6,7 @@ import styles from "./weekdays.module.css";
 const WeekDays = () => {
   const { locale, highlightWeekends, dark, startOfWeek, showWeekNumber } =
     useCalendarContext();
+
   const wDays = useMemo(
     () => getWeekdaysNames(locale, startOfWeek),
     [locale, startOfWeek],
@@ -13,16 +14,23 @@ const WeekDays = () => {
 
   return (
     <div role="row" style={{ display: "contents" }}>
-      {showWeekNumber && <div></div>}
+      {showWeekNumber && <div aria-hidden />}
       {wDays.map((day, i) => {
         const actualDay = (startOfWeek + i) % 7;
         const isWeekend =
-          (actualDay === 0 || actualDay === 6) && highlightWeekends;
+          highlightWeekends && (actualDay === 0 || actualDay === 6);
+        const weekendClass = isWeekend
+          ? dark
+            ? styles.weekendDark
+            : styles.weekendLight
+          : "";
+
         return (
           <div
             key={day}
-            className={`${styles.header} ${isWeekend ? (dark ? styles.weekendDark : styles.weekendLight) : ""}`}
+            className={`${styles.header} ${weekendClass}`.trim()}
             role="columnheader"
+            aria-label={day}
           >
             {day}
           </div>

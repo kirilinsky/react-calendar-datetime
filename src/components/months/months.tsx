@@ -17,7 +17,7 @@ export const MonthsComponent: React.FC = () => {
 
   const currentMonth = date.getMonth();
   const mNames = useMemo(
-    () => getMonthListData(locale, date.getFullYear(), minDate, maxDate),
+    () => getMonthListData(locale, date.getFullYear(), minDate, maxDate, true),
     [locale, date.getFullYear(), minDate, maxDate],
   );
 

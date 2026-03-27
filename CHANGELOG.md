@@ -1,0 +1,22 @@
+## Patch notes (old versions)
+
+- **v3.0.5:** Brutalism mode added.
+- **v3.0.4:** Gradient backgrounds.
+- **v3.0.1:** Touch gestures.
+- **v3.0.0:** Jelly Mode, Crimson & Amethyst themes, `startOfWeek`, `showWeekNumber`, `highlightWeekends`/`disableWeekends`, `compactMonths`/`compactYears`, migrated to CSS Modules, switched to `tsdown`.
+- **v2.5.4:** Bug fixes.
+- **v2.5.3:** Added `minDate` and `maxDate` support.
+- **v2.5.2:** Added a new `boxShadow` layer to the theme engine.
+- **v2.5.1:** New themes: `Neon` and `Temporal`.
+- **v2.5.0:** Infinite localization added.
+- **v2.4.4:** Bug fixes.
+- **v2.4.3:** Optimized bundle size (experimental `tsup` config).
+- **v2.4.2:** Bug fixes, added `Tomorrow` preset.
+- **v2.4.1:** Decoupled data from types in `.d.ts` files.
+- **v2.4.0:** Added `Comfy`, `Rosa`, `Solar`, and `Snow` themes, added `Portugal` 🇵🇹 locale.
+- **v2.3.0:** Removed `dayjs`, refactored Time Picker, implemented fixed 42-cell days grid.
+- **v2.2.0:** Auto-injected runtime styles (~1KB), added `Dracula` dark-red theme.
+- **v2.1.0:** Added `Phosphor` neon-green theme.
+- **v2.0.0:** TS migration, strict types, React 19, pre-generated labels, flexible `months` layout, `es`/`sr` locales.
+- **v1.3.1:** Added year picker, dark theme, `zh-cn` and `fr` locales.
+- **v1.0.0:** Initial release.

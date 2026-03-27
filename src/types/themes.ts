@@ -1,14 +1,16 @@
 export const LIGHT_THEMES = [
   "paper",
-  "mintblue",
+  "mint",
   "comfy",
-  "neonlight",
-  "larosa",
-  "snowstorm",
+  "neon",
+  "rosa",
+  "snow",
   "solar",
+  "graphite",
   "amethyst",
 ] as const;
 export const DARK_THEMES = [
+  "industrial",
   "carbon",
   "midnight",
   "sandstone",

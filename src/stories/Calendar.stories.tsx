@@ -22,19 +22,21 @@ const LOCALES_LIST = [
 const THEME_LABELS: Record<CalendarTheme, string> = {
   paper: "Paper",
   carbon: "Carbon",
-  mintblue: "Mint Blue",
+  mint: "Mint",
   midnight: "Midnight",
+  industrial: "Industrial",
+  graphite: "Graphite",
   sandstone: "Sandstone",
   phosphor: "Phosphor",
   dracula: "Dracula",
   cyber: "Cyber",
   comfy: "Comfy",
   temporal: "Temporal",
-  neonlight: "Neon Light",
-  larosa: "La Rosa",
+  neon: "Neon",
+  rosa: "Rosa",
   amethyst: "Amethyst",
   crimson: "Crimson",
-  snowstorm: "Snow Storm",
+  snow: "Snow",
   solar: "Solar",
 };
 
@@ -75,10 +77,10 @@ export const ASimple = () => {
       <div className="calendar-fixed-container">
         <Calendar
           date={date}
+          width="290px"
+          theme="graphite"
+          brutalism
           onChangeDate={setDate}
-          months
-          years
-          gestures
           highlightWeekends
         />
       </div>
@@ -133,7 +135,7 @@ export const minMaxDates = () => {
           theme="sandstone"
           years
           presets
-          months
+          monthsGrid
           showWeekNumber={showWeekNumber}
           disableWeekends={disableWeekends}
         />
@@ -184,7 +186,7 @@ export const JellyPlayground = () => {
       >
         <Calendar
           jellyMode
-          months
+          monthsGrid
           years
           locale="de"
           presets
@@ -199,7 +201,7 @@ export const JellyPlayground = () => {
 
 export const ThemePlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
-  const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mintblue");
+  const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint");
   const [light, setLight] = useState<boolean>(true);
   const [gradient, setGradient] = useState<boolean>(false);
 
@@ -237,11 +239,11 @@ export const ThemePlayground = () => {
           onChangeDate={setDate}
           presets
           time
-          months
+          monthsGrid
           years
           compactMonths
           highlightWeekends
-          gradientBackground={gradient}
+          gradient={gradient}
         />
       </div>
 
@@ -301,7 +303,7 @@ export const LocalePlayground = () => {
           date={date}
           onChangeDate={setDate}
           presets
-          months
+          monthsGrid
         />
       </div>
       {renderLocaleButtons(LOCALES_LIST.slice(6))}
@@ -313,7 +315,8 @@ export const BuilderPlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [config, setConfig] = useState({
     years: true,
-    months: true,
+    monthsGrid: true,
+    months: false,
     time: false,
     presets: false,
     compactMonths: false,
@@ -348,10 +351,12 @@ export const BuilderPlayground = () => {
           years={config.years}
           brutalism
           months={config.months}
+          monthsGrid={config.monthsGrid}
           time={config.time}
           presets={config.presets}
           compactMonths={config.compactMonths}
           compactYears={config.compactYears}
+          theme="mint"
         />
       </div>
     </StoryWrapper>

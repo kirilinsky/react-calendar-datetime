@@ -38,8 +38,8 @@
   ) !important;
 }
 .calendarContainer.staticMode {
-  font-size: 15px;
-  min-width: 350px;
+  font-size: 14px;
+  min-width: 290px;
   width: max-content;
 }
 

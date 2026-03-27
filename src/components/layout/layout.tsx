@@ -16,12 +16,13 @@ export const CalendarLayout: React.FC<{
     view,
     presets,
     years,
+    months,
     compactMonths,
     compactYears,
-    months,
+    monthsGrid,
     time,
     jellyMode,
-    gradientBackground,
+    gradient,
     dark,
   } = useCalendarContext();
 
@@ -31,7 +32,7 @@ export const CalendarLayout: React.FC<{
         styles.calendarContainer,
         `theme-${theme}`,
         !jellyMode ? styles.staticMode : "",
-        gradientBackground ? styles.gradient : "",
+        gradient ? styles.gradient : "",
         dark ? styles.dark : "",
         brutalism ? styles.brutalism : "",
       ]
@@ -41,9 +42,11 @@ export const CalendarLayout: React.FC<{
     >
       {view !== "calendar" && <SelectorComponent type={view} />}
       {presets && <PresetsComponent />}
-      {(years || compactMonths || compactYears) && <HeaderComponent />}
+      {(years || compactMonths || compactYears || months) && (
+        <HeaderComponent />
+      )}
       <DaysComponent />
-      {months && <MonthsComponent />}
+      {monthsGrid && <MonthsComponent />}
       {time && <TimeComponent />}
     </div>
   );
