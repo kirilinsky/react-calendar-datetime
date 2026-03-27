@@ -20,8 +20,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   disableWeekends = false,
   startOfWeek = 1,
   jellyMode = false,
-  gradient = false,
   brutalism = false, 
+  gradient = false,
   highlightWeekends = true,
   ...restProps
 }) => {
