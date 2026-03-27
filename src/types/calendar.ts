@@ -4,6 +4,7 @@ export type StartOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface CalendarProps {
   presets?: boolean;
+  monthsGrid?: boolean;
   months?: boolean;
   years?: boolean;
   date?: Date;
@@ -15,7 +16,7 @@ export interface CalendarProps {
   highlightWeekends?: boolean;
   disableWeekends?: boolean;
   showWeekNumber?: boolean;
-  gradientBackground?: boolean;
+  gradient?: boolean;
   gestures?: boolean;
   startOfWeek?: StartOfWeek;
   compactYears?: boolean;
@@ -36,6 +37,7 @@ export interface CalendarContextValue extends Omit<
   locale: string;
   onChangeDate: (date: Date) => void;
   months: boolean;
+  monthsGrid: boolean;
   presets: boolean;
   compactMonths: boolean;
   years: boolean;

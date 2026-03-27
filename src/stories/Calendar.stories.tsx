@@ -24,6 +24,7 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   carbon: "Carbon",
   mintblue: "Mint Blue",
   midnight: "Midnight",
+  industrial: "Industrial",
   sandstone: "Sandstone",
   phosphor: "Phosphor",
   dracula: "Dracula",
@@ -75,10 +76,10 @@ export const ASimple = () => {
       <div className="calendar-fixed-container">
         <Calendar
           date={date}
+          width="290px"
+          theme="industrial"
+          brutalism
           onChangeDate={setDate}
-          months
-          years
-          gestures
           highlightWeekends
         />
       </div>
@@ -133,7 +134,7 @@ export const minMaxDates = () => {
           theme="sandstone"
           years
           presets
-          months
+          monthsGrid
           showWeekNumber={showWeekNumber}
           disableWeekends={disableWeekends}
         />
@@ -184,7 +185,7 @@ export const JellyPlayground = () => {
       >
         <Calendar
           jellyMode
-          months
+          monthsGrid
           years
           locale="de"
           presets
@@ -237,11 +238,11 @@ export const ThemePlayground = () => {
           onChangeDate={setDate}
           presets
           time
-          months
+          monthsGrid
           years
           compactMonths
           highlightWeekends
-          gradientBackground={gradient}
+          gradient={gradient}
         />
       </div>
 
@@ -301,7 +302,7 @@ export const LocalePlayground = () => {
           date={date}
           onChangeDate={setDate}
           presets
-          months
+          monthsGrid
         />
       </div>
       {renderLocaleButtons(LOCALES_LIST.slice(6))}
@@ -313,7 +314,8 @@ export const BuilderPlayground = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [config, setConfig] = useState({
     years: true,
-    months: true,
+    monthsGrid: true,
+    months: false,
     time: false,
     presets: false,
     compactMonths: false,
@@ -347,6 +349,7 @@ export const BuilderPlayground = () => {
           onChangeDate={setDate}
           years={config.years}
           months={config.months}
+          monthsGrid={config.monthsGrid}
           time={config.time}
           presets={config.presets}
           compactMonths={config.compactMonths}

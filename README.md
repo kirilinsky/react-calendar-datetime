@@ -6,7 +6,7 @@
 &nbsp;&nbsp;
 ![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=flat-square)
 &nbsp;&nbsp;
-![themes](https://img.shields.io/badge/themes-16-orange?style=flat-square)
+![themes](https://img.shields.io/badge/themes-17-orange?style=flat-square)
 &nbsp;&nbsp;
 [![bundle size](https://img.shields.io/bundlephobia/minzip/react-calendar-datetime?style=flat-square)](https://bundlephobia.com/package/react-calendar-datetime)
 &nbsp;&nbsp;
@@ -24,11 +24,15 @@
     <tr style="border: none;">
       <td align="center" style="border: none; padding: 6px;">
         <p><b>Paper Theme (default)</b></p>
-        <img src="https://i.ibb.co/gFQtzfF8/image.png" alt="Light" width="440" />
+        <img src="https://i.ibb.co/Q3xsR6Rh/image.png" alt="Light" width="320" />
       </td>
       <td align="center" style="border: none; padding: 6px;">
-        <p><b>Carbon Theme</b></p>
-        <img src="https://i.ibb.co/hFDGFJD5/image.png" alt="Dark" width="440" />
+        <p><b>Carbon Theme with gradient</b></p>
+        <img src="https://i.ibb.co/23MbWj4h/image.png" alt="Dark" width="320" />
+      </td>
+      <td align="center" style="border: none; padding: 6px;">
+        <p><b>Carbon Theme with gradient</b></p>
+        <img src="https://i.ibb.co/23MbWj4h/image.png" alt="Dark" width="320" />
       </td>
     </tr>
   </table>
@@ -46,7 +50,7 @@
 - 📦 **Tiny Footprint** — `~6kb gzipped`. Optimized for the modern web.
 - 🌎 **Global by Default** — Instant support for **400+ BCP47 locales** (including `en`, `de`, `ru`, `zh-CN` etc).
 - 🌐 **Universal Localization** — No dictionaries, no extra bytes—powered by native **Intl API**.
-- 🎨 **16 Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar`, `Crimson` and more.
+- 🎨 **17 Aesthetic Themes** — Switch between `Midnight`, `Snow`, `Solar`, `Crimson` and more.
 - 🕒 **Smart Presets** — Quick select for "Today", "Last week", "Month ago" etc.
 - 🛠️ **Fully Modular** — Toggle **Years**, **Months**, **Time**, or **Presets** independently. Build your own UI.
 - 🎛️ **Deeply Customizable** — Tailor experience: start-of-week day, highlight weekends, gradient.
@@ -73,35 +77,44 @@ const App = () => {
 export default App;
 ```
 
-## Props:
+## Props
 
-| Property               | Type       | Default      | Description                                                           |
-| :--------------------- | :--------- | :----------- | :-------------------------------------------------------------------- |
-| **date**               | `Date`     | `new Date()` | Accepts native Date                                                   |
-| **minDate**            | `Date`     | -----        | Accepts native Date                                                   |
-| **maxDate**            | `Date`     | -----        | Accepts native Date                                                   |
-| **onChangeDate**       | `function` | -----        | Callback returns new native Date on change                            |
-| **locale**             | `string`   | `'en'`       | Supports every possible locale, see [Localization](#-localization)    |
-| **theme**              | `string`   | `'paper'`    | Theme (style) name [Supported themes](#-supported-themes)             |
-| **presets**            | `boolean`  | `false`      | Toggle quick date selection (today, yesterday, etc.)                  |
-| **years**              | `boolean`  | `true`       | Toggle year section and year picker mode                              |
-| **time**               | `boolean`  | `false`      | Toggle time picker mode                                               |
-| **months**             | `boolean`  | `false`      | Toggle side month-selector.                                           |
-| **compactYears**       | `boolean`  | `false`      | Toggle compact years-selector in header.                              |
-| **compactMonths**      | `boolean`  | `true`       | Toggle compact month-selector in header.                              |
-| **jellyMode**          | `boolean`  | `false`      | Toggle **Jelly Mode** extra adaptive layout (with dynamic font-size). |
-| **highlightWeekends**  | `boolean`  | `true`       | Use this if you want to highlight weekends.                           |
-| **disableWeekends**    | `boolean`  | `false`      | Use this if you want to disable weekends.                             |
-| **showWeekNumber**     | `boolean`  | -----        | Use this if you want to display week numbers.                         |
-| **gradientBackground** | `boolean`  | '`false`'    | Toggle for main block gradient background.                            |
-| **gestures**           | `boolean`  | -----        | Enable swipe gestures on mobile screen to change months.              |
-| **startOfWeek**        | `number`   | 1            | Set start of week day, values (0 to 7) where 0 == Sunday              |
-| **width**              | `string`   | `100%`       | Any CSS width measure (e.g. `'450px'` or `'100%'`)                    |
-| **height**             | `string`   | `auto`       | Any CSS height measure                                                |
+### Data & callbacks
+
+| Property         | Type       | Default      | Description                                          |
+| :--------------- | :--------- | :----------- | :--------------------------------------------------- |
+| **date**         | `Date`     | `new Date()` | Initial selected date                                |
+| **minDate**      | `Date`     | —            | Minimum selectable date                              |
+| **maxDate**      | `Date`     | —            | Maximum selectable date                              |
+| **onChangeDate** | `function` | —            | Callback, returns new `Date` on change               |
+| **locale**       | `string`   | `'en'`       | Any valid locale, see [Localization](#-localization) |
+| **theme**        | `string`   | `'paper'`    | Theme name, see [Themes](#-supported-themes)         |
+| **width**        | `string`   | `'100%'`     | Any CSS width value (e.g. `'450px'`)                 |
+| **height**       | `string`   | `'auto'`     | Any CSS height value                                 |
+| **startOfWeek**  | `number`   | `1`          | Week start day: `0` = Sunday, `1` = Monday, etc.     |
+
+### Features & toggles
+
+| Property               | Type      | Default | Description                                          |
+| :--------------------- | :-------- | :------ | :--------------------------------------------------- |
+| **time**               | `boolean` | `false` | Enable time picker                                   |
+| **presets**            | `boolean` | `false` | Enable quick-select presets (today, yesterday, etc.) |
+| **years**              | `boolean` | `false` | Enable year picker                                   |
+| **months**             | `boolean` | `true`  | Enable month selector in header                      |
+| **monthsGrid**         | `boolean` | `false` | Enable side month-grid selector                      |
+| **compactMonths**      | `boolean` | `false` | Compact month dropdown in header                     |
+| **compactYears**       | `boolean` | `true`  | Compact year dropdown in header                      |
+| **jellyMode**          | `boolean` | `false` | Fluid scaling to fill parent container               |
+| **gradient** | `boolean` | `false` | Gradient background tinted by active theme           |
+| **gestures**           | `boolean` | `false` | Swipe to change months on mobile                     |
+| **highlightWeekends**  | `boolean` | `true`  | Highlight weekend days                               |
+| **disableWeekends**    | `boolean` | `false` | Disable weekend selection                            |
+
+---
 
 ## 🎨 Aesthetic Themes
 
-We offer 16 beautiful themes out of the box. Use the `theme` prop to switch between them.
+We offer 17 beautiful themes out of the box. Use the `theme` prop to switch between them.
 
 <img src="https://i.ibb.co/PZMb2k02/theme.png" alt="Theme" />
 
@@ -115,6 +128,7 @@ We offer 16 beautiful themes out of the box. Use the `theme` prop to switch betw
 | <img src="https://placehold.co/15x15/1c1a17/1c1a17.png" valign="middle"/> <img src="https://placehold.co/15x15/1f1c18/1f1c18.png" valign="middle"/> <img src="https://placehold.co/15x15/e3ae5c/e3ae5c.png" valign="middle"/> <img src="https://placehold.co/15x15/2f2b24/2f2b24.png" valign="middle"/> <img src="https://placehold.co/15x15/fdfbf7/fdfbf7.png" valign="middle"/> **`sandstone`**                                                                          | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/d8cf9a/d8cf9a.png" valign="middle"/> <img src="https://placehold.co/15x15/e67e22/e67e22.png" valign="middle"/> <img src="https://placehold.co/15x15/e4dbab/e4dbab.png" valign="middle"/> <img src="https://placehold.co/15x15/2b2718/2b2718.png" valign="middle"/> **`solar`**                                                                             |
 | <img src="https://placehold.co/15x15/1a0f0f/1a0f0f.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1111/1c1111.png" valign="middle"/> <img src="https://placehold.co/15x15/ff5e5e/ff5e5e.png" valign="middle"/> <img src="https://placehold.co/15x15/341d1d/341d1d.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`dracula`**                                                                            | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e9ded5/e9ded5.png" valign="middle"/> <img src="https://placehold.co/15x15/a65d3a/a65d3a.png" valign="middle"/> <img src="https://placehold.co/15x15/f5ece5/f5ece5.png" valign="middle"/> <img src="https://placehold.co/15x15/6e4531/6e4531.png" valign="middle"/> **`comfy`**                                                                             |
 | <img src="https://placehold.co/15x15/122127/122127.png" valign="middle"/> <img src="https://placehold.co/15x15/14252e/14252e.png" valign="middle"/> <img src="https://placehold.co/15x15/27d1f4/27d1f4.png" valign="middle"/> <img src="https://placehold.co/15x15/242f52/242f52.png" valign="middle"/> <img src="https://placehold.co/15x15/f1f5f9/f1f5f9.png" valign="middle"/> **`temporal`**                                                                           | <img src="https://placehold.co/15x15/fcfcf5/fcfcf5.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/80ec27/80ec27.png" valign="middle"/> <img src="https://placehold.co/15x15/e9f3eb/e9f3eb.png" valign="middle"/> <img src="https://placehold.co/15x15/1f2937/1f2937.png" valign="middle"/> **`neonlight`**                                                                         |
+| <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/111111/111111.png" valign="middle"/> <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1c1c/1c1c1c.png" valign="middle"/> <img src="https://placehold.co/15x15/d4d4d4/d4d4d4.png" valign="middle"/> **`industrial`**                                                                         |
 
 &nbsp;
 
@@ -137,21 +151,12 @@ Pass any **BCP 47** language tag, and the calendar will automatically format day
 
 ## ✅ Patch notes:
 
-### 🚀 Version 3.0.4
+### 🚀 Version 3.1.0
 
-- **🪲 Minor bug fixes**
-- **🍮 Jelly Mode (Fluid Scaling)** — True responsive design. The calendar fluidly scales its text and layout to perfectly fill any parent container while preserving exact proportions.
-- **🎨 New Themes & Gradients** — Added `Crimson` and `Amethyst` themes. Enable the `gradientBackground` prop to add visual depth tailored to your active theme.
-- **🗓️ Advanced Grid Controls** — Deeply tailor the calendar to your needs:
-  - `startOfWeek`: Choose ANY day to start the week (e.g., `0` for Sunday, `1` for Monday, `2` for Tuesday, etc).
-  - `showWeekNumber`: Display a dedicated column for ISO week numbers.
-  - `highlightWeekends` & `disableWeekends`: Visually emphasize weekends or completely lock them out from selection.
-- **📱 Touch Gestures** — Enable the `gestures` prop for smooth, native-feeling swipe navigation between months on mobile devices.
-- **🗜️ Compact & Overhauled Selectors** — Introducing `compactMonths` and `compactYears`—sleek, space-saving dropdowns built directly into the header. The standard full-view month and year `selector` screens have also been completely redesigned.
-- **💅 Zero-Runtime Styling** — Migrated from `goober` to **CSS Modules**, completely eliminating CSS-in-JS runtime overhead for better performance and predictable scoping.
-- **⚡ Next-Gen Build Engine** — Switched from `tsup` to `tsdown` for superior minification. While the massive influx of new features resulted in a slightly larger footprint, the new bundler keeps the calendar incredibly lean and highly optimized.
+- **🏭 New Theme: `Industrial`** — Dark brutalist palette with orange accent.
+- **🗓️ Month grid is now optional** — Month selector defaults to a compact header dropdown; full grid view available via `months` prop.
 
-  [**Full Version History in CONTRIBUTING.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CONTRIBUTING.md)
+  [**Full Version History in CHANGELOG.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CHANGELOG.md)
 
 ## 🗺️ Roadmap
 

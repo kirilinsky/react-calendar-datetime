@@ -78,6 +78,20 @@ export const addYears = (date: Date, v: number, disableWeekends?: boolean) =>
     d.setTime(validDate.getTime());
   });
 
+/* add months (or subtract) */
+export const addMonths = (date: Date, v: number, disableWeekends?: boolean) =>
+  mutate(date, (d) => {
+    const maxDays = _getDaysInMonth(
+      d.getFullYear(),
+      (d.getMonth() + v + 12) % 12,
+    );
+    if (d.getDate() > maxDays) d.setDate(maxDays);
+
+    d.setMonth(d.getMonth() + v);
+    const validDate = ensureValidDay(d, disableWeekends);
+    d.setTime(validDate.getTime());
+  });
+
 /** Hard-sets the year of a given date */
 export const setYear = (date: Date, v: number) =>
   mutate(date, (d) => d.setFullYear(v));
@@ -257,6 +271,7 @@ export const checkYearNavigation = (
   payload: number | { value: number }[],
   minDate?: Date | null,
   maxDate?: Date | null,
+  currentDate?: Date | null,
 ) => {
   const ABSOLUTE_MIN = 1900;
   const ABSOLUTE_MAX = 2100;
@@ -269,23 +284,47 @@ export const checkYearNavigation = (
     ? payload[payload.length - 1].value
     : payload;
 
+  const monthNav = currentDate
+    ? (() => {
+        const cur = currentDate.getFullYear() * 12 + currentDate.getMonth();
+        const min = minDate
+          ? minDate.getFullYear() * 12 + minDate.getMonth()
+          : null;
+        const max = maxDate
+          ? maxDate.getFullYear() * 12 + maxDate.getMonth()
+          : null;
+        return {
+          canGoPrevMonth: min === null || cur > min,
+          canGoNextMonth: max === null || cur < max,
+        };
+      })()
+    : { canGoPrevMonth: true, canGoNextMonth: true };
+  console.log(monthNav, "monthNav");
+
   return {
     canGoPrev: startYear > Math.max(minYear, ABSOLUTE_MIN),
     canGoNext: endYear < Math.min(maxYear, ABSOLUTE_MAX),
+    ...monthNav,
   };
 };
 
-/** Checks if the min and max dates fall in the exact same year */
+/** Checks if the min and max dates fall in the exact same year,
+ * if curMonth argument - for months as well */
 export const isYearFixed = (
   curYear: number,
   min?: Date | null,
   max?: Date | null,
+  curMonth?: number,
 ): boolean => {
-  return !!(
-    min &&
-    max &&
-    getYearSafe(min) === curYear &&
-    getYearSafe(max) === curYear
+  if (!min || !max) return false;
+  const minYear = getYearSafe(min)!;
+  const maxYear = getYearSafe(max)!;
+  if (minYear !== maxYear) return false;
+  if (curMonth === undefined) return minYear === curYear;
+  return (
+    minYear === curYear &&
+    min.getMonth() === curMonth &&
+    max.getMonth() === curMonth
   );
 };
 

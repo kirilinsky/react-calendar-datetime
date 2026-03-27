@@ -17,6 +17,7 @@ export const DARK_THEMES = [
   "cyber",
   "temporal",
   "crimson",
+  "industrial",
 ] as const;
 
 export type CalendarTheme =

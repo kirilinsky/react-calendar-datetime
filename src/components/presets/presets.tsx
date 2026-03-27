@@ -10,7 +10,7 @@ import shared from "@/global/global.module.css";
 
 export const PresetsComponent: React.FC = () => {
   const {
-    months,
+    monthsGrid,
     date,
     minDate,
     maxDate,
@@ -26,11 +26,11 @@ export const PresetsComponent: React.FC = () => {
     () =>
       getFilteredPresets(
         years || !!compactYears,
-        months || !!compactMonths,
+        monthsGrid || !!compactMonths,
         minDate,
         maxDate,
       ),
-    [years, months, minDate, maxDate, compactYears, compactMonths],
+    [years, monthsGrid, minDate, maxDate, compactYears, compactMonths],
   );
 
   return (

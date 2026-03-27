@@ -7,10 +7,14 @@ export const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
 const W = "#ffffff";
 const B = "#1a1a1c";
 const G = "#f0f0f0";
+const OR = "#e85d00";
+const IB = "#111111";
+const IS = "#d4d4d4";
 
 export const THEMES_DATA: Record<string, string[]> = {
   paper: [W, W, B, "#f4f4f4", B, G, "#0001"],
   carbon: [B, B, W, "#2d2d2d", G, "#333333", "#fff1"],
+  industrial: [W, IB, OR, "#1c1c1c", IS, "#2a2a2a", "#e85d0024"],
   crimson: [
     "#161111",
     "#0d0909",
