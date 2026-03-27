@@ -131,10 +131,12 @@ export const getYearsRange = (center: number, len: number = 25): number[] => {
 };
 
 /** Retrieves an array of localized month names (e.g., ["January", "February", ...]) */
-export const getMonthNames = (locale: string): string[] => {
+export const getMonthNames = (locale: string, short?: boolean): string[] => {
   const key = `${locale}M`;
   if (!i18nCache[key]) {
-    const f = new Intl.DateTimeFormat(locale, { month: "long" }).format;
+    const f = new Intl.DateTimeFormat(locale, {
+      month: !!short ? "short" : "long",
+    }).format;
     const year = new Date().getFullYear();
     i18nCache[key] = Array.from({ length: 12 }, (_, i) =>
       f(new Date(year, i, 1)),
@@ -219,8 +221,9 @@ export const getMonthListData = (
   year: number,
   min?: Date | null,
   max?: Date | null,
+  short?: boolean,
 ) => {
-  const names = getMonthNames(locale);
+  const names = getMonthNames(locale, short);
   if (!min && !max) return names.map((label) => ({ label, disabled: false }));
 
   const minT = getLimit(min);

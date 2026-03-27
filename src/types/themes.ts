@@ -6,6 +6,7 @@ export const LIGHT_THEMES = [
   "rosa",
   "snow",
   "solar",
+  "graphite",
   "amethyst",
 ] as const;
 export const DARK_THEMES = [

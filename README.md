@@ -6,7 +6,7 @@
 &nbsp;&nbsp;
 ![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=flat-square)
 &nbsp;&nbsp;
-![themes](https://img.shields.io/badge/themes-17-orange?style=flat-square)
+![themes](https://img.shields.io/badge/themes-18-orange?style=flat-square)
 &nbsp;&nbsp;
 [![bundle size](https://img.shields.io/bundlephobia/minzip/react-calendar-datetime?style=flat-square)](https://bundlephobia.com/package/react-calendar-datetime)
 &nbsp;&nbsp;
@@ -48,7 +48,7 @@
 - ⚡ **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Pure React.
 - 📦 **~6kb gzipped** — Styles included, no CSS imports required.
 - 🌎 **400+ Locales** — Powered by native `Intl` API. No dictionaries, no extra bytes.
-- 🎨 **17 Themes** — `Midnight`, `Crimson`, `Industrial`, `Solar` and more.
+- 🎨 **18 Themes** — `Midnight`, `Crimson`, `Industrial`, `Solar` and more.
 - 🛠️ **Fully Modular** — Toggle time, presets, month grid, week numbers independently.
 - 🎛️ **Deeply Customizable** — Start of week, weekend rules, jelly mode, gradients.
 - 🕒 **Smart Presets** — "Today", "Last week", "Month ago" and more out of the box.
@@ -127,7 +127,7 @@ export default App;
 
 ## 🎨 Aesthetic Themes
 
-We offer 17 beautiful themes out of the box. Use the `theme` prop to switch between them.
+We offer 18 beautiful themes out of the box. Use the `theme` prop to switch between them.
 
 <img src="https://i.ibb.co/PZMb2k02/theme.png" alt="Theme" />
 
@@ -141,9 +141,9 @@ We offer 17 beautiful themes out of the box. Use the `theme` prop to switch betw
 | <img src="https://placehold.co/15x15/1c1a17/1c1a17.png" valign="middle"/> <img src="https://placehold.co/15x15/1f1c18/1f1c18.png" valign="middle"/> <img src="https://placehold.co/15x15/e3ae5c/e3ae5c.png" valign="middle"/> <img src="https://placehold.co/15x15/2f2b24/2f2b24.png" valign="middle"/> <img src="https://placehold.co/15x15/fdfbf7/fdfbf7.png" valign="middle"/> **`sandstone`**                                                                          | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/d8cf9a/d8cf9a.png" valign="middle"/> <img src="https://placehold.co/15x15/e67e22/e67e22.png" valign="middle"/> <img src="https://placehold.co/15x15/e4dbab/e4dbab.png" valign="middle"/> <img src="https://placehold.co/15x15/2b2718/2b2718.png" valign="middle"/> **`solar`**                                                                             |
 | <img src="https://placehold.co/15x15/1a0f0f/1a0f0f.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1111/1c1111.png" valign="middle"/> <img src="https://placehold.co/15x15/ff5e5e/ff5e5e.png" valign="middle"/> <img src="https://placehold.co/15x15/341d1d/341d1d.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`dracula`**                                                                            | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e9ded5/e9ded5.png" valign="middle"/> <img src="https://placehold.co/15x15/a65d3a/a65d3a.png" valign="middle"/> <img src="https://placehold.co/15x15/f5ece5/f5ece5.png" valign="middle"/> <img src="https://placehold.co/15x15/6e4531/6e4531.png" valign="middle"/> **`comfy`**                                                                             |
 | <img src="https://placehold.co/15x15/122127/122127.png" valign="middle"/> <img src="https://placehold.co/15x15/14252e/14252e.png" valign="middle"/> <img src="https://placehold.co/15x15/27d1f4/27d1f4.png" valign="middle"/> <img src="https://placehold.co/15x15/242f52/242f52.png" valign="middle"/> <img src="https://placehold.co/15x15/f1f5f9/f1f5f9.png" valign="middle"/> **`temporal`**                                                                           | <img src="https://placehold.co/15x15/fcfcf5/fcfcf5.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/80ec27/80ec27.png" valign="middle"/> <img src="https://placehold.co/15x15/e9f3eb/e9f3eb.png" valign="middle"/> <img src="https://placehold.co/15x15/1f2937/1f2937.png" valign="middle"/> **`neon`**                                                                              |
-| <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/111111/111111.png" valign="middle"/> <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1c1c/1c1c1c.png" valign="middle"/> <img src="https://placehold.co/15x15/d4d4d4/d4d4d4.png" valign="middle"/> **`industrial`**                                                                         |
+| <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/111111/111111.png" valign="middle"/> <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1c1c/1c1c1c.png" valign="middle"/> <img src="https://placehold.co/15x15/d4d4d4/d4d4d4.png" valign="middle"/> **`industrial`**                                                                         | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/f1a01d/f1a01d.png" valign="middle"/> <img src="https://placehold.co/15x15/eeeff1/eeeff1.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1a/1a1a1a.png" valign="middle"/> **`graphite`**                                                                          |
 
-&nbsp;
+> 💡 Try enabling the `gradient` prop for an extra depth effect tailored to your active theme.
 
 <a href="https://calendar-demo-pi.vercel.app/?step=3" target="_blank">
   <img src="https://img.shields.io/badge/Themes%20Playground-Try%20it%20Out-60d276?style=for-the-badge&logo=paint-format&logoColor=white" alt="Play with themes" />
@@ -165,10 +165,10 @@ Pass any valid locale tag and the calendar automatically formats days, months, a
 
 ## ✅ Patch notes:
 
-### 🚀 Version 3.1.0
+### 🚀 Version 3.1.2
 
-- **🏭 New Theme: `Industrial`** — Dark brutalist palette with orange accent.
-- **🗓️ Month grid is now optional** — Month selector defaults to a compact header dropdown; full grid view available via `months` prop.
+- **🏭 New Themes: `Industrial` & `Graphite`** — Brutalist palettes with orange accent: dark and light variants.
+- **🗓️ Month grid is now optional** — Month selector defaults to a compact header; full grid view available via `monthsGrid` prop with short names for months.
 
   [**Full Version History in CHANGELOG.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CHANGELOG.md)
 

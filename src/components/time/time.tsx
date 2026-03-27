@@ -6,7 +6,7 @@ import { useThrottle } from "@/hooks/use-throttle";
 import { addTime, getDrumValue, padTime } from "@/utils/date-utils";
 import { Down, Up } from "@/Icons";
 
-const OFFSETS = [-3, -2, -1, 0, 1, 2, 3];
+const OFFSETS = [-4,-3, -2, -1, 0, 1, 2, 3,4];
 
 const TimeColumn = ({
   type,

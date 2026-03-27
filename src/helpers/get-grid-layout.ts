@@ -25,9 +25,9 @@ export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
   const colCount = (p.monthsGrid ? 1 : 0) + 1 + (p.time ? 1 : 0);
 
   const cols = [
-    p.monthsGrid && jelly("25cqw", "28cqw", "2fr", isJelly, isCramped),
+    p.monthsGrid && jelly("20cqw", "24cqw", "1.7fr", isJelly, isCramped),
     isJelly ? "1fr" : "5fr",
-    p.time && jelly("15cqw", "20cqw", "2fr", isJelly, isCramped),
+    p.time && jelly("17cqw", "22cqw", "1.4fr", isJelly, isCramped),
   ]
     .filter(Boolean)
     .join(" ");

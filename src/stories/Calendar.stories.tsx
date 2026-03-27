@@ -25,6 +25,7 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   mint: "Mint",
   midnight: "Midnight",
   industrial: "Industrial",
+  graphite: "Graphite",
   sandstone: "Sandstone",
   phosphor: "Phosphor",
   dracula: "Dracula",
@@ -77,7 +78,7 @@ export const ASimple = () => {
         <Calendar
           date={date}
           width="290px"
-          theme="industrial"
+          theme="graphite"
           brutalism
           onChangeDate={setDate}
           highlightWeekends
