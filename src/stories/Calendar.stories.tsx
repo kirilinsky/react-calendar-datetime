@@ -349,6 +349,7 @@ export const BuilderPlayground = () => {
           date={date}
           onChangeDate={setDate}
           years={config.years}
+          brutalism
           months={config.months}
           monthsGrid={config.monthsGrid}
           time={config.time}
