@@ -28,7 +28,7 @@ export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
   const cols = [
     p.monthsGrid && jelly("20cqw", "24cqw", "1.7fr", isJelly, isCramped),
     isJelly ? "1fr" : "5fr",
-    p.timeGrid && jelly("17cqw", "22cqw", "1.4fr", isJelly, isCramped),
+    p.timeGrid && jelly("16cqw", "22cqw", "1.3fr", isJelly, isCramped),
   ]
     .filter(Boolean)
     .join(" ");
@@ -37,7 +37,8 @@ export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
     p.years ||
     p.compactMonths ||
     p.compactYears ||
-    p.months || p.time
+    p.months ||
+    p.time
   );
 
   const mainRow = [p.monthsGrid && "MM", "DD", p.timeGrid && "TT"]
@@ -55,7 +56,7 @@ export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
     .join(" ");
 
   const rows = [
-    hasHeader && (isJelly ? "auto" : "60px"),
+    hasHeader && (isJelly ? "auto" : "minmax(50px, auto)"),
     isJelly ? "1fr" : "auto",
     p.presets && (isJelly ? "auto" : "minmax(50px, auto)"),
   ]

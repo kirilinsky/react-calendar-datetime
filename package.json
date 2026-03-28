@@ -1,6 +1,6 @@
 {
   "name": "react-calendar-datetime",
-  "version": "3.1.2",
+  "version": "3.2.0",
   "description": "Lightweight React date & time picker — zero deps, 18 themes, 400+ locales, fully modular.",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -28,8 +28,7 @@
   "scripts": {
     "start": "ladle serve",
     "dev": "tsdown --watch",
-    "build": "tsdown",
-    "build:demo": "ladle build",
+    "build": "npx tsx scripts/generate-theme.ts && tsdown --dts",
     "clean": "rm -rf dist"
   },
   "peerDependencies": {
@@ -45,7 +44,8 @@
     "react": "^19",
     "react-dom": "^19",
     "tsdown": "^0.21.4",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "var-th": "^0.1.7"
   },
   "keywords": [
     "react",

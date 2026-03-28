@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { CalendarProps } from "@/types/calendar";
 import { CalendarProvider } from "@/components/provider/provider";
 import { getGridLayout } from "@/helpers/get-grid-layout";
-import { getThemeVariables } from "@/helpers/get-theme";
 import { CalendarLayout } from "../layout/layout";
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -32,7 +31,6 @@ export const Calendar: React.FC<CalendarProps> = ({
       ({
         width,
         height,
-        ...getThemeVariables(theme),
         ...getGridLayout({
           presets,
           compactMonths,
@@ -84,12 +82,11 @@ export const Calendar: React.FC<CalendarProps> = ({
       height={height}
       {...restProps}
     >
-      <div style={{ containerType: "inline-size", width, height }}>
-        <CalendarLayout
-          theme={theme}
-          containerStyle={containerStyle}
-          brutalism={brutalism}
-        />
+      <div
+        data-theme={theme}
+        style={{ containerType: "inline-size", width, height }}
+      >
+        <CalendarLayout containerStyle={containerStyle} brutalism={brutalism} />
       </div>
     </CalendarProvider>
   );

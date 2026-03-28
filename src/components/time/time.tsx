@@ -7,15 +7,11 @@ import { TimeTrack } from "../time-track/time-track";
 
 export const TimeComponent: React.FC = () => {
   const { onChangeDate, date, hour12 } = useCalendarContext();
-  const throttled = useThrottle(onChangeDate, 75);
+  const throttled = useThrottle(onChangeDate, 70);
 
   return (
     <div className={`${styles.timeContainer} ${shared.flexCenter}`}>
-       <TimeTrack
-        date={date}
-        hour12={hour12}
-        onChange={throttled}
-      />
+      <TimeTrack date={date} hour12={hour12} onChange={throttled} />
     </div>
   );
 };

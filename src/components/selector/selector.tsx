@@ -10,7 +10,6 @@ import {
   checkYearNavigation,
   addDate,
 } from "@/utils/date-utils";
-import { Left, Right } from "../../Icons";
 
 const YEAR_STEP = 12;
 
@@ -65,7 +64,7 @@ export const SelectorComponent: React.FC<{
               }
               className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
-              <Left />
+              ‹
             </button>
             <span className={styles.yearRange}>
               {yearsData[0].value} - {yearsData[yearsData.length - 1].value}
@@ -77,7 +76,7 @@ export const SelectorComponent: React.FC<{
               }
               className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
-              <Right />
+              ›
             </button>
           </>
         </div>

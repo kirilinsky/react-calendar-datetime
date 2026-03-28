@@ -8,7 +8,7 @@ interface TimeTrackProps {
   onChange: (date: Date) => void;
 }
 
-const OFFSETS = [-3, -2, -1, 0, 1, 2, 3];
+const OFFSETS = Array.from({ length: 7 }, (_, i) => i - 3);
 const SCROLL_THRESHOLD = 40;
 
 const Drum = ({
@@ -24,7 +24,9 @@ const Drum = ({
   const moveRef = useRef(onMove);
   const accum = useRef(0);
 
-  useEffect(() => { moveRef.current = onMove; }, [onMove]);
+  useEffect(() => {
+    moveRef.current = onMove;
+  }, [onMove]);
 
   useEffect(() => {
     const el = ref.current;
@@ -47,15 +49,22 @@ const Drum = ({
       className={styles.drum}
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === "ArrowUp") { e.preventDefault(); onMove(-1); }
-        if (e.key === "ArrowDown") { e.preventDefault(); onMove(1); }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          onMove(-1);
+        }
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          onMove(1);
+        }
       }}
     >
       <div className={styles.highlight} />
       {OFFSETS.map((o) => {
         const isActive = o === 0;
         const dist = Math.abs(o);
-        const opacity = dist === 0 ? 1 : dist === 1 ? 0.6 : dist === 2 ? 0.35 : 0.15;
+        const opacity =
+          dist === 0 ? 1 : dist === 1 ? 0.6 : dist === 2 ? 0.35 : 0.15;
         return (
           <div
             key={o}
@@ -71,11 +80,15 @@ const Drum = ({
   );
 };
 
-export const TimeTrack = ({ date, hour12 = false, onChange }: TimeTrackProps) => {
+export const TimeTrack = ({
+  date,
+  hour12 = false,
+  onChange,
+}: TimeTrackProps) => {
   const raw = date.getHours();
-  const [hours, setHours] = useState(hour12 ? raw % 12 || 12 : raw);
-  const [minutes, setMinutes] = useState(date.getMinutes());
-  const [period, setPeriod] = useState<"AM" | "PM">(raw >= 12 ? "PM" : "AM");
+  const hours = hour12 ? raw % 12 || 12 : raw;
+  const minutes = date.getMinutes();
+  const period: "AM" | "PM" = raw >= 12 ? "PM" : "AM";
 
   const hourMax = hour12 ? 12 : 24;
 
@@ -85,17 +98,10 @@ export const TimeTrack = ({ date, hour12 = false, onChange }: TimeTrackProps) =>
     onChange(next);
   };
 
-  const moveHours = (delta: number) => {
-    const next = getDrumValue(hours, delta, hourMax);
-    setHours(next);
-    emit(next, minutes, period);
-  };
-
-  const moveMinutes = (delta: number) => {
-    const next = getDrumValue(minutes, delta, 60);
-    setMinutes(next);
-    emit(hours, next, period);
-  };
+  const moveHours = (delta: number) =>
+    emit(getDrumValue(hours, delta, hourMax), minutes, period);
+  const moveMinutes = (delta: number) =>
+    emit(hours, getDrumValue(minutes, delta, 60), period);
 
   return (
     <div className={styles.root}>
@@ -105,7 +111,7 @@ export const TimeTrack = ({ date, hour12 = false, onChange }: TimeTrackProps) =>
             <button
               key={p}
               className={`${styles.periodBtn} ${period === p ? styles.periodActive : ""}`}
-              onClick={() => { setPeriod(p); emit(hours, minutes, p); }}
+              onClick={() => emit(hours, minutes, p)}
             >
               {p}
             </button>

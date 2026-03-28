@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import styles from "./header.module.css";
-import { Down, Left, Right } from "@/Icons";
+import { Down } from "@/Icons";
 import { useCalendarContext } from "../provider/provider";
 import {
   addDate,
@@ -77,7 +77,7 @@ export const HeaderComponent: React.FC = () => {
         <div className={styles.yearsSelector}>
           {canGoPrevMonth && (
             <button className={styles.arrow} onClick={() => cm(-1)}>
-              <Left />
+              ‹
             </button>
           )}
           <button
@@ -88,7 +88,7 @@ export const HeaderComponent: React.FC = () => {
           </button>
           {canGoNextMonth && (
             <button className={styles.arrow} onClick={() => cm(1)}>
-              <Right />
+              ›
             </button>
           )}
         </div>
@@ -98,7 +98,7 @@ export const HeaderComponent: React.FC = () => {
         <div className={styles.yearsSelector}>
           {canGoPrev && (
             <button className={styles.arrow} onClick={() => ch(-1)}>
-              <Left />
+              ‹
             </button>
           )}
           <button
@@ -109,7 +109,7 @@ export const HeaderComponent: React.FC = () => {
           </button>
           {canGoNext && (
             <button className={styles.arrow} onClick={() => ch(1)}>
-              <Right />
+              ›
             </button>
           )}
         </div>

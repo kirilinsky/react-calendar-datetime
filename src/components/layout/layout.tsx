@@ -7,12 +7,12 @@ import { SelectorComponent } from "../selector/selector";
 import { TimeComponent } from "../time/time";
 import { TimePopup } from "../time-popup/time-popup";
 import styles from "./layout.module.css";
+import "../../themes.css";
 
 export const CalendarLayout: React.FC<{
-  theme: string;
   containerStyle: React.CSSProperties;
   brutalism: boolean;
-}> = ({ theme, containerStyle, brutalism }) => {
+}> = ({ containerStyle, brutalism }) => {
   const {
     view,
     presets,
@@ -37,7 +37,6 @@ export const CalendarLayout: React.FC<{
     <div
       className={[
         styles.calendarContainer,
-        `theme-${theme}`,
         !jellyMode ? styles.staticMode : "",
         gradient ? styles.gradient : "",
         dark ? styles.dark : "",

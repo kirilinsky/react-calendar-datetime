@@ -49,7 +49,7 @@
 - 📦 **~6kb gzipped** — Styles included, no CSS imports required.
 - 🌎 **400+ Locales** — Powered by native `Intl` API. No dictionaries, no extra bytes.
 - 🎨 **18 Themes** — `Midnight`, `Crimson`, `Industrial`, `Solar` and more.
-- 🛠️ **Fully Modular** — Toggle time, presets, month grid, week numbers independently.
+- 🛠️ **Fully Modular** — Toggle time, years, presets, month grid, week numbers independently.
 - 🎛️ **Deeply Customizable** — Start of week, weekend rules, jelly mode, gradients.
 - 🕒 **Smart Presets** — "Today", "Last week", "Month ago" and more out of the box.
 
@@ -102,7 +102,7 @@ export default App;
 | **onChangeDate** | `function` | —            | Callback, returns new `Date` on change               |
 | **locale**       | `string`   | `'en'`       | Any valid locale, see [Localization](#-localization) |
 | **theme**        | `string`   | `'paper'`    | Theme name, see [Themes](#-supported-themes)         |
-| **width**        | `string`   | `'100%'`     | Any CSS width value (e.g. `'450px'`)                 |
+| **width**        | `string`   | `'100%'`     | Any CSS width value (e.g. `'400px'`)                 |
 | **height**       | `string`   | `'auto'`     | Any CSS height value                                 |
 | **startOfWeek**  | `number`   | `1`          | Week start day: `0` = Sunday, `1` = Monday, etc.     |
 
@@ -110,16 +110,18 @@ export default App;
 
 | Property              | Type      | Default | Description                                          |
 | :-------------------- | :-------- | :------ | :--------------------------------------------------- |
-| **time**              | `boolean` | `false` | Enable time picker                                   |
+| **time**              | `boolean` | `true`  | Enable time picker in header                         |
 | **presets**           | `boolean` | `false` | Enable quick-select presets (today, yesterday, etc.) |
-| **years**             | `boolean` | `false` | Enable year picker                                   |
+| **years**             | `boolean` | `false` | Enable year selector in header                       |
 | **months**            | `boolean` | `true`  | Enable month selector in header                      |
-| **monthsGrid**        | `boolean` | `false` | Enable side month-grid selector                      |
+| **monthsGrid**        | `boolean` | `false` | Enable left-side month-grid selector                 |
+| **timeGrid**          | `boolean` | `false` | Enable right-side time selector                      |
 | **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                     |
 | **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                      |
 | **jellyMode**         | `boolean` | `false` | Fluid scaling to fill parent container               |
 | **gradient**          | `boolean` | `false` | Gradient background tinted by active theme           |
 | **gestures**          | `boolean` | `false` | Swipe to change months on mobile                     |
+| **hour12**            | `boolean` | `false` | Toggle between 12-hour (AM/PM) and 24-hour time      |
 | **highlightWeekends** | `boolean` | `true`  | Highlight weekend days                               |
 | **disableWeekends**   | `boolean` | `false` | Disable weekend selection                            |
 
@@ -165,16 +167,18 @@ Pass any valid locale tag and the calendar automatically formats days, months, a
 
 ## ✅ Patch notes:
 
-### 🚀 Version 3.1.2
+### 🚀 Version 3.2.0
 
-- **🏭 New Themes: `Industrial` & `Graphite`** — Brutalist palettes with orange accent: dark and light variants.
-- **🗓️ Month grid is now optional** — Month selector defaults to a compact header; full grid view available via `monthsGrid` prop with short names for months.
+- **🕐 Time Popup** — New compact time selector opens inline within the calendar on click. Smooth scroll drums, infinite rotation, no layout shift.
+- **🕛 12/24h Support** — Added `hour12` prop to toggle between 12-hour (AM/PM) and 24-hour time formats across both time picker modes.
+- **💅 Time Grid redesign** — Refreshed styles for the existing inline time grid component.
+- **⚡ Themes out of JS bundle** — Theme tokens moved from runtime JS object to static CSS, reducing JS bundle size.
+- **🪲 Minor bug fixes**
 
-  [**Full Version History in CHANGELOG.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CHANGELOG.md)
+[**Full Version History in CHANGELOG.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CHANGELOG.md)
 
 ## 🗺️ Roadmap
 
-- [ ] **Compact Time Selector** — A new minimalist widget for time selection.
 - [ ] **Date Range** — Support for date range selection.
 - [ ] **Custom Presets** — Ability to pass custom quick-select buttons.
 - [ ] **Custom Themes** — API for creating and applying fully custom color schemes.

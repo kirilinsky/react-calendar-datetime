@@ -11,8 +11,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-
+    "isolatedModules": true, 
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -21,7 +20,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "global.d.ts"],
+  "include": ["src/**/*", "global.d.ts", "themes/themes.ts"],
   "exclude": [
     "node_modules",
     "dist",
