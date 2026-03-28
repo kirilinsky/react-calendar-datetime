@@ -26,8 +26,8 @@
 }
 
 .currentYear {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
+  composes: interactive from "../../global/global.module.css";
+  composes: hoverable from "../../global/global.module.css";
   font-size: 1em;
   font-weight: 800;
   line-height: 1;
@@ -40,28 +40,16 @@
 }
 
 .arrow {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
+  composes: interactive from "../../global/global.module.css";
+  composes: hoverable from "../../global/global.module.css";
   width: 2.1em;
   flex-shrink: 0;
   padding: 0;
 }
-
-.compactSelectorColumn{
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.compactSelectorColumn.crowded{
-    font-size: 0.75em;
-    button{
-      padding: 0 .5em !important;
-      gap: .2em;
-    }
-}
+ 
 
 .monthButton {
-  composes: interactive from '../../global/global.module.css';
+  composes: interactive from "../../global/global.module.css";
   width: auto;
   padding: 0 1em;
   font-size: 0.9em;
@@ -83,4 +71,10 @@
   pointer-events: none;
   background: transparent !important;
   box-shadow: none !important;
+}
+
+.timeButton {
+  composes: interactive from "../../global/global.module.css"; 
+  background: var(--c-h) !important;
+  color: var(--c-a) !important; 
 }

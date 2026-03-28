@@ -466,3 +466,11 @@ export const getCalendarData = (
   }
   return weeks;
 };
+
+export const getTimeString = (date: Date, hour12: boolean = false): string => {
+  return new Intl.DateTimeFormat("en", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12,
+  }).format(date);
+};

@@ -6,6 +6,7 @@ import {
   addMonths,
   addYears,
   checkYearNavigation,
+  getTimeString,
   isYearFixed,
 } from "@/utils/date-utils";
 
@@ -22,9 +23,11 @@ export const HeaderComponent: React.FC = () => {
     time,
     locale,
     setView,
+    hour12,
     disableWeekends,
   } = useCalendarContext();
   const cur = date.getFullYear();
+  const curTime = getTimeString(date, hour12);
   const yearFixed = useMemo(
     () => isYearFixed(cur, minDate, maxDate),
     [cur, minDate, maxDate],
@@ -48,6 +51,7 @@ export const HeaderComponent: React.FC = () => {
 
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
+      {time && <button className={styles.timeButton}>{curTime}</button>}
       {compactMonths && (
         <button
           disabled={monthFixed}
@@ -97,19 +101,12 @@ export const HeaderComponent: React.FC = () => {
           )}
         </div>
       )}
-      <div
-        className={`${styles.compactSelectorColumn} ${time && compactYears ? styles.crowded : ""}`}
-      >
-        {compactYears && (
-          <button
-            className={styles.monthButton}
-            onClick={() => setView("year")}
-          >
-            {cur} <Down />
-          </button>
-        )}
-        {time && <button>time AM</button>}
-      </div>
+
+      {compactYears && (
+        <button className={styles.monthButton} onClick={() => setView("year")}>
+          {cur} <Down />
+        </button>
+      )}
     </div>
   );
 };

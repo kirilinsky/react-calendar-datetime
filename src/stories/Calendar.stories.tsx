@@ -96,6 +96,7 @@ export const minMaxDates = () => {
     return d;
   };
 
+  const [hour12, sethour12] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
   const [disableWeekends, setDisableWeekends] = useState<boolean>(false);
   const [showWeekNumber, setshowWeekNumber] = useState<boolean>(false);
@@ -135,6 +136,7 @@ export const minMaxDates = () => {
           theme="sandstone"
           years
           presets
+          hour12={hour12}
           monthsGrid
           showWeekNumber={showWeekNumber}
           disableWeekends={disableWeekends}
@@ -154,6 +156,13 @@ export const minMaxDates = () => {
           style={{ textTransform: "capitalize" }}
         >
           show week numbers: {showWeekNumber ? "ON" : "OFF"}
+        </button>
+        <button
+          onClick={() => sethour12(!hour12)}
+          className={`story-button ${hour12 ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          hour 12: {hour12 ? "ON" : "OFF"}
         </button>
       </div>
     </StoryWrapper>

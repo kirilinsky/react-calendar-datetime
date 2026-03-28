@@ -9,6 +9,7 @@ export interface CalendarProps {
   years?: boolean;
   date?: Date;
   time?: boolean;
+  hour12?: boolean;
   timeGrid?: boolean;
   locale?: string;
   maxDate?: Date;
