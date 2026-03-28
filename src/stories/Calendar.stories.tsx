@@ -213,6 +213,7 @@ export const ThemePlayground = () => {
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint");
   const [light, setLight] = useState<boolean>(true);
   const [gradient, setGradient] = useState<boolean>(false);
+  const [brutal, setbrutal] = useState<boolean>(false);
 
   const renderThemeButtons = (
     themes: readonly CalendarTheme[],
@@ -252,6 +253,7 @@ export const ThemePlayground = () => {
           years
           compactMonths
           highlightWeekends
+          brutalism={brutal}
           gradient={gradient}
         />
       </div>
@@ -265,6 +267,13 @@ export const ThemePlayground = () => {
           style={{ textTransform: "capitalize" }}
         >
           Gradient: {gradient ? "ON" : "OFF"}
+        </button>
+        <button
+          onClick={() => setbrutal(!brutal)}
+          className={`story-button ${brutal ? "active" : ""}`}
+          style={{ textTransform: "capitalize" }}
+        >
+          brutalism: {brutal ? "ON" : "OFF"}
         </button>
       </div>
     </StoryWrapper>
