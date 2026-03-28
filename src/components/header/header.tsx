@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import styles from "./header.module.css";
 import { Down, Left, Right } from "@/Icons";
 import { useCalendarContext } from "../provider/provider";
@@ -9,7 +9,6 @@ import {
   getTimeString,
   isYearFixed,
 } from "@/utils/date-utils";
-import { TimePopup } from "../time-popup/time-popup";
 
 export const HeaderComponent: React.FC = () => {
   const {
@@ -26,9 +25,8 @@ export const HeaderComponent: React.FC = () => {
     setView,
     hour12,
     disableWeekends,
+    setShowTimePopup,
   } = useCalendarContext();
-
-  const [showTimePopup, setShowTimePopup] = useState(false);
 
   const cur = date.getFullYear();
   const curTime = getTimeString(date, hour12);
@@ -57,25 +55,12 @@ export const HeaderComponent: React.FC = () => {
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
       {time && (
-        <>
-          <button
-            className={styles.timeButton}
-            onClick={() => setShowTimePopup(true)}
-          >
-            {curTime}
-          </button>
-          {showTimePopup && (
-            <TimePopup
-              date={date}
-              hour12={hour12}
-              onConfirm={(newDate) => {
-                onChangeDate(newDate);
-                setShowTimePopup(false);
-              }}
-              onClose={() => setShowTimePopup(false)}
-            />
-          )}
-        </>
+        <button
+          className={styles.timeButton}
+          onClick={() => setShowTimePopup(true)}
+        >
+          {curTime}
+        </button>
       )}
 
       {compactMonths && (

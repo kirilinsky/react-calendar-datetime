@@ -99,6 +99,7 @@ export const KitchenSink = () => {
     years: false,
     monthsGrid: false,
     time: true,
+    timeGrid:false,
     months: true,
     presets: false,
     compactMonths: false,
