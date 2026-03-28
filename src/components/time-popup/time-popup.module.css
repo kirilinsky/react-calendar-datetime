@@ -5,25 +5,27 @@
   z-index: 10;
   border-radius: inherit;
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
+  padding: 0.5em;
+  box-sizing: border-box;
 }
 
 .popup {
   position: relative;
-  margin: 0.5em;
   background: var(--c-b);
   border-radius: 1em;
   padding: 0.8em;
   width: 55%;
   max-width: 180px;
   min-width: 130px;
-  height: calc(100% - 1em);
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.6em;
   border: 1px solid var(--c-s);
   box-shadow: 0 0.4em 2em var(--c-x);
   user-select: none;
+  box-sizing: border-box;
 }
 
 .confirm {
@@ -38,6 +40,7 @@
   cursor: pointer;
   transition: opacity 0.2s;
   box-shadow: 0 0.2em 0.6em var(--c-x);
+  flex-shrink: 0;
 }
 
 .confirm:hover {

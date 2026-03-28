@@ -1,5 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./time-track.module.css";
+import { getDrumValue } from "@/utils/date-utils";
 
 interface TimeTrackProps {
   date: Date;
@@ -8,7 +9,8 @@ interface TimeTrackProps {
 }
 
 const ITEM_H = 44;
-const VISIBLE = 5;
+const VISIBLE = 7;
+const SCROLL_THRESHOLD = 40;
 
 const clamp = (v: number, min: number, max: number) =>
   Math.max(min, Math.min(max, v));
@@ -16,14 +18,39 @@ const clamp = (v: number, min: number, max: number) =>
 const Drum = ({
   values,
   selected,
+  max,
   onChange,
 }: {
   values: number[];
   selected: number;
+  max: number;
   onChange: (v: number) => void;
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const startY = useRef(0);
   const startIdx = useRef(0);
+  const accum = useRef(0);
+  const state = useRef({ selected, max, onChange });
+
+  useEffect(() => {
+    state.current = { selected, max, onChange };
+  });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      accum.current += e.deltaY;
+      if (Math.abs(accum.current) < SCROLL_THRESHOLD) return;
+      const dir = accum.current > 0 ? 1 : -1;
+      accum.current = 0;
+      const s = state.current;
+      s.onChange(getDrumValue(s.selected, dir, s.max));
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
 
   const onPointerDown = (e: React.PointerEvent) => {
     startY.current = e.clientY;
@@ -34,31 +61,32 @@ const Drum = ({
   const onPointerMove = (e: React.PointerEvent) => {
     if (!(e.buttons & 1)) return;
     const delta = Math.round((e.clientY - startY.current) / ITEM_H);
-    const next = clamp(startIdx.current - delta, 0, values.length - 1);
-    onChange(values[next]);
+    onChange(values[clamp(startIdx.current - delta, 0, values.length - 1)]);
   };
 
-  const idx = values.indexOf(selected);
-  const translateY = Math.floor(VISIBLE / 2) * ITEM_H - idx * ITEM_H;
+  const selectedIdx = values.indexOf(selected);
+  const translateY = Math.floor(VISIBLE / 2) * ITEM_H - selectedIdx * ITEM_H;
 
   return (
     <div
+      ref={ref}
       className={styles.drum}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
     >
-      <div className={styles.drumHighlight} />
+      <div className={styles.highlight} />
       <div
-        className={styles.drumTrack}
+        className={styles.track}
         style={{ transform: `translateY(${translateY}px)` }}
       >
         {values.map((v, i) => {
-          const distance = Math.abs(values.indexOf(selected) - i);
-          const opacity = distance === 0 ? 1 : distance === 1 ? 0.75 : 0.55;
+          const dist = Math.abs(selectedIdx - i);
+          const opacity =
+            dist === 0 ? 1 : dist === 1 ? 0.6 : dist === 2 ? 0.5 : 0.35;
           return (
             <div
               key={v}
-              className={`${styles.drumItem} ${v === selected ? styles.drumItemActive : ""}`}
+              className={`${styles.item} ${v === selected ? styles.active : ""}`}
               style={v !== selected ? { opacity } : undefined}
               onClick={() => onChange(v)}
             >
@@ -67,8 +95,8 @@ const Drum = ({
           );
         })}
       </div>
-      <div className={styles.drumFadeTop} />
-      <div className={styles.drumFadeBottom} />
+      <div className={styles.fadeTop} />
+      <div className={styles.fadeBottom} />
     </div>
   );
 };
@@ -83,41 +111,30 @@ export const TimeTrack = ({
   const [minutes, setMinutes] = useState(date.getMinutes());
   const [period, setPeriod] = useState<"AM" | "PM">(raw >= 12 ? "PM" : "AM");
 
-  const hourValues = hour12
-    ? Array.from({ length: 12 }, (_, i) => i + 1)
-    : Array.from({ length: 24 }, (_, i) => i);
-
+  const hourMax = hour12 ? 12 : 24;
+  const hourValues = Array.from({ length: hourMax }, (_, i) =>
+    hour12 ? i + 1 : i,
+  );
   const minuteValues = Array.from({ length: 60 }, (_, i) => i);
 
   const emit = (h: number, m: number, p: "AM" | "PM") => {
     const next = new Date(date);
-    const resolvedH = hour12 ? (p === "AM" ? h % 12 : (h % 12) + 12) : h;
-    next.setHours(resolvedH, m, 0, 0);
+    next.setHours(hour12 ? (p === "AM" ? h % 12 : (h % 12) + 12) : h, m, 0, 0);
     onChange(next);
   };
 
-  const handleHours = (v: number) => {
-    setHours(v);
-    emit(v, minutes, period);
-  };
-  const handleMinutes = (v: number) => {
-    setMinutes(v);
-    emit(hours, v, period);
-  };
-  const handlePeriod = (p: "AM" | "PM") => {
-    setPeriod(p);
-    emit(hours, minutes, p);
-  };
-
   return (
-    <div className={styles.timeTrack}>
+    <div className={styles.root}>
       {hour12 && (
-        <div className={styles.periodToggle}>
+        <div className={styles.period}>
           {(["AM", "PM"] as const).map((p) => (
             <button
               key={p}
               className={`${styles.periodBtn} ${period === p ? styles.periodActive : ""}`}
-              onClick={() => handlePeriod(p)}
+              onClick={() => {
+                setPeriod(p);
+                emit(hours, minutes, p);
+              }}
             >
               {p}
             </button>
@@ -125,12 +142,24 @@ export const TimeTrack = ({
         </div>
       )}
       <div className={styles.drums}>
-        <Drum values={hourValues} selected={hours} onChange={handleHours} />
+        <Drum
+          values={hourValues}
+          selected={hours}
+          max={hourMax}
+          onChange={(v) => {
+            setHours(v);
+            emit(v, minutes, period);
+          }}
+        />
         <span className={styles.colon}>:</span>
         <Drum
           values={minuteValues}
           selected={minutes}
-          onChange={handleMinutes}
+          max={60}
+          onChange={(v) => {
+            setMinutes(v);
+            emit(hours, v, period);
+          }}
         />
       </div>
     </div>

@@ -1,22 +1,23 @@
-.timeTrack {
+.root {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.6em;
   width: 100%;
-  height: 100%;
+  height: 87%;
 }
 
-.periodToggle {
+.period {
   display: flex;
   background: var(--c-t);
   border-radius: 99px;
   padding: 2px;
   gap: 2px;
-  align-self: flex-start;
+  flex-shrink: 0;
 }
 
 .periodBtn {
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 99px;
   border: none;
   background: transparent;
@@ -37,81 +38,75 @@
 .drums {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 4px;
-  flex: 1;
+  width: 100%;
+  height: calc(7 * 44px);
 }
 
 .drum {
   position: relative;
   flex: 1;
-  width: 0;
-  height: calc(5 * 44px);
+  height: 100%;
   overflow: hidden;
   cursor: grab;
 }
 
-.drum:active {
-  cursor: grabbing;
-}
+.drum:active { cursor: grabbing; }
 
-.drumHighlight {
+.highlight {
   position: absolute;
-  top: calc(50% - 22px);
+  top: calc(3 * 44px);
   left: 2px;
   right: 2px;
   height: 44px;
   background: var(--c-h);
   border-radius: 0.5em;
-  pointer-events: none;
   box-shadow: 0 0.2em 0.6em var(--c-x);
+  pointer-events: none;
   z-index: 0;
 }
 
-.drumTrack {
+.track {
   position: absolute;
   width: 100%;
   transition: transform 0.15s ease;
   z-index: 1;
 }
 
-.drumItem {
+.item {
   height: 44px;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1em;
   font-weight: 300;
   color: var(--c-c);
-  opacity: 0.25;
-  transition: opacity 0.15s, font-weight 0.15s;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
-.drumItemActive {
+.active {
   font-weight: 700;
-  opacity: 1;
   color: var(--c-a);
 }
 
-.drumFadeTop {
+.fadeTop {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: calc(2 * 44px);
+  height: calc(3 * 44px);
   background: linear-gradient(to bottom, var(--c-b), transparent);
   pointer-events: none;
   z-index: 2;
 }
 
-.drumFadeBottom {
+.fadeBottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: calc(2 * 44px);
+  height: calc(3 * 44px);
   background: linear-gradient(to top, var(--c-b), transparent);
   pointer-events: none;
   z-index: 2;
