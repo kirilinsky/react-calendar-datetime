@@ -9,11 +9,12 @@ export interface CalendarProps {
   years?: boolean;
   date?: Date;
   time?: boolean;
+  timeGrid?: boolean;
   locale?: string;
   maxDate?: Date;
   minDate?: Date;
   jellyMode?: boolean;
-  brutalism?: boolean
+  brutalism?: boolean;
   highlightWeekends?: boolean;
   disableWeekends?: boolean;
   showWeekNumber?: boolean;
