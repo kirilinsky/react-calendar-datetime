@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import styles from "./header.module.css";
-import { Down, Left, Right } from "@/Icons";
+import { Down } from "@/Icons";
 import { useCalendarContext } from "../provider/provider";
 import {
-  addMonths,
-  addYears,
+  addDate,
   checkYearNavigation,
+  getTimeString,
   isYearFixed,
 } from "@/utils/date-utils";
 
@@ -19,11 +19,17 @@ export const HeaderComponent: React.FC = () => {
     years,
     months,
     date,
+    time,
     locale,
     setView,
+    hour12,
     disableWeekends,
+    setShowTimePopup,
   } = useCalendarContext();
+
   const cur = date.getFullYear();
+  const curTime = getTimeString(date, hour12);
+
   const yearFixed = useMemo(
     () => isYearFixed(cur, minDate, maxDate),
     [cur, minDate, maxDate],
@@ -42,27 +48,36 @@ export const HeaderComponent: React.FC = () => {
     month: "long",
   }).format(date);
 
-  const ch = (v: number) => onChangeDate(addYears(date, v, disableWeekends));
-  const cm = (v: number) => onChangeDate(addMonths(date, v, disableWeekends));
-
+  const ch = (v: number) =>
+    onChangeDate(addDate(date, v, "year", disableWeekends, minDate, maxDate));
+  const cm = (v: number) =>
+    onChangeDate(addDate(date, v, "month", disableWeekends, minDate, maxDate));
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
-      {compactMonths && (
-        <div className={styles.monthsSelector}>
-          <button
-            disabled={monthFixed}
-            className={styles.monthButton}
-            onClick={() => setView("month")}
-          >
-            <Down /> {currentMonthName}
-          </button>
-        </div>
+      {time && (
+        <button
+          className={styles.timeButton}
+          onClick={() => setShowTimePopup(true)}
+        >
+          {curTime}
+        </button>
       )}
+
+      {compactMonths && (
+        <button
+          disabled={monthFixed}
+          className={styles.monthButton}
+          onClick={() => setView("month")}
+        >
+          <Down /> {currentMonthName}
+        </button>
+      )}
+
       {months && (
         <div className={styles.yearsSelector}>
           {canGoPrevMonth && (
             <button className={styles.arrow} onClick={() => cm(-1)}>
-              <Left />
+              ‹
             </button>
           )}
           <button
@@ -73,16 +88,17 @@ export const HeaderComponent: React.FC = () => {
           </button>
           {canGoNextMonth && (
             <button className={styles.arrow} onClick={() => cm(1)}>
-              <Right />
+              ›
             </button>
           )}
         </div>
       )}
+
       {years && (
         <div className={styles.yearsSelector}>
           {canGoPrev && (
             <button className={styles.arrow} onClick={() => ch(-1)}>
-              <Left />
+              ‹
             </button>
           )}
           <button
@@ -93,20 +109,16 @@ export const HeaderComponent: React.FC = () => {
           </button>
           {canGoNext && (
             <button className={styles.arrow} onClick={() => ch(1)}>
-              <Right />
+              ›
             </button>
           )}
         </div>
       )}
+
       {compactYears && (
-        <div className={styles.monthsSelector}>
-          <button
-            className={styles.monthButton}
-            onClick={() => setView("year")}
-          >
-            {cur} <Down />
-          </button>
-        </div>
+        <button className={styles.monthButton} onClick={() => setView("year")}>
+          {cur} <Down />
+        </button>
       )}
     </div>
   );

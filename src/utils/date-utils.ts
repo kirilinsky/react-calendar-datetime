@@ -71,25 +71,32 @@ export const setMonth = (date: Date, v: number, disableWeekends?: boolean) =>
   });
 
 /** Adds or subtracts years from a date, ensuring valid weekend behavior */
-export const addYears = (date: Date, v: number, disableWeekends?: boolean) =>
+export const addDate = (
+  date: Date,
+  v: number,
+  unit: "month" | "year",
+  disableWeekends?: boolean,
+  minDate?: Date | null,
+  maxDate?: Date | null,
+) =>
   mutate(date, (d) => {
-    d.setFullYear(d.getFullYear() + v);
-    const validDate = ensureValidDay(d, disableWeekends);
-    d.setTime(validDate.getTime());
-  });
+    if (unit === "month") {
+      const maxDays = _getDaysInMonth(
+        d.getFullYear(),
+        (d.getMonth() + v + 12) % 12,
+      );
+      if (d.getDate() > maxDays) d.setDate(maxDays);
+      d.setMonth(d.getMonth() + v);
+    } else {
+      d.setFullYear(d.getFullYear() + v);
+    }
 
-/* add months (or subtract) */
-export const addMonths = (date: Date, v: number, disableWeekends?: boolean) =>
-  mutate(date, (d) => {
-    const maxDays = _getDaysInMonth(
-      d.getFullYear(),
-      (d.getMonth() + v + 12) % 12,
-    );
-    if (d.getDate() > maxDays) d.setDate(maxDays);
+    d.setTime(ensureValidDay(d, disableWeekends).getTime());
 
-    d.setMonth(d.getMonth() + v);
-    const validDate = ensureValidDay(d, disableWeekends);
-    d.setTime(validDate.getTime());
+    if (maxDate && d.getTime() > maxDate.getTime())
+      d.setTime(maxDate.getTime());
+    if (minDate && d.getTime() < minDate.getTime())
+      d.setTime(minDate.getTime());
   });
 
 /** Hard-sets the year of a given date */
@@ -121,21 +128,15 @@ export const getFirstDayOffset = (
 };
 
 /** Generates an array of years around a central year for the Year Selector */
-export const getYearsRange = (center: number, len: number = 25): number[] => {
-  const start = center - Math.floor(len / 2);
-  const years: number[] = [];
-  for (let i = 0; i < len; i++) {
-    years.push(start + i);
-  }
-  return years;
-};
+export const getYearsRange = (center: number, len = 25): number[] =>
+  Array.from({ length: len }, (_, i) => center - Math.floor(len / 2) + i);
 
 /** Retrieves an array of localized month names (e.g., ["January", "February", ...]) */
 export const getMonthNames = (locale: string, short?: boolean): string[] => {
   const key = `${locale}M`;
   if (!i18nCache[key]) {
     const f = new Intl.DateTimeFormat(locale, {
-      month: !!short ? "short" : "long",
+      month: short ? "short" : "long",
     }).format;
     const year = new Date().getFullYear();
     i18nCache[key] = Array.from({ length: 12 }, (_, i) =>
@@ -193,7 +194,6 @@ export const getDrumValue = (
  * and weekend constraints.
  */
 export const checkIsDateDisabled = (
-  day: number,
   viewDate: Date,
   min?: Date | string | null,
   max?: Date | string | null,
@@ -302,7 +302,6 @@ export const checkYearNavigation = (
         };
       })()
     : { canGoPrevMonth: true, canGoNextMonth: true };
-  console.log(monthNav, "monthNav");
 
   return {
     canGoPrev: startYear > Math.max(minYear, ABSOLUTE_MIN),
@@ -450,7 +449,6 @@ export const getCalendarData = (
         fullDate,
         isCurrentMonth,
         isDisabled: checkIsDateDisabled(
-          day,
           fullDate,
           minDate,
           maxDate,
@@ -465,4 +463,12 @@ export const getCalendarData = (
     });
   }
   return weeks;
+};
+
+export const getTimeString = (date: Date, hour12: boolean = false): string => {
+  return new Intl.DateTimeFormat("en", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12,
+  }).format(date);
 };

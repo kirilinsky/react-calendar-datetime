@@ -1,0 +1,181 @@
+:root,
+[data-theme="paper"] {
+--c-a: #ffffff;
+--c-b: #ffffff;
+--c-h: #1a1a1c;
+--c-t: #f4f4f4;
+--c-c: #1a1a1c;
+--c-s: #f0f0f0;
+--c-x: #0001;
+}
+
+[data-theme="carbon"] {
+--c-a: #1a1a1c;
+--c-b: #1a1a1c;
+--c-h: #ffffff;
+--c-t: #2d2d2d;
+--c-c: #f0f0f0;
+--c-s: #333333;
+--c-x: #fff1;
+}
+
+[data-theme="industrial"] {
+--c-a: #ffffff;
+--c-b: #111111;
+--c-h: #e85d00;
+--c-t: #1c1c1c;
+--c-c: #d4d4d4;
+--c-s: #2a2a2a;
+--c-x: #e85d0024;
+}
+
+[data-theme="graphite"] {
+--c-a: #ffffff;
+--c-b: #f7f8f9;
+--c-h: #f1a01d;
+--c-t: #eeeff1;
+--c-c: #1a1a1a;
+--c-s: #e2e4e8;
+--c-x: #f5a62318;
+}
+
+[data-theme="crimson"] {
+--c-a: #161111;
+--c-b: #0d0909;
+--c-h: #f92f2f;
+--c-t: #3a1616;
+--c-c: #ffffff;
+--c-s: #2b1a1a;
+--c-x: #f92f2f20;
+}
+
+[data-theme="amethyst"] {
+--c-a: #ffffff;
+--c-b: #f5f3f7;
+--c-h: #681c9e;
+--c-t: #ebdff4;
+--c-c: #2b2533;
+--c-s: #e6dfea;
+--c-x: #681c9e15;
+}
+
+[data-theme="cyber"] {
+--c-a: #0d0d15;
+--c-b: #07070b;
+--c-h: #00f3ff;
+--c-t: #301649;
+--c-c: #ffffff;
+--c-s: #303050;
+--c-x: #00f3ff33;
+}
+
+[data-theme="phosphor"] {
+--c-a: #020602;
+--c-b: #010401;
+--c-h: #76ff03;
+--c-t: #1a1f1a;
+--c-c: #00e676;
+--c-s: #00994d;
+--c-x: #74ff031b;
+}
+
+[data-theme="midnight"] {
+--c-a: #141721;
+--c-b: #1a1e2b;
+--c-h: #3559e0;
+--c-t: #212638;
+--c-c: #ffffff;
+--c-s: #444b68;
+--c-x: #3559e033;
+}
+
+[data-theme="sandstone"] {
+--c-a: #1c1a17;
+--c-b: #1f1c18;
+--c-h: #e3ae5c;
+--c-t: #2f2b24;
+--c-c: #fdfbf7;
+--c-s: #5d5448;
+--c-x: #0000002a;
+}
+
+[data-theme="mint"] {
+--c-a: #ffffff;
+--c-b: #f8f9fc;
+--c-h: #60d276;
+--c-t: #eaedf4;
+--c-c: #171827;
+--c-s: #b8c0d1;
+--c-x: #00000a1a;
+}
+
+[data-theme="rosa"] {
+--c-a: #ffffff;
+--c-b: #d5d3da;
+--c-h: #d16292;
+--c-t: #e5e1e9f9;
+--c-c: #2d2a32;
+--c-s: #a8a1af;
+--c-x: #d25a8e22;
+}
+
+[data-theme="snow"] {
+--c-a: #ffffff;
+--c-b: #e2e5e9;
+--c-h: #3a60d6;
+--c-t: #eceff4;
+--c-c: #212630;
+--c-s: #acb9cb;
+--c-x: #04042c25;
+}
+
+[data-theme="solar"] {
+--c-a: #ffffff;
+--c-b: #d8cf9a;
+--c-h: #e67e22;
+--c-t: #e4dbab;
+--c-c: #2b2718;
+--c-s: #9d9365;
+--c-x: #2e28212e;
+}
+
+[data-theme="dracula"] {
+--c-a: #1a0f0f;
+--c-b: #1c1111;
+--c-h: #ff5e5e;
+--c-t: #341d1d;
+--c-c: #ffffff;
+--c-s: #614040;
+--c-x: #ff5e5e20;
+}
+
+[data-theme="comfy"] {
+--c-a: #ffffff;
+--c-b: #e9ded5;
+--c-h: #a65d3a;
+--c-t: #f5ece5;
+--c-c: #6e4531;
+--c-s: #b49e8a;
+--c-x: #6e45311a;
+}
+
+[data-theme="neon"] {
+--c-a: #fcfcf5;
+--c-b: #f7f8f9;
+--c-h: #80ec27;
+--c-t: #e9f3eb;
+--c-c: #1f2937;
+--c-s: #bed3c3;
+--c-x: #80ec2722;
+}
+
+[data-theme="temporal"] {
+--c-a: #122127;
+--c-b: #14252e;
+--c-h: #27d1f4;
+--c-t: #242f52;
+--c-c: #f1f5f9;
+--c-s: #6366f1;
+--c-x: #27d1f433;
+}
+

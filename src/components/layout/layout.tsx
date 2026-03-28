@@ -5,13 +5,14 @@ import { PresetsComponent } from "../presets/presets";
 import { useCalendarContext } from "../provider/provider";
 import { SelectorComponent } from "../selector/selector";
 import { TimeComponent } from "../time/time";
+import { TimePopup } from "../time-popup/time-popup";
 import styles from "./layout.module.css";
+import "../../themes.css";
 
 export const CalendarLayout: React.FC<{
-  theme: string;
   containerStyle: React.CSSProperties;
   brutalism: boolean;
-}> = ({ theme, containerStyle, brutalism }) => {
+}> = ({ containerStyle, brutalism }) => {
   const {
     view,
     presets,
@@ -20,17 +21,22 @@ export const CalendarLayout: React.FC<{
     compactMonths,
     compactYears,
     monthsGrid,
+    timeGrid,
     time,
     jellyMode,
     gradient,
     dark,
+    showTimePopup,
+    setShowTimePopup,
+    date,
+    onChangeDate,
+    hour12,
   } = useCalendarContext();
 
   return (
     <div
       className={[
         styles.calendarContainer,
-        `theme-${theme}`,
         !jellyMode ? styles.staticMode : "",
         gradient ? styles.gradient : "",
         dark ? styles.dark : "",
@@ -41,13 +47,24 @@ export const CalendarLayout: React.FC<{
       style={containerStyle}
     >
       {view !== "calendar" && <SelectorComponent type={view} />}
+      {showTimePopup && (
+        <TimePopup
+          date={date}
+          hour12={hour12}
+          onConfirm={(newDate) => {
+            onChangeDate(newDate);
+            setShowTimePopup(false);
+          }}
+          onClose={() => setShowTimePopup(false)}
+        />
+      )}
       {presets && <PresetsComponent />}
-      {(years || compactMonths || compactYears || months) && (
+      {(years || compactMonths || compactYears || time || months) && (
         <HeaderComponent />
       )}
       <DaysComponent />
       {monthsGrid && <MonthsComponent />}
-      {time && <TimeComponent />}
+      {timeGrid && <TimeComponent />}
     </div>
   );
 };

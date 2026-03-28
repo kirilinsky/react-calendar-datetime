@@ -81,11 +81,27 @@ export const DaysComponent: React.FC = () => {
 
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
-      if (!isDisabled) {
-        onChangeDate(targetDate);
+      if (isDisabled) return;
+
+      const next = new Date(targetDate);
+      next.setHours(
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds(),
+      );
+
+      if (minDate && next.getTime() < minDate.getTime()) {
+        next.setHours(minDate.getHours(), minDate.getMinutes(), 0, 0);
       }
+
+      if (maxDate && next.getTime() > maxDate.getTime()) {
+        next.setHours(maxDate.getHours(), maxDate.getMinutes(), 0, 0);
+      }
+
+      onChangeDate(next);
     },
-    [onChangeDate],
+    [onChangeDate, date, minDate, maxDate],
   );
 
   const animationKey = `${currentMonth}-${currentYear}`;

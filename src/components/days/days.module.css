@@ -28,6 +28,7 @@
   font-size: 0.71em;
   color: var(--c-s);
   font-weight: 600;
+  padding: 0.5em 0.25em !important;
 }
 
 .dayGridContainer.staticMode .weekNumberItem {
@@ -35,7 +36,7 @@
 }
 
 .dayGridContainer.staticMode.withWeekNumbers {
-  grid-template-columns: 34px repeat(7, 1fr);
+  grid-template-columns: 26px repeat(7, 1fr);
 }
 
 .dayItem {
@@ -56,7 +57,7 @@
 }
 .dayGridContainer.staticMode .dayItem {
   aspect-ratio: auto;
-  padding: 7px 3.5px !important;
+  padding: 0.5em 0.25em !important;
   font-size: 13px !important;
   height: auto !important;
 }

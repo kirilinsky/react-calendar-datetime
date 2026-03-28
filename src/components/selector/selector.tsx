@@ -7,10 +7,9 @@ import {
   getYearListData,
   setMonth,
   setYear,
-  addYears,
   checkYearNavigation,
+  addDate,
 } from "@/utils/date-utils";
-import { Left, Right } from "../../Icons";
 
 const YEAR_STEP = 12;
 
@@ -61,21 +60,23 @@ export const SelectorComponent: React.FC<{
             <button
               disabled={!canGoPrev}
               onClick={() =>
-                setNavDate(addYears(navDate, -12, disableWeekends))
+                setNavDate(addDate(navDate, -12, "year", disableWeekends))
               }
               className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
-              <Left />
+              ‹
             </button>
             <span className={styles.yearRange}>
               {yearsData[0].value} - {yearsData[yearsData.length - 1].value}
             </span>
             <button
               disabled={!canGoNext}
-              onClick={() => setNavDate(addYears(navDate, 12, disableWeekends))}
+              onClick={() =>
+                setNavDate(addDate(navDate, 12, "year", disableWeekends))
+              }
               className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
-              <Right />
+              ›
             </button>
           </>
         </div>

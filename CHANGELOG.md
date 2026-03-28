@@ -1,5 +1,6 @@
 ## Patch notes (old versions)
 
+- **v3.1.2:** Themes: `Industrial` & `Graphite`, month grid is now optional. Month selector defaults to a compact header
 - **v3.0.5:** Brutalism mode added.
 - **v3.0.4:** Gradient backgrounds.
 - **v3.0.1:** Touch gestures.

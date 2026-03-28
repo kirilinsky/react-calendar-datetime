@@ -16,10 +16,15 @@ export const MonthsComponent: React.FC = () => {
   } = useCalendarContext();
 
   const currentMonth = date.getMonth();
+  const currentYear = date.getFullYear();
+
   const mNames = useMemo(
-    () => getMonthListData(locale, date.getFullYear(), minDate, maxDate, true),
-    [locale, date.getFullYear(), minDate, maxDate],
+    () => getMonthListData(locale, currentYear, minDate, maxDate, true),
+    [locale, currentYear, minDate, maxDate],
   );
+
+  const handleClick = (i: number) =>
+    onChangeDate(setMonth(date, i, disableWeekends));
 
   return (
     <div
@@ -39,7 +44,7 @@ export const MonthsComponent: React.FC = () => {
           className={[styles.item, i === currentMonth ? shared.activeItem : ""]
             .filter(Boolean)
             .join(" ")}
-          onClick={() => onChangeDate(setMonth(date, i, disableWeekends))}
+          onClick={() => handleClick(i)}
         >
           {n.label}
         </button>

@@ -1,9 +1,8 @@
 .headerContainer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  min-height: 3.5em;
-  gap: 0.5em;
+  justify-content: space-between; 
+  gap: 0.3em;
   padding: 0 1em;
   z-index: 3;
   background: var(--c-a);
@@ -26,13 +25,13 @@
 }
 
 .currentYear {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
-  font-size: 1.1em;
+  composes: interactive from "../../global/global.module.css";
+  composes: hoverable from "../../global/global.module.css";
+  font-size: 1em;
   font-weight: 800;
   line-height: 1;
   flex: 1;
-  margin: 0 0.5em;
+  margin: 0 0.4em;
 
   &:active {
     transform: scale(0.96);
@@ -40,15 +39,15 @@
 }
 
 .arrow {
-  composes: interactive from '../../global/global.module.css';
-  composes: hoverable from '../../global/global.module.css';
-  width: 2.2em;
+  composes: interactive from "../../global/global.module.css";
+  composes: hoverable from "../../global/global.module.css";
+  width: 2em;
   flex-shrink: 0;
   padding: 0;
 }
 
 .monthButton {
-  composes: interactive from '../../global/global.module.css';
+  composes: interactive from "../../global/global.module.css";
   width: auto;
   padding: 0 1em;
   font-size: 0.9em;
@@ -57,10 +56,9 @@
   font-weight: 700;
   gap: 0.4em;
   opacity: 0.9;
-
   & svg {
-    width: 1.4em;
-    height: 1.4em;
+    width: 1.3em;
+    height: 1.3em;
     stroke-width: 3;
   }
 }
@@ -70,4 +68,10 @@
   pointer-events: none;
   background: transparent !important;
   box-shadow: none !important;
+}
+
+.timeButton {
+  composes: interactive from "../../global/global.module.css";
+  background: var(--c-h) !important;
+  color: var(--c-a) !important;
 }
