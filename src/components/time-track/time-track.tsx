@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./time-track.module.css";
-import { getDrumValue } from "@/utils/date-utils";
+import { getDrumValue, padTime } from "@/utils/date-utils";
 
 interface TimeTrackProps {
   date: Date;
@@ -8,33 +8,23 @@ interface TimeTrackProps {
   onChange: (date: Date) => void;
 }
 
-const ITEM_H = 44;
-const VISIBLE = 7;
+const OFFSETS = [-3, -2, -1, 0, 1, 2, 3];
 const SCROLL_THRESHOLD = 40;
 
-const clamp = (v: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, v));
-
 const Drum = ({
-  values,
-  selected,
+  val,
   max,
-  onChange,
+  onMove,
 }: {
-  values: number[];
-  selected: number;
+  val: number;
   max: number;
-  onChange: (v: number) => void;
+  onMove: (delta: number) => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const startY = useRef(0);
-  const startIdx = useRef(0);
+  const moveRef = useRef(onMove);
   const accum = useRef(0);
-  const state = useRef({ selected, max, onChange });
 
-  useEffect(() => {
-    state.current = { selected, max, onChange };
-  });
+  useEffect(() => { moveRef.current = onMove; }, [onMove]);
 
   useEffect(() => {
     const el = ref.current;
@@ -45,82 +35,66 @@ const Drum = ({
       if (Math.abs(accum.current) < SCROLL_THRESHOLD) return;
       const dir = accum.current > 0 ? 1 : -1;
       accum.current = 0;
-      const s = state.current;
-      s.onChange(getDrumValue(s.selected, dir, s.max));
+      moveRef.current(dir);
     };
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 
-  const onPointerDown = (e: React.PointerEvent) => {
-    startY.current = e.clientY;
-    startIdx.current = values.indexOf(selected);
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  };
-
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!(e.buttons & 1)) return;
-    const delta = Math.round((e.clientY - startY.current) / ITEM_H);
-    onChange(values[clamp(startIdx.current - delta, 0, values.length - 1)]);
-  };
-
-  const selectedIdx = values.indexOf(selected);
-  const translateY = Math.floor(VISIBLE / 2) * ITEM_H - selectedIdx * ITEM_H;
-
   return (
     <div
       ref={ref}
       className={styles.drum}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowUp") { e.preventDefault(); onMove(-1); }
+        if (e.key === "ArrowDown") { e.preventDefault(); onMove(1); }
+      }}
     >
       <div className={styles.highlight} />
-      <div
-        className={styles.track}
-        style={{ transform: `translateY(${translateY}px)` }}
-      >
-        {values.map((v, i) => {
-          const dist = Math.abs(selectedIdx - i);
-          const opacity =
-            dist === 0 ? 1 : dist === 1 ? 0.6 : dist === 2 ? 0.5 : 0.35;
-          return (
-            <div
-              key={v}
-              className={`${styles.item} ${v === selected ? styles.active : ""}`}
-              style={v !== selected ? { opacity } : undefined}
-              onClick={() => onChange(v)}
-            >
-              {String(v).padStart(2, "0")}
-            </div>
-          );
-        })}
-      </div>
-      <div className={styles.fadeTop} />
-      <div className={styles.fadeBottom} />
+      {OFFSETS.map((o) => {
+        const isActive = o === 0;
+        const dist = Math.abs(o);
+        const opacity = dist === 0 ? 1 : dist === 1 ? 0.6 : dist === 2 ? 0.35 : 0.15;
+        return (
+          <div
+            key={o}
+            className={`${styles.item} ${isActive ? styles.active : ""}`}
+            style={!isActive ? { opacity } : undefined}
+            onClick={isActive ? undefined : () => onMove(o)}
+          >
+            {padTime(getDrumValue(val, o, max))}
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-export const TimeTrack = ({
-  date,
-  hour12 = false,
-  onChange,
-}: TimeTrackProps) => {
+export const TimeTrack = ({ date, hour12 = false, onChange }: TimeTrackProps) => {
   const raw = date.getHours();
   const [hours, setHours] = useState(hour12 ? raw % 12 || 12 : raw);
   const [minutes, setMinutes] = useState(date.getMinutes());
   const [period, setPeriod] = useState<"AM" | "PM">(raw >= 12 ? "PM" : "AM");
 
   const hourMax = hour12 ? 12 : 24;
-  const hourValues = Array.from({ length: hourMax }, (_, i) =>
-    hour12 ? i + 1 : i,
-  );
-  const minuteValues = Array.from({ length: 60 }, (_, i) => i);
 
   const emit = (h: number, m: number, p: "AM" | "PM") => {
     const next = new Date(date);
     next.setHours(hour12 ? (p === "AM" ? h % 12 : (h % 12) + 12) : h, m, 0, 0);
     onChange(next);
+  };
+
+  const moveHours = (delta: number) => {
+    const next = getDrumValue(hours, delta, hourMax);
+    setHours(next);
+    emit(next, minutes, period);
+  };
+
+  const moveMinutes = (delta: number) => {
+    const next = getDrumValue(minutes, delta, 60);
+    setMinutes(next);
+    emit(hours, next, period);
   };
 
   return (
@@ -131,10 +105,7 @@ export const TimeTrack = ({
             <button
               key={p}
               className={`${styles.periodBtn} ${period === p ? styles.periodActive : ""}`}
-              onClick={() => {
-                setPeriod(p);
-                emit(hours, minutes, p);
-              }}
+              onClick={() => { setPeriod(p); emit(hours, minutes, p); }}
             >
               {p}
             </button>
@@ -142,25 +113,9 @@ export const TimeTrack = ({
         </div>
       )}
       <div className={styles.drums}>
-        <Drum
-          values={hourValues}
-          selected={hours}
-          max={hourMax}
-          onChange={(v) => {
-            setHours(v);
-            emit(v, minutes, period);
-          }}
-        />
+        <Drum val={hours} max={hourMax} onMove={moveHours} />
         <span className={styles.colon}>:</span>
-        <Drum
-          values={minuteValues}
-          selected={minutes}
-          max={60}
-          onChange={(v) => {
-            setMinutes(v);
-            emit(hours, v, period);
-          }}
-        />
+        <Drum val={minutes} max={60} onMove={moveMinutes} />
       </div>
     </div>
   );
