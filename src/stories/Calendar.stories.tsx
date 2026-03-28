@@ -316,8 +316,11 @@ export const BuilderPlayground = () => {
   const [config, setConfig] = useState({
     years: true,
     monthsGrid: true,
-    months: false,
+
     time: false,
+    months: true,
+    timeGrid: false,
+
     presets: false,
     compactMonths: false,
     compactYears: false,
@@ -353,6 +356,7 @@ export const BuilderPlayground = () => {
           months={config.months}
           monthsGrid={config.monthsGrid}
           time={config.time}
+          timeGrid={config.timeGrid}
           presets={config.presets}
           compactMonths={config.compactMonths}
           compactYears={config.compactYears}

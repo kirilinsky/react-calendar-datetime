@@ -28,7 +28,7 @@
 .currentYear {
   composes: interactive from '../../global/global.module.css';
   composes: hoverable from '../../global/global.module.css';
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 800;
   line-height: 1;
   flex: 1;
@@ -42,9 +42,22 @@
 .arrow {
   composes: interactive from '../../global/global.module.css';
   composes: hoverable from '../../global/global.module.css';
-  width: 2.2em;
+  width: 2.1em;
   flex-shrink: 0;
   padding: 0;
+}
+
+.compactSelectorColumn{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.compactSelectorColumn.crowded{
+    font-size: 0.75em;
+    button{
+      padding: 0 .5em !important;
+      gap: .2em;
+    }
 }
 
 .monthButton {
@@ -59,8 +72,8 @@
   opacity: 0.9;
 
   & svg {
-    width: 1.4em;
-    height: 1.4em;
+    width: 1.3em;
+    height: 1.3em;
     stroke-width: 3;
   }
 }

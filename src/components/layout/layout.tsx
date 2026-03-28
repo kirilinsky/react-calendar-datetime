@@ -20,6 +20,7 @@ export const CalendarLayout: React.FC<{
     compactMonths,
     compactYears,
     monthsGrid,
+    timeGrid,
     time,
     jellyMode,
     gradient,
@@ -42,12 +43,12 @@ export const CalendarLayout: React.FC<{
     >
       {view !== "calendar" && <SelectorComponent type={view} />}
       {presets && <PresetsComponent />}
-      {(years || compactMonths || compactYears || months) && (
+      {(years || compactMonths || compactYears || time || months) && (
         <HeaderComponent />
       )}
       <DaysComponent />
       {monthsGrid && <MonthsComponent />}
-      {time && <TimeComponent />}
+      {timeGrid && <TimeComponent />}
     </div>
   );
 };

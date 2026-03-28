@@ -19,6 +19,7 @@ export const HeaderComponent: React.FC = () => {
     years,
     months,
     date,
+    time,
     locale,
     setView,
     disableWeekends,
@@ -48,15 +49,13 @@ export const HeaderComponent: React.FC = () => {
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
       {compactMonths && (
-        <div className={styles.monthsSelector}>
-          <button
-            disabled={monthFixed}
-            className={styles.monthButton}
-            onClick={() => setView("month")}
-          >
-            <Down /> {currentMonthName}
-          </button>
-        </div>
+        <button
+          disabled={monthFixed}
+          className={styles.monthButton}
+          onClick={() => setView("month")}
+        >
+          <Down /> {currentMonthName}
+        </button>
       )}
       {months && (
         <div className={styles.yearsSelector}>
@@ -98,16 +97,19 @@ export const HeaderComponent: React.FC = () => {
           )}
         </div>
       )}
-      {compactYears && (
-        <div className={styles.monthsSelector}>
+      <div
+        className={`${styles.compactSelectorColumn} ${time && compactYears ? styles.crowded : ""}`}
+      >
+        {compactYears && (
           <button
             className={styles.monthButton}
             onClick={() => setView("year")}
           >
             {cur} <Down />
           </button>
-        </div>
-      )}
+        )}
+        {time && <button>time AM</button>}
+      </div>
     </div>
   );
 };
