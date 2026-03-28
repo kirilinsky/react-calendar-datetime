@@ -3,8 +3,7 @@ import styles from "./header.module.css";
 import { Down, Left, Right } from "@/Icons";
 import { useCalendarContext } from "../provider/provider";
 import {
-  addMonths,
-  addYears,
+  addDate,
   checkYearNavigation,
   getTimeString,
   isYearFixed,
@@ -49,9 +48,10 @@ export const HeaderComponent: React.FC = () => {
     month: "long",
   }).format(date);
 
-  const ch = (v: number) => onChangeDate(addYears(date, v, disableWeekends));
-  const cm = (v: number) => onChangeDate(addMonths(date, v, disableWeekends));
-
+  const ch = (v: number) =>
+    onChangeDate(addDate(date, v, "year", disableWeekends, minDate, maxDate));
+  const cm = (v: number) =>
+    onChangeDate(addDate(date, v, "month", disableWeekends, minDate, maxDate));
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
       {time && (
