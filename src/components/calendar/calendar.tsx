@@ -27,64 +27,63 @@ export const Calendar: React.FC<CalendarProps> = ({
   highlightWeekends = true,
   ...restProps
 }) => {
-  const resolvedProps = {
-    width,
-    height,
-    theme,
-    presets,
-    compactMonths,
-    compactYears,
-    years,
-    time,
-    hour12,
-    monthsGrid,
-    timeGrid,
-    months,
-    locale,
-    disableWeekends,
-    startOfWeek,
-    jellyMode,
-    gradient,
-    highlightWeekends,
-    ...restProps,
-  };
-
-  const containerStyle = useMemo(() => {
-    const themeVars = getThemeVariables(theme);
-    const gridLayout = getGridLayout({
+  const containerStyle = useMemo(
+    () =>
+      ({
+        width,
+        height,
+        ...getThemeVariables(theme),
+        ...getGridLayout({
+          presets,
+          compactMonths,
+          compactYears,
+          years,
+          timeGrid,
+          time,
+          months,
+          monthsGrid,
+          jellyMode,
+        }),
+      }) as React.CSSProperties,
+    [
+      width,
+      height,
+      theme,
       presets,
-      compactMonths,
       compactYears,
+      compactMonths,
       years,
-      timeGrid,
       time,
+      timeGrid,
       months,
       monthsGrid,
       jellyMode,
-    });
-
-    return {
-      width,
-      height,
-      ...themeVars,
-      ...gridLayout,
-    } as React.CSSProperties;
-  }, [
-    width,
-    height,
-    theme,
-    presets,
-    compactYears,
-    compactMonths,
-    years,
-    time,
-    timeGrid,
-    months,
-    monthsGrid,
-  ]);
+    ],
+  );
 
   return (
-    <CalendarProvider {...resolvedProps}>
+    <CalendarProvider
+      locale={locale}
+      presets={presets}
+      compactMonths={compactMonths}
+      compactYears={compactYears}
+      years={years}
+      time={time}
+      hour12={hour12}
+      timeGrid={timeGrid}
+      months={months}
+      monthsGrid={monthsGrid}
+      disableWeekends={disableWeekends}
+      startOfWeek={startOfWeek}
+      jellyMode={jellyMode}
+      brutalism={brutalism}
+      gradient={gradient}
+      highlightWeekends={highlightWeekends}
+      theme={theme}
+      width={width}
+      height={height}
+      {...restProps}
+    >
       <div style={{ containerType: "inline-size", width, height }}>
         <CalendarLayout
           theme={theme}

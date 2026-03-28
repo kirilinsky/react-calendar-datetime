@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import styles from "./header.module.css";
 import { Down, Left, Right } from "@/Icons";
 import { useCalendarContext } from "../provider/provider";
@@ -9,6 +9,7 @@ import {
   getTimeString,
   isYearFixed,
 } from "@/utils/date-utils";
+import { TimePopup } from "../time-popup/time-popup";
 
 export const HeaderComponent: React.FC = () => {
   const {
@@ -26,8 +27,12 @@ export const HeaderComponent: React.FC = () => {
     hour12,
     disableWeekends,
   } = useCalendarContext();
+
+  const [showTimePopup, setShowTimePopup] = useState(false);
+
   const cur = date.getFullYear();
   const curTime = getTimeString(date, hour12);
+
   const yearFixed = useMemo(
     () => isYearFixed(cur, minDate, maxDate),
     [cur, minDate, maxDate],
@@ -51,7 +56,28 @@ export const HeaderComponent: React.FC = () => {
 
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
-      {time && <button className={styles.timeButton}>{curTime}</button>}
+      {time && (
+        <>
+          <button
+            className={styles.timeButton}
+            onClick={() => setShowTimePopup(true)}
+          >
+            {curTime}
+          </button>
+          {showTimePopup && (
+            <TimePopup
+              date={date}
+              hour12={hour12}
+              onConfirm={(newDate) => {
+                onChangeDate(newDate);
+                setShowTimePopup(false);
+              }}
+              onClose={() => setShowTimePopup(false)}
+            />
+          )}
+        </>
+      )}
+
       {compactMonths && (
         <button
           disabled={monthFixed}
@@ -61,6 +87,7 @@ export const HeaderComponent: React.FC = () => {
           <Down /> {currentMonthName}
         </button>
       )}
+
       {months && (
         <div className={styles.yearsSelector}>
           {canGoPrevMonth && (
@@ -81,6 +108,7 @@ export const HeaderComponent: React.FC = () => {
           )}
         </div>
       )}
+
       {years && (
         <div className={styles.yearsSelector}>
           {canGoPrev && (

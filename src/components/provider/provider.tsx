@@ -2,6 +2,7 @@ import React, {
   createContext,
   useContext,
   useMemo,
+  useCallback,
   ReactNode,
   useState,
   useEffect,
@@ -24,46 +25,55 @@ export const useCalendarContext = () => {
   return context;
 };
 
+const toValidDate = (d?: Date) => {
+  const parsed = d ? new Date(d) : new Date();
+  return isNaN(parsed.getTime()) ? new Date() : parsed;
+};
+
 export const CalendarProvider: React.FC<
   CalendarProps & { children: ReactNode }
 > = ({ children, theme, date: externalDate, onChangeDate, ...props }) => {
   const [view, setView] = useState<CalendarView>("calendar");
-
-  const [internalDate, setInternalDate] = useState<Date>(() => {
-    const d = externalDate ? new Date(externalDate) : new Date();
-    return isNaN(d.getTime()) ? new Date() : d;
-  });
+  const [internalDate, setInternalDate] = useState<Date>(() =>
+    toValidDate(externalDate),
+  );
+  const [showTimePopup, setShowTimePopup] = useState(false);
 
   useEffect(() => {
-    if (externalDate) {
-      const d = new Date(externalDate);
-      if (!isNaN(d.getTime())) {
-        setInternalDate(d);
-      }
-    }
+    setInternalDate(toValidDate(externalDate));
   }, [externalDate]);
 
   const isDark = useMemo(() => {
     if (!theme) {
-      if (typeof window === "undefined") return false;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return typeof window !== "undefined"
+        ? window.matchMedia("(prefers-color-scheme: dark)").matches
+        : false;
     }
     return (DARK_THEMES as readonly string[]).includes(theme);
   }, [theme]);
 
-  const contextValue = useMemo(() => {
-    return {
-      ...props,
-      view,
-      setView,
-      dark: isDark,
-      date: internalDate,
-      onChangeDate: (d: Date) => {
-        setInternalDate(d);
-        onChangeDate?.(d);
-      },
-    } as CalendarContextValue;
-  }, [props, view]);
+  const handleChangeDate = useCallback(
+    (d: Date) => {
+      setInternalDate(d);
+      onChangeDate?.(d);
+    },
+    [onChangeDate],
+  );
+
+  const contextValue = useMemo<CalendarContextValue>(
+    () =>
+      ({
+        ...props,
+        view,
+        setView,
+        dark: isDark,
+        date: internalDate,
+        showTimePopup,
+        setShowTimePopup,
+        onChangeDate: handleChangeDate,
+      }) as CalendarContextValue,
+    [props, view, isDark, internalDate, handleChangeDate, showTimePopup],
+  );
 
   return (
     <CalendarContext.Provider value={contextValue}>

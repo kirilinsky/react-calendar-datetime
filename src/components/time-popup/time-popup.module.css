@@ -1,0 +1,172 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.popup {
+  position: absolute;
+  top: 2em;
+  left: 0.5em;
+  background: var(--c-b);
+  border-radius: 1.2em;
+  padding: 1em;
+  width: 55%;
+  max-width: 200px;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  border: 1px solid var(--c-s);
+  box-shadow: 0 0.4em 2em var(--c-x);
+  user-select: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 0.65em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--c-c);
+  opacity: 0.45;
+}
+
+.periodToggle {
+  display: flex;
+  background: var(--c-t);
+  border-radius: 99px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.periodBtn {
+  padding: 3px 8px;
+  border-radius: 99px;
+  border: none;
+  background: transparent;
+  color: var(--c-c);
+  opacity: 0.5;
+  font-size: 0.6em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.periodActive {
+  background: var(--c-h);
+  color: var(--c-b);
+  opacity: 1;
+}
+
+.drums {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 10em;
+}
+
+.drum {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.drum:active {
+  cursor: grabbing;
+}
+
+.drumTrack {
+  position: absolute;
+  width: 100%;
+  transition: transform 0.15s ease;
+}
+
+.drumItem {
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: 300;
+  color: var(--c-c);
+  opacity: 0.2;
+  transition: opacity 0.15s, font-weight 0.15s;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.drumItemActive {
+  font-weight: 700;
+  opacity: 1;
+  color: var(--c-h);
+  position: relative;
+  z-index: 1;
+}
+
+.drumHighlight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 20%;
+  transform: translateY(-50%);
+  background: var(--c-t);
+  border-radius: 0.5em;
+  pointer-events: none;
+}
+
+.drumFadeTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to bottom, var(--c-b), transparent);
+  pointer-events: none;
+}
+
+.drumFadeBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to top, var(--c-b), transparent);
+  pointer-events: none;
+}
+
+.colon {
+  font-size: 1.2em;
+  font-weight: 300;
+  color: var(--c-c);
+  opacity: 0.3;
+  flex-shrink: 0;
+}
+
+.confirm {
+  background: var(--c-h);
+  color: var(--c-b);
+  border: none;
+  border-radius: 99px;
+  padding: 0.7em;
+  width: 100%;
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.confirm:hover {
+  opacity: 0.85;
+}
