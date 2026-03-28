@@ -6,57 +6,7 @@
   border-left: 1px solid var(--c-s);
   transition: all 0.25s linear;
   &:hover {
-    transition: all 0.25s linear;
+    transition: all timeContainer0.25s linear;
     box-shadow: -0.1em 0 0.5em var(--c-x);
-  }
-}
-
-.timeSelectionIndicator {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  height: 2.1em;
-  background: var(--c-h);
-  border-radius: 0.4em;
-  z-index: 0;
-  pointer-events: none;
-  box-shadow: 0 0 0.5em var(--c-x);
-}
-
-.column {
-  flex-direction: column;
-  z-index: 1;
-  flex: 1;
-}
-
-.separator {
-  font-size: 0.7em;
-  font-weight: 800;
-  color: var(--c-a) !important;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  height: 2em;
-}
-
-.cell {
-  height: 2.4em;
-  width: 80% !important;
-  font-size: 0.75em;
-  transition: transform 0.1s ease-out;
-  user-select: none;
-  padding: 0.1em !important;
-  &:active {
-    transform: scale(1.1);
-  }
-}
-
-.active {
-  color: var(--c-a) !important;
-  font-weight: 700;
-  &:hover {
-    background: unset !important;
   }
 }

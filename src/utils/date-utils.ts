@@ -135,7 +135,7 @@ export const getMonthNames = (locale: string, short?: boolean): string[] => {
   const key = `${locale}M`;
   if (!i18nCache[key]) {
     const f = new Intl.DateTimeFormat(locale, {
-      month: !!short ? "short" : "long",
+      month: !short ? "short" : "long",
     }).format;
     const year = new Date().getFullYear();
     i18nCache[key] = Array.from({ length: 12 }, (_, i) =>
