@@ -12,9 +12,8 @@
   transition: all 0.2s ease;
   cursor: pointer;
   user-select: none;
-  font-size: 1em;
-  height: 2.2em;
-  padding: 0 0.8em;
+  height: 2.1em;
+  padding: 0 0.7em;
   border-radius: 0.5em;
 }
 

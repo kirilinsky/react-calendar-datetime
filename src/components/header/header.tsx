@@ -54,24 +54,26 @@ export const HeaderComponent: React.FC = () => {
     onChangeDate(addDate(date, v, "month", disableWeekends, minDate, maxDate));
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
-      {time && (
-        <button
-          className={styles.timeButton}
-          onClick={() => setShowTimePopup(true)}
-        >
-          {curTime}
-        </button>
-      )}
+      <div className={styles.headerFlex}> 
+        {time && (
+          <button
+            className={styles.timeButton}
+            onClick={() => setShowTimePopup(true)}
+          >
+            {curTime}
+          </button>
+        )}
 
-      {compactMonths && (
-        <button
-          disabled={monthFixed}
-          className={styles.monthButton}
-          onClick={() => setView("month")}
-        >
-          <Down /> {currentMonthName}
-        </button>
-      )}
+        {compactMonths && (
+          <button
+            disabled={monthFixed}
+            className={styles.monthButton}
+            onClick={() => setView("month")}
+          >
+            <Down /> {currentMonthName}
+          </button>
+        )}
+      </div>
 
       {months && (
         <div className={styles.yearsSelector}>

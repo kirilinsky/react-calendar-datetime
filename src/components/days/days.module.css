@@ -2,10 +2,10 @@
   background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1.2em repeat(6, 1fr);
+  grid-template-rows: 1.1em repeat(6, 1fr);
   align-content: center;
   gap: 0;
-  padding: 1em;
+  padding: 0.7em;
   min-height: auto;
   box-sizing: border-box;
   overflow: hidden;
@@ -14,7 +14,7 @@
   grid-template-rows: 21px repeat(6, 1fr);
   padding: 8px 10px;
   gap: 3px;
-  min-height: 290px;
+  min-height: 280px;
 }
 
 .dayGridContainer.withWeekNumbers {
@@ -36,28 +36,24 @@
 }
 
 .dayGridContainer.staticMode.withWeekNumbers {
-  grid-template-columns: 26px repeat(7, 1fr);
+  grid-template-columns: 25px repeat(7, 1fr);
 }
 
 .dayItem {
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
-  aspect-ratio: 1 / 1;
   width: 100%;
   height: auto;
   padding: 0;
-  font-size: 0.9em;
   position: relative;
   z-index: 1;
   &:disabled {
     text-decoration: line-through;
     color: var(--c-h);
-    opacity: 0.9;
   }
 }
 .dayGridContainer.staticMode .dayItem {
   aspect-ratio: auto;
-  padding: 0.5em 0.25em !important;
   font-size: 13px !important;
   height: auto !important;
 }

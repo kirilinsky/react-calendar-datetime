@@ -167,7 +167,7 @@ Pass any valid locale tag and the calendar automatically formats days, months, a
 
 ## ✅ Patch notes:
 
-### 🚀 Version 3.2.0
+### 🚀 Version 3.2.1
 
 - **🕐 Time Popup** — New compact time selector opens inline within the calendar on click. Smooth scroll drums, infinite rotation, no layout shift.
 - **🕛 12/24h Support** — Added `hour12` prop to toggle between 12-hour (AM/PM) and 24-hour time formats across both time picker modes.
