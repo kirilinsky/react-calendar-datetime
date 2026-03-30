@@ -30,6 +30,7 @@ export const CalendarLayout: React.FC<{
     date,
     onChangeDate,
     hour12,
+    gestures,
   } = useCalendarContext();
 
   return (
@@ -49,6 +50,7 @@ export const CalendarLayout: React.FC<{
         <TimePopup
           date={date}
           hour12={hour12}
+          gestures={gestures}
           onConfirm={(newDate) => {
             onChangeDate(newDate);
             setShowTimePopup(false);
