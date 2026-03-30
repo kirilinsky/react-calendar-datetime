@@ -16,22 +16,22 @@
 
 # ⚡️ React Calendar & Date/Time Picker
 
-📅 Ultra-lightweight Date & Time picker for React — zero dependencies, no CSS imports required.
+📅 Ultra-lightweight Date & Time picker for React — zero dependencies, fluid adaptive layout.
 
 <div align="center">
   <table style="border: none; border-collapse: collapse;">
     <tr style="border: none;">
-      <td align="center" style="border: none; padding: 6px;">
+      <td align="center" style="border: none; padding: 3px;">
         <p><b>Paper Theme (light theme by default)</b></p>
-        <img src="https://i.ibb.co/Q3xsR6Rh/image.png" alt="Light" height="320" />
+        <img src="https://i.ibb.co/NnrpfTsx/image.png" alt="Light" height="330" />
       </td>
-      <td align="center" style="border: none; padding: 6px;">
+      <td align="center" style="border: none; padding: 3px;">
         <p><b>Carbon Theme with gradient</b></p>
-        <img src="https://i.ibb.co/23MbWj4h/image.png" alt="Dark" height="320" />
+        <img src="https://iili.io/BHP0U0u.md.png" alt="Dark" height="330" />
       </td>
-      <td align="center" style="border: none; padding: 6px;">
+      <td align="center" style="border: none; padding: 3px;">
         <p><b>Industrial Theme with brutalism mode</b></p>
-        <img src="https://iili.io/qtscYHF.png" alt="Dark" height="320" />
+        <img src="https://i.ibb.co/d4JBjwy0/image.png" alt="Brutalism" height="330" />
       </td>
     </tr>
   </table>
@@ -46,25 +46,37 @@
 ### ✨ Key Features
 
 - ⚡ **Zero Dependencies** — No `moment`, `dayjs`, or `date-fns`. Pure React.
-- 📦 **~6kb gzipped** — Styles included, no CSS imports required.
+- 📦 **~7kb gzipped** — Styles included, no CSS imports required.
 - 🌎 **400+ Locales** — Powered by native `Intl` API. No dictionaries, no extra bytes.
 - 🎨 **18 Themes** — `Midnight`, `Crimson`, `Industrial`, `Solar` and more.
+- 📐 **Fluid Layout** — One grid that adapts to any container width. Smart font scaling.
 - 🛠️ **Fully Modular** — Toggle time, years, presets, month grid, week numbers independently.
-- 🎛️ **Deeply Customizable** — Start of week, weekend rules, jelly mode, gradients.
-- 🕒 **Smart Presets** — "Today", "Last week", "Month ago" and more out of the box.
+- 🎛️ **Deeply Customizable** — Start of week, weekend highlights, gradients, brutalism mode.
+- 🕒 **12 Smart Presets** — "Today", "Next week", "In 2 weeks", "Next month" and more.
+- 👆 **Gesture Support** — Optional swipe scrolling for hour & minute tracks.
 
 <div align="center">
   <table>
     <tr>
       <td align="center">
-        <p><b>Time, presets, months grid</b></p>
-        <img src="https://iili.io/qtLNkRj.png" alt="presets" height="210" />
+        <p><b>Time, presets, months grid, wide screen</b></p>
+        <img src="https://iili.io/BHv44zG.png" alt="presets" height="230" />
       </td>
       <td align="center">
         <p><b>Fully modular, compact selectors</b></p>
-        <img src="https://iili.io/qtLQPZ7.md.png" alt="modules" height="210" />
-      </td>
+        <img src="https://i.ibb.co/cXRLTJNh/image.png" alt="modules" height="230" />
+      </td> 
     </tr>
+    <tr>
+      <td align="center">
+          <p><b>Time, presets and months grid on ultra narrow mobile screen</b></p>
+          <img src="https://i.ibb.co/Kc7PRJRH/image.png" alt="modules" height="600" />
+      </td>
+      <td align="center">
+          <p><b>And medium mobile screen</b></p>
+          <img src="https://i.ibb.co/q3wJCvHW/image.png" alt="modules" height="600" />
+      </td>
+      </tr>
   </table>
 </div>
 
@@ -97,33 +109,31 @@ export default App;
 | Property         | Type       | Default      | Description                                          |
 | :--------------- | :--------- | :----------- | :--------------------------------------------------- |
 | **date**         | `Date`     | `new Date()` | Initial selected date                                |
+| **onChangeDate** | `function` | —            | Callback, returns new `Date` or `null` on change     |
 | **minDate**      | `Date`     | —            | Minimum selectable date                              |
 | **maxDate**      | `Date`     | —            | Maximum selectable date                              |
-| **onChangeDate** | `function` | —            | Callback, returns new `Date` on change               |
 | **locale**       | `string`   | `'en'`       | Any valid locale, see [Localization](#-localization) |
 | **theme**        | `string`   | `'paper'`    | Theme name, see [Themes](#-supported-themes)         |
 | **width**        | `string`   | `'100%'`     | Any CSS width value (e.g. `'400px'`)                 |
-| **height**       | `string`   | `'auto'`     | Any CSS height value                                 |
 | **startOfWeek**  | `number`   | `1`          | Week start day: `0` = Sunday, `1` = Monday, etc.     |
 
 ### Features & toggles
 
-| Property              | Type      | Default | Description                                          |
-| :-------------------- | :-------- | :------ | :--------------------------------------------------- |
-| **time**              | `boolean` | `true`  | Enable time picker in header                         |
-| **presets**           | `boolean` | `false` | Enable quick-select presets (today, yesterday, etc.) |
-| **years**             | `boolean` | `false` | Enable year selector in header                       |
-| **months**            | `boolean` | `true`  | Enable month selector in header                      |
-| **monthsGrid**        | `boolean` | `false` | Enable left-side month-grid selector                 |
-| **timeGrid**          | `boolean` | `false` | Enable right-side time selector                      |
-| **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                     |
-| **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                      |
-| **jellyMode**         | `boolean` | `false` | Fluid scaling to fill parent container               |
-| **gradient**          | `boolean` | `false` | Gradient background tinted by active theme           |
-| **gestures**          | `boolean` | `false` | Swipe to change months on mobile                     |
-| **hour12**            | `boolean` | `false` | Toggle between 12-hour (AM/PM) and 24-hour time      |
-| **highlightWeekends** | `boolean` | `true`  | Highlight weekend days                               |
-| **disableWeekends**   | `boolean` | `false` | Disable weekend selection                            |
+| Property              | Type      | Default | Description                                         |
+| :-------------------- | :-------- | :------ | :-------------------------------------------------- |
+| **time**              | `boolean` | `true`  | Enable time picker in header                        |
+| **timeGrid**          | `boolean` | `false` | Enable full-size time selector                      |
+| **presets**           | `boolean` | `false` | Enable quick-select presets (today, tomorrow, etc.) |
+| **years**             | `boolean` | `false` | Enable year selector in header                      |
+| **months**            | `boolean` | `true`  | Enable month selector in header                     |
+| **monthsGrid**        | `boolean` | `false` | Enable full-size month-grid selector                |
+| **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                    |
+| **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                     |
+| **gradient**          | `boolean` | `false` | Gradient background tinted by active theme          |
+| **gestures**          | `boolean` | `false` | Swipe to change time and months on mobile           |
+| **hour12**            | `boolean` | `false` | Toggle between 12-hour (AM/PM) and 24-hour time     |
+| **highlightWeekends** | `boolean` | `true`  | Highlight weekend days                              |
+| **disableWeekends**   | `boolean` | `false` | Disable weekend selection                           |
 
 ---
 
@@ -167,13 +177,16 @@ Pass any valid locale tag and the calendar automatically formats days, months, a
 
 ## ✅ Patch notes:
 
-### 🚀 Version 3.2.1
+### 🚀 Version 4.0.0 — Breaking
 
-- **🕐 Time Popup** — New compact time selector opens inline within the calendar on click. Smooth scroll drums, infinite rotation, no layout shift.
-- **🕛 12/24h Support** — Added `hour12` prop to toggle between 12-hour (AM/PM) and 24-hour time formats across both time picker modes.
-- **💅 Time Grid redesign** — Refreshed styles for the existing inline time grid component.
-- **⚡ Themes out of JS bundle** — Theme tokens moved from runtime JS object to static CSS, reducing JS bundle size.
-- **🪲 Minor bug fixes**
+- **📐 Fluid adaptive grid** — Replaced static + "jelly" (cqw) dual modes with a single fluid layout that fits any container width. Smart font auto-sizing, ideal cell proportions, zero breakpoints.
+- **🎨 Theme overhaul** — Reworked colors across all 18 themes for better contrast and readability.
+- **🌈 Gradient mode redesign** — Completely rebuilt gradient backgrounds for a cleaner, more polished look.
+- **🏗️ Brutalism mode redesign** — Now a proper industrial aesthetic — sharp edges, raw surfaces, heavy type.
+- **🕒 4 new presets** — Next week, next month, in 2 weeks, next year.
+- **👆 Gesture scrolling** — Swipe-to-scroll for hour & minute tracks (opt-in via `gestures` prop).
+- **🚫 Date unselect** — Tap a selected date again to clear it.
+- **🔲 Updated shadows** — Refined shadow tokens across all components.
 
 [**Full Version History in CHANGELOG.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CHANGELOG.md)
 

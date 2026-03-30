@@ -1,28 +1,34 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import styles from "./time-track.module.css";
 import { getDrumValue, padTime } from "@/utils/date-utils";
 
 interface TimeTrackProps {
   date: Date;
   hour12?: boolean;
+  gestures?: boolean;
   onChange: (date: Date) => void;
 }
 
 const OFFSETS = Array.from({ length: 7 }, (_, i) => i - 3);
 const SCROLL_THRESHOLD = 40;
+const TOUCH_THRESHOLD = 28;
 
 const Drum = ({
   val,
   max,
+  gestures,
   onMove,
 }: {
   val: number;
   max: number;
+  gestures?: boolean;
   onMove: (delta: number) => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const moveRef = useRef(onMove);
-  const accum = useRef(0);
+  const wheelAccum = useRef(0);
+  const touchStartY = useRef<number | null>(null);
+  const touchAccum = useRef(0);
 
   useEffect(() => {
     moveRef.current = onMove;
@@ -33,15 +39,51 @@ const Drum = ({
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      accum.current += e.deltaY;
-      if (Math.abs(accum.current) < SCROLL_THRESHOLD) return;
-      const dir = accum.current > 0 ? 1 : -1;
-      accum.current = 0;
+      wheelAccum.current += e.deltaY;
+      if (Math.abs(wheelAccum.current) < SCROLL_THRESHOLD) return;
+      const dir = wheelAccum.current > 0 ? 1 : -1;
+      wheelAccum.current = 0;
       moveRef.current(dir);
     };
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !gestures) return;
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+      touchAccum.current = 0;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchStartY.current === null) return;
+      e.preventDefault();
+      const deltaY = e.touches[0].clientY - touchStartY.current;
+      touchAccum.current -= deltaY;
+      touchStartY.current = e.touches[0].clientY;
+      if (Math.abs(touchAccum.current) < TOUCH_THRESHOLD) return;
+      const dir = touchAccum.current > 0 ? 1 : -1;
+      touchAccum.current = 0;
+      moveRef.current(dir);
+    };
+
+    const onTouchEnd = () => {
+      touchStartY.current = null;
+      touchAccum.current = 0;
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [gestures]);
 
   return (
     <div
@@ -83,6 +125,7 @@ const Drum = ({
 export const TimeTrack = ({
   date,
   hour12 = false,
+  gestures = false,
   onChange,
 }: TimeTrackProps) => {
   const raw = date.getHours();
@@ -119,9 +162,9 @@ export const TimeTrack = ({
         </div>
       )}
       <div className={styles.drums}>
-        <Drum val={hours} max={hourMax} onMove={moveHours} />
+        <Drum val={hours} max={hourMax} gestures={gestures} onMove={moveHours} />
         <span className={styles.colon}>:</span>
-        <Drum val={minutes} max={60} onMove={moveMinutes} />
+        <Drum val={minutes} max={60} gestures={gestures} onMove={moveMinutes} />
       </div>
     </div>
   );

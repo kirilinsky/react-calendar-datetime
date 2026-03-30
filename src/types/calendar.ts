@@ -6,11 +6,10 @@ export interface CalendarProps {
   date?: Date;
   minDate?: Date;
   maxDate?: Date;
-  onChangeDate?: (date: Date) => void;
+  onChangeDate?: (date: Date | null) => void;
   locale?: string;
   theme?: CalendarTheme;
   width?: string | number;
-  height?: string | number;
   startOfWeek?: StartOfWeek;
   time?: boolean;
   hour12?: boolean;
@@ -21,7 +20,6 @@ export interface CalendarProps {
   monthsGrid?: boolean;
   compactYears?: boolean;
   compactMonths?: boolean;
-  jellyMode?: boolean;
   brutalism?: boolean;
   gestures?: boolean;
   gradient?: boolean;
@@ -42,7 +40,8 @@ export interface CalendarContextValue extends CalendarProps {
   months: boolean;
   monthsGrid: boolean;
   compactMonths: boolean;
-  onChangeDate: (date: Date) => void;
+  onChangeDate: (date: Date | null) => void;
+  selectedDate: Date | null;
   dark: boolean;
   view: CalendarView;
   setView: (view: CalendarView) => void;

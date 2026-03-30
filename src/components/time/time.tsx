@@ -6,12 +6,12 @@ import { useThrottle } from "@/hooks/use-throttle";
 import { TimeTrack } from "../time-track/time-track";
 
 export const TimeComponent: React.FC = () => {
-  const { onChangeDate, date, hour12 } = useCalendarContext();
+  const { onChangeDate, date, hour12, gestures } = useCalendarContext();
   const throttled = useThrottle(onChangeDate, 70);
 
   return (
-    <div className={`${styles.timeContainer} ${shared.flexCenter}`}>
-      <TimeTrack date={date} hour12={hour12} onChange={throttled} />
+    <div style={{ gridArea: "TT" }} className={`${styles.timeContainer} ${shared.flexCenter}`}>
+      <TimeTrack date={date} hour12={hour12} gestures={gestures} onChange={throttled} />
     </div>
   );
 };

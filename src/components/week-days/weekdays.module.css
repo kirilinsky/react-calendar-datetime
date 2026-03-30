@@ -9,12 +9,9 @@
   font-size: 0.6em;
   font-weight: 600;
 }
-.weekendDark {
-  color: var(--c-we);
-  opacity: 0.5;
-}
 
+.weekendDark,
 .weekendLight {
-  color: var(--c-wed);
-  opacity: 0.5;
+  color: var(--c-we);
+  opacity: 0.6;
 }

@@ -23,7 +23,6 @@ export const CalendarLayout: React.FC<{
     monthsGrid,
     timeGrid,
     time,
-    jellyMode,
     gradient,
     dark,
     showTimePopup,
@@ -37,7 +36,6 @@ export const CalendarLayout: React.FC<{
     <div
       className={[
         styles.calendarContainer,
-        !jellyMode ? styles.staticMode : "",
         gradient ? styles.gradient : "",
         dark ? styles.dark : "",
         brutalism ? styles.brutalism : "",

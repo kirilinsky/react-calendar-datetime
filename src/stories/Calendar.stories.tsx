@@ -72,7 +72,7 @@ export const Default = () => {
   return (
     <StoryWrapper title="Default" subtitle={formatSubtitle(date)}>
       <div className="calendar-fixed-container">
-        <Calendar date={date} onChangeDate={setDate} />
+        <Calendar date={date} onChangeDate={setDate} theme="industrial" brutalism />
       </div>
     </StoryWrapper>
   );
@@ -91,22 +91,22 @@ export const KitchenSink = () => {
     return d;
   };
 
-  const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-11));
-  const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(11));
+  const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-391));
+  const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(411));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
 
   const [config, setConfig] = useState({
     years: false,
     monthsGrid: false,
     time: true,
-    timeGrid:false,
+    timeGrid: false,
     months: true,
     presets: false,
     compactMonths: false,
     compactYears: true,
-    jellyMode: false,
     gradient: false,
     brutalism: false,
+    gestures: false,
     highlightWeekends: true,
     disableWeekends: false,
     showWeekNumber: false,

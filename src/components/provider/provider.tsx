@@ -37,10 +37,15 @@ export const CalendarProvider: React.FC<
   const [internalDate, setInternalDate] = useState<Date>(() =>
     toValidDate(externalDate),
   );
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() =>
+    toValidDate(externalDate),
+  );
   const [showTimePopup, setShowTimePopup] = useState(false);
 
   useEffect(() => {
-    setInternalDate(toValidDate(externalDate));
+    const parsed = toValidDate(externalDate);
+    setInternalDate(parsed);
+    setSelectedDate(externalDate ? parsed : null);
   }, [externalDate]);
 
   const isDark = useMemo(() => {
@@ -53,8 +58,13 @@ export const CalendarProvider: React.FC<
   }, [theme]);
 
   const handleChangeDate = useCallback(
-    (d: Date) => {
-      setInternalDate(d);
+    (d: Date | null) => {
+      if (d) {
+        setInternalDate(d);
+        setSelectedDate(d);
+      } else {
+        setSelectedDate(null);
+      }
       onChangeDate?.(d);
     },
     [onChangeDate],
@@ -68,11 +78,12 @@ export const CalendarProvider: React.FC<
         setView,
         dark: isDark,
         date: internalDate,
+        selectedDate,
         showTimePopup,
         setShowTimePopup,
         onChangeDate: handleChangeDate,
       }) as CalendarContextValue,
-    [props, view, isDark, internalDate, handleChangeDate, showTimePopup],
+    [props, view, isDark, internalDate, selectedDate, handleChangeDate, showTimePopup],
   );
 
   return (

@@ -1,9 +1,11 @@
 .calendarContainer {
+  container-type: inline-size;
   display: grid;
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  font-size: 2.7cqw;
+  max-width: 864px;
+  font-size: clamp(11px, 2.7cqw, 18px);
   background: var(--c-b);
   color: var(--c-c);
   font-family:
@@ -16,31 +18,76 @@
   box-shadow: 0 0.2em 0.8em var(--c-x);
   overflow: hidden;
 }
-.calendarContainer.brutalism  *, .calendarContainer.brutalism {
+.calendarContainer.brutalism {
   border-radius: 0 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  border: 2px solid var(--c-c) !important;
+  box-shadow: 2px 2px 0 var(--c-c) !important;
+
+  /* hover: hard accent fill, no blur */
+  --hover-bg: var(--c-h);
+  --hover-color: var(--c-a);
+  --hover-shadow: none;
+  --hover-outline: 2px solid var(--c-c);
+
+  /* active: hard offset shadow instead of blur */
+  --active-shadow: 3px 3px 0 var(--c-c);
+
+  /* section dividers: thick solid lines */
+  --months-border-right: 2px solid var(--c-c);
+  --months-border-top: 2px solid var(--c-c);
+  --time-border-left: 2px solid var(--c-c);
+  --time-border-top: 2px solid var(--c-c);
+}
+
+.calendarContainer.brutalism * {
+  border-radius: 0 !important;
+  transition: none !important;
+}
+
+/* buttons: bold + uppercase + tight spacing */
+.calendarContainer.brutalism button {
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: inherit;
+}
+
+/* thick border on header and presets rows */
+.calendarContainer.brutalism > div[style*="HH"],
+.calendarContainer.brutalism > div[style*="PP"] {
+  border-color: var(--c-c) !important;
+  border-width: 2px !important;
 }
 
 .calendarContainer.gradient {
-  background: linear-gradient(
-    130deg,
-    var(--c-a) 0%,
-    var(--c-b) 40%,
-    var(--c-t) 100%
-  ) !important;
+  background:
+    radial-gradient(
+      ellipse 72% 65% at 6% 6%,
+      color-mix(in srgb, var(--c-b) 76%, var(--c-h)) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 58% 52% at 94% 94%,
+      color-mix(in srgb, var(--c-b) 80%, var(--c-h)) 0%,
+      transparent 100%
+    ),
+    var(--c-b) !important;
 }
 
 .calendarContainer.gradient.dark {
-  background: radial-gradient(
-    circle at 0% 0%,
-    var(--c-t) 0%,
-    var(--c-b) 60%,
-    var(--c-a) 100%
-  ) !important;
-}
-.calendarContainer.staticMode {
-  font-size: 13px;
-  min-width: 300px;
-  width: max-content;
+  background:
+    radial-gradient(
+      ellipse 68% 58% at 4% 4%,
+      color-mix(in srgb, var(--c-b) 58%, var(--c-h)) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 52% 48% at 96% 96%,
+      color-mix(in srgb, var(--c-b) 66%, var(--c-h)) 0%,
+      transparent 100%
+    ),
+    var(--c-b) !important;
 }
 
 .calendarContainer * {
@@ -58,7 +105,29 @@
 .calendarContainer.gradient > div[data-state="open"] {
   background: var(--c-b) !important;
 }
+:global([data-layout="stacked"]) {
+  --months-border-right: none;
+  --months-border-bottom: 1px solid var(--c-s);
+  --months-border-top: 1px solid var(--c-s);
+  --months-cols: repeat(4, minmax(0, 1fr));
+  --months-rows: repeat(3, 1fr);
+  --time-border-left: none;
+  --time-border-top: 1px solid var(--c-s);
+  --time-min-height: 8em;
+  --time-root-max-width: 16em;
+  --time-root-margin: 0 auto;
+  --time-item-font: 1.35em;
+  --time-align: center;
+}
+
+:global([data-layout="medium"]) {
+  --months-border-top: 1px solid var(--c-s);
+  --months-border-bottom: none;
+  --time-border-left: none;
+  --time-item-font: 1em;
+  --time-border-top: 1px solid var(--c-s);
+}
+
 :root {
   --c-we: #e53935;
-  --c-wed: #ff8a80;
 }

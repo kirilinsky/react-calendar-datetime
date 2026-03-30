@@ -13,19 +13,20 @@
   cursor: pointer;
   user-select: none;
   height: 2.1em;
-  padding: 0 0.7em;
   border-radius: 0.5em;
 }
 
 .hoverable:hover:not([disabled]) {
-  background: var(--c-t);
-  box-shadow: 0 0.1em 0.3em var(--c-x);
+  background: var(--hover-bg, var(--c-t));
+  color: var(--hover-color, inherit);
+  box-shadow: var(--hover-shadow, 0 0.1em 0.3em var(--c-x));
+  outline: var(--hover-outline, none);
 }
 
 .interactive[disabled] {
   cursor: not-allowed;
   opacity: 0.9;
-  color: var(--c-s);
+  color: var(--c-d);
 }
 
 .interactive svg {
@@ -38,7 +39,7 @@
 .activeItem {
   background: var(--c-h) !important;
   color: var(--c-a) !important;
-  box-shadow: 0 0.2em 0.6em var(--c-x);
+  box-shadow: var(--active-shadow, 0 0.2em 0.6em var(--c-x));
 }
 
 .otherItem {

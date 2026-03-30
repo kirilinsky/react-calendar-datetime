@@ -1,11 +1,12 @@
 .presetsContainer {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.5em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+  align-items: stretch;
+  gap: 0.35em;
   padding: 0.5em;
-  border-top: 1px solid var(--c-x);
+  border-top: 1px solid var(--c-s);
   background: var(--c-a);
-  height: 2.5em;
+  height: auto;
   z-index: 3;
   transition: all 0.25s linear;
   &:hover {
@@ -14,25 +15,51 @@
   }
 }
 
-.presetsContainer.staticMode {
-  padding: 6px;
-  gap: 5px;
-  border-top: 1px solid var(--c-s);
-  height: 100%;
+.presetsContainer[data-count="10"] {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.presetsContainer[data-count="9"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.presetsContainer[data-count="8"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.presetsContainer[data-count="7"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@container (max-width: 320px) {
+  .presetsContainer,
+  .presetsContainer[data-count="10"],
+  .presetsContainer[data-count="9"],
+  .presetsContainer[data-count="8"],
+  .presetsContainer[data-count="7"],
+  .presetsContainer[data-count="5"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container (min-width: 620px) {
+  .presetsContainer[data-count="9"],
+  .presetsContainer[data-count="10"] {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .presetItem {
-  font-size: 0.8em !important;
-  flex: 1 1 auto;
-  padding: 0 0.8em !important;
+  height: auto !important;
+  min-height: 2.1em;
+  padding: 0.45em 0.6em !important;
+  font-size: 0.78em !important;
+  line-height: 1.3;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .inactiveItem {
   background: var(--c-t);
-}
-
-.presetsContainer.staticMode .presetItem {
-  height: auto !important;
-  font-size: clamp(9px, 3cqw, 12px) !important;
-  flex: 1;
 }

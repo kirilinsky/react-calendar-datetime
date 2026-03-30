@@ -1,5 +1,6 @@
 ## Patch notes (old versions)
 
+- **v3.2.1:** Compact inline time popup, 12/24h support via `hour12` prop, time grid redesign.
 - **v3.1.2:** Themes: `Industrial` & `Graphite`, month grid is now optional. Month selector defaults to a compact header
 - **v3.0.5:** Brutalism mode added.
 - **v3.0.4:** Gradient backgrounds.

@@ -14,11 +14,11 @@ export const DaysComponent: React.FC = () => {
     minDate,
     maxDate,
     date,
+    selectedDate,
     onChangeDate,
     gestures,
     disableWeekends,
     startOfWeek,
-    jellyMode,
     showWeekNumber,
   } = useCalendarContext();
 
@@ -64,7 +64,7 @@ export const DaysComponent: React.FC = () => {
       currentYear,
       currentMonth,
       offset,
-      date,
+      selectedDate,
       minDate,
       maxDate,
       disableWeekends,
@@ -73,7 +73,7 @@ export const DaysComponent: React.FC = () => {
     currentYear,
     currentMonth,
     offset,
-    date,
+    selectedDate,
     minDate,
     maxDate,
     disableWeekends,
@@ -82,6 +82,16 @@ export const DaysComponent: React.FC = () => {
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
       if (isDisabled) return;
+
+      if (
+        selectedDate &&
+        targetDate.getFullYear() === selectedDate.getFullYear() &&
+        targetDate.getMonth() === selectedDate.getMonth() &&
+        targetDate.getDate() === selectedDate.getDate()
+      ) {
+        onChangeDate(null);
+        return;
+      }
 
       const next = new Date(targetDate);
       next.setHours(
@@ -101,7 +111,7 @@ export const DaysComponent: React.FC = () => {
 
       onChangeDate(next);
     },
-    [onChangeDate, date, minDate, maxDate],
+    [onChangeDate, date, selectedDate, minDate, maxDate],
   );
 
   const animationKey = `${currentMonth}-${currentYear}`;
@@ -110,13 +120,13 @@ export const DaysComponent: React.FC = () => {
     <div
       aria-label="days"
       key={animationKey}
+      style={{ gridArea: "DD" }}
       onTouchEnd={handleTouchEnd}
       onTouchStart={handleTouchStart}
       className={[
         styles.dayGridContainer,
         direction !== "none" ? styles[direction] : "",
-        jellyMode === false ? styles.staticMode : "",
-        showWeekNumber ? styles.withWeekNumbers : "",
+showWeekNumber ? styles.withWeekNumbers : "",
       ]
         .filter(Boolean)
         .join(" ")}
