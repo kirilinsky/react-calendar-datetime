@@ -106,6 +106,7 @@ export const KitchenSink = () => {
     compactYears: true,
     gradient: false,
     brutalism: false,
+    gestures: false,
     highlightWeekends: true,
     disableWeekends: false,
     showWeekNumber: false,
