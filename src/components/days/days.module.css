@@ -1,9 +1,10 @@
 .dayGridContainer {
+  container-type: inline-size;
   background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: auto repeat(6, auto);
-  gap: 0.15em;
+  gap: 0.14em;
   padding: 0.5em;
   height: auto;
   box-sizing: border-box;
@@ -28,11 +29,12 @@
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
   width: 100%;
-  height: auto;
-  aspect-ratio: 1;
+  height: auto !important;
+  aspect-ratio: 1 / 0.88;
   padding: 0;
   position: relative;
   z-index: 1;
+  font-size: clamp(0.72em, 4.5cqi, 1.15em);
   &:disabled {
     text-decoration: line-through;
     color: var(--c-h);
