@@ -22,7 +22,7 @@
   border-radius: 0 !important;
   font-family: 'Courier New', Courier, monospace !important;
   border: 2px solid var(--c-c) !important;
-  box-shadow: 5px 5px 0 var(--c-c) !important;
+  box-shadow: 2px 2px 0 var(--c-c) !important;
 
   /* hover: hard accent fill, no blur */
   --hover-bg: var(--c-h);

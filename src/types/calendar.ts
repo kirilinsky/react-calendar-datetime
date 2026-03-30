@@ -10,7 +10,6 @@ export interface CalendarProps {
   locale?: string;
   theme?: CalendarTheme;
   width?: string | number;
-  height?: string | number;
   startOfWeek?: StartOfWeek;
   time?: boolean;
   hour12?: boolean;

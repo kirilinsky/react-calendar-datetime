@@ -72,7 +72,7 @@ export const Default = () => {
   return (
     <StoryWrapper title="Default" subtitle={formatSubtitle(date)}>
       <div className="calendar-fixed-container">
-        <Calendar date={date} onChangeDate={setDate} />
+        <Calendar date={date} onChangeDate={setDate} theme="industrial" brutalism />
       </div>
     </StoryWrapper>
   );

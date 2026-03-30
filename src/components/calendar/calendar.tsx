@@ -6,7 +6,6 @@ import { CalendarLayout } from "../layout/layout";
 
 export const Calendar: React.FC<CalendarProps> = ({
   width = "100%",
-  height = "auto",
   theme = "paper",
   presets = false,
   compactMonths = false,
@@ -20,7 +19,6 @@ export const Calendar: React.FC<CalendarProps> = ({
   locale = "en",
   disableWeekends = false,
   startOfWeek = 1,
-
   brutalism = false,
   gradient = false,
   highlightWeekends = true,
@@ -48,7 +46,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     () =>
       ({
         width,
-        height,
+
         ...getGridLayout(
           {
             presets,
@@ -65,7 +63,6 @@ export const Calendar: React.FC<CalendarProps> = ({
       }) as React.CSSProperties,
     [
       width,
-      height,
       presets,
       compactYears,
       compactMonths,
@@ -94,20 +91,19 @@ export const Calendar: React.FC<CalendarProps> = ({
       months={months}
       monthsGrid={monthsGrid}
       disableWeekends={disableWeekends}
-      startOfWeek={startOfWeek} 
+      startOfWeek={startOfWeek}
       brutalism={brutalism}
       gradient={gradient}
       highlightWeekends={highlightWeekends}
       theme={theme}
       width={width}
-      height={height}
       {...restProps}
     >
       <div
         ref={wrapperRef}
         data-theme={theme}
         data-layout={layoutMode}
-        style={{ containerType: "inline-size", width, height }}
+        style={{ containerType: "inline-size", width }}
       >
         <CalendarLayout containerStyle={containerStyle} brutalism={brutalism} />
       </div>

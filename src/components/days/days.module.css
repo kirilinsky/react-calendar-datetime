@@ -4,8 +4,8 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: auto repeat(6, auto);
-  gap: 0.14em;
-  padding: 0.5em;
+  gap: 0.13em;
+  padding: .9em;
   height: auto;
   box-sizing: border-box;
   overflow: hidden;
