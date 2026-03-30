@@ -131,7 +131,7 @@ export const getWeekdaysNames = (
       return f(d);
     });
   }
-  let defaultDays = i18nCache[key];
+  const defaultDays = i18nCache[key];
 
   const shift = startOfWeek === 0 ? 6 : startOfWeek - 1;
   if (shift === 0) return defaultDays;
@@ -348,10 +348,11 @@ export const getNextMonthFromSwipe = (
   if (Math.abs(deltaX) < threshold) return null;
 
   const isNext = deltaX > 0;
+  const dir = isNext ? 1 : -1;
   const newDate = new Date(currentDate);
 
-  const expectedMonth = (newDate.getMonth() + (isNext ? 1 : -1) + 12) % 12;
-  newDate.setMonth(newDate.getMonth() + (isNext ? 1 : -1));
+  const expectedMonth = (newDate.getMonth() + dir + 12) % 12;
+  newDate.setMonth(newDate.getMonth() + dir);
   if (newDate.getMonth() !== expectedMonth) newDate.setDate(0);
 
   const newYearMonth = newDate.getFullYear() * 12 + newDate.getMonth();
@@ -369,7 +370,7 @@ export const getNextMonthFromSwipe = (
   return newDate;
 };
 export const getWeekNumber = (date: Date): number => {
-  const target = new Date(date.valueOf());
+  const target = clone(date);
   const dayNr = (date.getDay() + 6) % 7;
   target.setDate(target.getDate() - dayNr + 3);
 
