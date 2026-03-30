@@ -425,16 +425,18 @@ export const getCalendarData = (
   currentYear: number,
   currentMonth: number,
   offset: number,
-  selectedDate: Date,
+  selectedDate: Date | null,
   minDate?: Date | null,
   maxDate?: Date | null,
   disableWeekends?: boolean,
 ) => {
-  const selectedTime = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth(),
-    selectedDate.getDate(),
-  ).getTime();
+  const selectedTime = selectedDate
+    ? new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+      ).getTime()
+    : -1;
 
   const weeks = [];
   for (let i = 0; i < 6; i++) {

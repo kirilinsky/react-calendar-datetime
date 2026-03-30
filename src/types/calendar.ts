@@ -6,7 +6,7 @@ export interface CalendarProps {
   date?: Date;
   minDate?: Date;
   maxDate?: Date;
-  onChangeDate?: (date: Date) => void;
+  onChangeDate?: (date: Date | null) => void;
   locale?: string;
   theme?: CalendarTheme;
   width?: string | number;
@@ -41,7 +41,8 @@ export interface CalendarContextValue extends CalendarProps {
   months: boolean;
   monthsGrid: boolean;
   compactMonths: boolean;
-  onChangeDate: (date: Date) => void;
+  onChangeDate: (date: Date | null) => void;
+  selectedDate: Date | null;
   dark: boolean;
   view: CalendarView;
   setView: (view: CalendarView) => void;

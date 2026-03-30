@@ -82,8 +82,30 @@
 .timeButton {
   composes: interactive from "../../global/global.module.css";
   background: var(--c-h) !important;
-  color: var(--c-a) !important; 
+  color: var(--c-a) !important;
   padding: 0 1em;
   height: 2.3em;
   font-size: 0.95em;
+}
+
+@container (max-width: 340px) {
+  .headerContainer {
+    gap: 0.2em;
+    padding: 0.45em 0.4em;
+  }
+  .monthButton {
+    padding: 0 0.5em;
+  }
+  .timeButton {
+    padding: 0 0.5em;
+  }
+  .arrow {
+    width: 1.8em;
+  }
+  .currentYear {
+    margin: 0 0.15em;
+  }
+  .yearsSelector {
+    min-width: 6em;
+  }
 }

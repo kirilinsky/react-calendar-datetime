@@ -14,6 +14,7 @@ export const DaysComponent: React.FC = () => {
     minDate,
     maxDate,
     date,
+    selectedDate,
     onChangeDate,
     gestures,
     disableWeekends,
@@ -63,7 +64,7 @@ export const DaysComponent: React.FC = () => {
       currentYear,
       currentMonth,
       offset,
-      date,
+      selectedDate,
       minDate,
       maxDate,
       disableWeekends,
@@ -72,7 +73,7 @@ export const DaysComponent: React.FC = () => {
     currentYear,
     currentMonth,
     offset,
-    date,
+    selectedDate,
     minDate,
     maxDate,
     disableWeekends,
@@ -81,6 +82,16 @@ export const DaysComponent: React.FC = () => {
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
       if (isDisabled) return;
+
+      if (
+        selectedDate &&
+        targetDate.getFullYear() === selectedDate.getFullYear() &&
+        targetDate.getMonth() === selectedDate.getMonth() &&
+        targetDate.getDate() === selectedDate.getDate()
+      ) {
+        onChangeDate(null);
+        return;
+      }
 
       const next = new Date(targetDate);
       next.setHours(
@@ -100,7 +111,7 @@ export const DaysComponent: React.FC = () => {
 
       onChangeDate(next);
     },
-    [onChangeDate, date, minDate, maxDate],
+    [onChangeDate, date, selectedDate, minDate, maxDate],
   );
 
   const animationKey = `${currentMonth}-${currentYear}`;

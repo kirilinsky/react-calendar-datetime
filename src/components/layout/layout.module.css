@@ -18,9 +18,46 @@
   box-shadow: 0 0.2em 0.8em var(--c-x);
   overflow: hidden;
 }
-.calendarContainer.brutalism *,
 .calendarContainer.brutalism {
   border-radius: 0 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  border: 2px solid var(--c-c) !important;
+  box-shadow: 5px 5px 0 var(--c-c) !important;
+
+  /* hover: hard accent fill, no blur */
+  --hover-bg: var(--c-h);
+  --hover-color: var(--c-a);
+  --hover-shadow: none;
+  --hover-outline: 2px solid var(--c-c);
+
+  /* active: hard offset shadow instead of blur */
+  --active-shadow: 3px 3px 0 var(--c-c);
+
+  /* section dividers: thick solid lines */
+  --months-border-right: 2px solid var(--c-c);
+  --months-border-top: 2px solid var(--c-c);
+  --time-border-left: 2px solid var(--c-c);
+  --time-border-top: 2px solid var(--c-c);
+}
+
+.calendarContainer.brutalism * {
+  border-radius: 0 !important;
+  transition: none !important;
+}
+
+/* buttons: bold + uppercase + tight spacing */
+.calendarContainer.brutalism button {
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: inherit;
+}
+
+/* thick border on header and presets rows */
+.calendarContainer.brutalism > div[style*="HH"],
+.calendarContainer.brutalism > div[style*="PP"] {
+  border-color: var(--c-c) !important;
+  border-width: 2px !important;
 }
 
 .calendarContainer.gradient {
