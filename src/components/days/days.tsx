@@ -11,16 +11,24 @@ import WeekDays from "../week-days/week-days";
 
 export const DaysComponent: React.FC = () => {
   const {
-    minDate,
-    maxDate,
+    startDate,
+    endDate,
     date,
     selectedDate,
     onChangeDate,
     gestures,
-    disableWeekends,
+    disabled,
+    hideLimited,
     startOfWeek,
     showWeekNumber,
   } = useCalendarContext();
+
+  const startT = startDate
+    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).getTime()
+    : null;
+  const endT = endDate
+    ? new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59, 999).getTime()
+    : null;
 
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
   const [prevDate, setPrevDate] = useState(date);
@@ -45,7 +53,7 @@ export const DaysComponent: React.FC = () => {
     if (!gestures || touchStartX === null) return;
 
     const deltaX = touchStartX - e.changedTouches[0].clientX;
-    const nextDate = getNextMonthFromSwipe(deltaX, date, minDate, maxDate);
+    const nextDate = getNextMonthFromSwipe(deltaX, date, startDate, endDate);
 
     if (nextDate) {
       onChangeDate(nextDate);
@@ -65,18 +73,18 @@ export const DaysComponent: React.FC = () => {
       currentMonth,
       offset,
       selectedDate,
-      minDate,
-      maxDate,
-      disableWeekends,
+      startDate,
+      endDate,
+      disabled,
     );
   }, [
     currentYear,
     currentMonth,
     offset,
     selectedDate,
-    minDate,
-    maxDate,
-    disableWeekends,
+    startDate,
+    endDate,
+    disabled,
   ]);
 
   const handleSetDay = useCallback(
@@ -101,17 +109,17 @@ export const DaysComponent: React.FC = () => {
         date.getMilliseconds(),
       );
 
-      if (minDate && next.getTime() < minDate.getTime()) {
-        next.setHours(minDate.getHours(), minDate.getMinutes(), 0, 0);
+      if (startDate && next.getTime() < startDate.getTime()) {
+        next.setHours(startDate.getHours(), startDate.getMinutes(), 0, 0);
       }
 
-      if (maxDate && next.getTime() > maxDate.getTime()) {
-        next.setHours(maxDate.getHours(), maxDate.getMinutes(), 0, 0);
+      if (endDate && next.getTime() > endDate.getTime()) {
+        next.setHours(endDate.getHours(), endDate.getMinutes(), 0, 0);
       }
 
       onChangeDate(next);
     },
-    [onChangeDate, date, selectedDate, minDate, maxDate],
+    [onChangeDate, date, selectedDate, startDate, endDate],
   );
 
   const animationKey = `${currentMonth}-${currentYear}`;
@@ -143,24 +151,32 @@ showWeekNumber ? styles.withWeekNumbers : "",
               (
                 { day, fullDate, isCurrentMonth, isDisabled, isSelected },
                 i,
-              ) => (
-                <button
-                  key={i}
-                  type="button"
-                  disabled={isDisabled}
-                  onClick={() => handleSetDay(fullDate, isDisabled)}
-                  aria-selected={isSelected}
-                  className={[
-                    styles.dayItem,
-                    isSelected && shared.activeItem,
-                    !isCurrentMonth && shared.otherItem,
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                >
-                  {day}
-                </button>
-              ),
+              ) => {
+                const t = fullDate.getTime();
+                const isLimited = hideLimited && (
+                  (startT !== null && t < startT) ||
+                  (endT !== null && t > endT)
+                );
+                if (isLimited) return <span key={i} className={styles.dayItemEmpty} />;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={isDisabled}
+                    onClick={() => handleSetDay(fullDate, isDisabled)}
+                    aria-selected={isSelected}
+                    className={[
+                      styles.dayItem,
+                      isSelected && shared.activeItem,
+                      !isCurrentMonth && shared.otherItem,
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
+                    {day}
+                  </button>
+                );
+              },
             )}
           </React.Fragment>
         ))}

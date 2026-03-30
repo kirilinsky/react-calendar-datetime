@@ -12,24 +12,33 @@ export const PresetsComponent: React.FC = () => {
   const {
     monthsGrid,
     date,
-    minDate,
-    maxDate,
+    startDate,
+    endDate,
     years,
     onChangeDate,
     locale,
     compactMonths,
     compactYears,
+    months,
   } = useCalendarContext();
 
   const presets = useMemo(
     () =>
       getFilteredPresets(
         years || !!compactYears,
-        monthsGrid || !!compactMonths,
-        minDate,
-        maxDate,
+        monthsGrid || !!compactMonths || !!months,
+        startDate,
+        endDate,
       ),
-    [years, monthsGrid, minDate, maxDate, compactYears, compactMonths],
+    [
+      years,
+      months,
+      monthsGrid,
+      startDate,
+      endDate,
+      compactYears,
+      compactMonths,
+    ],
   );
 
   return (

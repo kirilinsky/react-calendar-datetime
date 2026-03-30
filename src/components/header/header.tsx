@@ -14,8 +14,8 @@ export const HeaderComponent: React.FC = () => {
     onChangeDate,
     compactMonths,
     compactYears,
-    minDate,
-    maxDate,
+    startDate,
+    endDate,
     years,
     months,
     date,
@@ -23,35 +23,35 @@ export const HeaderComponent: React.FC = () => {
     locale,
     setView,
     hour12,
-    disableWeekends,
     setShowTimePopup,
+    shortMonths,
   } = useCalendarContext();
 
   const cur = date.getFullYear();
   const curTime = getTimeString(date, hour12);
 
   const yearFixed = useMemo(
-    () => isYearFixed(cur, minDate, maxDate),
-    [cur, minDate, maxDate],
+    () => isYearFixed(cur, startDate, endDate),
+    [cur, startDate, endDate],
   );
   const monthFixed = useMemo(
-    () => isYearFixed(cur, minDate, maxDate, date.getMonth()),
-    [minDate, maxDate, date],
+    () => isYearFixed(cur, startDate, endDate, date.getMonth()),
+    [startDate, endDate, date],
   );
 
   const { canGoPrev, canGoNext, canGoPrevMonth, canGoNextMonth } = useMemo(
-    () => checkYearNavigation(cur, minDate, maxDate, date),
-    [cur, date, minDate, maxDate],
+    () => checkYearNavigation(cur, startDate, endDate, date),
+    [cur, date, startDate, endDate],
   );
 
   const currentMonthName = new Intl.DateTimeFormat(locale, {
-    month: "long",
+    month: shortMonths ? "short" : "long",
   }).format(date);
 
   const ch = (v: number) =>
-    onChangeDate(addDate(date, v, "year", disableWeekends, minDate, maxDate));
+    onChangeDate(addDate(date, v, "year", startDate, endDate));
   const cm = (v: number) =>
-    onChangeDate(addDate(date, v, "month", disableWeekends, minDate, maxDate));
+    onChangeDate(addDate(date, v, "month", startDate, endDate));
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
       {time && (

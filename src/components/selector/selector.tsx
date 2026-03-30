@@ -21,27 +21,27 @@ export const SelectorComponent: React.FC<{
     onChangeDate,
     setView,
     locale,
-    minDate,
-    maxDate,
-    disableWeekends,
+    startDate,
+    endDate,
+    shortMonths,
   } = useCalendarContext();
 
   const [navDate, setNavDate] = useState(date);
   const navYear = navDate.getFullYear();
 
   const monthsData = useMemo(
-    () => getMonthListData(locale, navYear, minDate, maxDate),
-    [locale, navYear, minDate, maxDate],
+    () => getMonthListData(locale, navYear, startDate, endDate, shortMonths),
+    [locale, navYear, startDate, endDate, shortMonths],
   );
 
   const yearsData = useMemo(
-    () => getYearListData(navYear, minDate, maxDate, YEAR_STEP),
-    [navYear, minDate, maxDate],
+    () => getYearListData(navYear, startDate, endDate, YEAR_STEP),
+    [navYear, startDate, endDate],
   );
 
   const { canGoPrev, canGoNext } = useMemo(
-    () => checkYearNavigation(yearsData, minDate, maxDate),
-    [yearsData, minDate, maxDate],
+    () => checkYearNavigation(yearsData, startDate, endDate),
+    [yearsData, startDate, endDate],
   );
 
   const handleSelect = (newDate: Date) => {
@@ -60,7 +60,7 @@ export const SelectorComponent: React.FC<{
             <button
               disabled={!canGoPrev}
               onClick={() =>
-                setNavDate(addDate(navDate, -12, "year", disableWeekends))
+                setNavDate(addDate(navDate, -12, "year"))
               }
               className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
@@ -72,7 +72,7 @@ export const SelectorComponent: React.FC<{
             <button
               disabled={!canGoNext}
               onClick={() =>
-                setNavDate(addDate(navDate, 12, "year", disableWeekends))
+                setNavDate(addDate(navDate, 12, "year"))
               }
               className={`${styles.navBtn} ${shared.interactive} ${shared.hoverable}`}
             >
@@ -89,7 +89,7 @@ export const SelectorComponent: React.FC<{
               key={i}
               disabled={m.disabled}
               className={`${styles.item} ${shared.interactive} ${shared.hoverable} ${i === date.getMonth() && navYear === date.getFullYear() ? shared.activeItem : ""}`}
-              onClick={() => handleSelect(setMonth(date, i, disableWeekends))}
+              onClick={() => handleSelect(setMonth(date, i))}
             >
               {m.label}
             </button>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Calendar } from "../components/calendar/calendar";
 import "./calendar.css";
 import { CalendarTheme, DARK_THEMES, LIGHT_THEMES } from "../types/themes";
-import { ButtonGroup } from "./story.components";
+import { DisabledRule, StartOfWeek } from "../types/calendar";
 
 const LOCALES_LIST = [
   { locale: "en", label: "English" },
@@ -72,7 +72,12 @@ export const Default = () => {
   return (
     <StoryWrapper title="Default" subtitle={formatSubtitle(date)}>
       <div className="calendar-fixed-container">
-        <Calendar date={date} onChangeDate={setDate} theme="industrial" brutalism />
+        <Calendar
+          date={date}
+          onChangeDate={setDate}
+          theme="industrial"
+          brutalism
+        />
       </div>
     </StoryWrapper>
   );
@@ -91,9 +96,68 @@ export const KitchenSink = () => {
     return d;
   };
 
-  const [minDate, setMinDate] = useState<Date>(() => getOffsetDay(-391));
-  const [maxDate, setMaxDate] = useState<Date>(() => getOffsetDay(411));
+  const [startOfWeek, setStartOfWeek] = useState<StartOfWeek>(1);
+
+  const [startDate, setStartDate] = useState<Date>(() => getOffsetDay(-391));
+  const [endDate, setEndDate] = useState<Date>(() => getOffsetDay(411));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
+  const parseDate = (s: string) => new Date(s + "T00:00:00");
+
+  type DisabledMode =
+    | "none"
+    | "all"
+    | "date"
+    | "dates"
+    | "range"
+    | "weekdays"
+    | "before"
+    | "after"
+    | "outside";
+  const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+
+  const [disabledMode, setDisabledMode] = useState<DisabledMode>("none");
+  const [disabledDate, setDisabledDate] = useState(toISODate(new Date()));
+  const [disabledDates, setDisabledDates] = useState<string[]>([
+    toISODate(new Date()),
+  ]);
+  const [disabledFrom, setDisabledFrom] = useState(toISODate(getOffsetDay(-3)));
+  const [disabledTo, setDisabledTo] = useState(toISODate(getOffsetDay(3)));
+  const [disabledBefore, setDisabledBefore] = useState(toISODate(new Date()));
+  const [disabledAfter, setDisabledAfter] = useState(toISODate(new Date()));
+  const [disabledWeekdays, setDisabledWeekdays] = useState<number[]>([]);
+
+  const toggleWeekday = (d: number) =>
+    setDisabledWeekdays((prev) =>
+      prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d],
+    );
+
+  const getDisabledValue = (): DisabledRule | undefined => {
+    switch (disabledMode) {
+      case "all":
+        return true;
+      case "date":
+        return parseDate(disabledDate);
+      case "dates":
+        return disabledDates.map(parseDate);
+      case "range":
+        return { from: parseDate(disabledFrom), to: parseDate(disabledTo) };
+      case "weekdays":
+        return disabledWeekdays.length
+          ? { dayOfWeek: disabledWeekdays }
+          : undefined;
+      case "before":
+        return { before: parseDate(disabledBefore) };
+      case "after":
+        return { after: parseDate(disabledAfter) };
+      case "outside":
+        return {
+          before: parseDate(disabledBefore),
+          after: parseDate(disabledAfter),
+        };
+      default:
+        return undefined;
+    }
+  };
 
   const [config, setConfig] = useState({
     years: false,
@@ -108,8 +172,10 @@ export const KitchenSink = () => {
     brutalism: false,
     gestures: false,
     highlightWeekends: true,
-    disableWeekends: false,
     showWeekNumber: false,
+    hideLimited: false,
+    hideWeekdays: false,
+    shortMonths: false,
     hour12: false,
   });
 
@@ -145,21 +211,162 @@ export const KitchenSink = () => {
             Date limits
           </p>
           <div className="panel-date">
-            <label>Min</label>
+            <label>Start</label>
             <input
               type="date"
-              value={toISODate(minDate)}
-              onChange={(e) => setMinDate(new Date(e.target.value))}
+              value={toISODate(startDate)}
+              onChange={(e) => setStartDate(new Date(e.target.value))}
             />
           </div>
           <div className="panel-date">
-            <label>Max</label>
+            <label>End</label>
             <input
               type="date"
-              value={toISODate(maxDate)}
-              onChange={(e) => setMaxDate(new Date(e.target.value))}
+              value={toISODate(endDate)}
+              onChange={(e) => setEndDate(new Date(e.target.value))}
             />
           </div>
+
+          <p className="panel-label" style={{ marginTop: 16 }}>
+            Disabled
+          </p>
+          <select
+            className="panel-select"
+            value={disabledMode}
+            onChange={(e) => setDisabledMode(e.target.value as DisabledMode)}
+          >
+            <option value="none">none</option>
+            <option value="all">all</option>
+            <option value="date">date</option>
+            <option value="dates">dates [ ]</option>
+            <option value="range">range &#123;from,to&#125;</option>
+            <option value="weekdays">weekdays</option>
+            <option value="before">before</option>
+            <option value="after">after</option>
+            <option value="outside">outside &#123;before,after&#125;</option>
+          </select>
+
+          {disabledMode === "date" && (
+            <div className="panel-date">
+              <input
+                type="date"
+                value={disabledDate}
+                onChange={(e) => setDisabledDate(e.target.value)}
+              />
+            </div>
+          )}
+
+          {disabledMode === "dates" && (
+            <div className="panel-dates-list">
+              {disabledDates.map((d, i) => (
+                <div key={i} className="panel-dates-row">
+                  <input
+                    type="date"
+                    value={d}
+                    onChange={(e) =>
+                      setDisabledDates((prev) =>
+                        prev.map((x, j) => (j === i ? e.target.value : x)),
+                      )
+                    }
+                  />
+                  <button
+                    className="panel-dates-remove"
+                    onClick={() =>
+                      setDisabledDates((prev) => prev.filter((_, j) => j !== i))
+                    }
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              <button
+                className="panel-button"
+                onClick={() =>
+                  setDisabledDates((prev) => [...prev, toISODate(new Date())])
+                }
+              >
+                + Add date
+              </button>
+            </div>
+          )}
+
+          {disabledMode === "range" && (
+            <>
+              <div className="panel-date">
+                <label>From</label>
+                <input
+                  type="date"
+                  value={disabledFrom}
+                  onChange={(e) => setDisabledFrom(e.target.value)}
+                />
+              </div>
+              <div className="panel-date">
+                <label>To</label>
+                <input
+                  type="date"
+                  value={disabledTo}
+                  onChange={(e) => setDisabledTo(e.target.value)}
+                />
+              </div>
+            </>
+          )}
+
+          {disabledMode === "weekdays" && (
+            <div className="panel-weekdays">
+              {WEEKDAY_LABELS.map((label, i) => (
+                <button
+                  key={i}
+                  onClick={() => toggleWeekday(i)}
+                  className={`panel-weekday-btn ${disabledWeekdays.includes(i) ? "active" : ""}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {disabledMode === "before" && (
+            <div className="panel-date">
+              <label>Before</label>
+              <input
+                type="date"
+                value={disabledBefore}
+                onChange={(e) => setDisabledBefore(e.target.value)}
+              />
+            </div>
+          )}
+
+          {disabledMode === "after" && (
+            <div className="panel-date">
+              <label>After</label>
+              <input
+                type="date"
+                value={disabledAfter}
+                onChange={(e) => setDisabledAfter(e.target.value)}
+              />
+            </div>
+          )}
+
+          {disabledMode === "outside" && (
+            <>
+              <div className="panel-date">
+                <label>Before</label>
+                <input
+                  type="date"
+                  value={disabledBefore}
+                  onChange={(e) => setDisabledBefore(e.target.value)}
+                />
+              </div>
+              <div className="panel-date">
+                <label>After</label>
+                <input
+                  type="date"
+                  value={disabledAfter}
+                  onChange={(e) => setDisabledAfter(e.target.value)}
+                />
+              </div>
+            </>
+          )}
 
           <>
             <p className="panel-label" style={{ marginTop: 16 }}>
@@ -167,7 +374,7 @@ export const KitchenSink = () => {
             </p>
             <input
               type="range"
-              min="250"
+              min="200"
               max="900"
               value={containerWidth}
               className="width-slider"
@@ -183,8 +390,10 @@ export const KitchenSink = () => {
               onChangeDate={setDate}
               theme={activeTheme}
               locale={activeLocale}
-              minDate={minDate}
-              maxDate={maxDate}
+              startDate={startDate}
+              endDate={endDate}
+              startOfWeek={startOfWeek}
+              disabled={getDisabledValue()}
               {...config}
             />
           </div>
@@ -226,6 +435,18 @@ export const KitchenSink = () => {
               <span className="panel-button-val off">{l.locale}</span>
             </button>
           ))}
+          <p className="panel-label" style={{ marginTop: 16 }}>Start of week</p>
+          <div className="panel-weekdays">
+            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((label, i) => (
+              <button
+                key={i}
+                onClick={() => setStartOfWeek(i as StartOfWeek)}
+                className={`panel-weekday-btn ${startOfWeek === i ? "active" : ""}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </aside>
       </div>
     </StoryWrapper>

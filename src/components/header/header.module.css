@@ -2,9 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.4em;
-  row-gap: 0.35em;
   font-size: 1.1em;
   padding: 0.45em 0.7em;
   min-height: 3.2em;
@@ -14,14 +13,15 @@
   border-bottom: 1px solid var(--c-s);
   box-sizing: border-box;
   transition: all 0.25s linear;
+  overflow: hidden;
   &:hover {
     box-shadow: 0 0.1em 0.1em var(--c-x);
   }
 }
 
 .yearsSelector {
-  flex: 1 1 8em;
-  min-width: 7em;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,8 +36,12 @@
   font-weight: 800;
   line-height: 1;
   flex: 1;
+  min-width: 0;
   margin: 0 0.3em;
   height: 2.3em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:active {
     transform: scale(0.96);
@@ -92,20 +96,17 @@
   .headerContainer {
     gap: 0.2em;
     padding: 0.45em 0.4em;
+    font-size: 1em;
   }
-  .monthButton {
+  .monthButton, .timeButton {
     padding: 0 0.5em;
-  }
-  .timeButton {
-    padding: 0 0.5em;
+    flex-shrink: 1;
   }
   .arrow {
-    width: 1.8em;
+    width: 1.7em;
+    flex-shrink: 0;
   }
   .currentYear {
-    margin: 0 0.15em;
-  }
-  .yearsSelector {
-    min-width: 6em;
+    margin: 0 0.1em;
   }
 }

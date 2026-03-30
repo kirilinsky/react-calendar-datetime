@@ -25,6 +25,11 @@
   padding: 0.5em 0.25em !important;
 }
 
+.dayItemEmpty {
+  width: 100%;
+  aspect-ratio: 1 / 0.88;
+}
+
 .dayItem {
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";

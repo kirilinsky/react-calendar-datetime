@@ -32,13 +32,15 @@ const toValidDate = (d?: Date) => {
 
 export const CalendarProvider: React.FC<
   CalendarProps & { children: ReactNode }
-> = ({ children, theme, date: externalDate, onChangeDate, ...props }) => {
+> = ({ children, theme, date: externalDate, onChangeDate, startMonth, ...props }) => {
   const [view, setView] = useState<CalendarView>("calendar");
-  const [internalDate, setInternalDate] = useState<Date>(() =>
-    toValidDate(externalDate),
-  );
+  const [internalDate, setInternalDate] = useState<Date>(() => {
+    if (externalDate) return toValidDate(externalDate);
+    if (startMonth) return toValidDate(startMonth);
+    return new Date();
+  });
   const [selectedDate, setSelectedDate] = useState<Date | null>(() =>
-    toValidDate(externalDate),
+    externalDate ? toValidDate(externalDate) : null,
   );
   const [showTimePopup, setShowTimePopup] = useState(false);
 

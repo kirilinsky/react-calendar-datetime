@@ -2,10 +2,19 @@ import { CalendarTheme } from "./themes";
 
 export type StartOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
+export type DisabledRule =
+  | boolean
+  | Date
+  | Date[]
+  | { from: Date; to: Date }
+  | { dayOfWeek: number[] }
+  | { before?: Date; after?: Date };
+
 export interface CalendarProps {
   date?: Date;
-  minDate?: Date;
-  maxDate?: Date;
+  startDate?: Date;
+  endDate?: Date;
+  startMonth?: Date;
   onChangeDate?: (date: Date | null) => void;
   locale?: string;
   theme?: CalendarTheme;
@@ -24,8 +33,11 @@ export interface CalendarProps {
   gestures?: boolean;
   gradient?: boolean;
   highlightWeekends?: boolean;
-  disableWeekends?: boolean;
   showWeekNumber?: boolean;
+  hideLimited?: boolean;
+  hideWeekdays?: boolean;
+  shortMonths?: boolean;
+  disabled?: DisabledRule;
 }
 
 export type CalendarView = "calendar" | "month" | "year";
