@@ -1,10 +1,10 @@
-import { THEMES_DATA } from '../themes/themes';
+import { THEME_MAP, THEMES_DATA } from "../themes/themes";
 import { writeFileSync } from "fs";
 import { defineThemes } from "var-th";
 
 const { toCSS } = defineThemes({
   prefix: "c",
-  tokens: ["a", "b", "h", "t", "c", "s", "x"] as const,
+  tokens: THEME_MAP,
   themes: THEMES_DATA,
 });
 
