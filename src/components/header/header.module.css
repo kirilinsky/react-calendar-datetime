@@ -2,9 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.3em;
-  font-size: 1em;
-  padding: 0.3em 1em;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  row-gap: 0.35em;
+  font-size: 1.1em;
+  padding: 0.45em 0.7em;
+  min-height: 3.2em;
+  height: auto;
   z-index: 3;
   background: var(--c-a);
   border-bottom: 1px solid var(--c-s);
@@ -15,29 +19,25 @@
   }
 }
 
-.headerFlex{
-  display: flex;
-  gap: 0.35em;
-}
-
 .yearsSelector {
-  flex-grow: 1;
+  flex: 1 1 8em;
+  min-width: 7em;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 0.2em;
   gap: 0.2em;
-  height: 100%;
 }
 
 .currentYear {
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
-  font-size: 1em;
+  font-size: 1.05em;
   font-weight: 800;
   line-height: 1;
   flex: 1;
-  margin: 0 0.4em;
+  margin: 0 0.3em;
+  height: 2.3em;
 
   &:active {
     transform: scale(0.96);
@@ -47,16 +47,19 @@
 .arrow {
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
-  width: 2em;
-  flex-shrink: 0;
+  width: 2.2em;
+  height: 2.3em;
+
   padding: 0;
 }
 
 .monthButton {
   composes: interactive from "../../global/global.module.css";
+  flex-shrink: 0;
   width: auto;
   padding: 0 1em;
-  font-size: 0.9em;
+  height: 2.3em;
+  font-size: 0.95em;
   background-color: var(--c-t) !important;
   color: var(--c-h);
   font-weight: 700;
@@ -78,8 +81,9 @@
 
 .timeButton {
   composes: interactive from "../../global/global.module.css";
-  background: var(--c-h);
-  color: var(--c-a);
+  background: var(--c-h) !important;
+  color: var(--c-a) !important; 
   padding: 0 1em;
-  font-size: 0.9em;
+  height: 2.3em;
+  font-size: 0.95em;
 }

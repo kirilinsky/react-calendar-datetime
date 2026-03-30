@@ -10,7 +10,7 @@ export const TimeComponent: React.FC = () => {
   const throttled = useThrottle(onChangeDate, 70);
 
   return (
-    <div className={`${styles.timeContainer} ${shared.flexCenter}`}>
+    <div style={{ gridArea: "TT" }} className={`${styles.timeContainer} ${shared.flexCenter}`}>
       <TimeTrack date={date} hour12={hour12} onChange={throttled} />
     </div>
   );

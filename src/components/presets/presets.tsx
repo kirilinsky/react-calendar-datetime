@@ -17,7 +17,6 @@ export const PresetsComponent: React.FC = () => {
     years,
     onChangeDate,
     locale,
-    jellyMode,
     compactMonths,
     compactYears,
   } = useCalendarContext();
@@ -35,13 +34,9 @@ export const PresetsComponent: React.FC = () => {
 
   return (
     <div
-      className={[
-        styles.presetsContainer,
-        jellyMode === false ? styles.staticMode : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      className={styles.presetsContainer}
       style={{ gridArea: "PP" }}
+      data-count={presets.length}
     >
       {presets.map((preset) => {
         const isActive =

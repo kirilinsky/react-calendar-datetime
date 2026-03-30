@@ -9,29 +9,29 @@ type GridLayoutProps = {
   months?: boolean;
   compactYears?: boolean;
   compactMonths?: boolean;
-  jellyMode?: boolean;
 };
 
-const jelly = (
-  cramped: string,
-  normal: string,
-  fallback: string,
-  isJelly: boolean,
-  isCramped: boolean,
-) => (isJelly ? (isCramped ? cramped : normal) : fallback);
+export type LayoutMode = "wide" | "medium" | "stacked";
 
-export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
-  const isJelly = p.jellyMode !== false;
-  const isCramped = !!(p.monthsGrid && p.timeGrid);
-  const colCount = (p.monthsGrid ? 1 : 0) + 1 + (p.timeGrid ? 1 : 0);
+export const getLayoutMode = (
+  containerWidth: number,
+  props: Pick<GridLayoutProps, "monthsGrid" | "timeGrid">,
+): LayoutMode => {
+  const hasSidePanel = !!(props.monthsGrid || props.timeGrid);
+  const hasBothPanels = !!(props.monthsGrid && props.timeGrid);
 
-  const cols = [
-    p.monthsGrid && jelly("20cqw", "24cqw", "1.7fr", isJelly, isCramped),
-    isJelly ? "1fr" : "5fr",
-    p.timeGrid && jelly("16cqw", "22cqw", "1.3fr", isJelly, isCramped),
-  ]
-    .filter(Boolean)
-    .join(" ");
+  if (hasSidePanel && containerWidth > 0 && containerWidth < 300)
+    return "stacked";
+  if (hasBothPanels && containerWidth >= 300 && containerWidth < 460)
+    return "medium";
+  return "wide";
+};
+
+export const getGridLayout = (
+  p: GridLayoutProps,
+  containerWidth = 0,
+): CSSProperties => {
+  const mode = getLayoutMode(containerWidth, p);
 
   const hasHeader = !!(
     p.years ||
@@ -40,6 +40,50 @@ export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
     p.months ||
     p.time
   );
+
+  if (mode === "stacked") {
+    const areaRows = [
+      hasHeader && '"HH"',
+      p.monthsGrid && '"MM"',
+      '"DD"',
+      p.timeGrid && '"TT"',
+      p.presets && '"PP"',
+    ].filter(Boolean) as string[];
+
+    return {
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gridTemplateRows: areaRows.map(() => "auto").join(" "),
+      gridTemplateAreas: areaRows.join(" "),
+    };
+  }
+
+  if (mode === "medium") {
+    const areaRows = [
+      hasHeader && '"HH HH"',
+      '"DD DD"',
+      '"MM TT"',
+      p.presets && '"PP PP"',
+    ].filter(Boolean) as string[];
+
+    return {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gridTemplateRows: areaRows.map(() => "auto").join(" "),
+      gridTemplateAreas: areaRows.join(" "),
+    };
+  }
+
+  const isCramped = !!(p.monthsGrid && p.timeGrid);
+  const colCount = (p.monthsGrid ? 1 : 0) + 1 + (p.timeGrid ? 1 : 0);
+
+  const cols = [
+    p.monthsGrid && (isCramped ? "1.6fr" : "1.8fr"),
+    "5fr",
+    p.timeGrid && (isCramped ? "1.3fr" : "1.4fr"),
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const mainRow = [p.monthsGrid && "MM", "DD", p.timeGrid && "TT"]
     .filter(Boolean)
@@ -55,11 +99,7 @@ export const getGridLayout = (p: GridLayoutProps): CSSProperties => {
     .filter(Boolean)
     .join(" ");
 
-  const rows = [
-    hasHeader && (isJelly ? "auto" : "minmax(50px, auto)"),
-    isJelly ? "1fr" : "auto",
-    p.presets && (isJelly ? "auto" : "minmax(50px, auto)"),
-  ]
+  const rows = [hasHeader && "auto", "auto", p.presets && "auto"]
     .filter(Boolean)
     .join(" ");
 

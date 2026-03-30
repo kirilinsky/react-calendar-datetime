@@ -21,7 +21,6 @@ export interface CalendarProps {
   monthsGrid?: boolean;
   compactYears?: boolean;
   compactMonths?: boolean;
-  jellyMode?: boolean;
   brutalism?: boolean;
   gestures?: boolean;
   gradient?: boolean;

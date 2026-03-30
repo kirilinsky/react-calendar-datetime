@@ -50,7 +50,7 @@
 - 🌎 **400+ Locales** — Powered by native `Intl` API. No dictionaries, no extra bytes.
 - 🎨 **18 Themes** — `Midnight`, `Crimson`, `Industrial`, `Solar` and more.
 - 🛠️ **Fully Modular** — Toggle time, years, presets, month grid, week numbers independently.
-- 🎛️ **Deeply Customizable** — Start of week, weekend rules, jelly mode, gradients.
+- 🎛️ **Deeply Customizable** — Start of week, weekend rules, gradients.
 - 🕒 **Smart Presets** — "Today", "Last week", "Month ago" and more out of the box.
 
 <div align="center">
@@ -118,7 +118,6 @@ export default App;
 | **timeGrid**          | `boolean` | `false` | Enable right-side time selector                      |
 | **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                     |
 | **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                      |
-| **jellyMode**         | `boolean` | `false` | Fluid scaling to fill parent container               |
 | **gradient**          | `boolean` | `false` | Gradient background tinted by active theme           |
 | **gestures**          | `boolean` | `false` | Swipe to change months on mobile                     |
 | **hour12**            | `boolean` | `false` | Toggle between 12-hour (AM/PM) and 24-hour time      |

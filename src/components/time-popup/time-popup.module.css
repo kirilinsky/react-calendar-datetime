@@ -16,8 +16,9 @@
   border-radius: 1em;
   padding: 0.8em;
   width: 55%;
-  max-width: 180px;
-  min-width: 120px;
+  max-width: 13.8em;
+  min-width: 9.2em;
+  max-height: 340px;
   height: 100%;
   display: flex;
   flex-direction: column;

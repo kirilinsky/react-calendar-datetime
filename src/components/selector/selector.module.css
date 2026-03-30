@@ -1,8 +1,7 @@
 .selectorOverlay[data-state="open"] {
   position: absolute;
   inset: 0;
-  background: var(--c-b) !important;
-  background: #000;
+  background: var(--c-b);
   z-index: 100;
   display: flex;
   flex-direction: column;

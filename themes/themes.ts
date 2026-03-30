@@ -1,8 +1,8 @@
 /**
  * CSS variable suffixes (--c-*). Order MUST strictly match THEMES_DATA arrays.
- * a: accent | b: backdrop | h: highlight | t: tone | c: text | s: stroke | x: shadow
+ * a: accent | b: backdrop | h: highlight | t: tone | c: text | s: stroke | x: shadow | d: disabled
  */
-export const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x"] as const;
+export const THEME_MAP = ["a", "b", "h", "t", "c", "s", "x", "d"] as const;
 
 const W = "#ffffff";
 const B = "#1a1a1c";
@@ -13,10 +13,19 @@ const IS = "#d4d4d4";
 const GA = "#f1a01d";
 
 export const THEMES_DATA: Record<string, string[]> = {
-  paper: [W, W, B, "#f4f4f4", B, G, "#0001"],
-  carbon: [B, B, W, "#2d2d2d", G, "#333333", "#fff1"],
-  industrial: [W, IB, OR, "#1c1c1c", IS, "#2a2a2a", "#e85d0024"],
-  graphite: [W, "#f7f8f9", GA, "#eeeff1", "#1a1a1a", "#e2e4e8", "#f5a62318"],
+  paper: [W, W, B, "#f4f4f4", B, G, "#0001", "#a0a0a2"],
+  carbon: [B, B, W, "#2d2d2d", G, "#333333", "#fff1", "#555558"],
+  industrial: [W, IB, OR, "#1c1c1c", IS, "#2a2a2a", "#e85d0024", "#505050"],
+  graphite: [
+    W,
+    "#f7f8f9",
+    GA,
+    "#eeeff1",
+    "#1a1a1a",
+    "#e2e4e8",
+    "#f5a62318",
+    "#9aa0aa",
+  ],
   crimson: [
     "#161111",
     "#0d0909",
@@ -25,6 +34,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     W,
     "#2b1a1a",
     "#f92f2f20",
+    "#5a3535",
   ],
   amethyst: [
     W,
@@ -34,6 +44,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#2b2533",
     "#e6dfea",
     "#681c9e15",
+    "#b0a0be",
   ],
   cyber: [
     "#0d0d15",
@@ -43,6 +54,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     W,
     "#303050",
     "#00f3ff33",
+    "#282840",
   ],
   phosphor: [
     "#020602",
@@ -52,6 +64,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#00e676",
     "#00994d",
     "#74ff031b",
+    "#1a4020",
   ],
   midnight: [
     "#141721",
@@ -61,6 +74,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     W,
     "#444b68",
     "#3559e033",
+    "#3a4060",
   ],
   sandstone: [
     "#1c1a17",
@@ -70,8 +84,18 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#fdfbf7",
     "#5d5448",
     "#0000002a",
+    "#504840",
   ],
-  mint: [W, "#f8f9fc", "#60d276", "#eaedf4", "#171827", "#b8c0d1", "#00000a1a"],
+  mint: [
+    W,
+    "#f8f9fc",
+    "#60d276",
+    "#eaedf4",
+    "#171827",
+    "#b8c0d1",
+    "#00000a1a",
+    "#8898aa",
+  ],
   rosa: [
     W,
     "#d5d3da",
@@ -80,8 +104,18 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#2d2a32",
     "#a8a1af",
     "#d25a8e22",
+    "#9a8898",
   ],
-  snow: [W, "#e2e5e9", "#3a60d6", "#eceff4", "#212630", "#acb9cb", "#04042c25"],
+  snow: [
+    W,
+    "#e2e5e9",
+    "#3a60d6",
+    "#eceff4",
+    "#212630",
+    "#acb9cb",
+    "#04042c25",
+    "#8898a8",
+  ],
   solar: [
     W,
     "#d8cf9a",
@@ -90,6 +124,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#2b2718",
     "#9d9365",
     "#2e28212e",
+    "#8c8460",
   ],
   dracula: [
     "#1a0f0f",
@@ -99,6 +134,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     W,
     "#614040",
     "#ff5e5e20",
+    "#583535",
   ],
   comfy: [
     W,
@@ -108,6 +144,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#6e4531",
     "#b49e8a",
     "#6e45311a",
+    "#b09080",
   ],
   neon: [
     "#fcfcf5",
@@ -117,6 +154,7 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#1f2937",
     "#bed3c3",
     "#80ec2722",
+    "#8a9a88",
   ],
   temporal: [
     "#122127",
@@ -126,5 +164,6 @@ export const THEMES_DATA: Record<string, string[]> = {
     "#f1f5f9",
     "#6366f1",
     "#27d1f433",
+    "#3a4870",
   ],
 };

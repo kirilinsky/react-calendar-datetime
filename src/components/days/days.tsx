@@ -18,7 +18,6 @@ export const DaysComponent: React.FC = () => {
     gestures,
     disableWeekends,
     startOfWeek,
-    jellyMode,
     showWeekNumber,
   } = useCalendarContext();
 
@@ -110,13 +109,13 @@ export const DaysComponent: React.FC = () => {
     <div
       aria-label="days"
       key={animationKey}
+      style={{ gridArea: "DD" }}
       onTouchEnd={handleTouchEnd}
       onTouchStart={handleTouchStart}
       className={[
         styles.dayGridContainer,
         direction !== "none" ? styles[direction] : "",
-        jellyMode === false ? styles.staticMode : "",
-        showWeekNumber ? styles.withWeekNumbers : "",
+showWeekNumber ? styles.withWeekNumbers : "",
       ]
         .filter(Boolean)
         .join(" ")}

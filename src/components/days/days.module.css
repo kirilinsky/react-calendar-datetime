@@ -2,23 +2,16 @@
   background: var(--c-b);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1.1em repeat(6, 1fr);
-  align-content: center;
-  gap: 0;
-  padding: 0.7em;
-  min-height: auto;
+  grid-template-rows: auto repeat(6, auto);
+  gap: 0.15em;
+  padding: 0.5em;
+  height: auto;
   box-sizing: border-box;
   overflow: hidden;
 }
-.dayGridContainer.staticMode {
-  grid-template-rows: 21px repeat(6, 1fr);
-  padding: 8px 10px;
-  gap: 3px;
-  min-height: 280px;
-}
 
 .dayGridContainer.withWeekNumbers {
-  grid-template-columns: 2em repeat(7, 1fr);
+  grid-template-columns: 2.2em repeat(7, 1fr);
 }
 
 .weekNumberItem {
@@ -31,19 +24,12 @@
   padding: 0.5em 0.25em !important;
 }
 
-.dayGridContainer.staticMode .weekNumberItem {
-  font-size: 12px;
-}
-
-.dayGridContainer.staticMode.withWeekNumbers {
-  grid-template-columns: 25px repeat(7, 1fr);
-}
-
 .dayItem {
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
   width: 100%;
   height: auto;
+  aspect-ratio: 1;
   padding: 0;
   position: relative;
   z-index: 1;
@@ -51,11 +37,6 @@
     text-decoration: line-through;
     color: var(--c-h);
   }
-}
-.dayGridContainer.staticMode .dayItem {
-  aspect-ratio: auto;
-  font-size: 13px !important;
-  height: auto !important;
 }
 
 @keyframes slideInRight {

@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarProps } from "@/types/calendar";
 import { CalendarProvider } from "@/components/provider/provider";
-import { getGridLayout } from "@/helpers/get-grid-layout";
+import { getGridLayout, getLayoutMode } from "@/helpers/get-grid-layout";
 import { CalendarLayout } from "../layout/layout";
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -20,33 +20,52 @@ export const Calendar: React.FC<CalendarProps> = ({
   locale = "en",
   disableWeekends = false,
   startOfWeek = 1,
-  jellyMode = false,
+
   brutalism = false,
   gradient = false,
   highlightWeekends = true,
   ...restProps
 }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(() => {
+    if (typeof width === "number") return width;
+    if (typeof width === "string" && width.endsWith("px"))
+      return parseFloat(width);
+    return 800;
+  });
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   const containerStyle = useMemo(
     () =>
       ({
         width,
         height,
-        ...getGridLayout({
-          presets,
-          compactMonths,
-          compactYears,
-          years,
-          timeGrid,
-          time,
-          months,
-          monthsGrid,
-          jellyMode,
-        }),
+        ...getGridLayout(
+          {
+            presets,
+            compactMonths,
+            compactYears,
+            years,
+            timeGrid,
+            time,
+            months,
+            monthsGrid,
+          },
+          containerWidth,
+        ),
       }) as React.CSSProperties,
     [
       width,
       height,
-      theme,
       presets,
       compactYears,
       compactMonths,
@@ -55,9 +74,12 @@ export const Calendar: React.FC<CalendarProps> = ({
       timeGrid,
       months,
       monthsGrid,
-      jellyMode,
+
+      containerWidth,
     ],
   );
+
+  const layoutMode = getLayoutMode(containerWidth, { monthsGrid, timeGrid });
 
   return (
     <CalendarProvider
@@ -72,8 +94,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       months={months}
       monthsGrid={monthsGrid}
       disableWeekends={disableWeekends}
-      startOfWeek={startOfWeek}
-      jellyMode={jellyMode}
+      startOfWeek={startOfWeek} 
       brutalism={brutalism}
       gradient={gradient}
       highlightWeekends={highlightWeekends}
@@ -83,7 +104,9 @@ export const Calendar: React.FC<CalendarProps> = ({
       {...restProps}
     >
       <div
+        ref={wrapperRef}
         data-theme={theme}
+        data-layout={layoutMode}
         style={{ containerType: "inline-size", width, height }}
       >
         <CalendarLayout containerStyle={containerStyle} brutalism={brutalism} />

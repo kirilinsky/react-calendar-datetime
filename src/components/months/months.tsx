@@ -5,15 +5,8 @@ import { getMonthListData, setMonth } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
 
 export const MonthsComponent: React.FC = () => {
-  const {
-    onChangeDate,
-    locale,
-    date,
-    minDate,
-    maxDate,
-    disableWeekends,
-    jellyMode,
-  } = useCalendarContext();
+  const { onChangeDate, locale, date, minDate, maxDate, disableWeekends } =
+    useCalendarContext();
 
   const currentMonth = date.getMonth();
   const currentYear = date.getFullYear();
@@ -27,15 +20,7 @@ export const MonthsComponent: React.FC = () => {
     onChangeDate(setMonth(date, i, disableWeekends));
 
   return (
-    <div
-      className={[
-        styles.monthsContainer,
-        jellyMode === false ? styles.staticMode : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      style={{ gridArea: "MM" }}
-    >
+    <div className={styles.monthsContainer} style={{ gridArea: "MM" }}>
       {mNames.map((n, i) => (
         <button
           key={i}
