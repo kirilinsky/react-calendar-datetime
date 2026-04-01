@@ -130,7 +130,7 @@ export default App;
 | **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                    |
 | **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                     |
 | **gradient**          | `boolean` | `false` | Gradient background tinted by active theme          |
-| **gestures**          | `boolean` | `false` | Swipe to change time and months on mobile           |
+| **gestures**          | `boolean` | `true` | Swipe to change time and months on mobile           |
 | **hour12**            | `boolean` | `false` | Toggle between 12-hour (AM/PM) and 24-hour time     |
 | **highlightWeekends** | `boolean` | `true`  | Highlight weekend days                              |
 | **disableWeekends**   | `boolean` | `false` | Disable weekend selection                           |

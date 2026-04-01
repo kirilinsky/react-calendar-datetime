@@ -7,7 +7,7 @@ import { CalendarLayout } from "../layout/layout";
 export const Calendar: React.FC<CalendarProps> = ({
   width = "100%",
   theme = "paper",
-  presets = false,
+  presets = true,
   compactMonths = false,
   compactYears = true,
   years = false,
