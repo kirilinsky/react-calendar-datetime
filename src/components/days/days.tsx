@@ -14,7 +14,7 @@ export const DaysComponent: React.FC = () => {
     startDate,
     endDate,
     date,
-    selectedDate,
+    selectedDates,
     onChangeDate,
     gestures,
     disabled,
@@ -72,7 +72,7 @@ export const DaysComponent: React.FC = () => {
       currentYear,
       currentMonth,
       offset,
-      selectedDate,
+      selectedDates,
       startDate,
       endDate,
       disabled,
@@ -81,7 +81,7 @@ export const DaysComponent: React.FC = () => {
     currentYear,
     currentMonth,
     offset,
-    selectedDate,
+    selectedDates,
     startDate,
     endDate,
     disabled,
@@ -90,16 +90,6 @@ export const DaysComponent: React.FC = () => {
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
       if (isDisabled) return;
-
-      if (
-        selectedDate &&
-        targetDate.getFullYear() === selectedDate.getFullYear() &&
-        targetDate.getMonth() === selectedDate.getMonth() &&
-        targetDate.getDate() === selectedDate.getDate()
-      ) {
-        onChangeDate(null);
-        return;
-      }
 
       const next = new Date(targetDate);
       next.setHours(
@@ -119,7 +109,7 @@ export const DaysComponent: React.FC = () => {
 
       onChangeDate(next);
     },
-    [onChangeDate, date, selectedDate, startDate, endDate],
+    [onChangeDate, date, startDate, endDate],
   );
 
   const animationKey = `${currentMonth}-${currentYear}`;
@@ -149,7 +139,7 @@ showWeekNumber ? styles.withWeekNumbers : "",
 
             {week.days.map(
               (
-                { day, fullDate, isCurrentMonth, isDisabled, isSelected },
+                { day, fullDate, isCurrentMonth, isDisabled, isSelected, connectLeft, connectRight },
                 i,
               ) => {
                 const t = fullDate.getTime();
@@ -168,7 +158,10 @@ showWeekNumber ? styles.withWeekNumbers : "",
                     className={[
                       styles.dayItem,
                       isSelected && shared.activeItem,
-                      !isCurrentMonth && shared.otherItem,
+                      connectLeft && connectRight && styles.rangeMid,
+                      connectLeft && !connectRight && styles.rangeEnd,
+                      !connectLeft && connectRight && styles.rangeStart,
+                      !isCurrentMonth && (isSelected ? shared.selectedOtherItem : shared.otherItem),
                     ]
                       .filter(Boolean)
                       .join(" ")}

@@ -110,3 +110,21 @@
     margin: 0 0.1em;
   }
 }
+
+@container (max-width: 260px) {
+  .headerContainer {
+    flex-wrap: wrap;
+    font-size: 0.9em;
+    gap: 0.15em;
+    padding: 0.35em 0.3em;
+    min-height: unset;
+  }
+  .yearsSelector {
+    flex: 1 1 45%;
+  }
+  .monthButton, .timeButton {
+    flex: 1 1 auto;
+    padding: 0 0.35em;
+    font-size: 0.85em;
+  }
+}

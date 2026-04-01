@@ -18,7 +18,7 @@ export const SelectorComponent: React.FC<{
 }> = ({ type }) => {
   const {
     date,
-    onChangeDate,
+    navigateTo,
     setView,
     locale,
     startDate,
@@ -45,7 +45,7 @@ export const SelectorComponent: React.FC<{
   );
 
   const handleSelect = (newDate: Date) => {
-    onChangeDate(newDate);
+    navigateTo(newDate);
     setView("calendar");
   };
 

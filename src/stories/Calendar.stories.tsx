@@ -74,7 +74,9 @@ export const Default = () => {
       <div className="calendar-fixed-container">
         <Calendar
           date={date}
-          onChangeDate={setDate}
+          onChangeDate={(d: Date | Date[] | null) => {
+            if (d instanceof Date) setDate(d);
+          }}
           theme="industrial"
           brutalism
         />
@@ -84,6 +86,8 @@ export const Default = () => {
 };
 
 export const KitchenSink = () => {
+  const [multiselect, setMultiselect] = useState<number | boolean>(false);
+  const [dates, setDates] = useState<Date[]>([]);
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint");
   const [activeLocale, setActiveLocale] = useState("en");
@@ -97,7 +101,6 @@ export const KitchenSink = () => {
   };
 
   const [startOfWeek, setStartOfWeek] = useState<StartOfWeek>(1);
-
   const [startDate, setStartDate] = useState<Date>(() => getOffsetDay(-391));
   const [endDate, setEndDate] = useState<Date>(() => getOffsetDay(411));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
@@ -117,9 +120,7 @@ export const KitchenSink = () => {
 
   const [disabledMode, setDisabledMode] = useState<DisabledMode>("none");
   const [disabledDate, setDisabledDate] = useState(toISODate(new Date()));
-  const [disabledDates, setDisabledDates] = useState<string[]>([
-    toISODate(new Date()),
-  ]);
+  const [disabledDates, setDisabledDates] = useState<string[]>([toISODate(new Date())]);
   const [disabledFrom, setDisabledFrom] = useState(toISODate(getOffsetDay(-3)));
   const [disabledTo, setDisabledTo] = useState(toISODate(getOffsetDay(3)));
   const [disabledBefore, setDisabledBefore] = useState(toISODate(new Date()));
@@ -133,29 +134,15 @@ export const KitchenSink = () => {
 
   const getDisabledValue = (): DisabledRule | undefined => {
     switch (disabledMode) {
-      case "all":
-        return true;
-      case "date":
-        return parseDate(disabledDate);
-      case "dates":
-        return disabledDates.map(parseDate);
-      case "range":
-        return { from: parseDate(disabledFrom), to: parseDate(disabledTo) };
-      case "weekdays":
-        return disabledWeekdays.length
-          ? { dayOfWeek: disabledWeekdays }
-          : undefined;
-      case "before":
-        return { before: parseDate(disabledBefore) };
-      case "after":
-        return { after: parseDate(disabledAfter) };
-      case "outside":
-        return {
-          before: parseDate(disabledBefore),
-          after: parseDate(disabledAfter),
-        };
-      default:
-        return undefined;
+      case "all": return true;
+      case "date": return parseDate(disabledDate);
+      case "dates": return disabledDates.map(parseDate);
+      case "range": return { from: parseDate(disabledFrom), to: parseDate(disabledTo) };
+      case "weekdays": return disabledWeekdays.length ? { dayOfWeek: disabledWeekdays } : undefined;
+      case "before": return { before: parseDate(disabledBefore) };
+      case "after": return { after: parseDate(disabledAfter) };
+      case "outside": return { before: parseDate(disabledBefore), after: parseDate(disabledAfter) };
+      default: return undefined;
     }
   };
 
@@ -177,10 +164,32 @@ export const KitchenSink = () => {
     hideWeekdays: false,
     shortMonths: false,
     hour12: false,
+    showSelectedDates: false,
   });
 
   const toggle = (key: keyof typeof config) =>
     setConfig((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const handleChangeDate = (d: Date | Date[] | null) => {
+    if (multiselect) {
+      setDates(Array.isArray(d) ? d : d ? [d] : []);
+    } else {
+      if (d instanceof Date) setDate(d);
+    }
+  };
+
+  const multiselectOptions: { label: string; value: number | boolean }[] = [
+    { label: "Single", value: false },
+    { label: "2 dates", value: 2 },
+    { label: "3 dates", value: 3 },
+    { label: "Unlimited", value: true },
+  ];
+
+  const subtitle = multiselect
+    ? dates.length
+      ? dates.map((d) => formatSubtitle(d, activeLocale)).join(" · ")
+      : "No dates selected"
+    : formatSubtitle(date, activeLocale, config.time);
 
   const isLight = (LIGHT_THEMES as readonly string[]).includes(activeTheme);
 
@@ -188,11 +197,22 @@ export const KitchenSink = () => {
     <StoryWrapper
       light={isLight}
       title="Kitchen Sink"
-      subtitle={`${formatSubtitle(date, activeLocale, config.time)} · ${activeTheme} · ${activeLocale}`}
+      subtitle={`${subtitle} · ${activeTheme} · ${activeLocale}`}
     >
       <div className="kitchen-layout">
         <aside className="kitchen-panel">
-          <p className="panel-label">Props</p>
+          <p className="panel-label">Multiselect</p>
+          {multiselectOptions.map((opt) => (
+            <button
+              key={String(opt.value)}
+              onClick={() => { setMultiselect(opt.value); setDates([]); }}
+              className={`panel-button ${multiselect === opt.value ? "active" : ""}`}
+            >
+              <span className="panel-button-key">{opt.label}</span>
+            </button>
+          ))}
+
+          <p className="panel-label" style={{ marginTop: 16 }}>Props</p>
           {(Object.keys(config) as (keyof typeof config)[]).map((key) => (
             <button
               key={key}
@@ -200,16 +220,13 @@ export const KitchenSink = () => {
               className={`panel-button ${config[key] ? "active" : ""}`}
             >
               <span className="panel-button-key">{key}</span>
-              <span
-                className={`panel-button-val ${config[key] ? "on" : "off"}`}
-              >
+              <span className={`panel-button-val ${config[key] ? "on" : "off"}`}>
                 {config[key] ? "ON" : "OFF"}
               </span>
             </button>
           ))}
-          <p className="panel-label" style={{ marginTop: 16 }}>
-            Date limits
-          </p>
+
+          <p className="panel-label" style={{ marginTop: 16 }}>Date limits</p>
           <div className="panel-date">
             <label>Start</label>
             <input
@@ -227,9 +244,7 @@ export const KitchenSink = () => {
             />
           </div>
 
-          <p className="panel-label" style={{ marginTop: 16 }}>
-            Disabled
-          </p>
+          <p className="panel-label" style={{ marginTop: 16 }}>Disabled</p>
           <select
             className="panel-select"
             value={disabledMode}
@@ -248,14 +263,9 @@ export const KitchenSink = () => {
 
           {disabledMode === "date" && (
             <div className="panel-date">
-              <input
-                type="date"
-                value={disabledDate}
-                onChange={(e) => setDisabledDate(e.target.value)}
-              />
+              <input type="date" value={disabledDate} onChange={(e) => setDisabledDate(e.target.value)} />
             </div>
           )}
-
           {disabledMode === "dates" && (
             <div className="panel-dates-list">
               {disabledDates.map((d, i) => (
@@ -264,53 +274,33 @@ export const KitchenSink = () => {
                     type="date"
                     value={d}
                     onChange={(e) =>
-                      setDisabledDates((prev) =>
-                        prev.map((x, j) => (j === i ? e.target.value : x)),
-                      )
+                      setDisabledDates((prev) => prev.map((x, j) => (j === i ? e.target.value : x)))
                     }
                   />
                   <button
                     className="panel-dates-remove"
-                    onClick={() =>
-                      setDisabledDates((prev) => prev.filter((_, j) => j !== i))
-                    }
-                  >
-                    ×
-                  </button>
+                    onClick={() => setDisabledDates((prev) => prev.filter((_, j) => j !== i))}
+                  >×</button>
                 </div>
               ))}
               <button
                 className="panel-button"
-                onClick={() =>
-                  setDisabledDates((prev) => [...prev, toISODate(new Date())])
-                }
-              >
-                + Add date
-              </button>
+                onClick={() => setDisabledDates((prev) => [...prev, toISODate(new Date())])}
+              >+ Add date</button>
             </div>
           )}
-
           {disabledMode === "range" && (
             <>
               <div className="panel-date">
                 <label>From</label>
-                <input
-                  type="date"
-                  value={disabledFrom}
-                  onChange={(e) => setDisabledFrom(e.target.value)}
-                />
+                <input type="date" value={disabledFrom} onChange={(e) => setDisabledFrom(e.target.value)} />
               </div>
               <div className="panel-date">
                 <label>To</label>
-                <input
-                  type="date"
-                  value={disabledTo}
-                  onChange={(e) => setDisabledTo(e.target.value)}
-                />
+                <input type="date" value={disabledTo} onChange={(e) => setDisabledTo(e.target.value)} />
               </div>
             </>
           )}
-
           {disabledMode === "weekdays" && (
             <div className="panel-weekdays">
               {WEEKDAY_LABELS.map((label, i) => (
@@ -318,76 +308,52 @@ export const KitchenSink = () => {
                   key={i}
                   onClick={() => toggleWeekday(i)}
                   className={`panel-weekday-btn ${disabledWeekdays.includes(i) ? "active" : ""}`}
-                >
-                  {label}
-                </button>
+                >{label}</button>
               ))}
             </div>
           )}
-
           {disabledMode === "before" && (
             <div className="panel-date">
               <label>Before</label>
-              <input
-                type="date"
-                value={disabledBefore}
-                onChange={(e) => setDisabledBefore(e.target.value)}
-              />
+              <input type="date" value={disabledBefore} onChange={(e) => setDisabledBefore(e.target.value)} />
             </div>
           )}
-
           {disabledMode === "after" && (
             <div className="panel-date">
               <label>After</label>
-              <input
-                type="date"
-                value={disabledAfter}
-                onChange={(e) => setDisabledAfter(e.target.value)}
-              />
+              <input type="date" value={disabledAfter} onChange={(e) => setDisabledAfter(e.target.value)} />
             </div>
           )}
-
           {disabledMode === "outside" && (
             <>
               <div className="panel-date">
                 <label>Before</label>
-                <input
-                  type="date"
-                  value={disabledBefore}
-                  onChange={(e) => setDisabledBefore(e.target.value)}
-                />
+                <input type="date" value={disabledBefore} onChange={(e) => setDisabledBefore(e.target.value)} />
               </div>
               <div className="panel-date">
                 <label>After</label>
-                <input
-                  type="date"
-                  value={disabledAfter}
-                  onChange={(e) => setDisabledAfter(e.target.value)}
-                />
+                <input type="date" value={disabledAfter} onChange={(e) => setDisabledAfter(e.target.value)} />
               </div>
             </>
           )}
 
-          <>
-            <p className="panel-label" style={{ marginTop: 16 }}>
-              Width: {containerWidth}px
-            </p>
-            <input
-              type="range"
-              min="200"
-              max="900"
-              value={containerWidth}
-              className="width-slider"
-              onChange={(e) => setContainerWidth(Number(e.target.value))}
-            />
-          </>
+          <p className="panel-label" style={{ marginTop: 16 }}>Width: {containerWidth}px</p>
+          <input
+            type="range"
+            min="200"
+            max="900"
+            value={containerWidth}
+            className="width-slider"
+            onChange={(e) => setContainerWidth(Number(e.target.value))}
+          />
         </aside>
 
         <div className="kitchen-center">
           <div style={{ width: `${containerWidth}px` }}>
             <Calendar
-              date={date}
-              onChangeDate={setDate}
+              date={multiselect ? dates : date}
+              multiselect={multiselect || undefined}
+              onChangeDate={handleChangeDate}
               theme={activeTheme}
               locale={activeLocale}
               startDate={startDate}
@@ -400,41 +366,35 @@ export const KitchenSink = () => {
         </div>
 
         <aside className="kitchen-panel">
-          <p className="panel-label">🌙 Dark themes</p>
-          {DARK_THEMES.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTheme(t)}
-              className={`panel-button ${activeTheme === t ? "active" : ""}`}
-            >
-              <span className="panel-button-key">{THEME_LABELS[t]}</span>
-            </button>
-          ))}
-          <p className="panel-label" style={{ marginTop: 16 }}>
-            ☀️ Light themes
-          </p>
-          {LIGHT_THEMES.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTheme(t)}
-              className={`panel-button ${activeTheme === t ? "active" : ""}`}
-            >
-              <span className="panel-button-key">{THEME_LABELS[t]}</span>
-            </button>
-          ))}
-          <p className="panel-label" style={{ marginTop: 16 }}>
-            Locale
-          </p>
-          {LOCALES_LIST.map((l) => (
-            <button
-              key={l.locale}
-              onClick={() => setActiveLocale(l.locale)}
-              className={`panel-button ${activeLocale === l.locale ? "active" : ""}`}
-            >
-              <span className="panel-button-key">{l.label}</span>
-              <span className="panel-button-val off">{l.locale}</span>
-            </button>
-          ))}
+          <p className="panel-label">Theme</p>
+          <select
+            className="panel-select"
+            value={activeTheme}
+            onChange={(e) => setActiveTheme(e.target.value as CalendarTheme)}
+          >
+            <optgroup label="Dark">
+              {DARK_THEMES.map((t) => (
+                <option key={t} value={t}>{THEME_LABELS[t]}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Light">
+              {LIGHT_THEMES.map((t) => (
+                <option key={t} value={t}>{THEME_LABELS[t]}</option>
+              ))}
+            </optgroup>
+          </select>
+
+          <p className="panel-label" style={{ marginTop: 16 }}>Locale</p>
+          <select
+            className="panel-select"
+            value={activeLocale}
+            onChange={(e) => setActiveLocale(e.target.value)}
+          >
+            {LOCALES_LIST.map((l) => (
+              <option key={l.locale} value={l.locale}>{l.label} ({l.locale})</option>
+            ))}
+          </select>
+
           <p className="panel-label" style={{ marginTop: 16 }}>Start of week</p>
           <div className="panel-weekdays">
             {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((label, i) => (
@@ -442,9 +402,7 @@ export const KitchenSink = () => {
                 key={i}
                 onClick={() => setStartOfWeek(i as StartOfWeek)}
                 className={`panel-weekday-btn ${startOfWeek === i ? "active" : ""}`}
-              >
-                {label}
-              </button>
+              >{label}</button>
             ))}
           </div>
         </aside>

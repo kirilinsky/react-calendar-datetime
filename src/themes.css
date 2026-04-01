@@ -9,6 +9,7 @@
 --c-x: #1a1a1c14;
 --c-d: #a0a0a2;
 --c-we: #e53935;
+--c-r: #4a90d9;
 }
 
 [data-theme="carbon"] {
@@ -21,6 +22,7 @@
 --c-x: #ffffff16;
 --c-d: #555558;
 --c-we: #e53935;
+--c-r: #4a90d9;
 }
 
 [data-theme="industrial"] {
@@ -33,6 +35,7 @@
 --c-x: #e85d0030;
 --c-d: #505050;
 --c-we: #ff7043;
+--c-r: #f1c40f;
 }
 
 [data-theme="graphite"] {
@@ -45,6 +48,7 @@
 --c-x: #f1a01d1e;
 --c-d: #9aa0aa;
 --c-we: #e53935;
+--c-r: #4a90d9;
 }
 
 [data-theme="crimson"] {
@@ -57,6 +61,7 @@
 --c-x: #f92f2f2c;
 --c-d: #5a3535;
 --c-we: #ff6b6b;
+--c-r: #ff9800;
 }
 
 [data-theme="amethyst"] {
@@ -69,6 +74,7 @@
 --c-x: #681c9e22;
 --c-d: #b0a0be;
 --c-we: #e53935;
+--c-r: #2196f3;
 }
 
 [data-theme="cyber"] {
@@ -81,6 +87,7 @@
 --c-x: #00f3ff2c;
 --c-d: #282840;
 --c-we: #e040fb;
+--c-r: #ff6d00;
 }
 
 [data-theme="phosphor"] {
@@ -93,6 +100,7 @@
 --c-x: #76ff0328;
 --c-d: #1a4020;
 --c-we: #ff6d00;
+--c-r: #00bcd4;
 }
 
 [data-theme="midnight"] {
@@ -105,6 +113,7 @@
 --c-x: #3559e02c;
 --c-d: #3a4060;
 --c-we: #e53935;
+--c-r: #00bcd4;
 }
 
 [data-theme="sandstone"] {
@@ -117,6 +126,7 @@
 --c-x: #e3ae5c24;
 --c-d: #504840;
 --c-we: #e53935;
+--c-r: #8bc34a;
 }
 
 [data-theme="mint"] {
@@ -129,6 +139,7 @@
 --c-x: #60d27620;
 --c-d: #8898aa;
 --c-we: #e53935;
+--c-r: #7c4dff;
 }
 
 [data-theme="rosa"] {
@@ -141,6 +152,7 @@
 --c-x: #d1629228;
 --c-d: #9a8898;
 --c-we: #e53935;
+--c-r: #ff9800;
 }
 
 [data-theme="snow"] {
@@ -153,6 +165,7 @@
 --c-x: #3a60d624;
 --c-d: #8898a8;
 --c-we: #e53935;
+--c-r: #26c6da;
 }
 
 [data-theme="solar"] {
@@ -165,6 +178,7 @@
 --c-x: #e67e222a;
 --c-d: #8c8460;
 --c-we: #e53935;
+--c-r: #27ae60;
 }
 
 [data-theme="dracula"] {
@@ -177,6 +191,7 @@
 --c-x: #ff5e5e2c;
 --c-d: #583535;
 --c-we: #ff6b6b;
+--c-r: #ffd740;
 }
 
 [data-theme="comfy"] {
@@ -189,6 +204,7 @@
 --c-x: #a65d3a24;
 --c-d: #b09080;
 --c-we: #e53935;
+--c-r: #558b2f;
 }
 
 [data-theme="neon"] {
@@ -201,6 +217,7 @@
 --c-x: #80ec2722;
 --c-d: #8a9a88;
 --c-we: #e53935;
+--c-r: #ff6b35;
 }
 
 [data-theme="temporal"] {
@@ -213,5 +230,6 @@
 --c-x: #27d1f42e;
 --c-d: #3a4870;
 --c-we: #f472b6;
+--c-r: #fb923c;
 }
 

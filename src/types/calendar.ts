@@ -11,11 +11,13 @@ export type DisabledRule =
   | { before?: Date; after?: Date };
 
 export interface CalendarProps {
-  date?: Date;
+  date?: Date | Date[];
   startDate?: Date;
   endDate?: Date;
   startMonth?: Date;
-  onChangeDate?: (date: Date | null) => void;
+  onChangeDate?: (date: Date | Date[] | null) => void;
+  multiselect?: number | boolean;
+  showSelectedDates?: boolean;
   locale?: string;
   theme?: CalendarTheme;
   width?: string | number;
@@ -52,8 +54,10 @@ export interface CalendarContextValue extends CalendarProps {
   months: boolean;
   monthsGrid: boolean;
   compactMonths: boolean;
-  onChangeDate: (date: Date | null) => void;
+  onChangeDate: (date: Date | Date[] | null) => void;
+  navigateTo: (date: Date) => void;
   selectedDate: Date | null;
+  selectedDates: Date[];
   dark: boolean;
   view: CalendarView;
   setView: (view: CalendarView) => void;

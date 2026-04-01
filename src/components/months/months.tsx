@@ -5,7 +5,7 @@ import { getMonthListData, setMonth } from "@/utils/date-utils";
 import shared from "@/global/global.module.css";
 
 export const MonthsComponent: React.FC = () => {
-  const { onChangeDate, locale, date, startDate, endDate, shortMonths } =
+  const { navigateTo, locale, date, startDate, endDate, shortMonths } =
     useCalendarContext();
 
   const currentMonth = date.getMonth();
@@ -16,7 +16,7 @@ export const MonthsComponent: React.FC = () => {
     [locale, currentYear, startDate, endDate, shortMonths],
   );
 
-  const handleClick = (i: number) => onChangeDate(setMonth(date, i));
+  const handleClick = (i: number) => navigateTo(setMonth(date, i));
 
   return (
     <div className={styles.monthsContainer} style={{ gridArea: "MM" }}>

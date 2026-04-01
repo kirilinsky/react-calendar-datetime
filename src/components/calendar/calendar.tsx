@@ -21,6 +21,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   brutalism = false,
   gradient = false,
   highlightWeekends = true,
+  multiselect,
+  showSelectedDates = false,
   ...restProps
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -56,6 +58,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             time,
             months,
             monthsGrid,
+            selectedDates: showSelectedDates,
           },
           containerWidth,
         ),
@@ -70,7 +73,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       timeGrid,
       months,
       monthsGrid,
-
+      showSelectedDates,
       containerWidth,
     ],
   );
@@ -95,6 +98,8 @@ export const Calendar: React.FC<CalendarProps> = ({
       highlightWeekends={highlightWeekends}
       theme={theme}
       width={width}
+      multiselect={multiselect}
+      showSelectedDates={showSelectedDates}
       {...restProps}
     >
       <div

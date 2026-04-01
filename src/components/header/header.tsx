@@ -11,7 +11,7 @@ import {
 
 export const HeaderComponent: React.FC = () => {
   const {
-    onChangeDate,
+    navigateTo,
     compactMonths,
     compactYears,
     startDate,
@@ -49,9 +49,9 @@ export const HeaderComponent: React.FC = () => {
   }).format(date);
 
   const ch = (v: number) =>
-    onChangeDate(addDate(date, v, "year", startDate, endDate));
+    navigateTo(addDate(date, v, "year", startDate, endDate));
   const cm = (v: number) =>
-    onChangeDate(addDate(date, v, "month", startDate, endDate));
+    navigateTo(addDate(date, v, "month", startDate, endDate));
   return (
     <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
       {time && (

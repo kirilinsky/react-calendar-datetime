@@ -2,6 +2,7 @@ import { DaysComponent } from "../days/days";
 import { HeaderComponent } from "../header/header";
 import { MonthsComponent } from "../months/months";
 import { PresetsComponent } from "../presets/presets";
+import { SelectedDatesComponent } from "../selected-dates/selected-dates";
 import { useCalendarContext } from "../provider/provider";
 import { SelectorComponent } from "../selector/selector";
 import { TimeComponent } from "../time/time";
@@ -31,7 +32,11 @@ export const CalendarLayout: React.FC<{
     onChangeDate,
     hour12,
     gestures,
+    selectedDates,
+    showSelectedDates,
   } = useCalendarContext();
+
+  const hasSelectedDates = !!showSelectedDates && selectedDates.length > 0;
 
   return (
     <div
@@ -65,6 +70,7 @@ export const CalendarLayout: React.FC<{
       <DaysComponent />
       {monthsGrid && <MonthsComponent />}
       {timeGrid && <TimeComponent />}
+      {hasSelectedDates && <SelectedDatesComponent />}
     </div>
   );
 };

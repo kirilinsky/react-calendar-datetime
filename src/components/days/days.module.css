@@ -5,6 +5,7 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: auto repeat(6, auto);
   gap: 0.13em;
+  --day-gap: 0.13em;
   padding: .9em;
   height: auto;
   box-sizing: border-box;
@@ -44,6 +45,23 @@
     text-decoration: line-through;
     color: var(--c-h);
   }
+}
+
+.rangeStart {
+  border-radius: 0.5em 0 0 0.5em !important;
+  box-shadow: calc(var(--day-gap) / 2) 0 0 0 var(--c-h) !important;
+}
+
+.rangeEnd {
+  border-radius: 0 0.5em 0.5em 0 !important;
+  box-shadow: calc(-1 * var(--day-gap) / 2) 0 0 0 var(--c-h) !important;
+}
+
+.rangeMid {
+  border-radius: 0 !important;
+  box-shadow:
+    calc(var(--day-gap) / 2) 0 0 0 var(--c-h),
+    calc(-1 * var(--day-gap) / 2) 0 0 0 var(--c-h) !important;
 }
 
 @keyframes slideInRight {

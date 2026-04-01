@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   useState,
   useEffect,
+  useRef,
 } from "react";
 import {
   CalendarContextValue,
@@ -30,25 +31,50 @@ const toValidDate = (d?: Date) => {
   return isNaN(parsed.getTime()) ? new Date() : parsed;
 };
 
+const isSameDay = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
+
 export const CalendarProvider: React.FC<
   CalendarProps & { children: ReactNode }
-> = ({ children, theme, date: externalDate, onChangeDate, startMonth, ...props }) => {
+> = ({
+  children,
+  theme,
+  date: externalDate,
+  onChangeDate,
+  multiselect,
+  startMonth,
+  ...props
+}) => {
+  const externalDates = Array.isArray(externalDate) ? externalDate : undefined;
+  const externalSingle = Array.isArray(externalDate) ? externalDate[0] : externalDate;
+
   const [view, setView] = useState<CalendarView>("calendar");
   const [internalDate, setInternalDate] = useState<Date>(() => {
-    if (externalDate) return toValidDate(externalDate);
+    if (externalSingle) return toValidDate(externalSingle);
     if (startMonth) return toValidDate(startMonth);
     return new Date();
   });
-  const [selectedDate, setSelectedDate] = useState<Date | null>(() =>
-    externalDate ? toValidDate(externalDate) : null,
-  );
+  const [selectedDates, setSelectedDates] = useState<Date[]>(() => {
+    if (externalDates) return externalDates.map(toValidDate);
+    if (externalSingle) return [toValidDate(externalSingle)];
+    return [];
+  });
   const [showTimePopup, setShowTimePopup] = useState(false);
 
+  const selectedDatesRef = useRef(selectedDates);
+  selectedDatesRef.current = selectedDates;
+
   useEffect(() => {
-    const parsed = toValidDate(externalDate);
-    setInternalDate(parsed);
-    setSelectedDate(externalDate ? parsed : null);
-  }, [externalDate]);
+    if (externalDates) {
+      setSelectedDates(externalDates.map(toValidDate));
+    } else {
+      const parsed = toValidDate(externalSingle);
+      setInternalDate(parsed);
+      setSelectedDates(externalSingle ? [parsed] : []);
+    }
+  }, [externalDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const isDark = useMemo(() => {
     if (!theme) {
@@ -61,31 +87,66 @@ export const CalendarProvider: React.FC<
 
   const handleChangeDate = useCallback(
     (d: Date | null) => {
-      if (d) {
+      if (multiselect && d) {
+        const maxCount =
+          multiselect === true ? Infinity : Number(multiselect);
+        const prev = selectedDatesRef.current;
+        const alreadyIndex = prev.findIndex((s) => isSameDay(s, d));
+
+        let next: Date[];
+        if (alreadyIndex >= 0) {
+          next = prev.filter((_, i) => i !== alreadyIndex);
+        } else if (prev.length >= maxCount) {
+          return;
+        } else {
+          next = [...prev, d];
+        }
+
+        setSelectedDates(next);
         setInternalDate(d);
-        setSelectedDate(d);
+        onChangeDate?.(next);
       } else {
-        setSelectedDate(null);
+        if (d) {
+          const prev = selectedDatesRef.current[0];
+          if (prev && isSameDay(prev, d)) {
+            setSelectedDates([]);
+            onChangeDate?.(null);
+            return;
+          }
+          setInternalDate(d);
+          setSelectedDates([d]);
+        } else {
+          setSelectedDates([]);
+        }
+        onChangeDate?.(d);
       }
-      onChangeDate?.(d);
     },
-    [onChangeDate],
+    [multiselect, onChangeDate],
   );
+
+  const navigateTo = useCallback((d: Date) => {
+    setInternalDate(d);
+  }, []);
+
+  const selectedDate = selectedDates[0] ?? null;
 
   const contextValue = useMemo<CalendarContextValue>(
     () =>
       ({
         ...props,
+        multiselect,
         view,
         setView,
         dark: isDark,
         date: internalDate,
         selectedDate,
+        selectedDates,
+        navigateTo,
         showTimePopup,
         setShowTimePopup,
         onChangeDate: handleChangeDate,
       }) as CalendarContextValue,
-    [props, view, isDark, internalDate, selectedDate, handleChangeDate, showTimePopup],
+    [props, multiselect, view, isDark, internalDate, selectedDate, selectedDates, handleChangeDate, navigateTo, showTimePopup],
   );
 
   return (

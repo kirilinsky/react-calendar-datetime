@@ -383,18 +383,17 @@ export const getCalendarData = (
   currentYear: number,
   currentMonth: number,
   offset: number,
-  selectedDate: Date | null,
+  selectedDates: Date[],
   startDate?: Date | null,
   endDate?: Date | null,
   disabled?: DisabledRule,
 ) => {
-  const selectedTime = selectedDate
-    ? new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        selectedDate.getDate(),
-      ).getTime()
-    : -1;
+  const DAY_MS = 86400000;
+  const selectedTimes = new Set(
+    selectedDates.map((d) =>
+      new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime(),
+    ),
+  );
 
   const weeks = [];
   for (let i = 0; i < 6; i++) {
@@ -404,17 +403,18 @@ export const getCalendarData = (
       const fullDate = new Date(currentYear, currentMonth, dayOfMonth);
       const isCurrentMonth = fullDate.getMonth() === currentMonth;
       const day = fullDate.getDate();
+      const t = fullDate.getTime();
+      const isSelected = selectedTimes.has(t);
+      const connectLeft = isSelected && j > 0 && selectedTimes.has(t - DAY_MS);
+      const connectRight = isSelected && j < 6 && selectedTimes.has(t + DAY_MS);
       days.push({
         day,
         fullDate,
         isCurrentMonth,
-        isDisabled: checkIsDateDisabled(
-          fullDate,
-          startDate,
-          endDate,
-          disabled,
-        ),
-        isSelected: isCurrentMonth && fullDate.getTime() === selectedTime,
+        isDisabled: checkIsDateDisabled(fullDate, startDate, endDate, disabled),
+        isSelected,
+        connectLeft,
+        connectRight,
       });
     }
     weeks.push({

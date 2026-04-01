@@ -54,6 +54,7 @@
 - 🎛️ **Deeply Customizable** — Start of week, weekend highlights, gradients, brutalism mode.
 - 🕒 **12 Smart Presets** — "Today", "Next week", "In 2 weeks", "Next month" and more.
 - 👆 **Gesture Support** — Optional swipe scrolling for hour & minute tracks.
+- ✅ **Multi-select** — Pick 2, 3, or unlimited dates. Selected dates panel with navigation.
 
 <div align="center">
   <table>
@@ -83,12 +84,12 @@
 ## 🔨 How to install:
 
 ```tsx
-
    npm i react-calendar-datetime
-
 ```
 
 ## 📆 How to use:
+
+### Single date
 
 ```tsx
 import { Calendar } from "react-calendar-datetime";
@@ -96,44 +97,105 @@ import { Calendar } from "react-calendar-datetime";
 const App = () => {
   const [date, setDate] = useState(new Date());
 
-  return <Calendar date={date} onChangeDate={setDate} />;
+  return (
+    <Calendar
+      date={date}
+      onChangeDate={(d) => { if (d instanceof Date) setDate(d); }}
+    />
+  );
 };
+```
 
-export default App;
+### Multi-select
+
+```tsx
+const App = () => {
+  const [dates, setDates] = useState<Date[]>([]);
+
+  return (
+    <Calendar
+      date={dates}
+      multiselect={3}         // max 3 dates; true = unlimited
+      showSelectedDates       // show selected dates panel
+      onChangeDate={(d) => { if (Array.isArray(d)) setDates(d); }}
+    />
+  );
+};
 ```
 
 ## Props
 
 ### Data & callbacks
 
-| Property         | Type       | Default      | Description                                          |
-| :--------------- | :--------- | :----------- | :--------------------------------------------------- |
-| **date**         | `Date`     | `new Date()` | Initial selected date                                |
-| **onChangeDate** | `function` | —            | Callback, returns new `Date` or `null` on change     |
-| **minDate**      | `Date`     | —            | Minimum selectable date                              |
-| **maxDate**      | `Date`     | —            | Maximum selectable date                              |
-| **locale**       | `string`   | `'en'`       | Any valid locale, see [Localization](#-localization) |
-| **theme**        | `string`   | `'paper'`    | Theme name, see [Themes](#-supported-themes)         |
-| **width**        | `string`   | `'100%'`     | Any CSS width value (e.g. `'400px'`)                 |
-| **startOfWeek**  | `number`   | `1`          | Week start day: `0` = Sunday, `1` = Monday, etc.     |
+| Property           | Type                              | Default      | Description                                                                          |
+| :----------------- | :-------------------------------- | :----------- | :----------------------------------------------------------------------------------- |
+| **date**           | `Date \| Date[]`                  | —            | Selected date (single) or array of selected dates (multi-select)                     |
+| **onChangeDate**   | `(d: Date \| Date[] \| null) => void` | —        | Callback fired on selection. Returns `Date` in single mode, `Date[]` in multi mode, `null` on deselect |
+| **startDate**      | `Date`                            | —            | Minimum selectable date                                                              |
+| **endDate**        | `Date`                            | —            | Maximum selectable date                                                              |
+| **startMonth**     | `Date`                            | —            | Initial month to display (does not set selected date)                                |
+| **locale**         | `string`                          | `'en'`       | Any valid BCP 47 locale tag, see [Localization](#-localization)                      |
+| **theme**          | `string`                          | `'paper'`    | Theme name, see [Themes](#-supported-themes)                                         |
+| **width**          | `string \| number`                | `'100%'`     | Any CSS width value (e.g. `'400px'`)                                                 |
+| **startOfWeek**    | `0–6`                             | `1`          | Week start day: `0` = Sunday, `1` = Monday, etc.                                     |
+| **disabled**       | `DisabledRule`                    | —            | Disable specific dates. See [Disabled Dates](#-disabled-dates)                       |
+
+### Multi-select
+
+| Property              | Type               | Default | Description                                                                    |
+| :-------------------- | :----------------- | :------ | :----------------------------------------------------------------------------- |
+| **multiselect**       | `number \| boolean`| —       | Enable multi-select. Pass a number to cap selections (e.g. `2`, `3`), `true` for unlimited |
+| **showSelectedDates** | `boolean`          | `false` | Show a panel below the calendar listing all selected dates. Works in both single and multi mode |
 
 ### Features & toggles
 
 | Property              | Type      | Default | Description                                         |
 | :-------------------- | :-------- | :------ | :-------------------------------------------------- |
 | **time**              | `boolean` | `true`  | Enable time picker in header                        |
-| **timeGrid**          | `boolean` | `false` | Enable full-size time selector                      |
+| **timeGrid**          | `boolean` | `false` | Enable full-size time selector panel                |
 | **presets**           | `boolean` | `false` | Enable quick-select presets (today, tomorrow, etc.) |
 | **years**             | `boolean` | `false` | Enable year selector in header                      |
-| **months**            | `boolean` | `true`  | Enable month selector in header                     |
-| **monthsGrid**        | `boolean` | `false` | Enable full-size month-grid selector                |
-| **compactMonths**     | `boolean` | `false` | Compact month dropdown in header                    |
-| **compactYears**      | `boolean` | `true`  | Compact year dropdown in header                     |
+| **months**            | `boolean` | `true`  | Enable month navigation arrows in header            |
+| **monthsGrid**        | `boolean` | `false` | Enable full-size month-grid selector panel          |
+| **compactMonths**     | `boolean` | `false` | Compact month dropdown button in header             |
+| **compactYears**      | `boolean` | `true`  | Compact year dropdown button in header              |
 | **gradient**          | `boolean` | `false` | Gradient background tinted by active theme          |
-| **gestures**          | `boolean` | `true` | Swipe to change time and months on mobile           |
-| **hour12**            | `boolean` | `false` | Toggle between 12-hour (AM/PM) and 24-hour time     |
-| **highlightWeekends** | `boolean` | `true`  | Highlight weekend days                              |
-| **disableWeekends**   | `boolean` | `false` | Disable weekend selection                           |
+| **brutalism**         | `boolean` | `false` | Brutalism aesthetic mode                            |
+| **gestures**          | `boolean` | `true`  | Swipe to change months and time on mobile           |
+| **hour12**            | `boolean` | `false` | 12-hour (AM/PM) format for the time picker          |
+| **highlightWeekends** | `boolean` | `true`  | Highlight Saturday and Sunday                       |
+| **showWeekNumber**    | `boolean` | `false` | Show ISO week numbers alongside each row            |
+| **hideLimited**       | `boolean` | `false` | Hide dates outside startDate/endDate range          |
+| **hideWeekdays**      | `boolean` | `false` | Hide the weekday header row                         |
+| **shortMonths**       | `boolean` | `false` | Use abbreviated month names (Jan, Feb…)             |
+
+---
+
+### 🚫 Disabled Dates
+
+The `disabled` prop accepts several forms:
+
+```tsx
+// Disable all dates
+<Calendar disabled={true} />
+
+// Disable a single date
+<Calendar disabled={new Date("2025-12-25")} />
+
+// Disable an array of dates
+<Calendar disabled={[new Date("2025-01-01"), new Date("2025-12-31")]} />
+
+// Disable a date range
+<Calendar disabled={{ from: new Date("2025-06-01"), to: new Date("2025-06-30") }} />
+
+// Disable specific weekdays (0=Sun, 6=Sat)
+<Calendar disabled={{ dayOfWeek: [0, 6] }} />
+
+// Disable before/after a date
+<Calendar disabled={{ before: new Date("2025-03-01") }} />
+<Calendar disabled={{ after: new Date("2025-12-31") }} />
+<Calendar disabled={{ before: new Date("2025-03-01"), after: new Date("2025-12-31") }} />
+```
 
 ---
 
@@ -143,17 +205,17 @@ We offer 18 beautiful themes out of the box. Use the `theme` prop to switch betw
 
 <img src="https://i.ibb.co/PZMb2k02/theme.png" alt="Theme" />
 
-| 🌑 Dark Themes                                                                                                                                                                                                                                                                                                                                                                                                                                                             | ☀️ Light Themes                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="accent" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="backdrop" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" title="highlight" valign="middle"/> <img src="https://placehold.co/15x15/2d2d2d/2d2d2d.png" title="tone" valign="middle"/> <img src="https://placehold.co/15x15/f0f0f0/f0f0f0.png" title="text" valign="middle"/> **`carbon`** | <img src="https://placehold.co/15x15/ffffff/ffffff.png" title="accent" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" title="backdrop" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="highlight" valign="middle"/> <img src="https://placehold.co/15x15/f4f4f4/f4f4f4.png" title="tone" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" title="text" valign="middle"/> **`paper`** |
-| <img src="https://placehold.co/15x15/161111/161111.png" valign="middle"/> <img src="https://placehold.co/15x15/0d0909/0d0909.png" valign="middle"/> <img src="https://placehold.co/15x15/f92f2f/f92f2f.png" valign="middle"/> <img src="https://placehold.co/15x15/3a1616/3a1616.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`crimson`**                                                                            | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f5f3f7/f5f3f7.png" valign="middle"/> <img src="https://placehold.co/15x15/681c9e/681c9e.png" valign="middle"/> <img src="https://placehold.co/15x15/ebdff4/ebdff4.png" valign="middle"/> <img src="https://placehold.co/15x15/2b2533/2b2533.png" valign="middle"/> **`amethyst`**                                                                          |
-| <img src="https://placehold.co/15x15/0d0d15/0d0d15.png" valign="middle"/> <img src="https://placehold.co/15x15/07070b/07070b.png" valign="middle"/> <img src="https://placehold.co/15x15/00f3ff/00f3ff.png" valign="middle"/> <img src="https://placehold.co/15x15/301649/301649.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`cyber`**                                                                              | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f8f9fc/f8f9fc.png" valign="middle"/> <img src="https://placehold.co/15x15/60d276/60d276.png" valign="middle"/> <img src="https://placehold.co/15x15/eaedf4/eaedf4.png" valign="middle"/> <img src="https://placehold.co/15x15/171827/171827.png" valign="middle"/> **`mint`**                                                                              |
-| <img src="https://placehold.co/15x15/141721/141721.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1e2b/1a1e2b.png" valign="middle"/> <img src="https://placehold.co/15x15/3559e0/3559e0.png" valign="middle"/> <img src="https://placehold.co/15x15/212638/212638.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`midnight`**                                                                           | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/dbd8e0/dbd8e0.png" valign="middle"/> <img src="https://placehold.co/15x15/d65d91/d65d91.png" valign="middle"/> <img src="https://placehold.co/15x15/e5e1e9/e5e1e9.png" valign="middle"/> <img src="https://placehold.co/15x15/2d2a32/2d2a32.png" valign="middle"/> **`rosa`**                                                                              |
-| <img src="https://placehold.co/15x15/020602/020602.png" valign="middle"/> <img src="https://placehold.co/15x15/010401/010401.png" valign="middle"/> <img src="https://placehold.co/15x15/76ff03/76ff03.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1f1a/1a1f1a.png" valign="middle"/> <img src="https://placehold.co/15x15/00e676/00e676.png" valign="middle"/> **`phosphor`**                                                                           | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e2e5e9/e2e5e9.png" valign="middle"/> <img src="https://placehold.co/15x15/3a60d6/3a60d6.png" valign="middle"/> <img src="https://placehold.co/15x15/eceff4/eceff4.png" valign="middle"/> <img src="https://placehold.co/15x15/212630/212630.png" valign="middle"/> **`snow`**                                                                              |
-| <img src="https://placehold.co/15x15/1c1a17/1c1a17.png" valign="middle"/> <img src="https://placehold.co/15x15/1f1c18/1f1c18.png" valign="middle"/> <img src="https://placehold.co/15x15/e3ae5c/e3ae5c.png" valign="middle"/> <img src="https://placehold.co/15x15/2f2b24/2f2b24.png" valign="middle"/> <img src="https://placehold.co/15x15/fdfbf7/fdfbf7.png" valign="middle"/> **`sandstone`**                                                                          | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/d8cf9a/d8cf9a.png" valign="middle"/> <img src="https://placehold.co/15x15/e67e22/e67e22.png" valign="middle"/> <img src="https://placehold.co/15x15/e4dbab/e4dbab.png" valign="middle"/> <img src="https://placehold.co/15x15/2b2718/2b2718.png" valign="middle"/> **`solar`**                                                                             |
-| <img src="https://placehold.co/15x15/1a0f0f/1a0f0f.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1111/1c1111.png" valign="middle"/> <img src="https://placehold.co/15x15/ff5e5e/ff5e5e.png" valign="middle"/> <img src="https://placehold.co/15x15/341d1d/341d1d.png" valign="middle"/> <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`dracula`**                                                                            | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/e9ded5/e9ded5.png" valign="middle"/> <img src="https://placehold.co/15x15/a65d3a/a65d3a.png" valign="middle"/> <img src="https://placehold.co/15x15/f5ece5/f5ece5.png" valign="middle"/> <img src="https://placehold.co/15x15/6e4531/6e4531.png" valign="middle"/> **`comfy`**                                                                             |
-| <img src="https://placehold.co/15x15/122127/122127.png" valign="middle"/> <img src="https://placehold.co/15x15/14252e/14252e.png" valign="middle"/> <img src="https://placehold.co/15x15/27d1f4/27d1f4.png" valign="middle"/> <img src="https://placehold.co/15x15/242f52/242f52.png" valign="middle"/> <img src="https://placehold.co/15x15/f1f5f9/f1f5f9.png" valign="middle"/> **`temporal`**                                                                           | <img src="https://placehold.co/15x15/fcfcf5/fcfcf5.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/80ec27/80ec27.png" valign="middle"/> <img src="https://placehold.co/15x15/e9f3eb/e9f3eb.png" valign="middle"/> <img src="https://placehold.co/15x15/1f2937/1f2937.png" valign="middle"/> **`neon`**                                                                              |
-| <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/111111/111111.png" valign="middle"/> <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> <img src="https://placehold.co/15x15/1c1c1c/1c1c1c.png" valign="middle"/> <img src="https://placehold.co/15x15/d4d4d4/d4d4d4.png" valign="middle"/> **`industrial`**                                                                         | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> <img src="https://placehold.co/15x15/f1a01d/f1a01d.png" valign="middle"/> <img src="https://placehold.co/15x15/eeeff1/eeeff1.png" valign="middle"/> <img src="https://placehold.co/15x15/1a1a1a/1a1a1a.png" valign="middle"/> **`graphite`**                                                                          |
+| 🌑 Dark Themes | ☀️ Light Themes |
+| :--- | :--- |
+| <img src="https://placehold.co/15x15/1a1a1c/1a1a1c.png" valign="middle"/> **`carbon`** | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`paper`** |
+| <img src="https://placehold.co/15x15/161111/161111.png" valign="middle"/> **`crimson`** | <img src="https://placehold.co/15x15/ffffff/ffffff.png" valign="middle"/> **`amethyst`** |
+| <img src="https://placehold.co/15x15/0d0d15/0d0d15.png" valign="middle"/> **`cyber`** | <img src="https://placehold.co/15x15/f8f9fc/f8f9fc.png" valign="middle"/> **`mint`** |
+| <img src="https://placehold.co/15x15/141721/141721.png" valign="middle"/> **`midnight`** | <img src="https://placehold.co/15x15/dbd8e0/dbd8e0.png" valign="middle"/> **`rosa`** |
+| <img src="https://placehold.co/15x15/020602/020602.png" valign="middle"/> **`phosphor`** | <img src="https://placehold.co/15x15/e2e5e9/e2e5e9.png" valign="middle"/> **`snow`** |
+| <img src="https://placehold.co/15x15/1c1a17/1c1a17.png" valign="middle"/> **`sandstone`** | <img src="https://placehold.co/15x15/d8cf9a/d8cf9a.png" valign="middle"/> **`solar`** |
+| <img src="https://placehold.co/15x15/1a0f0f/1a0f0f.png" valign="middle"/> **`dracula`** | <img src="https://placehold.co/15x15/e9ded5/e9ded5.png" valign="middle"/> **`comfy`** |
+| <img src="https://placehold.co/15x15/122127/122127.png" valign="middle"/> **`temporal`** | <img src="https://placehold.co/15x15/fcfcf5/fcfcf5.png" valign="middle"/> **`neon`** |
+| <img src="https://placehold.co/15x15/e85d00/e85d00.png" valign="middle"/> **`industrial`** | <img src="https://placehold.co/15x15/f7f8f9/f7f8f9.png" valign="middle"/> **`graphite`** |
 
 > 💡 Try enabling the `gradient` prop for an extra depth effect tailored to your active theme.
 
@@ -177,23 +239,20 @@ Pass any valid locale tag and the calendar automatically formats days, months, a
 
 ## ✅ Patch notes:
 
-### 🚀 Version 4.0.0 — Breaking
+### 🚀 Version 5.0.0
 
-- **📐 Fluid adaptive grid** — Replaced static + "jelly" (cqw) dual modes with a single fluid layout that fits any container width. Smart font auto-sizing, ideal cell proportions, zero breakpoints.
-- **🎨 Theme overhaul** — Reworked colors across all 18 themes for better contrast and readability.
-- **🌈 Gradient mode redesign** — Completely rebuilt gradient backgrounds for a cleaner, more polished look.
-- **🏗️ Brutalism mode redesign** — Now a proper industrial aesthetic — sharp edges, raw surfaces, heavy type.
-- **🕒 4 new presets** — Next week, next month, in 2 weeks, next year.
-- **👆 Gesture scrolling** — Swipe-to-scroll for hour & minute tracks (opt-in via `gestures` prop).
-- **🚫 Date unselect** — Tap a selected date again to clear it.
-- **🔲 Updated shadows** — Refined shadow tokens across all components.
+- **✅ Multi-select** — Pick multiple dates via `multiselect` prop. Pass `2`, `3`, or `true` for unlimited. Unified `date` prop accepts both `Date` and `Date[]`.
+- **📋 Selected dates panel** — New `showSelectedDates` prop renders a chip list below the calendar. Works in both single and multi mode. Clicking a chip navigates to that month without changing selection.
+- **🔗 Range highlight** — Adjacent selected dates are visually connected into a continuous pill using `box-shadow` bridging, with correct border-radius on endpoints.
+- **🗓️ Cross-month selection** — Selected dates from adjacent months are now highlighted in the current month view at reduced opacity.
+- **🧭 Navigation fix** — Month/year navigation (arrows, month selector, year selector) no longer accidentally adds dates in multi-select mode.
+- **📐 Narrow header fix** — Header wraps gracefully at very small widths when multiple controls are enabled simultaneously.
 
 [**Full Version History in CHANGELOG.md**](https://github.com/kirilinsky/react-calendar-datetime/blob/main/CHANGELOG.md)
 
 ## 🗺️ Roadmap
 
-- [ ] **Date Range** — Support for date range selection.
+- [ ] **Date Range** — Dedicated range selection mode (start → end).
 - [ ] **Custom Presets** — Ability to pass custom quick-select buttons.
 - [ ] **Custom Themes** — API for creating and applying fully custom color schemes.
-- [ ] **Disabled Dates Array** — Specific date blocking by passing an array.
 - [ ] **RTL Support** — Full support for right-to-left interfaces.

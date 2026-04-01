@@ -9,6 +9,7 @@ type GridLayoutProps = {
   months?: boolean;
   compactYears?: boolean;
   compactMonths?: boolean;
+  selectedDates?: boolean;
 };
 
 export type LayoutMode = "wide" | "medium" | "stacked";
@@ -46,6 +47,7 @@ export const getGridLayout = (
       hasHeader && '"HH"',
       p.monthsGrid && '"MM"',
       '"DD"',
+      p.selectedDates && '"SD"',
       p.timeGrid && '"TT"',
       p.presets && '"PP"',
     ].filter(Boolean) as string[];
@@ -62,6 +64,7 @@ export const getGridLayout = (
     const areaRows = [
       hasHeader && '"HH HH"',
       '"DD DD"',
+      p.selectedDates && '"SD SD"',
       '"MM TT"',
       p.presets && '"PP PP"',
     ].filter(Boolean) as string[];
@@ -94,12 +97,13 @@ export const getGridLayout = (
   const areas = [
     hasHeader && fullWidth("HH"),
     `"${mainRow}"`,
+    p.selectedDates && fullWidth("SD"),
     p.presets && fullWidth("PP"),
   ]
     .filter(Boolean)
     .join(" ");
 
-  const rows = [hasHeader && "auto", "auto", p.presets && "auto"]
+  const rows = [hasHeader && "auto", "auto", p.selectedDates && "auto", p.presets && "auto"]
     .filter(Boolean)
     .join(" ");
 
