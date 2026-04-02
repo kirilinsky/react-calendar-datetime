@@ -20,6 +20,7 @@ export const PresetsComponent: React.FC = () => {
     compactMonths,
     compactYears,
     months,
+    disabled,
   } = useCalendarContext();
 
   const presets = useMemo(
@@ -29,6 +30,7 @@ export const PresetsComponent: React.FC = () => {
         monthsGrid || !!compactMonths || !!months,
         startDate,
         endDate,
+        disabled,
       ),
     [
       years,
@@ -38,6 +40,7 @@ export const PresetsComponent: React.FC = () => {
       endDate,
       compactYears,
       compactMonths,
+      disabled,
     ],
   );
 

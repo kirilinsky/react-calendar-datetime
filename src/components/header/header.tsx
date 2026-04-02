@@ -25,6 +25,7 @@ export const HeaderComponent: React.FC = () => {
     hour12,
     setShowTimePopup,
     shortMonths,
+    disabled,
   } = useCalendarContext();
 
   const cur = date.getFullYear();
@@ -40,8 +41,8 @@ export const HeaderComponent: React.FC = () => {
   );
 
   const { canGoPrev, canGoNext, canGoPrevMonth, canGoNextMonth } = useMemo(
-    () => checkYearNavigation(cur, startDate, endDate, date),
-    [cur, date, startDate, endDate],
+    () => checkYearNavigation(cur, startDate, endDate, date, disabled),
+    [cur, date, startDate, endDate, disabled],
   );
 
   const currentMonthName = new Intl.DateTimeFormat(locale, {

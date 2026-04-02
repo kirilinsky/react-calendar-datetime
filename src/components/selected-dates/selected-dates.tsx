@@ -3,23 +3,66 @@ import styles from "./selected-dates.module.css";
 import shared from "@/global/global.module.css";
 import { useCalendarContext } from "../provider/provider";
 
+const getRangeSep = (fmt: Intl.DateTimeFormat, start: Date, end: Date): string => {
+  try {
+    const parts = fmt.formatRangeToParts(start, end);
+    const sources = parts.map((p) => (p as any).source as string);
+    const afterStart = sources.lastIndexOf("startRange") + 1;
+    const beforeEnd = sources.indexOf("endRange");
+    if (afterStart > 0 && beforeEnd > afterStart) {
+      return parts.slice(afterStart, beforeEnd).map((p) => p.value).join("");
+    }
+    return " – ";
+  } catch {
+    return " – ";
+  }
+};
+
 export const SelectedDatesComponent: React.FC = () => {
-  const { selectedDates, date, navigateTo, locale } = useCalendarContext();
+  const { selectedDates, date, navigateTo, locale, range, rangeStart, rangeEnd } =
+    useCalendarContext();
+
+  const fmt = new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric" });
+
+  const isCurrentMonth = (d: Date) =>
+    d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth();
+
+  const chipClass = (d: Date) =>
+    [
+      styles.chip,
+      shared.interactive,
+      shared.hoverable,
+      isCurrentMonth(d) ? shared.activeItem : styles.inactiveChip,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+  if (range) {
+    if (!rangeStart) return null;
+
+    const sep = rangeEnd ? getRangeSep(fmt, rangeStart, rangeEnd) : " – ";
+
+    return (
+      <div className={styles.container} style={{ gridArea: "SD" }}>
+        <button type="button" onClick={() => navigateTo(rangeStart)} className={chipClass(rangeStart)}>
+          {fmt.format(rangeStart)}
+        </button>
+        <span className={styles.rangeSep}>{rangeEnd ? sep : "…"}</span>
+        {rangeEnd && (
+          <button type="button" onClick={() => navigateTo(rangeEnd)} className={chipClass(rangeEnd)}>
+            {fmt.format(rangeEnd)}
+          </button>
+        )}
+      </div>
+    );
+  }
 
   if (!selectedDates.length) return null;
-
-  const fmt = new Intl.DateTimeFormat(locale, {
-    day: "numeric",
-    month: "short",
-  });
 
   return (
     <div className={styles.container} style={{ gridArea: "SD" }}>
       {selectedDates.map((d, i) => {
-        const isActive =
-          d.getFullYear() === date.getFullYear() &&
-          d.getMonth() === date.getMonth() &&
-          d.getDate() === date.getDate();
+        const isActive = isCurrentMonth(d) && d.getDate() === date.getDate();
         return (
           <button
             key={i}

@@ -17,6 +17,7 @@ export interface CalendarProps {
   startMonth?: Date;
   onChangeDate?: (date: Date | Date[] | null) => void;
   multiselect?: number | boolean;
+  range?: boolean;
   showSelectedDates?: boolean;
   locale?: string;
   theme?: CalendarTheme;
@@ -37,6 +38,7 @@ export interface CalendarProps {
   highlightWeekends?: boolean;
   showWeekNumber?: boolean;
   hideLimited?: boolean;
+  hideDisabled?: boolean;
   hideWeekdays?: boolean;
   shortMonths?: boolean;
   disabled?: DisabledRule;
@@ -58,6 +60,10 @@ export interface CalendarContextValue extends CalendarProps {
   navigateTo: (date: Date) => void;
   selectedDate: Date | null;
   selectedDates: Date[];
+  rangeStart: Date | null;
+  rangeEnd: Date | null;
+  hoverDate: Date | null;
+  setHoverDate: (d: Date | null) => void;
   dark: boolean;
   view: CalendarView;
   setView: (view: CalendarView) => void;

@@ -22,6 +22,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   gradient = false,
   highlightWeekends = true,
   multiselect,
+  range,
   showSelectedDates = false,
   ...restProps
 }) => {
@@ -99,6 +100,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       theme={theme}
       width={width}
       multiselect={multiselect}
+      range={range}
       showSelectedDates={showSelectedDates}
       {...restProps}
     >

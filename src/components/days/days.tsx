@@ -18,16 +18,35 @@ export const DaysComponent: React.FC = () => {
     onChangeDate,
     gestures,
     disabled,
+    navigateTo,
     hideLimited,
+    hideDisabled,
     startOfWeek,
     showWeekNumber,
+    range,
+    rangeStart,
+    rangeEnd,
+    hoverDate,
+    setHoverDate,
   } = useCalendarContext();
 
   const startT = startDate
-    ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).getTime()
+    ? new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate(),
+      ).getTime()
     : null;
   const endT = endDate
-    ? new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59, 999).getTime()
+    ? new Date(
+        endDate.getFullYear(),
+        endDate.getMonth(),
+        endDate.getDate(),
+        23,
+        59,
+        59,
+        999,
+      ).getTime()
     : null;
 
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
@@ -51,14 +70,16 @@ export const DaysComponent: React.FC = () => {
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!gestures || touchStartX === null) return;
-
     const deltaX = touchStartX - e.changedTouches[0].clientX;
-    const nextDate = getNextMonthFromSwipe(deltaX, date, startDate, endDate);
-
-    if (nextDate) {
-      onChangeDate(nextDate);
-    }
-
+    const nextDate = getNextMonthFromSwipe(
+      deltaX,
+      date,
+      startDate,
+      endDate,
+      50,
+      disabled,
+    );
+    if (nextDate) navigateTo(nextDate);
     setTouchStartX(null);
   };
 
@@ -76,6 +97,7 @@ export const DaysComponent: React.FC = () => {
       startDate,
       endDate,
       disabled,
+      range ? { rangeStart, rangeEnd, hoverDate } : undefined,
     );
   }, [
     currentYear,
@@ -85,12 +107,15 @@ export const DaysComponent: React.FC = () => {
     startDate,
     endDate,
     disabled,
+    range,
+    rangeStart,
+    rangeEnd,
+    hoverDate,
   ]);
 
   const handleSetDay = useCallback(
     (targetDate: Date, isDisabled: boolean) => {
       if (isDisabled) return;
-
       const next = new Date(targetDate);
       next.setHours(
         date.getHours(),
@@ -98,19 +123,29 @@ export const DaysComponent: React.FC = () => {
         date.getSeconds(),
         date.getMilliseconds(),
       );
-
       if (startDate && next.getTime() < startDate.getTime()) {
         next.setHours(startDate.getHours(), startDate.getMinutes(), 0, 0);
       }
-
       if (endDate && next.getTime() > endDate.getTime()) {
         next.setHours(endDate.getHours(), endDate.getMinutes(), 0, 0);
       }
-
       onChangeDate(next);
     },
     [onChangeDate, date, startDate, endDate],
   );
+
+  const isPickingRange = range && rangeStart && !rangeEnd;
+
+  const handleMouseEnter = useCallback(
+    (fullDate: Date) => {
+      if (isPickingRange) setHoverDate(fullDate);
+    },
+    [isPickingRange, setHoverDate],
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    if (range) setHoverDate(null);
+  }, [range, setHoverDate]);
 
   const animationKey = `${currentMonth}-${currentYear}`;
 
@@ -121,10 +156,11 @@ export const DaysComponent: React.FC = () => {
       style={{ gridArea: "DD" }}
       onTouchEnd={handleTouchEnd}
       onTouchStart={handleTouchStart}
+      onMouseLeave={handleMouseLeave}
       className={[
         styles.dayGridContainer,
         direction !== "none" ? styles[direction] : "",
-showWeekNumber ? styles.withWeekNumbers : "",
+        showWeekNumber ? styles.withWeekNumbers : "",
       ]
         .filter(Boolean)
         .join(" ")}
@@ -136,32 +172,116 @@ showWeekNumber ? styles.withWeekNumbers : "",
             {showWeekNumber && (
               <div className={styles.weekNumberItem}>{week.weekNumber}</div>
             )}
-
             {week.days.map(
               (
-                { day, fullDate, isCurrentMonth, isDisabled, isSelected, connectLeft, connectRight },
+                {
+                  day,
+                  fullDate,
+                  isCurrentMonth,
+                  isDisabled,
+                  isSelected,
+                  connectLeft,
+                  connectRight,
+                  isRangeStart,
+                  isRangeEnd,
+                  isInRange,
+                  rangeBridgeLeft,
+                  rangeBridgeRight,
+                  isPreviewStart,
+                  isPreviewEnd,
+                  isPreviewMid,
+                  previewBridgeLeft,
+                  previewBridgeRight,
+                },
                 i,
               ) => {
                 const t = fullDate.getTime();
-                const isLimited = hideLimited && (
-                  (startT !== null && t < startT) ||
-                  (endT !== null && t > endT)
-                );
-                if (isLimited) return <span key={i} className={styles.dayItemEmpty} />;
+                const isLimited =
+                  hideLimited &&
+                  ((startT !== null && t < startT) ||
+                    (endT !== null && t > endT));
+                if (isLimited)
+                  return <span key={i} className={styles.dayItemEmpty} />;
+                if (hideDisabled && isDisabled)
+                  return <span key={i} className={styles.dayItemEmpty} />;
+
+                const rangeEndpointClass =
+                  isRangeStart && rangeBridgeRight
+                    ? styles.rStart
+                    : isRangeEnd && rangeBridgeLeft
+                      ? styles.rEnd
+                      : null;
+                const rangeBridgeClass =
+                  isRangeStart && rangeBridgeRight
+                    ? styles.rBridgeRight
+                    : isRangeEnd && rangeBridgeLeft
+                      ? styles.rBridgeLeft
+                      : isInRange && rangeBridgeLeft && rangeBridgeRight
+                        ? styles.rBridgeBoth
+                        : isInRange && rangeBridgeLeft
+                          ? styles.rBridgeLeft
+                          : isInRange && rangeBridgeRight
+                            ? styles.rBridgeRight
+                            : null;
+
+                const previewClass =
+                  isPreviewStart && isSelected
+                    ? styles.rStart
+                    : isPreviewEnd && isSelected
+                      ? styles.rEnd
+                      : isPreviewStart
+                        ? styles.rPreviewStart
+                        : isPreviewEnd
+                          ? styles.rPreviewEnd
+                          : isPreviewMid
+                            ? styles.rPreview
+                            : null;
+                const previewBridgeClass =
+                  previewBridgeLeft && previewBridgeRight
+                    ? styles.rPreviewBridgeBoth
+                    : previewBridgeRight
+                      ? styles.rPreviewBridgeRight
+                      : previewBridgeLeft
+                        ? styles.rPreviewBridgeLeft
+                        : null;
+
+                const isOtherMonth = !isCurrentMonth;
+                const isHighlighted =
+                  isSelected ||
+                  isRangeStart ||
+                  isRangeEnd ||
+                  isInRange ||
+                  isPreviewStart ||
+                  isPreviewEnd ||
+                  isPreviewMid;
+
                 return (
                   <button
                     key={i}
                     type="button"
                     disabled={isDisabled}
                     onClick={() => handleSetDay(fullDate, isDisabled)}
+                    onMouseEnter={() => handleMouseEnter(fullDate)}
                     aria-selected={isSelected}
                     className={[
                       styles.dayItem,
-                      isSelected && shared.activeItem,
-                      connectLeft && connectRight && styles.rangeMid,
-                      connectLeft && !connectRight && styles.rangeEnd,
-                      !connectLeft && connectRight && styles.rangeStart,
-                      !isCurrentMonth && (isSelected ? shared.selectedOtherItem : shared.otherItem),
+                      !range && isSelected && shared.activeItem,
+                      !range && connectLeft && connectRight && styles.rangeMid,
+                      !range && connectLeft && !connectRight && styles.rangeEnd,
+                      !range &&
+                        !connectLeft &&
+                        connectRight &&
+                        styles.rangeStart,
+                      range && isSelected && shared.activeItem,
+                      range && rangeEndpointClass,
+                      range && rangeBridgeClass,
+                      range && isInRange && styles.rIn,
+                      previewClass,
+                      previewBridgeClass,
+                      isOtherMonth &&
+                        (isHighlighted
+                          ? shared.selectedOtherItem
+                          : shared.otherItem),
                     ]
                       .filter(Boolean)
                       .join(" ")}

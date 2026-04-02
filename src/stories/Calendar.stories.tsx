@@ -38,24 +38,19 @@ const THEME_LABELS: Record<CalendarTheme, string> = {
   crimson: "Crimson",
   snow: "Snow",
   solar: "Solar",
+  latte: "Latte",
+  forest: "Forest",
 };
 
-export default {
-  title: "Calendar",
-};
+export default { title: "Calendar" };
 
-const formatSubtitle = (
-  date: Date,
-  locale: string = "en",
-  showTime: boolean = false,
-) => {
-  return new Intl.DateTimeFormat(locale, {
+const formatSubtitle = (date: Date, locale = "en", showTime = false) =>
+  new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "long",
     year: "numeric",
     ...(showTime ? { hour: "2-digit", minute: "2-digit", hour12: false } : {}),
   }).format(date);
-};
 
 const StoryWrapper = ({ children, title, subtitle, light = true }: any) => (
   <div className="story-wrapper" data-light={light}>
@@ -74,9 +69,7 @@ export const Default = () => {
       <div className="calendar-fixed-container">
         <Calendar
           date={date}
-          onChangeDate={(d: Date | Date[] | null) => {
-            if (d instanceof Date) setDate(d);
-          }}
+          onChangeDate={(d: Date | Date[] | null) => { if (d instanceof Date) setDate(d); }}
           theme="industrial"
           brutalism
         />
@@ -85,13 +78,53 @@ export const Default = () => {
   );
 };
 
+export const RangePicker = () => {
+  const [range, setRange] = useState<[Date, Date] | [Date] | []>([]);
+
+  const handleChange = (d: Date | Date[] | null) => {
+    if (!d) { setRange([]); return; }
+    if (Array.isArray(d) && d.length === 2) setRange([d[0], d[1]]);
+    else if (d instanceof Date) setRange([d]);
+  };
+
+  const fmt = (d: Date) =>
+    new Intl.DateTimeFormat("en", { day: "2-digit", month: "long", year: "numeric" }).format(d);
+
+  const subtitle =
+    range.length === 2
+      ? `${fmt(range[0])} → ${fmt(range[1])}`
+      : range.length === 1
+        ? `${fmt(range[0])} → pick end…`
+        : "Pick start date";
+
+  return (
+    <StoryWrapper title="Range Picker" subtitle={subtitle}>
+      <div className="calendar-fixed-container">
+        <Calendar
+          range
+          showSelectedDates
+          date={range.length ? range : undefined}
+          onChangeDate={handleChange}
+          theme="paper"
+          months
+          time={false}
+          presets={false}
+        />
+      </div>
+    </StoryWrapper>
+  );
+};
+
+type SelectionMode = "single" | "range" | 2 | 3 | true;
+
 export const KitchenSink = () => {
-  const [multiselect, setMultiselect] = useState<number | boolean>(false);
+  const [mode, setMode] = useState<SelectionMode>("single");
   const [dates, setDates] = useState<Date[]>([]);
   const [date, setDate] = useState<Date>(new Date());
   const [activeTheme, setActiveTheme] = useState<CalendarTheme>("mint");
   const [activeLocale, setActiveLocale] = useState("en");
   const [containerWidth, setContainerWidth] = useState(580);
+  const [startOfWeek, setStartOfWeek] = useState<StartOfWeek>(1);
 
   const getOffsetDay = (days: number) => {
     const d = new Date();
@@ -100,22 +133,12 @@ export const KitchenSink = () => {
     return d;
   };
 
-  const [startOfWeek, setStartOfWeek] = useState<StartOfWeek>(1);
   const [startDate, setStartDate] = useState<Date>(() => getOffsetDay(-391));
   const [endDate, setEndDate] = useState<Date>(() => getOffsetDay(411));
   const toISODate = (d: Date) => d.toISOString().split("T")[0];
   const parseDate = (s: string) => new Date(s + "T00:00:00");
 
-  type DisabledMode =
-    | "none"
-    | "all"
-    | "date"
-    | "dates"
-    | "range"
-    | "weekdays"
-    | "before"
-    | "after"
-    | "outside";
+  type DisabledMode = "none" | "all" | "date" | "dates" | "range" | "weekdays" | "before" | "after" | "outside";
   const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
   const [disabledMode, setDisabledMode] = useState<DisabledMode>("none");
@@ -161,6 +184,7 @@ export const KitchenSink = () => {
     highlightWeekends: true,
     showWeekNumber: false,
     hideLimited: false,
+    hideDisabled: false,
     hideWeekdays: false,
     shortMonths: false,
     hour12: false,
@@ -170,7 +194,13 @@ export const KitchenSink = () => {
   const toggle = (key: keyof typeof config) =>
     setConfig((prev) => ({ ...prev, [key]: !prev[key] }));
 
+  const isRange = mode === "range";
+  const multiselect = mode !== "single" && mode !== "range" ? mode : undefined;
+
   const handleChangeDate = (d: Date | Date[] | null) => {
+    if (isRange) {
+       return;
+    }
     if (multiselect) {
       setDates(Array.isArray(d) ? d : d ? [d] : []);
     } else {
@@ -178,18 +208,21 @@ export const KitchenSink = () => {
     }
   };
 
-  const multiselectOptions: { label: string; value: number | boolean }[] = [
-    { label: "Single", value: false },
+  const modeOptions: { label: string; value: SelectionMode }[] = [
+    { label: "Single", value: "single" },
+    { label: "Range", value: "range" },
     { label: "2 dates", value: 2 },
     { label: "3 dates", value: 3 },
     { label: "Unlimited", value: true },
   ];
 
-  const subtitle = multiselect
-    ? dates.length
-      ? dates.map((d) => formatSubtitle(d, activeLocale)).join(" · ")
-      : "No dates selected"
-    : formatSubtitle(date, activeLocale, config.time);
+  const subtitle = isRange
+    ? "Range mode"
+    : multiselect
+      ? dates.length
+        ? dates.map((d) => formatSubtitle(d, activeLocale)).join(" · ")
+        : "No dates selected"
+      : formatSubtitle(date, activeLocale, config.time);
 
   const isLight = (LIGHT_THEMES as readonly string[]).includes(activeTheme);
 
@@ -200,39 +233,98 @@ export const KitchenSink = () => {
       subtitle={`${subtitle} · ${activeTheme} · ${activeLocale}`}
     >
       <div className="kitchen-layout">
-        <aside className="kitchen-panel">
-          <p className="panel-label">Multiselect</p>
-          {multiselectOptions.map((opt) => (
+         <aside className="kitchen-panel">
+          <p className="panel-label">Mode</p>
+          {modeOptions.map((opt) => (
             <button
               key={String(opt.value)}
-              onClick={() => { setMultiselect(opt.value); setDates([]); }}
-              className={`panel-button ${multiselect === opt.value ? "active" : ""}`}
+              onClick={() => { setMode(opt.value); setDates([]); }}
+              className={`panel-button ${mode === opt.value ? "active" : ""}`}
             >
               <span className="panel-button-key">{opt.label}</span>
             </button>
           ))}
 
-          <p className="panel-label" style={{ marginTop: 16 }}>Props</p>
-          {(Object.keys(config) as (keyof typeof config)[]).map((key) => (
-            <button
-              key={key}
-              onClick={() => toggle(key)}
-              className={`panel-button ${config[key] ? "active" : ""}`}
-            >
-              <span className="panel-button-key">{key}</span>
-              <span className={`panel-button-val ${config[key] ? "on" : "off"}`}>
-                {config[key] ? "ON" : "OFF"}
-              </span>
-            </button>
-          ))}
+          <p className="panel-label" style={{ marginTop: 12 }}>Props</p>
+          <div className="panel-props-grid">
+            {(Object.keys(config) as (keyof typeof config)[]).map((key) => (
+              <button
+                key={key}
+                onClick={() => toggle(key)}
+                className={`panel-button-compact ${config[key] ? "active" : ""}`}
+              >
+                {key}
+              </button>
+            ))}
+          </div>
+        </aside>
 
-          <p className="panel-label" style={{ marginTop: 16 }}>Date limits</p>
+         <div className="kitchen-center">
+          <div style={{ width: `${containerWidth}px` }}>
+            <Calendar
+              date={isRange ? undefined : multiselect ? dates : date}
+              multiselect={multiselect}
+              range={isRange || undefined}
+              onChangeDate={handleChangeDate}
+              theme={activeTheme}
+              locale={activeLocale}
+              startDate={startDate}
+              endDate={endDate}
+              startOfWeek={startOfWeek}
+              disabled={getDisabledValue()}
+              {...config}
+            />
+          </div>
+        </div>
+
+         <aside className="kitchen-panel">
+          <p className="panel-label">Theme</p>
+          <select
+            className="panel-select"
+            value={activeTheme}
+            onChange={(e) => setActiveTheme(e.target.value as CalendarTheme)}
+          >
+            <optgroup label="Dark">
+              {DARK_THEMES.map((t) => (
+                <option key={t} value={t}>{THEME_LABELS[t]}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Light">
+              {LIGHT_THEMES.map((t) => (
+                <option key={t} value={t}>{THEME_LABELS[t]}</option>
+              ))}
+            </optgroup>
+          </select>
+
+          <p className="panel-label" style={{ marginTop: 12 }}>Locale</p>
+          <select
+            className="panel-select"
+            value={activeLocale}
+            onChange={(e) => setActiveLocale(e.target.value)}
+          >
+            {LOCALES_LIST.map((l) => (
+              <option key={l.locale} value={l.locale}>{l.label} ({l.locale})</option>
+            ))}
+          </select>
+
+          <p className="panel-label" style={{ marginTop: 12 }}>Start of week</p>
+          <div className="panel-weekdays">
+            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((label, i) => (
+              <button
+                key={i}
+                onClick={() => setStartOfWeek(i as StartOfWeek)}
+                className={`panel-weekday-btn ${startOfWeek === i ? "active" : ""}`}
+              >{label}</button>
+            ))}
+          </div>
+
+          <p className="panel-label" style={{ marginTop: 12 }}>Date limits</p>
           <div className="panel-date">
             <label>Start</label>
             <input
               type="date"
               value={toISODate(startDate)}
-              onChange={(e) => setStartDate(new Date(e.target.value))}
+              onChange={(e) => setStartDate(parseDate(e.target.value))}
             />
           </div>
           <div className="panel-date">
@@ -240,11 +332,11 @@ export const KitchenSink = () => {
             <input
               type="date"
               value={toISODate(endDate)}
-              onChange={(e) => setEndDate(new Date(e.target.value))}
+              onChange={(e) => setEndDate(parseDate(e.target.value))}
             />
           </div>
 
-          <p className="panel-label" style={{ marginTop: 16 }}>Disabled</p>
+          <p className="panel-label" style={{ marginTop: 12 }}>Disabled</p>
           <select
             className="panel-select"
             value={disabledMode}
@@ -337,7 +429,7 @@ export const KitchenSink = () => {
             </>
           )}
 
-          <p className="panel-label" style={{ marginTop: 16 }}>Width: {containerWidth}px</p>
+          <p className="panel-label" style={{ marginTop: 12 }}>Width: {containerWidth}px</p>
           <input
             type="range"
             min="200"
@@ -346,65 +438,6 @@ export const KitchenSink = () => {
             className="width-slider"
             onChange={(e) => setContainerWidth(Number(e.target.value))}
           />
-        </aside>
-
-        <div className="kitchen-center">
-          <div style={{ width: `${containerWidth}px` }}>
-            <Calendar
-              date={multiselect ? dates : date}
-              multiselect={multiselect || undefined}
-              onChangeDate={handleChangeDate}
-              theme={activeTheme}
-              locale={activeLocale}
-              startDate={startDate}
-              endDate={endDate}
-              startOfWeek={startOfWeek}
-              disabled={getDisabledValue()}
-              {...config}
-            />
-          </div>
-        </div>
-
-        <aside className="kitchen-panel">
-          <p className="panel-label">Theme</p>
-          <select
-            className="panel-select"
-            value={activeTheme}
-            onChange={(e) => setActiveTheme(e.target.value as CalendarTheme)}
-          >
-            <optgroup label="Dark">
-              {DARK_THEMES.map((t) => (
-                <option key={t} value={t}>{THEME_LABELS[t]}</option>
-              ))}
-            </optgroup>
-            <optgroup label="Light">
-              {LIGHT_THEMES.map((t) => (
-                <option key={t} value={t}>{THEME_LABELS[t]}</option>
-              ))}
-            </optgroup>
-          </select>
-
-          <p className="panel-label" style={{ marginTop: 16 }}>Locale</p>
-          <select
-            className="panel-select"
-            value={activeLocale}
-            onChange={(e) => setActiveLocale(e.target.value)}
-          >
-            {LOCALES_LIST.map((l) => (
-              <option key={l.locale} value={l.locale}>{l.label} ({l.locale})</option>
-            ))}
-          </select>
-
-          <p className="panel-label" style={{ marginTop: 16 }}>Start of week</p>
-          <div className="panel-weekdays">
-            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((label, i) => (
-              <button
-                key={i}
-                onClick={() => setStartOfWeek(i as StartOfWeek)}
-                className={`panel-weekday-btn ${startOfWeek === i ? "active" : ""}`}
-              >{label}</button>
-            ))}
-          </div>
         </aside>
       </div>
     </StoryWrapper>

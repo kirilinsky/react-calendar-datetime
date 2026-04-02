@@ -44,6 +44,7 @@ export const CalendarProvider: React.FC<
   date: externalDate,
   onChangeDate,
   multiselect,
+  range,
   startMonth,
   ...props
 }) => {
@@ -57,17 +58,46 @@ export const CalendarProvider: React.FC<
     return new Date();
   });
   const [selectedDates, setSelectedDates] = useState<Date[]>(() => {
+    if (range) return [];
     if (externalDates) return externalDates.map(toValidDate);
     if (externalSingle) return [toValidDate(externalSingle)];
     return [];
   });
+
+   const [rangeStart, setRangeStart] = useState<Date | null>(() => {
+    if (!range) return null;
+    if (externalDates?.[0]) return toValidDate(externalDates[0]);
+    if (externalSingle) return toValidDate(externalSingle);
+    return null;
+  });
+  const [rangeEnd, setRangeEnd] = useState<Date | null>(() => {
+    if (!range) return null;
+    if (externalDates?.[1]) return toValidDate(externalDates[1]);
+    return null;
+  });
+  const [hoverDate, setHoverDate] = useState<Date | null>(null);
+
+   const selectedDatesRef = useRef(selectedDates);
+  selectedDatesRef.current = selectedDates;
+  const rangeStartRef = useRef(rangeStart);
+  rangeStartRef.current = rangeStart;
+  const rangeEndRef = useRef(rangeEnd);
+  rangeEndRef.current = rangeEnd;
+
   const [showTimePopup, setShowTimePopup] = useState(false);
 
-  const selectedDatesRef = useRef(selectedDates);
-  selectedDatesRef.current = selectedDates;
-
   useEffect(() => {
-    if (externalDates) {
+    if (range) {
+      if (externalDates?.length) {
+        setRangeStart(toValidDate(externalDates[0]));
+        setRangeEnd(externalDates[1] ? toValidDate(externalDates[1]) : null);
+        if (externalDates[0]) setInternalDate(toValidDate(externalDates[0]));
+      } else if (externalSingle) {
+        setRangeStart(toValidDate(externalSingle));
+        setRangeEnd(null);
+        setInternalDate(toValidDate(externalSingle));
+      }
+    } else if (externalDates) {
       setSelectedDates(externalDates.map(toValidDate));
     } else {
       const parsed = toValidDate(externalSingle);
@@ -87,9 +117,39 @@ export const CalendarProvider: React.FC<
 
   const handleChangeDate = useCallback(
     (d: Date | null) => {
+      if (range) {
+        if (!d) return;
+        const prevStart = rangeStartRef.current;
+        const prevEnd = rangeEndRef.current;
+
+        if (!prevStart || (prevStart && prevEnd)) {
+           setRangeStart(d);
+          setRangeEnd(null);
+          setInternalDate(d);
+          setHoverDate(null);
+          onChangeDate?.(null);
+          return;
+        }
+
+         if (isSameDay(d, prevStart)) {
+           setRangeStart(null);
+          setRangeEnd(null);
+          setHoverDate(null);
+          onChangeDate?.(null);
+          return;
+        }
+
+        const [s, e] = d < prevStart ? [d, prevStart] : [prevStart, d];
+        setRangeStart(s);
+        setRangeEnd(e);
+        setInternalDate(s);
+        setHoverDate(null);
+        onChangeDate?.([s, e]);
+        return;
+      }
+
       if (multiselect && d) {
-        const maxCount =
-          multiselect === true ? Infinity : Number(multiselect);
+        const maxCount = multiselect === true ? Infinity : Number(multiselect);
         const prev = selectedDatesRef.current;
         const alreadyIndex = prev.findIndex((s) => isSameDay(s, d));
 
@@ -121,32 +181,41 @@ export const CalendarProvider: React.FC<
         onChangeDate?.(d);
       }
     },
-    [multiselect, onChangeDate],
+    [multiselect, range, onChangeDate],
   );
 
   const navigateTo = useCallback((d: Date) => {
     setInternalDate(d);
   }, []);
 
-  const selectedDate = selectedDates[0] ?? null;
+  const selectedDate = range ? rangeStart : (selectedDates[0] ?? null);
+
+   const contextSelectedDates = range
+    ? ([rangeStart, rangeEnd].filter(Boolean) as Date[])
+    : selectedDates;
 
   const contextValue = useMemo<CalendarContextValue>(
     () =>
       ({
         ...props,
         multiselect,
+        range,
         view,
         setView,
         dark: isDark,
         date: internalDate,
         selectedDate,
-        selectedDates,
+        selectedDates: contextSelectedDates,
+        rangeStart,
+        rangeEnd,
+        hoverDate,
+        setHoverDate,
         navigateTo,
         showTimePopup,
         setShowTimePopup,
         onChangeDate: handleChangeDate,
       }) as CalendarContextValue,
-    [props, multiselect, view, isDark, internalDate, selectedDate, selectedDates, handleChangeDate, navigateTo, showTimePopup],
+     [props, multiselect, range, view, isDark, internalDate, selectedDate, contextSelectedDates, rangeStart, rangeEnd, hoverDate, handleChangeDate, navigateTo, showTimePopup],
   );
 
   return (

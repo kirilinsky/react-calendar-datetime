@@ -23,3 +23,11 @@
 .inactiveChip {
   background: var(--c-t);
 }
+
+.rangeSep {
+  font-size: 0.8em;
+  color: var(--c-s);
+  align-self: center;
+  user-select: none;
+  white-space: pre;
+}
