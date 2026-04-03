@@ -5,10 +5,12 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: auto repeat(6, auto);
   gap: 0.13em;
+  --day-gap: 0.13em;
   padding: .9em;
   height: auto;
   box-sizing: border-box;
   overflow: hidden;
+  min-width: 0;
 }
 
 .dayGridContainer.withWeekNumbers {
@@ -25,6 +27,11 @@
   padding: 0.5em 0.25em !important;
 }
 
+.dayItemEmpty {
+  width: 100%;
+  aspect-ratio: 1 / 0.88;
+}
+
 .dayItem {
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
@@ -39,6 +46,75 @@
     text-decoration: line-through;
     color: var(--c-h);
   }
+}
+
+ .rangeStart {
+  border-radius: 0.5em 0 0 0.5em !important;
+  box-shadow: calc(var(--day-gap) / 2) 0 0 0 var(--c-h) !important;
+}
+
+.rangeEnd {
+  border-radius: 0 0.5em 0.5em 0 !important;
+  box-shadow: calc(-1 * var(--day-gap) / 2) 0 0 0 var(--c-h) !important;
+}
+
+.rangeMid {
+  border-radius: 0 !important;
+  box-shadow:
+    calc(var(--day-gap) / 2) 0 0 0 var(--c-h),
+    calc(-1 * var(--day-gap) / 2) 0 0 0 var(--c-h) !important;
+}
+
+ 
+ .rStart {
+  border-radius: 0.5em 0 0 0.5em !important;
+}
+.rEnd {
+  border-radius: 0 0.5em 0.5em 0 !important;
+}
+
+ .rBridgeRight {
+  box-shadow: calc(var(--day-gap) / 2) 0 0 0 color-mix(in srgb, var(--c-r) 28%, var(--c-b)) !important;
+}
+.rBridgeLeft {
+  box-shadow: calc(-1 * var(--day-gap) / 2) 0 0 0 color-mix(in srgb, var(--c-r) 28%, var(--c-b)) !important;
+}
+.rBridgeBoth {
+  box-shadow:
+    calc(var(--day-gap) / 2) 0 0 0 color-mix(in srgb, var(--c-r) 28%, var(--c-b)),
+    calc(-1 * var(--day-gap) / 2) 0 0 0 color-mix(in srgb, var(--c-r) 28%, var(--c-b)) !important;
+}
+
+ .rIn {
+  background: color-mix(in srgb, var(--c-r) 28%, var(--c-b)) !important;
+  color: var(--c-c) !important;
+  border-radius: 0 !important;
+}
+
+ .rPreviewStart {
+  background: color-mix(in srgb, var(--c-r) 16%, transparent) !important;
+  border-radius: 0.5em 0 0 0.5em !important;
+}
+.rPreviewEnd {
+  background: color-mix(in srgb, var(--c-r) 16%, transparent) !important;
+  border-radius: 0 0.5em 0.5em 0 !important;
+}
+.rPreview {
+  background: color-mix(in srgb, var(--c-r) 16%, transparent) !important;
+  border-radius: 0 !important;
+}
+.rPreviewBridgeRight {
+  box-shadow: calc(var(--day-gap) / 2) 0 0 0
+    color-mix(in srgb, var(--c-r) 16%, transparent) !important;
+}
+.rPreviewBridgeLeft {
+  box-shadow: calc(-1 * var(--day-gap) / 2) 0 0 0
+    color-mix(in srgb, var(--c-r) 16%, transparent) !important;
+}
+.rPreviewBridgeBoth {
+  box-shadow:
+    calc(var(--day-gap) / 2) 0 0 0 color-mix(in srgb, var(--c-r) 16%, transparent),
+    calc(-1 * var(--day-gap) / 2) 0 0 0 color-mix(in srgb, var(--c-r) 16%, transparent) !important;
 }
 
 @keyframes slideInRight {

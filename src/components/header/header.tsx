@@ -8,14 +8,15 @@ import {
   getTimeString,
   isYearFixed,
 } from "@/utils/date-utils";
+import { getTwoMonthsNarrowThreshold } from "@/helpers/get-grid-layout";
 
 export const HeaderComponent: React.FC = () => {
   const {
-    onChangeDate,
+    navigateTo,
     compactMonths,
     compactYears,
-    minDate,
-    maxDate,
+    startDate,
+    endDate,
     years,
     months,
     date,
@@ -23,37 +24,54 @@ export const HeaderComponent: React.FC = () => {
     locale,
     setView,
     hour12,
-    disableWeekends,
     setShowTimePopup,
+    shortMonths,
+    disabled,
+    twoMonthsLayout,
+    monthsColumn,
+    monthsGrid,
+    timeGrid,
+    containerWidth,
   } = useCalendarContext();
+
+  const twoMonthsStacked = !!twoMonthsLayout && (!!monthsColumn || (containerWidth > 0 && containerWidth < getTwoMonthsNarrowThreshold({ monthsGrid, timeGrid })));
 
   const cur = date.getFullYear();
   const curTime = getTimeString(date, hour12);
 
   const yearFixed = useMemo(
-    () => isYearFixed(cur, minDate, maxDate),
-    [cur, minDate, maxDate],
+    () => isYearFixed(cur, startDate, endDate),
+    [cur, startDate, endDate],
   );
   const monthFixed = useMemo(
-    () => isYearFixed(cur, minDate, maxDate, date.getMonth()),
-    [minDate, maxDate, date],
+    () => isYearFixed(cur, startDate, endDate, date.getMonth()),
+    [startDate, endDate, date],
   );
 
   const { canGoPrev, canGoNext, canGoPrevMonth, canGoNextMonth } = useMemo(
-    () => checkYearNavigation(cur, minDate, maxDate, date),
-    [cur, date, minDate, maxDate],
+    () => checkYearNavigation(cur, startDate, endDate, date, disabled),
+    [cur, date, startDate, endDate, disabled],
   );
 
-  const currentMonthName = new Intl.DateTimeFormat(locale, {
-    month: "long",
-  }).format(date);
+  const monthFormat = shortMonths ? "short" : "long";
+  const currentMonthName = new Intl.DateTimeFormat(locale, { month: monthFormat }).format(date);
+
+  const nextMonthDate = useMemo(
+    () => new Date(date.getFullYear(), date.getMonth() + 1, 1),
+    [date],
+  );
+  const nextMonthName = new Intl.DateTimeFormat(locale, { month: monthFormat }).format(nextMonthDate);
+  const nextMonthYear = nextMonthDate.getFullYear();
 
   const ch = (v: number) =>
-    onChangeDate(addDate(date, v, "year", disableWeekends, minDate, maxDate));
+    navigateTo(addDate(date, v, "year", startDate, endDate));
   const cm = (v: number) =>
-    onChangeDate(addDate(date, v, "month", disableWeekends, minDate, maxDate));
+    navigateTo(addDate(date, v, "month", startDate, endDate));
   return (
-    <div className={styles.headerContainer} style={{ gridArea: "HH" }}>
+    <div
+      className={[styles.headerContainer, twoMonthsLayout && styles.twoMonthsHeader].filter(Boolean).join(" ")}
+      style={{ gridArea: "HH" }}
+    >
       {time && (
         <button
           className={styles.timeButton}
@@ -73,7 +91,7 @@ export const HeaderComponent: React.FC = () => {
         </button>
       )}
 
-      {months && (
+      {months && (!twoMonthsLayout || twoMonthsStacked) && (
         <div className={styles.yearsSelector}>
           {canGoPrevMonth && (
             <button className={styles.arrow} onClick={() => cm(-1)}>
@@ -85,6 +103,32 @@ export const HeaderComponent: React.FC = () => {
             className={`${styles.currentYear} ${monthFixed ? styles.staticButton : ""}`}
           >
             {currentMonthName}
+          </button>
+          {canGoNextMonth && (
+            <button className={styles.arrow} onClick={() => cm(1)}>
+              ›
+            </button>
+          )}
+        </div>
+      )}
+
+      {months && twoMonthsLayout && !twoMonthsStacked && (
+        <div className={`${styles.yearsSelector} ${styles.twoMonthsSelector}`}>
+          {canGoPrevMonth && (
+            <button className={styles.arrow} onClick={() => cm(-1)}>
+              ‹
+            </button>
+          )}
+          <button
+            onClick={() => setView(monthFixed ? "calendar" : "month")}
+            className={`${styles.currentYear} ${monthFixed ? styles.staticButton : ""}`}
+          >
+            {currentMonthName} {cur}
+          </button>
+          <button
+            className={`${styles.currentYear} ${styles.staticButton}`}
+          >
+            {nextMonthName} {nextMonthYear}
           </button>
           {canGoNextMonth && (
             <button className={styles.arrow} onClick={() => cm(1)}>

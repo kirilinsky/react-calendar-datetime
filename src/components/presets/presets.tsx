@@ -12,24 +12,36 @@ export const PresetsComponent: React.FC = () => {
   const {
     monthsGrid,
     date,
-    minDate,
-    maxDate,
+    startDate,
+    endDate,
     years,
     onChangeDate,
     locale,
     compactMonths,
     compactYears,
+    months,
+    disabled,
   } = useCalendarContext();
 
   const presets = useMemo(
     () =>
       getFilteredPresets(
         years || !!compactYears,
-        monthsGrid || !!compactMonths,
-        minDate,
-        maxDate,
+        monthsGrid || !!compactMonths || !!months,
+        startDate,
+        endDate,
+        disabled,
       ),
-    [years, monthsGrid, minDate, maxDate, compactYears, compactMonths],
+    [
+      years,
+      months,
+      monthsGrid,
+      startDate,
+      endDate,
+      compactYears,
+      compactMonths,
+      disabled,
+    ],
   );
 
   return (
@@ -53,7 +65,7 @@ export const PresetsComponent: React.FC = () => {
             ]
               .filter(Boolean)
               .join(" ")}
-            onClick={() => onChangeDate(getPresetDate(preset))}
+            onClick={() => onChangeDate(getPresetDate(preset, date, startDate, endDate))}
           >
             {getRelativeLabel(locale, preset.amount, preset.unit)}{" "}
           </button>
