@@ -10,6 +10,7 @@
   height: auto;
   box-sizing: border-box;
   overflow: hidden;
+  min-width: 0;
 }
 
 .dayGridContainer.withWeekNumbers {

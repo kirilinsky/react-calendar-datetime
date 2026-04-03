@@ -24,6 +24,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   multiselect,
   range,
   showSelectedDates = false,
+  twoMonthsLayout = false,
+  monthsColumn = false,
   ...restProps
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -60,6 +62,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             months,
             monthsGrid,
             selectedDates: showSelectedDates,
+            twoMonthsLayout,
+            monthsColumn,
           },
           containerWidth,
         ),
@@ -75,11 +79,13 @@ export const Calendar: React.FC<CalendarProps> = ({
       months,
       monthsGrid,
       showSelectedDates,
+      twoMonthsLayout,
+      monthsColumn,
       containerWidth,
     ],
   );
 
-  const layoutMode = getLayoutMode(containerWidth, { monthsGrid, timeGrid });
+  const layoutMode = getLayoutMode(containerWidth, { monthsGrid, timeGrid, twoMonthsLayout, monthsColumn });
 
   return (
     <CalendarProvider
@@ -102,6 +108,9 @@ export const Calendar: React.FC<CalendarProps> = ({
       multiselect={multiselect}
       range={range}
       showSelectedDates={showSelectedDates}
+      twoMonthsLayout={twoMonthsLayout}
+      monthsColumn={monthsColumn}
+      containerWidth={containerWidth}
       {...restProps}
     >
       <div

@@ -9,7 +9,11 @@ import {
 import shared from "@/global/global.module.css";
 import WeekDays from "../week-days/week-days";
 
-export const DaysComponent: React.FC = () => {
+export const DaysComponent: React.FC<{ dateOverride?: Date; gridArea?: string; hideOtherMonths?: boolean }> = ({
+  dateOverride,
+  gridArea = "DD",
+  hideOtherMonths = false,
+}) => {
   const {
     startDate,
     endDate,
@@ -52,9 +56,10 @@ export const DaysComponent: React.FC = () => {
   const [direction, setDirection] = useState<"left" | "right" | "none">("none");
   const [prevDate, setPrevDate] = useState(date);
 
-  const currentMonth = date.getMonth();
-  const currentYear = date.getFullYear();
-  const offset = getFirstDayOffset(date, startOfWeek);
+  const effectiveDate = dateOverride ?? date;
+  const currentMonth = effectiveDate.getMonth();
+  const currentYear = effectiveDate.getFullYear();
+  const offset = getFirstDayOffset(effectiveDate, startOfWeek);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   useEffect(() => {
@@ -130,8 +135,9 @@ export const DaysComponent: React.FC = () => {
         next.setHours(endDate.getHours(), endDate.getMinutes(), 0, 0);
       }
       onChangeDate(next);
+      if (dateOverride) navigateTo(date);
     },
-    [onChangeDate, date, startDate, endDate],
+    [onChangeDate, navigateTo, date, startDate, endDate, dateOverride],
   );
 
   const isPickingRange = range && rangeStart && !rangeEnd;
@@ -149,11 +155,19 @@ export const DaysComponent: React.FC = () => {
 
   const animationKey = `${currentMonth}-${currentYear}`;
 
+  const isDayHidden = (d: { fullDate: Date; isDisabled: boolean; isCurrentMonth: boolean }) => {
+    const t = d.fullDate.getTime();
+    if (hideLimited && ((startT !== null && t < startT) || (endT !== null && t > endT))) return true;
+    if (hideDisabled && d.isDisabled) return true;
+    if (hideOtherMonths && !d.isCurrentMonth) return true;
+    return false;
+  };
+
   return (
     <div
       aria-label="days"
       key={animationKey}
-      style={{ gridArea: "DD" }}
+      style={{ gridArea }}
       onTouchEnd={handleTouchEnd}
       onTouchStart={handleTouchStart}
       onMouseLeave={handleMouseLeave}
@@ -167,8 +181,9 @@ export const DaysComponent: React.FC = () => {
     >
       <WeekDays />
       <div role="row" style={{ display: "contents", gridArea: "DD" }}>
-        {weeksData.map((week, wIndex) => (
-          <React.Fragment key={wIndex}>
+        {weeksData.map((week, wIndex) => {
+          if (week.days.every(isDayHidden)) return null;
+          return (<React.Fragment key={wIndex}>
             {showWeekNumber && (
               <div className={styles.weekNumberItem}>{week.weekNumber}</div>
             )}
@@ -195,14 +210,7 @@ export const DaysComponent: React.FC = () => {
                 },
                 i,
               ) => {
-                const t = fullDate.getTime();
-                const isLimited =
-                  hideLimited &&
-                  ((startT !== null && t < startT) ||
-                    (endT !== null && t > endT));
-                if (isLimited)
-                  return <span key={i} className={styles.dayItemEmpty} />;
-                if (hideDisabled && isDisabled)
+                if (isDayHidden({ fullDate, isDisabled, isCurrentMonth }))
                   return <span key={i} className={styles.dayItemEmpty} />;
 
                 const rangeEndpointClass =
@@ -292,7 +300,8 @@ export const DaysComponent: React.FC = () => {
               },
             )}
           </React.Fragment>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

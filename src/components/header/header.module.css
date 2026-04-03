@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.4em;
   font-size: 1.1em;
   padding: 0.45em 0.7em;
@@ -20,7 +20,9 @@
 }
 
 .yearsSelector {
-  flex: 1 1 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 8em;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -35,13 +37,11 @@
   font-size: 1.05em;
   font-weight: 800;
   line-height: 1;
-  flex: 1;
-  min-width: 0;
+  flex-shrink: 0;
+  width: max-content;
   margin: 0 0.3em;
   height: 2.3em;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   &:active {
     transform: scale(0.96);
@@ -52,15 +52,16 @@
   composes: interactive from "../../global/global.module.css";
   composes: hoverable from "../../global/global.module.css";
   width: 2.2em;
+  min-width: 1.4em;
   height: 2.3em;
-
+  flex-shrink: 1;
   padding: 0;
 }
 
 .monthButton {
   composes: interactive from "../../global/global.module.css";
-  flex-shrink: 0;
-  width: auto;
+  flex: 0 0 auto;
+  min-width: 0;
   padding: 0 1em;
   height: 2.3em;
   font-size: 0.95em;
@@ -90,41 +91,46 @@
   padding: 0 1em;
   height: 2.3em;
   font-size: 0.95em;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.twoMonthsSelector {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 12em;
+  min-width: 0;
+
+  & .currentYear {
+    flex-basis: 3em;
+    min-width: 3em;
+  }
 }
 
 @container (max-width: 340px) {
   .headerContainer {
-    gap: 0.2em;
-    padding: 0.45em 0.4em;
     font-size: 1em;
+    padding: 0.4em 0.5em;
+    gap: 0.3em;
   }
   .monthButton, .timeButton {
-    padding: 0 0.5em;
-    flex-shrink: 1;
-  }
-  .arrow {
-    width: 1.7em;
-    flex-shrink: 0;
-  }
-  .currentYear {
-    margin: 0 0.1em;
+    padding: 0 0.65em;
   }
 }
 
-@container (max-width: 260px) {
+@container (max-width: 220px) {
   .headerContainer {
-    flex-wrap: wrap;
     font-size: 0.9em;
-    gap: 0.15em;
-    padding: 0.35em 0.3em;
-    min-height: unset;
+    padding: 0.35em 0.4em;
+    gap: 0.2em;
   }
-  .yearsSelector {
-    flex: 1 1 45%;
+  .twoMonthsHeader .monthButton,
+  .twoMonthsHeader .timeButton {
+    flex: 0 0 auto;
+    width: fit-content;
   }
-  .monthButton, .timeButton {
-    flex: 1 1 auto;
-    padding: 0 0.35em;
+  .twoMonthsSelector .currentYear {
     font-size: 0.85em;
+    margin: 0;
   }
 }

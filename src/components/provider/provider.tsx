@@ -37,7 +37,7 @@ const isSameDay = (a: Date, b: Date) =>
   a.getDate() === b.getDate();
 
 export const CalendarProvider: React.FC<
-  CalendarProps & { children: ReactNode }
+  CalendarProps & { children: ReactNode; containerWidth?: number }
 > = ({
   children,
   theme,
@@ -46,6 +46,7 @@ export const CalendarProvider: React.FC<
   multiselect,
   range,
   startMonth,
+  containerWidth = 0,
   ...props
 }) => {
   const externalDates = Array.isArray(externalDate) ? externalDate : undefined;
@@ -184,6 +185,15 @@ export const CalendarProvider: React.FC<
     [multiselect, range, onChangeDate],
   );
 
+  const handleChangeTime = useCallback(
+    (d: Date) => {
+      setInternalDate(d);
+      setSelectedDates((prev) => (prev.length > 0 ? [d] : prev));
+      onChangeDate?.(d);
+    },
+    [onChangeDate],
+  );
+
   const navigateTo = useCallback((d: Date) => {
     setInternalDate(d);
   }, []);
@@ -214,8 +224,10 @@ export const CalendarProvider: React.FC<
         showTimePopup,
         setShowTimePopup,
         onChangeDate: handleChangeDate,
+        onChangeTime: handleChangeTime,
+        containerWidth,
       }) as CalendarContextValue,
-     [props, multiselect, range, view, isDark, internalDate, selectedDate, contextSelectedDates, rangeStart, rangeEnd, hoverDate, handleChangeDate, navigateTo, showTimePopup],
+     [props, multiselect, range, view, isDark, internalDate, selectedDate, contextSelectedDates, rangeStart, rangeEnd, hoverDate, handleChangeDate, handleChangeTime, navigateTo, showTimePopup, containerWidth],
   );
 
   return (

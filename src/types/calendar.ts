@@ -42,12 +42,15 @@ export interface CalendarProps {
   hideWeekdays?: boolean;
   shortMonths?: boolean;
   disabled?: DisabledRule;
+  twoMonthsLayout?: boolean;
+  monthsColumn?: boolean;
 }
 
 export type CalendarView = "calendar" | "month" | "year";
 
 export interface CalendarContextValue extends CalendarProps {
   date: Date;
+  containerWidth: number;
   locale: string;
   startOfWeek: StartOfWeek;
   time: boolean;
@@ -57,6 +60,7 @@ export interface CalendarContextValue extends CalendarProps {
   monthsGrid: boolean;
   compactMonths: boolean;
   onChangeDate: (date: Date | Date[] | null) => void;
+  onChangeTime: (date: Date) => void;
   navigateTo: (date: Date) => void;
   selectedDate: Date | null;
   selectedDates: Date[];

@@ -378,7 +378,6 @@ export const getCalendarData = (
     ? new Date(rE.getFullYear(), rE.getMonth(), rE.getDate()).getTime()
     : null;
 
-  //   when rangeStart set but no rangeEnd yet and user is hovering
   const isPreviewMode = rStartT !== null && rEndT === null && hD !== null;
   const hDT = hD
     ? new Date(hD.getFullYear(), hD.getMonth(), hD.getDate()).getTime()

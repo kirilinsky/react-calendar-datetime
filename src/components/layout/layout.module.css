@@ -100,6 +100,20 @@
 .calendarContainer.gradient > div[data-state="open"] {
   background: var(--c-b) !important;
 }
+.secondMonthLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:   0.5em;
+  min-height: 3em;
+  font-size: .9em;
+  font-weight: 800;
+  border-top: 1px solid var(--c-s);
+  border-bottom: 1px solid var(--c-s);
+  background: var(--c-a);
+  color: var(--c-c);
+}
+
 :global([data-layout="stacked"]) {
   --months-border-right: none;
   --months-border-bottom: 1px solid var(--c-s);
@@ -121,4 +135,11 @@
   --time-border-left: none;
   --time-item-font: 1em;
   --time-border-top: 1px solid var(--c-s);
+}
+
+/* Two months wide: each day grid gets ~half the container width,
+   so font-size must scale relative to half the container */
+.twoMonthsWide {
+  max-width: 1200px;
+  font-size: clamp(11px, 1.4cqw, 18px);
 }
