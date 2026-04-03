@@ -65,7 +65,7 @@ export const PresetsComponent: React.FC = () => {
             ]
               .filter(Boolean)
               .join(" ")}
-            onClick={() => onChangeDate(getPresetDate(preset))}
+            onClick={() => onChangeDate(getPresetDate(preset, date, startDate, endDate))}
           >
             {getRelativeLabel(locale, preset.amount, preset.unit)}{" "}
           </button>

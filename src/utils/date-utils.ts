@@ -119,10 +119,30 @@ export const getDrumValue = (
   return val < 0 ? val + max : val;
 };
 
-export const getPresetDate = (preset: PresetItem): Date => {
+export const getPresetDate = (
+  preset: PresetItem,
+  currentDate?: Date,
+  startDate?: Date | null,
+  endDate?: Date | null,
+): Date => {
   const d = new Date();
-  d.setHours(0, 0, 0, 0);
+  if (currentDate) {
+    d.setHours(
+      currentDate.getHours(),
+      currentDate.getMinutes(),
+      currentDate.getSeconds(),
+      currentDate.getMilliseconds(),
+    );
+  } else {
+    d.setHours(0, 0, 0, 0);
+  }
   preset.calc(d);
+  if (startDate && d.getTime() < startDate.getTime()) {
+    d.setHours(startDate.getHours(), startDate.getMinutes(), startDate.getSeconds(), 0);
+  }
+  if (endDate && d.getTime() > endDate.getTime()) {
+    d.setHours(endDate.getHours(), endDate.getMinutes(), endDate.getSeconds(), 0);
+  }
   return d;
 };
 
