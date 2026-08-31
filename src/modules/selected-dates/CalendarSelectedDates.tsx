@@ -5,6 +5,7 @@ import { dateKey } from "../../core/calendar-date";
 import { fromCalendarDateTime } from "../../core/timezone-boundary";
 import { ClearIcon } from "../../react/icons";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { UIButton } from "../../react/ui/button";
 import { useStoreSelector } from "../../react/use-store-selector";
@@ -35,8 +36,11 @@ export type CalendarSelectedDatesProps = {
   removeRangeEndLabel?: string;
   col?: number | string;
   className?: string;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
 };
@@ -137,6 +141,7 @@ export function CalendarSelectedDates({
   theme,
   scheme,
 }: CalendarSelectedDatesProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -177,10 +182,10 @@ export function CalendarSelectedDates({
       <div
         data-dateforge-selected-dates=""
         data-area="selected-dates"
-        data-theme={theme}
+        data-theme={dataTheme}
         data-scheme={scheme}
         className={[styles.container, className].filter(Boolean).join(" ")}
-        style={gridSlot}
+        style={{ ...themeStyle, ...gridSlot }}
       >
         {(expanded ? selection.dates : selection.dates.slice(0, cap)).map(
           (dt) => {
@@ -250,7 +255,7 @@ export function CalendarSelectedDates({
       data-dateforge-selected-dates=""
       data-area="selected-dates"
       className={[styles.container, className].filter(Boolean).join(" ")}
-      style={gridSlot}
+      style={{ ...themeStyle, ...gridSlot }}
     >
       {ranges.map((range, index) => {
         const { start, end } = range;

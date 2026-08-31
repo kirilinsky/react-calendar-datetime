@@ -12,6 +12,7 @@ import { compareDate } from "../../core/calendar-date";
 import { today as getToday } from "../../core/timezone-boundary";
 import { ClearIcon } from "../../react/icons";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { UIButton } from "../../react/ui/button";
 import { useStoreSelector } from "../../react/use-store-selector";
@@ -48,8 +49,11 @@ export type CalendarManualInputProps = {
   clearLabel?: string;
   /** Horizontal alignment of the row. Default "left". */
   align?: "left" | "center" | "right";
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
   col?: number | string;
@@ -98,6 +102,7 @@ export function CalendarManualInput({
   col,
   className,
 }: CalendarManualInputProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -326,10 +331,11 @@ export function CalendarManualInput({
     <div
       data-dateforge-manual-input=""
       data-area="manual-input"
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       className={[styles.container, className].filter(Boolean).join(" ")}
       style={{
+        ...themeStyle,
         ...getGridSlotStyle(col),
         alignItems: ALIGN_TO_JUSTIFY[align],
       }}

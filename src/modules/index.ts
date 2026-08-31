@@ -9,6 +9,8 @@
  */
 import "../styles/layers.css";
 
+// Every module's `theme` prop takes this union (built-in name or `createTheme`).
+export type { ModuleTheme } from "../react/module-theme";
 export { CalendarDays, type CalendarDaysProps } from "./days/CalendarDays";
 export {
   CalendarDaysTrack,

@@ -95,3 +95,5 @@ export {
   type CalendarConfigOptions,
   createCalendarConfig,
 } from "./config";
+// The union every module's `theme` prop takes (name or `createTheme` object).
+export type { ModuleTheme } from "./module-theme";

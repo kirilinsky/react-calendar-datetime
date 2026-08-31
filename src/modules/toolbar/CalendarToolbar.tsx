@@ -46,6 +46,7 @@ import {
   ThemeToggleIcon,
 } from "../../react/icons";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import {
   PickerDraftProvider,
   TimePickerDraftProvider,
@@ -153,8 +154,11 @@ export type CalendarToolbarProps = WithClass & {
    * overrides this (e.g. a from-label and to-label in one toolbar).
    */
   bound?: Bound;
-  /** Per-module theme override (`data-theme` on the container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the container). */
   scheme?: "light" | "dark" | "auto";
 };
@@ -205,6 +209,7 @@ export function CalendarToolbar({
   className,
   children,
 }: CalendarToolbarProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const t = useLabels();
   const ctx = useMemo(() => ({ offset, bound }), [offset, bound]);
   const gridTemplateColumns =
@@ -220,10 +225,11 @@ export function CalendarToolbar({
         aria-label={t("calendarNavigation", undefined, label)}
         data-dateforge-toolbar=""
         data-cols={cols !== undefined ? "" : undefined}
-        data-theme={theme}
+        data-theme={dataTheme}
         data-scheme={scheme}
         className={cx(styles.toolbar, className)}
         style={{
+          ...themeStyle,
           ...getGridSlotStyle(col),
           ...(gridTemplateColumns ? { gridTemplateColumns } : undefined),
           ...(justify ? { justifyContent: justify } : undefined),

@@ -4,6 +4,7 @@ import { calendarDate, daysInMonth } from "../../core/calendar-date";
 import { toCalendarDateTime } from "../../core/timezone-boundary";
 import { useToday } from "../../hooks/use-today";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { usePickerDraft } from "../../react/picker-draft";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { UIButton } from "../../react/ui/button";
@@ -57,8 +58,11 @@ export type CalendarYearsWheelProps = {
    * drum (v2 parity). Hidden while the range is empty. Default `true`.
    */
   showBoundDate?: boolean;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
   col?: number | string;
@@ -82,6 +86,7 @@ export function CalendarYearsWheel({
   className,
   onYearSelect,
 }: CalendarYearsWheelProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -161,10 +166,10 @@ export function CalendarYearsWheel({
     <div
       data-dateforge-years-wheel=""
       data-area="years-wheel"
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       className={[styles.container, className].filter(Boolean).join(" ")}
-      style={gridSlot}
+      style={{ ...themeStyle, ...gridSlot }}
     >
       {headerText && (
         <div className={styles.boundedDate} data-bound={bound}>
