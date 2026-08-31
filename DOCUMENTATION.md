@@ -361,8 +361,27 @@ All modules are importable from the `/modules` barrel or (preferably) their own 
 
 - `col?: number | string` — placement in the root grid.
 - `className?: string` — extra class on the module container.
-- `theme?: string` — per-module theme override (a built-in **name**; `data-theme` on the container). Custom token objects are root-only.
-- `scheme?: "light" | "dark" | "auto"` — per-module scheme override.
+- `theme?: string | ThemeFamily` — per-module theme override. A built-in **name** rides on `data-theme`; a **`createTheme` object** is applied as inline `--c-*` vars (`light-dark()` values) on the container — the same union the root `theme` takes.
+- `scheme?: "light" | "dark" | "auto"` — per-module scheme override; narrows `color-scheme` on the module, so `light-dark()` tokens resolve to that side.
+- A module that sets `theme` or `scheme` becomes its own painted surface (`background: var(--c-backdrop)`), so a dark-schemed module stays readable inside a light root. Modules without either stay transparent and inherit the root.
+
+```tsx
+import { createTheme } from "@dateforge/react-calendar";
+
+const brand = createTheme({
+  accent: "#7c5cff",
+  light: { backdrop: "#f7f5ff", text: "#241a4d" },
+  dark: { backdrop: "#161029", text: "#e6e0ff" },
+});
+
+<Calendar config={config}>
+  <CalendarToolbar />
+  <CalendarDays theme="espresso" />        {/* built-in name */}
+  <CalendarPresets theme={brand} scheme="dark" />  {/* token object */}
+</Calendar>;
+```
+
+Note: a module theme does NOT reach that module's portalled popup — popups re-declare the ROOT theme/scheme (they render into `<body>`, outside the module).
 - Per-module `on*Select` callbacks are **observational** — the root `onChange` remains the single source of the public value.
 - aria strings resolve `module prop → root labels → English default` (see [Localization](#localization)).
 
@@ -1022,6 +1041,7 @@ The library uses zero `!important`, so plain (unlayered) user CSS also wins by d
 |---|---|
 | Root shell | `data-dateforge-root`, plus `data-theme`, `data-appearance`, `data-scheme`, `data-gradient`, `data-readonly` |
 | Popups (portalled to `<body>`) | `data-dateforge-popup` (re-declares theme/scheme/appearance) |
+| Any module with `theme`/`scheme` | `data-theme` (built-in name) or inline `--c-*` vars (token object), `data-scheme`; both narrow `color-scheme` and paint `--c-backdrop` |
 | Day grid | `data-dateforge-days`, header cells `data-weekday` (+`data-weekend`), option flags `data-week-numbers`, `data-weekend-tint`, `data-weekend-headers`, `data-bold-weekends`, `data-today-dot`, `data-today-outline` |
 | Day cells | `data-date="YYYYMMDD"` + the [flag contract](#day-cell-data--contract) |
 | Toolbar | `data-dateforge-toolbar`; parts: `data-toolbar-prev/next/home/label/month-label/year-label/day-label/month-trigger/year-trigger/clear/apply/clock/time/theme-toggle` |

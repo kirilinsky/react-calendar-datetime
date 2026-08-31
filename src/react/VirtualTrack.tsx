@@ -8,6 +8,7 @@ import {
 import { useItemSize } from "../hooks/use-item-size";
 import { useTrack } from "../hooks/use-track";
 import { getGridSlotStyle } from "../utils/get-grid-slot-style";
+import { type ModuleTheme, useModuleTheme } from "./module-theme";
 import styles from "./virtual-track.module.css";
 
 /**
@@ -48,7 +49,8 @@ export type VirtualTrackProps = {
   getAriaValueMax: (idx: number) => number;
   getAriaValueText: (idx: number) => string;
   col?: number | string;
-  theme?: string;
+  /** Built-in family name, or a `createTheme` token object. */
+  theme?: ModuleTheme;
   scheme?: "light" | "dark" | "auto";
   className?: string;
   /** Extra container style — e.g. a wider `--cal-size-track-item`. */
@@ -113,6 +115,7 @@ export function VirtualTrack({
   renderItem,
   renderOverlay,
 }: VirtualTrackProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const containerRef = useRef<HTMLDivElement>(null);
   const itemWidth = useItemSize(containerRef, "width", initialItemWidth);
 
@@ -207,7 +210,7 @@ export function VirtualTrack({
   return (
     <div
       data-area={dataArea}
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       ref={ref}
       className={cx(styles.container, className)}
@@ -223,7 +226,7 @@ export function VirtualTrack({
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
-      style={{ ...getGridSlotStyle(col), ...style }}
+      style={{ ...themeStyle, ...getGridSlotStyle(col), ...style }}
     >
       <div className={styles.highlight} aria-hidden />
       {renderOverlay?.({ activeIndex })}

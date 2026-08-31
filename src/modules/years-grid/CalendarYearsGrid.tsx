@@ -6,6 +6,7 @@ import { usePageSlide } from "../../hooks/use-page-slide";
 import { useRovingTileFocus } from "../../hooks/use-roving-tile-focus";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../react/icons";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { UIButton } from "../../react/ui/button";
 import { UITile } from "../../react/ui/tile";
@@ -31,8 +32,11 @@ export type CalendarYearsGridProps = {
   outOfRangeBehavior?: OutOfRangeBehavior;
   col?: number | string;
   className?: string;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
   onYearSelect?: (year: number) => void;
@@ -71,6 +75,7 @@ export function CalendarYearsGrid({
   scheme,
   onYearSelect,
 }: CalendarYearsGridProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -179,10 +184,10 @@ export function CalendarYearsGrid({
     <div
       data-dateforge-years-grid=""
       data-area="years"
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       className={[styles.container, className].filter(Boolean).join(" ")}
-      style={gridSlot}
+      style={{ ...themeStyle, ...gridSlot }}
     >
       {showControls && (
         <div

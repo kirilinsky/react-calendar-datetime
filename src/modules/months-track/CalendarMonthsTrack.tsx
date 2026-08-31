@@ -2,6 +2,7 @@ import { type CSSProperties, useMemo } from "react";
 import { boundDateOf } from "../../core/bound";
 import { calendarDate, daysInMonth } from "../../core/calendar-date";
 import { useLabels } from "../../react/labels-context";
+import type { ModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { useStoreSelector } from "../../react/use-store-selector";
 import { VirtualTrack } from "../../react/VirtualTrack";
@@ -15,8 +16,11 @@ export type CalendarMonthsTrackProps = {
   bound?: "from" | "to";
   col?: number | string;
   className?: string;
-  /** Per-module theme override (`data-theme` on the track). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the track).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the track). */
   scheme?: "light" | "dark" | "auto";
   onMonthSelect?: (year: number, month: number) => void;

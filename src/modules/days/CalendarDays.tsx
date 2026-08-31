@@ -21,6 +21,7 @@ import { today } from "../../core/timezone-boundary";
 import { usePageSlide } from "../../hooks/use-page-slide";
 import { dayDataAttrs } from "../../react/day-attrs";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { useStoreSelector } from "../../react/use-store-selector";
 import { getGridSlotStyle } from "../../utils/get-grid-slot-style";
@@ -113,8 +114,11 @@ export type CalendarDaysProps = {
    * or useCallback) — an inline closure re-renders all 42 cells every pass.
    */
   renderDay?: RenderDay;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
   col?: number | string;
@@ -236,6 +240,7 @@ export function CalendarDays({
   col,
   className,
 }: CalendarDaysProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -405,7 +410,7 @@ export function CalendarDays({
         new Date(shownDate.year, shownDate.month - 1, 1),
       )}
       data-dateforge-days=""
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       data-week-numbers={weekNumbers ? "" : undefined}
       data-weekend-tint={highlightWeekends ? "" : undefined}
@@ -416,6 +421,7 @@ export function CalendarDays({
       className={[styles.grid, className].filter(Boolean).join(" ")}
       style={
         {
+          ...themeStyle,
           ...getGridSlotStyle(col),
           "--wknd-a-start": weekendStrips.aStart,
           "--wknd-a-span": weekendStrips.aSpan,

@@ -6,6 +6,7 @@ import { today as getToday } from "../../core/timezone-boundary";
 import { useToday } from "../../hooks/use-today";
 import { ClearIcon, HomeIcon } from "../../react/icons";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { UIButton } from "../../react/ui/button";
 import { useStoreSelector } from "../../react/use-store-selector";
@@ -43,8 +44,11 @@ export type CalendarInfoProps = {
   clearLabel?: string;
   /** Override for the home action aria-label (registry key `home`). */
   homeLabel?: string;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
   col?: number | string;
@@ -122,6 +126,7 @@ export function CalendarInfo({
   col,
   className,
 }: CalendarInfoProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -279,10 +284,10 @@ export function CalendarInfo({
     <div
       data-dateforge-info=""
       data-area="calendar-info"
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       className={[styles.container, className].filter(Boolean).join(" ")}
-      style={getGridSlotStyle(col)}
+      style={{ ...themeStyle, ...getGridSlotStyle(col) }}
     >
       <div className={styles.inner}>
         <div

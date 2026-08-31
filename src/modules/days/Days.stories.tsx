@@ -2,8 +2,16 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { buildConfig, D } from "../../__tests__/fixtures/builders";
 import type { CalendarDate } from "../../core/calendar-date";
 import { Calendar } from "../../react/calendar";
+import { createTheme } from "../../styles/theme-tokens";
 import { storyLocale, storyThemeProps } from "../_lab/story-globals";
 import { CalendarDays, type DayRenderState } from "./CalendarDays";
+
+/** A `createTheme` family handed straight to a module's `theme` prop. */
+const brandTheme = createTheme({
+  accent: "#7c5cff",
+  light: { backdrop: "#f7f5ff", text: "#241a4d", tone: "#ece7ff" },
+  dark: { backdrop: "#161029", text: "#e6e0ff", tone: "#241a4d" },
+});
 
 const meta: Meta = {
   title: "Days",
@@ -164,4 +172,49 @@ export const RenderDayPrices: Story = {
       <CalendarDays renderDay={priceDay} />
     </Calendar>
   ),
+};
+
+/**
+ * Per-module theming, both forms. The left grid takes a built-in family NAME
+ * (rides on `data-theme`); the right one takes a `createTheme` token OBJECT
+ * (inline `--c-*` vars, `light-dark()` values). A module that declares a theme
+ * or a `scheme` paints its own backdrop, so a dark-schemed module stays
+ * readable inside a light root.
+ */
+export const PerModuleTheme: Story = {
+  render: (_, ctx) => (
+    <div style={{ display: "grid", gap: 16, gridAutoFlow: "column" }}>
+      <Calendar
+        {...storyThemeProps(ctx.globals)}
+        config={buildConfig({ ...storyLocale(ctx.globals), mode: "single" })}
+        initialView={D(2026, 6, 1)}
+      >
+        <CalendarDays theme="espresso" />
+      </Calendar>
+      <Calendar
+        {...storyThemeProps(ctx.globals)}
+        config={buildConfig({ ...storyLocale(ctx.globals), mode: "single" })}
+        initialView={D(2026, 6, 1)}
+      >
+        <CalendarDays theme={brandTheme} scheme="dark" />
+      </Calendar>
+    </div>
+  ),
+  // Cascade check — invisible to happy-dom, so it lives in the browser project:
+  // a module-level `scheme` must narrow `color-scheme` (otherwise every
+  // light-dark() token silently resolves to the light side) and the module must
+  // paint its own backdrop.
+  play: ({ canvasElement }) => {
+    const grids = canvasElement.querySelectorAll("[data-dateforge-days]");
+    const dark = grids[1] as HTMLElement;
+    const cs = getComputedStyle(dark);
+    if (cs.colorScheme !== "dark")
+      throw new Error(
+        `module scheme did not narrow color-scheme: ${cs.colorScheme}`,
+      );
+    if (cs.backgroundColor !== "rgb(22, 16, 41)")
+      throw new Error(
+        `module theme did not paint its backdrop: ${cs.backgroundColor}`,
+      );
+  },
 };

@@ -12,6 +12,7 @@ import {
 import type { SelectionState } from "../../core/state";
 import { today } from "../../core/timezone-boundary";
 import { useRovingTileFocus } from "../../hooks/use-roving-tile-focus";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarActions, useCalendarStore } from "../../react/provider";
 import { UITile } from "../../react/ui/tile";
 import { useStoreSelector } from "../../react/use-store-selector";
@@ -56,8 +57,11 @@ export type CalendarPresetsProps = {
   presets?: (Preset | PresetInput)[];
   col?: number | string;
   className?: string;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
 };
@@ -69,6 +73,7 @@ export function CalendarPresets({
   theme,
   scheme,
 }: CalendarPresetsProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const { applyPreset, clear } = useCalendarActions();
@@ -128,10 +133,10 @@ export function CalendarPresets({
     <div
       data-dateforge-presets=""
       data-area="presets"
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       className={[styles.container, className].filter(Boolean).join(" ")}
-      style={gridSlot}
+      style={{ ...themeStyle, ...gridSlot }}
     >
       <div
         ref={containerRef}

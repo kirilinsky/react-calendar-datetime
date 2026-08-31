@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useLabels } from "../../react/labels-context";
+import { type ModuleTheme, useModuleTheme } from "../../react/module-theme";
 import { useCalendarStore } from "../../react/provider";
 import { useStoreSelector } from "../../react/use-store-selector";
 import { getGridSlotStyle } from "../../utils/get-grid-slot-style";
@@ -36,8 +37,11 @@ export type CalendarLunarProps = {
   phaseLabels?: false | Partial<Record<LunarPhaseKey, string>>;
   /** Long phase names for per-cell aria. Override per locale. */
   phaseAriaLabels?: Partial<Record<LunarPhaseKey, string>>;
-  /** Per-module theme override (`data-theme` on the module container). */
-  theme?: string;
+  /**
+   * Per-module theme override: a built-in family name (`data-theme`) or a
+   * `createTheme` token object (inline `--c-*` vars on the container).
+   */
+  theme?: ModuleTheme;
   /** Per-module scheme override (`data-scheme` on the module container). */
   scheme?: "light" | "dark" | "auto";
   col?: number | string;
@@ -96,6 +100,7 @@ export function CalendarLunar({
   col,
   className,
 }: CalendarLunarProps) {
+  const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
   const t = useLabels();
@@ -159,10 +164,10 @@ export function CalendarLunar({
     <div
       data-dateforge-lunar=""
       data-area="lunar"
-      data-theme={theme}
+      data-theme={dataTheme}
       data-scheme={scheme}
       className={[styles.container, className].filter(Boolean).join(" ")}
-      style={gridSlot}
+      style={{ ...themeStyle, ...gridSlot }}
     >
       <div
         className={styles.strip}

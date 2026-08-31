@@ -51,6 +51,38 @@
     color-scheme: dark;
   }
 
+  /* Per-module `scheme` — the same narrowing, one level in. Without this the
+     attribute rendered but painted nothing: every module theme (built-in name
+     or a createTheme object) resolves its colors through light-dark(), which
+     reads the nearest color-scheme, and only the root/popup declared one. */
+  [data-dateforge-root] [data-scheme="light"],
+  [data-dateforge-popup] [data-scheme="light"] {
+    color-scheme: light;
+  }
+  [data-dateforge-root] [data-scheme="dark"],
+  [data-dateforge-popup] [data-scheme="dark"] {
+    color-scheme: dark;
+  }
+  /* `auto` on a module means "follow the root" — re-open both sides so a module
+     inside a forced-scheme root can opt back out to the OS preference. */
+  [data-dateforge-root] [data-scheme="auto"],
+  [data-dateforge-popup] [data-scheme="auto"] {
+    color-scheme: light dark;
+  }
+
+  /* A module that declares its OWN theme or scheme becomes its own painted
+     surface. Without a backdrop of its own, a dark-schemed module paints light
+     ink straight onto the root's light backdrop (unreadable, and an axe
+     contrast failure). Modules stay transparent by default — this only arms
+     when `theme`/`scheme` is set on the module. */
+  [data-dateforge-root] [data-theme],
+  [data-dateforge-root] [data-scheme],
+  [data-dateforge-popup] [data-theme],
+  [data-dateforge-popup] [data-scheme] {
+    background: var(--c-backdrop);
+    color: var(--c-text);
+  }
+
   /* Root shell only. */
   [data-dateforge-root] {
     container-type: inline-size;
