@@ -6,7 +6,10 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { resolveAppearance } from "../styles/appearance-tokens";
+import {
+  APPEARANCE_TOKEN_TO_VAR,
+  resolveAppearance,
+} from "../styles/appearance-tokens";
 import { resolveThemeScope, useThemeScope } from "./theme-scope";
 
 /**
@@ -17,7 +20,8 @@ import { resolveThemeScope, useThemeScope } from "./theme-scope";
  *
  * Closes on Escape and on a pointer-down outside both the popup and its anchor.
  * Re-declares `data-theme` / `data-scheme` (from theme-scope) so `--c-*` tokens
- * resolve even though it lives outside the root shell.
+ * resolve even though it lives outside the root shell, and copies the
+ * appearance contract off the anchor (see {@link useInheritedAppearance}).
  */
 export type CalendarPopupProps = {
   open: boolean;
@@ -35,6 +39,38 @@ const MARGIN = 8;
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+const APPEARANCE_VARS = Object.values(APPEARANCE_TOKEN_TO_VAR);
+
+/**
+ * The appearance contract (`--cal-*`) as the ANCHOR sees it.
+ *
+ * `data-appearance` / a custom appearance only reach the popup when they came
+ * through the `appearance` prop — theme-scope is a React context, so it knows
+ * nothing about an appearance set on a DOM ancestor (a wrapper div, an
+ * app-level shell, the Storybook toolbar). Custom properties reach the anchor
+ * by inheritance either way, so reading them there catches both routes; they
+ * ride as inline vars UNDER the resolved appearance, so an explicit prop still
+ * wins. Read on open — the popup is transient, and an appearance swap while one
+ * is open re-runs this anyway.
+ */
+function useInheritedAppearance(
+  open: boolean,
+  anchor: HTMLElement | null,
+): Record<string, string> {
+  const [vars, setVars] = useState<Record<string, string>>({});
+  useLayoutEffect(() => {
+    if (!open || !anchor) return;
+    const cs = getComputedStyle(anchor);
+    const next: Record<string, string> = {};
+    for (const v of APPEARANCE_VARS) {
+      const value = cs.getPropertyValue(v).trim();
+      if (value) next[v] = value;
+    }
+    setVars(next);
+  }, [open, anchor]);
+  return vars;
+}
 
 /**
  * Tabbable descendants in DOM order. The selector already drops `[disabled]` and
@@ -58,6 +94,7 @@ export function CalendarPopup({
   const { dataTheme, style: themeStyle } = resolveThemeScope(theme);
   const { dataAppearance, style: appearanceStyle } =
     resolveAppearance(appearance);
+  const inheritedAppearance = useInheritedAppearance(open, anchor);
   const [mounted, setMounted] = useState(false);
   const [pos, setPos] = useState<Pos | null>(null);
 
@@ -155,6 +192,7 @@ export function CalendarPopup({
       data-scheme={scheme}
       data-placement={pos?.placement}
       style={{
+        ...inheritedAppearance,
         ...themeStyle,
         ...appearanceStyle,
         position: "fixed",
