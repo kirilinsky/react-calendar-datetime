@@ -1,6 +1,6 @@
 import { fireEvent, render, within } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { calendarDate } from "@/core/calendar-date";
 import { MIDNIGHT } from "@/core/calendar-time";
 import { compileDateRules } from "@/core/date-rule-engine";
@@ -53,13 +53,25 @@ function dayCell(container: HTMLElement, day: number) {
 }
 
 describe("CalendarDays keyboard", () => {
+  // The roving default is "explicit focus, else today-in-view, else the 1st"
+  // (CalendarDays), so these cases only hold while today sits OUTSIDE the
+  // Sept 2026 view — pin the clock instead of inheriting the machine's date
+  // (they started failing for real once the wall clock reached Sept 2026).
+  beforeAll(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(new Date(2026, 5, 15));
+  });
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   it("gives exactly one cell tabindex=0 (roving), defaulting to the 1st", () => {
     const { container } = setup(config("day", "single"));
     const focusable = within(container)
       .getAllByRole("gridcell")
       .filter((c) => c.getAttribute("tabindex") === "0");
     expect(focusable).toHaveLength(1);
-    // No selection, today (2026-06) not in the Sept 2026 view -> 1st of month.
+    // No selection, pinned today (2026-06) not in the Sept 2026 view -> 1st.
     expect(focusable[0].textContent).toBe("1");
   });
 

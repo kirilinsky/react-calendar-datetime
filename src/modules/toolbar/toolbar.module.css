@@ -110,8 +110,9 @@
     font-weight: 500;
   }
 
-  /* Month label width sizer: the longest month name sits invisible under the
-     live one, so stepping months never shifts the toolbar layout. */
+  /* Width sizer (labels AND month/year triggers): every candidate rendering
+     stacks invisible under the live one, so the box reserves the WIDEST
+     rendered width and stepping months never shifts the toolbar layout. */
   .slot {
     display: inline-grid;
     text-align: center;
@@ -124,10 +125,24 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    /* Descenders (the y in "May", g in "Aug") fall BELOW the line box, and a
+       `line-height: 1` host — every UIButton — would have `overflow: hidden`
+       shear them off. Overflow clips at the padding edge, so pad the clip box
+       and cancel it with an equal negative margin: descenders survive and the
+       outer height is unchanged. */
+    padding-block: 0.25em;
+    margin-block: -0.25em;
   }
 
+  /* The sizer's text rides in `content` (a `--sizer-text` string set inline),
+     so it reserves width without existing as a text node — invisible to
+     `textContent`, DOM queries and the a11y tree. */
   .sizer {
     visibility: hidden;
+  }
+
+  .sizer::before {
+    content: var(--sizer-text, "");
   }
 
   /* Grid cells are sized to content (`grid-auto-columns: max-content`), so every
@@ -137,8 +152,9 @@
 
   /* Long/short month variants (v2 parity): both render, the short pair is hidden
      by default. A `short` prop (`[data-short]`) or a narrow toolbar container
-     swaps to it; each regime reserves its OWN longest-month width via its sizer,
-     so stepping never shifts layout in either. */
+     swaps to it; each variant wraps its own `.slot` sizer stack, so it reserves
+     its OWN widest month and stepping never shifts layout in either regime (a
+     `display: none` variant reserves nothing, hence one stack per variant). */
   .variantShort {
     display: none;
   }

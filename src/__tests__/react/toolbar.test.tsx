@@ -74,8 +74,15 @@ describe("Toolbar primitives", () => {
     const label = container.querySelector("[data-toolbar-label]");
     expect(label?.getAttribute("role")).toBe("heading");
     expect(label?.getAttribute("aria-level")).toBe("3");
-    // Invisible sizer holds September (longest en-US month) at the same year.
-    expect(label?.textContent).toContain("September 2026");
+    // Invisible sizers reserve EVERY month's width at the same year, and carry
+    // their text in CSS `content` (`--sizer-text`) — never as a text node, so
+    // they stay out of textContent, queries and the a11y tree.
+    const sizers = [...label!.querySelectorAll("[aria-hidden='true'][style]")]
+      .map((el) => el.getAttribute("style"))
+      .join("");
+    expect(sizers).toContain('"September 2026"');
+    expect(sizers).toContain('"May 2026"');
+    expect(label?.textContent).not.toContain("September");
     expect(getByText("June 2026")).toBeTruthy();
   });
 
@@ -260,7 +267,9 @@ describe("Toolbar primitives", () => {
     expect(getByText("2026")).toBeTruthy();
     const month = container.querySelector("[data-toolbar-month-label]");
     expect(month?.textContent).toContain("Current month, June");
-    expect(month?.textContent).toContain("September"); // width sizer
+    // Width sizers live in CSS `content`, so the label reads only its own month.
+    expect(month?.textContent).not.toContain("September");
+    expect(month?.innerHTML).toContain("September");
     const year = container.querySelector("[data-toolbar-year-label]");
     expect(year?.textContent).toContain("Current year, 2026");
   });
@@ -376,6 +385,22 @@ describe("Toolbar month/year triggers", () => {
     expect(btn.textContent).toContain("Jun");
     expect(btn.getAttribute("aria-expanded")).toBe("false");
     expect(queryByRole("dialog")).toBeNull();
+  });
+
+  it("month trigger reserves every month's width per variant", () => {
+    const { getByLabelText } = setup(<CalendarToolbarMonthTrigger />);
+    const btn = getByLabelText("Change month, currently June");
+    // Both variants carry their OWN sizer stack, so the trigger keeps one width
+    // all year (a `display: none` variant reserves nothing for the other) and
+    // the toolbar never reflows when the month name gets longer.
+    const sizers = [...btn.querySelectorAll("[aria-hidden='true'][style]")]
+      .map((el) => el.getAttribute("style"))
+      .join("");
+    for (const name of ["January", "September", "May", "Jan", "Sep", "May"]) {
+      expect(sizers).toContain(`"${name}"`);
+    }
+    // Sizer text lives in CSS `content`, never in the button's own text.
+    expect(btn.textContent).toBe("JuneJun");
   });
 
   it("short prop forces the short month name (data-short)", () => {

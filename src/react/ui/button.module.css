@@ -23,7 +23,10 @@
     /* Shape/spacing are appearance-driven (fallbacks = the v3 default look, so
        "no appearance" is unchanged). */
     padding: var(--cal-control-padding, 0.3em 0.7em);
-    border: var(--cal-control-border, 1px) solid var(--c-stroke, #d0d3d9);
+    /* Hairline default: appearances that want a heavier edge set
+       `--cal-control-border` (press/square/zenith ship 1px). Halving only the
+       FALLBACK keeps every named appearance exactly as generated. */
+    border: var(--cal-control-border, 0.5px) solid var(--c-stroke, #d0d3d9);
     border-radius: var(--c-day-radius, 8px);
     background: transparent;
     color: var(--c-text, #222);

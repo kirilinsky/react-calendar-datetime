@@ -532,13 +532,52 @@ function useViewText(
 }
 
 /**
+ * Width-stable text slot. Every candidate rendering stacks invisibly under the
+ * live one, so the box reserves the widest RENDERED width and stepping months
+ * never shifts the toolbar (CLS-free). Stacking beats picking the longest
+ * string by `length`: character count is not width — every English short month
+ * name is 3 chars, yet "May" is far wider than "Jan".
+ *
+ * Each sizer carries its text as a CSS `content` string, NOT as a text node:
+ * the box still sizes to it, but it lands in no `textContent`, no query
+ * (`getByText`) and no accessibility tree. A browser that can't substitute
+ * `var()` into `content` just renders nothing — the width stops being
+ * reserved, nothing breaks.
+ */
+function WidthStableText({
+  candidates,
+  children,
+}: {
+  candidates: string[];
+  children: ReactNode;
+}) {
+  return (
+    <span className={styles.slot}>
+      {candidates.map((c, i) => (
+        <span
+          // Index key: a fixed-length positional set (the 12 months), and a
+          // locale may repeat a rendering — a value key would collide.
+          key={i}
+          className={styles.sizer}
+          aria-hidden="true"
+          // JSON quoting is CSS string quoting for this alphabet (quotes and
+          // backslashes escaped; month names carry no newlines).
+          style={{ "--sizer-text": JSON.stringify(c) } as CSSProperties}
+        />
+      ))}
+      <span>{children}</span>
+    </span>
+  );
+}
+
+/**
  * Live "Month Year" toolbar title. Rendered as a heading (`aria-level`,
  * default 2) so screen-reader users can jump to the calendar's anchor point.
  * Pass `children` for a freeform title instead of the live one.
  *
- * Width-stable: an invisible sizer holds the year's longest formatted value
- * (same Intl options), so stepping from "May" to "September" never shifts the
- * arrows around the label.
+ * Width-stable: invisible sizers hold every month's formatted value for the
+ * displayed year (same Intl options), so stepping from "May" to "September"
+ * never shifts the arrows around the label.
  */
 export function CalendarToolbarLabel({
   options,
@@ -553,17 +592,14 @@ export function CalendarToolbarLabel({
   const locale = store.getConfig().locale;
   const opts = options ?? FULL_LABEL;
   const { date, text } = useViewText(opts, offset, bound);
-  // Longest of the 12 month renderings for the displayed year/day — covers the
-  // month-name variance that dominates the width (day digits vary by at most
-  // one character and only in day-bearing formats).
-  const sizer = useMemo(() => {
+  // All 12 month renderings for the displayed year/day — covers the month-name
+  // variance that dominates the width (day digits vary by at most one
+  // character and only in day-bearing formats).
+  const sizers = useMemo(() => {
     const fmt = new Intl.DateTimeFormat(locale, opts);
-    let longest = "";
-    for (let m = 0; m < 12; m++) {
-      const s = fmt.format(new Date(date.year, m, date.day));
-      if (s.length > longest.length) longest = s;
-    }
-    return longest;
+    return Array.from({ length: 12 }, (_, m) =>
+      fmt.format(new Date(date.year, m, date.day)),
+    );
   }, [locale, opts, date.year, date.day]);
   return (
     <span
@@ -574,12 +610,7 @@ export function CalendarToolbarLabel({
       style={getGridSlotStyle(col)}
     >
       {children ?? (
-        <span className={styles.slot}>
-          <span className={styles.sizer} aria-hidden="true">
-            {sizer}
-          </span>
-          <span>{text}</span>
-        </span>
+        <WidthStableText candidates={sizers}>{text}</WidthStableText>
       )}
     </span>
   );
@@ -594,9 +625,6 @@ function monthNames(
   const fmt = new Intl.DateTimeFormat(locale, { month: format });
   return Array.from({ length: 12 }, (_, i) => fmt.format(new Date(2021, i, 1)));
 }
-
-const longest = (names: string[]) =>
-  names.reduce((a, b) => (b.length > a.length ? b : a), "");
 
 /**
  * Month-only label. Reserves the width of the locale's longest month name (the
@@ -623,10 +651,7 @@ export function CalendarToolbarMonthLabel({
     offset,
     bound,
   );
-  const sizer = useMemo(
-    () => longest(monthNames(locale, format)),
-    [locale, format],
-  );
+  const sizers = useMemo(() => monthNames(locale, format), [locale, format]);
   const longName = useMemo(
     () =>
       new Intl.DateTimeFormat(locale, { month: "long" }).format(
@@ -643,9 +668,8 @@ export function CalendarToolbarMonthLabel({
       <span className={styles.srOnly}>
         {t("currentMonth", { month: longName })}
       </span>
-      <span className={styles.slot} aria-hidden="true">
-        <span className={styles.sizer}>{sizer}</span>
-        <span>{text}</span>
+      <span aria-hidden="true">
+        <WidthStableText candidates={sizers}>{text}</WidthStableText>
       </span>
     </span>
   );
@@ -896,9 +920,15 @@ export function CalendarToolbarMonthTrigger({
         {/* Long + short month both render; CSS shows one (forced by the `short`
             prop or auto-swapped by a narrow toolbar container, v2 parity). The
             accessible name is the aria-label above, so the hidden variant adds
-            no SR noise. */}
-        <span className={styles.variantLong}>{longText}</span>
-        <span className={styles.variantShort}>{shortText}</span>
+            no SR noise. Each variant reserves its OWN widest month, so the
+            trigger keeps one width all year and the toolbar never reflows
+            around it (a `display:none` variant reserves nothing). */}
+        <span className={styles.variantLong}>
+          <WidthStableText candidates={longNames}>{longText}</WidthStableText>
+        </span>
+        <span className={styles.variantShort}>
+          <WidthStableText candidates={names}>{shortText}</WidthStableText>
+        </span>
       </UIButton>
       <CalendarPopup
         open={open}
