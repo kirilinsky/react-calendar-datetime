@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { dateKey } from "../../core/calendar-date";
+import { type CalendarDate, dateKey } from "../../core/calendar-date";
 import {
   compilePresets,
   definePreset,
@@ -47,6 +47,13 @@ function isPresetActive(
   return false;
 }
 
+/** View anchor for a resolved preset — the date the grid should jump to. */
+function presetAnchor(result: PresetResult): CalendarDate {
+  if (result.kind === "date") return result.date;
+  if (result.kind === "dates") return result.dates[0];
+  return result.range.start;
+}
+
 export type CalendarPresetsProps = {
   /**
    * Presets to render. Accepts the declarative form ({@link PresetInput}:
@@ -76,7 +83,7 @@ export function CalendarPresets({
   const { dataTheme, themeStyle } = useModuleTheme(theme);
   const store = useCalendarStore();
   const config = store.getConfig();
-  const { applyPreset, clear } = useCalendarActions();
+  const { applyPreset, navigateTo, clear } = useCalendarActions();
 
   const selection = useStoreSelector(store, (s) => s.selection);
 
@@ -166,6 +173,7 @@ export function CalendarPresets({
                   clear();
                 } else {
                   applyPreset(ep.result);
+                  navigateTo(presetAnchor(ep.result));
                 }
               }}
             >
