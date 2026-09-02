@@ -39,7 +39,41 @@
     color-scheme: light dark;
     box-sizing: border-box;
     color: var(--c-text);
-    font-family: var(--c-font, system-ui, -apple-system, sans-serif);
+
+    /* Appearance bridge: the shape vars the modules consume alias the
+       appearance contract vars (set by `data-appearance` / a custom appearance
+       in cal-appearances), falling back to the v3 defaults. So "no appearance"
+       is the current v3 look, and an appearance overrides shape/spacing without
+       touching any module.
+       This MUST cover the popup too: a portalled popup lives in document.body
+       and inherits nothing from the root, so with a root-only bridge every
+       module inside a picker fell back to its literal defaults and the
+       appearance visibly stopped at the popup's edge. */
+    --c-day-radius: var(--cal-radius, 8px);
+    --c-radius: var(--cal-container-radius, 12px);
+    --c-gap: var(--cal-container-gap, 8px);
+    --c-day-gap: var(--cal-days-gap, 2px);
+    --c-pad: var(--cal-spacing, 12px);
+
+    /* Type travels with the shape, for the same reason. A modern
+       cross-platform system stack is the default (an appearance can override
+       via --cal-font). `ui-sans-serif`/`system-ui` pick the native UI face on
+       each OS; the rest are fallbacks for older engines. */
+    font-family: var(
+      --cal-font,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Helvetica,
+      Arial,
+      "Apple Color Emoji",
+      "Segoe UI Emoji",
+      sans-serif
+    );
+    letter-spacing: var(--cal-letter-spacing, normal);
   }
 
   [data-dateforge-root][data-scheme="light"],
@@ -83,37 +117,11 @@
     color: var(--c-text);
   }
 
-  /* Root shell only. */
+  /* Root shell only — the bridge and the type stack are shared with the popup
+     above, so only real shell layout stays here. */
   [data-dateforge-root] {
     container-type: inline-size;
     container-name: cal-root;
-    /* Appearance bridge: the shape vars the modules consume alias the
-       appearance contract vars (set by `data-appearance` / a custom appearance
-       in cal-appearances), falling back to the v3 defaults. So "no appearance"
-       is the current v3 look, and an appearance overrides shape/spacing without
-       touching any module. */
-    --c-day-radius: var(--cal-radius, 8px);
-    --c-radius: var(--cal-container-radius, 12px);
-    --c-gap: var(--cal-container-gap, 8px);
-    --c-day-gap: var(--cal-days-gap, 2px);
-    --c-pad: var(--cal-spacing, 12px);
-    /* A modern cross-platform system stack is the default (an appearance can
-       override via --cal-font). `ui-sans-serif`/`system-ui` pick the native UI
-       face on each OS; the rest are fallbacks for older engines. */
-    font-family: var(
-      --cal-font,
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Helvetica,
-      Arial,
-      "Apple Color Emoji",
-      "Segoe UI Emoji",
-      sans-serif
-    );
     display: grid;
     gap: var(--c-gap, 8px);
     inline-size: 100%;
@@ -121,7 +129,6 @@
        is deliberately NOT applied to the root — inflating the base font blew up
        the toolbar (gigantic label/time, the next button overflowed). Type scale
        is opt-in per surface (e.g. day numbers via `--cal-text-day`). */
-    letter-spacing: var(--cal-letter-spacing, normal);
     padding: var(--c-pad, 12px);
     border: var(--cal-border, 1px) solid var(--c-stroke);
     border-radius: var(--c-radius, 12px);

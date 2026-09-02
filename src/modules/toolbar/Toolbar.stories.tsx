@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent, within } from "storybook/test";
 import { addMonths, calendarDate } from "@/core/calendar-date";
 import { MIDNIGHT } from "@/core/calendar-time";
 import { compileDateRules } from "@/core/date-rule-engine";
@@ -502,3 +503,77 @@ export const BoundSplit: Story = {
     </div>
   ),
 };
+
+/**
+ * Regression guard: a portalled popup must paint like the calendar it belongs
+ * to. It lives in `document.body`, so it inherits NOTHING from the root — the
+ * appearance contract reaches it only because `layers.css` bridges `--cal-*` →
+ * `--c-*` for `[data-dateforge-popup]` too, and because the popup copies the
+ * contract off its anchor (which covers an appearance set on a DOM ancestor,
+ * the way this Storybook's toolbar sets it).
+ *
+ * This assertion only means something in a REAL browser: happy-dom does not
+ * compute the cascade, so the shape vars would read empty on both sides and
+ * the test would pass while the bug shipped.
+ */
+export const PopupMatchesRootAppearance: Story = {
+  render: (_, ctx) => (
+    <div data-appearance="bubble">
+      <Frame
+        {...storyThemeProps(ctx.globals)}
+        globals={ctx.globals}
+        days={false}
+      >
+        <CalendarToolbar>
+          <CalendarToolbarMonthTrigger />
+          <CalendarToolbarYearTrigger />
+        </CalendarToolbar>
+      </Frame>
+    </div>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const root = canvasElement.querySelector<HTMLElement>(
+      "[data-dateforge-root]",
+    );
+    if (!root) throw new Error("no calendar root");
+
+    // The shape vars a module actually consumes, plus the type stack.
+    const shapeOf = (el: HTMLElement) => {
+      const cs = getComputedStyle(el);
+      return {
+        dayRadius: cs.getPropertyValue("--c-day-radius").trim(),
+        radius: cs.getPropertyValue("--c-radius").trim(),
+        gap: cs.getPropertyValue("--c-gap").trim(),
+        pad: cs.getPropertyValue("--c-pad").trim(),
+        font: cs.fontFamily,
+      };
+    };
+
+    await step("month popup paints like the root", async () => {
+      await userEvent.click(canvas.getByLabelText(/change month/i));
+      const popup = await waitForPopup();
+      expect(shapeOf(popup)).toEqual(shapeOf(root));
+      // `bubble` really is in play — not both sides falling back together.
+      expect(shapeOf(popup).dayRadius).not.toBe("");
+      await userEvent.keyboard("{Escape}");
+    });
+
+    await step("year popup paints like the root", async () => {
+      await userEvent.click(canvas.getByLabelText(/change year/i));
+      const popup = await waitForPopup();
+      expect(shapeOf(popup)).toEqual(shapeOf(root));
+      await userEvent.keyboard("{Escape}");
+    });
+  },
+};
+
+/** The popup portals to `document.body`, so it is outside the story canvas. */
+async function waitForPopup(): Promise<HTMLElement> {
+  for (let i = 0; i < 50; i++) {
+    const el = document.querySelector<HTMLElement>("[data-dateforge-popup]");
+    if (el) return el;
+    await new Promise((r) => setTimeout(r, 20));
+  }
+  throw new Error("popup never opened");
+}
